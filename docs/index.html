@@ -2,11 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>thermIQ — Query Copilot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThermIQ — Query Copilot</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>thermIQ Query Copilot</h1>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">⚡ ThermIQ</div>
+      <nav class="nav-links">
+        <a href="index.html" class="active">Query Copilot</a>
+        <a href="dashboard.html">Risk Dashboard</a>
+      </nav>
+    </div>
+    <p class="subtitle">Industrial Knowledge Intelligence for Thermal Power Plants</p>
+  </header>
+
+  <main class="container">
+    <section class="query-card card">
+      <textarea
+        id="query-input"
+        placeholder="Ask anything about boiler procedures, turbine specifications, maintenance schedules, CEA compliance requirements..."
+        rows="4"
+      ></textarea>
+      <button id="ask-button" class="btn-primary">Ask ThermIQ →</button>
+
+      <div class="chip-row">
+        <button class="chip" data-query="What are the mandatory spares for a 500MW boiler per CEA spec?">
+          What are the mandatory spares for a 500MW boiler per CEA spec?
+        </button>
+        <button class="chip" data-query="Super heater tube failure emergency procedure">
+          Super heater tube failure emergency procedure
+        </button>
+        <button class="chip" data-query="BFP seal replacement steps">
+          BFP seal replacement steps
+        </button>
+        <button class="chip" data-query="Turbine vibration trip thresholds">
+          Turbine vibration trip thresholds
+        </button>
+      </div>
+    </section>
+
+    <section id="loading-state" class="loading-state hidden">
+      <div class="spinner"></div>
+      <p>Searching knowledge base...</p>
+    </section>
+
+    <section id="error-state" class="error-card card hidden"></section>
+
+    <section id="answer-section" class="hidden">
+      <div class="card answer-card">
+        <h2>Answer</h2>
+        <p id="answer-text"></p>
+      </div>
+
+      <div class="sources-section">
+        <h3>Sources</h3>
+        <div id="sources-list" class="sources-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    ThermIQ v0.1 | Powered by Qdrant + Gemini | Data: CEA Public Sources
+  </footer>
+
   <script src="app.js"></script>
 </body>
 </html>

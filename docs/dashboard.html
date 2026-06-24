@@ -2,11 +2,104 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>thermIQ — Risk Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ThermIQ — Risk Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Risk Score Dashboard</h1>
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo">⚡ ThermIQ</div>
+      <nav class="nav-links">
+        <a href="index.html">Query Copilot</a>
+        <a href="dashboard.html" class="active">Risk Dashboard</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">Knowledge Risk Dashboard</h1>
+    <p class="page-subtitle">
+      Knowledge gaps quantified as ₹ crore operational risk | Formula: Criticality × Consequence × Exposure
+    </p>
+
+    <section class="summary-cards" id="summary-cards">
+      <div class="summary-card">
+        <div class="summary-label">Total Risk Exposure</div>
+        <div class="summary-value orange" id="total-risk-value">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Critical Gaps (&gt; ₹300 cr)</div>
+        <div class="summary-value red" id="critical-gaps-value">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">High Gaps (₹100–300 cr)</div>
+        <div class="summary-value amber" id="high-gaps-value">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Knowledge Gaps Detected</div>
+        <div class="summary-value" id="gap-count-value">—</div>
+      </div>
+    </section>
+
+    <section class="card table-card">
+      <h2>Knowledge Gaps</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Equipment</th>
+            <th>Gap Description</th>
+            <th>Gap Type</th>
+            <th>Outages Linked</th>
+            <th>Risk Score (₹ Cr)</th>
+          </tr>
+        </thead>
+        <tbody id="gaps-table-body">
+          <tr><td colspan="6" class="skeleton-row">Loading gaps...</td></tr>
+        </tbody>
+      </table>
+      <p class="explainer">
+        Risk Score = Criticality (1-10) × Annual Consequence (₹ Cr) × Exposure (0-1)<br />
+        Consequence derived from: Forced Outage Hours × Plant MW × ₹4.5/kWh (IEX floor)<br />
+        Exposure = probability equipment knowledge gap leads to unplanned outage<br />
+        Data sources: CEA Daily Outage Reports, IEX Market Clearing Prices
+      </p>
+    </section>
+
+    <section class="card table-card">
+      <h2>Recent Forced Outages — Live CEA Data</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Station</th>
+            <th>Unit</th>
+            <th>MW Lost</th>
+            <th>Equipment</th>
+            <th>Failure Reason</th>
+            <th>Revenue Impact (₹ Cr)</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="outages-table-body">
+          <tr><td colspan="7" class="skeleton-row">Loading outages...</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <p class="last-updated" id="last-updated"></p>
+  </main>
+
+  <footer class="site-footer">
+    ThermIQ v0.1 | Powered by Qdrant + Gemini | Data: CEA Public Sources
+  </footer>
+
   <script src="app.js"></script>
 </body>
 </html>

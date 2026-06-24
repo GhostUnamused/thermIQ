@@ -1,6 +1,8 @@
-qdrant-client
-firebase-admin
-google-generativeai
-requests
-pandas
-openpyxl
+qdrant-client==1.9.1
+google-generativeai==0.8.3
+firebase-admin==6.5.0
+requests==2.32.3
+pypdf==4.3.1
+openpyxl==3.1.5
+numpy==1.26.4
+python-dotenv==1.0.1

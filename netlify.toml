@@ -1,6 +1,9 @@
 [build]
   publish = "docs"
 
+[build.environment]
+  PYTHON_VERSION = "3.11"
+
 [functions]
   directory = "netlify/functions"
 
@@ -8,3 +11,9 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"

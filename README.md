@@ -1,20 +1,31 @@
-# thermIQ
+# ThermIQ — Industrial Knowledge Intelligence
 
-RAG-based risk copilot for thermal power plant maintenance, built on CEA outage data, regulatory/technical documents, and Firestore-tracked risk gaps.
+AI-powered knowledge platform for thermal power plants. Quantifies knowledge
+gaps as ₹ crore operational risk.
 
-## Structure
-
-- `netlify/functions/` — RAG query, gap analysis, outage data, and ingestion-trigger endpoints
-- `docs/` — static frontend served via GitHub Pages / Netlify
-- `scripts/` — local ingestion, CEA outage fetch, and Firestore seeding scripts
-- `.github/workflows/cea-ingest.yml` — daily CEA outage ingest job
+## Architecture
+- Frontend: GitHub Pages (docs/)
+- Backend: Netlify Functions (Python)
+- Vector DB: Qdrant Cloud
+- Embeddings: Jina AI (jina-embeddings-v3)
+- Generation: Gemini 2.5 Flash
+- Structured Data: Firebase Firestore
+- Data Pipeline: GitHub Actions (daily CEA XLS)
 
 ## Setup
 
-1. Copy `.env.example` to `.env` and fill in the values.
-2. `pip install -r requirements.txt`
-3. `python scripts/ingest_documents.py` to seed the Qdrant collection.
+### Environment Variables (Netlify Dashboard)
+GEMINI_API_KEY, JINA_API_KEY, QDRANT_URL, QDRANT_API_KEY,
+FIREBASE_PROJECT_ID, FIREBASE_PRIVATE_KEY, FIREBASE_CLIENT_EMAIL
 
-## Environment Variables
+### Ingest Documents
+python scripts/ingest_documents.py <pdf_path> regulatory "CEA Tech Spec 500MW" <url>
 
-See `.env.example`. In production these are set in the Netlify dashboard, never committed.
+### Seed Initial Data
+python scripts/seed_firestore.py
+
+### Run CEA Fetch Manually
+python scripts/fetch_cea_outage.py
+
+## Risk Formula
+risk_score_cr = criticality_score × consequence_cr × exposure_score

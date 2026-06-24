@@ -1,14 +1,15 @@
+*private_key*.json
+*service_account*.json
+*serviceAccount*.json
 .env
-.env.*
-!.env.example
-*.json.key
-*private key*.json
+.env.local
+data/raw/
 __pycache__/
 *.pyc
+*.pyo
+.DS_Store
+node_modules/
+*.log
+.netlify/
 .venv/
 venv/
-node_modules/
-.netlify/
-data/raw/*
-!data/raw/.gitkeep
-.DS_Store
