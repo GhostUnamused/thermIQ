@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0568",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 584,
+  "text": "- 56 i) Performance analysis and monitoring of systems and components a) Calculate thermal performance status of the plant and efficiency of generation using measured data. b) Calculate all the key system performance indicators at system level such as heat rate, plant and equipment efficiency, generator output and controllable losses. c) Analyze the impact of individual component performance on overall losses or gains in total megawatt generation. d) Perform detailed analysis of each component including calculation of key performance indicators such as efficien cy, heat transfer coefficient, TTD, DCA, and fouling factor. e) What if analysis at system and component level. ii) Emission analysis and monitoring a) Monitor, track and analyze plant emissions such as SO 2, NOx, CO and CO 2 in real time. b) Monitor and analyze ESP and stack c onditions such as temperature, humidity, gas flow rate and opacity. c) Facilitate obtaining lowest emission while maintaining combustion efficiency. d) Facility to set alarms to highlight conditions that violate predefined limits. iii) System and performance diagnosis a) Evaluate system and component performance degradation to detect worn plant equipment b) Expert system diagnostics using neural and Bayesian belief networks and historical data for quick identifi cation of problem pinpointing down to the component. c) Identify degradation of measuring instruments. iv) System and performance optimization a) Recommend to operator controllable parameter settings to optimize given process or activity at the measured operating condition, using state of the art optimization techniques. b) Optimize control system design to determine the optimum values of parameters for individual control loops. v) Other functions In addition to the above functions, the PADO system shall possess the following analytical features: a) Verify the accuracy and provide the correct estimated value of the faulty or missing measurements. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 57 b) Data created by one function shall be used to perform analysis using another set of functions without any processing or conditioning of the data. c) Simultaneous use of functions by one user on a single workstation or multiple users across multiple workstations. d) Create alternative configuration of a unit, to study the impact of component replacements or changing the routing of fluid flows. e) The PADO system should be fully compatible with the functions of BPOS vi) Boiler performance optimization system",
+  "chunk_index": 568,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

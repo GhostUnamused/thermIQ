@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0255",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 262,
+  "text": "in accordance with PFI-ES-24. d) Heat treatment of bends shall be done as per material specification and PFI- ES-6. e) The finished bends wall thickness at any point of the bend shall not be less than the calculated minimum wall thickness. All bends 65 mm Nb and larger shall be ultrasonically examined as per PFI-ES-20. f) Where examination of bends indicates that wall thinning has resulted in thickness less than the minimum specified, repair by weld deposition shall not be allowed. g) Circumferential butt welds shall not be used in the area of the bend. Longitudinal welds, where bends are formed from welded pipe shall be located on the bend's neutral axis. v) Branch connections shall conform to the requirements of ANSI B 31.1. All branch connection welds shall be full penetra tion welds, except as permitted by ANSI B31.1/IBR. vi) All materials that are bent, forged or fo rmed shall be subject to heat treatment after the forming operations as required by the or iginal material specification. For alloy steel materials the preferred heat treatment process is full annealing. vii) Cleaning and protection: a) Cleaning techniques shall be as per SSPC-SP-4. b) After cleaning outside surface shall be coated with enamel or other protective paint. The weld end preparation shall be coated with deoxyaluminate paint and protected adequately. Use of grease or oil, other than light grade mineral oil is not allowed. c) After descaling, the pipe shall be protected by applying internally with a water soluble preservative. d) Following cleaning and preservation, the fabricated sections shall be covered, boxed, capped, or others shielded fro m further contamination or corrosion. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -7 4.1.10 Erection Requirements i) Where control valves, flow nozzles, orifices and other piping appurtenances are to be installed, they shall be installed only after steam blowing and chemical cleaning operation. The contractor shall supply the pi peline without cutting it short. After the completion of the steam blowing/chemical cleaning the contractor shall cut spool pieces of required length and install the co mponents as required to render the piping system complete. ii) The setting and logging of all supports, restraints, spring hangers, etc. is the responsibility of the contractor. The initial setting on all hange rs and supports and clearance",
+  "chunk_index": 255,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

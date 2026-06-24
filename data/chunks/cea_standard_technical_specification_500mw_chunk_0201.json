@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0201",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 206,
+  "text": "through a drip pot with provision for removal of entrapped dirt. Each drain shall be provided with one locked open manual valve followed by one motor/ pneumatic operated l eak proof angle valve on downstream side to be used for draining and warming-up the pipes as applicable. For sections having drain formation during normal plant operation such as auxiliary steam header lines and alternate steam lines to BFP turbines and deaerator, steam trap assembly shall be provided in parallel to the motorized/ pneumatic drain valve. 3.7.5 The drain valves shall be located in accessible positions to facilitate their maintenance. 3.7.6 Facility shall be provided for remote manual operation of the drain valves from the control room. Motor operated drain valves sha ll be interlocked to open/ close as per the process requirements. Detailed operation philos ophy/interlocks shall be furnished by the bidder along with the bid. 3.7.7 On the CRH line downstream of NRV, a drain pot shall be provided at the lowest point in the CRH line. The following features shall be provided for drain pot valve control system: i) On high level in the drain pot, the motorised drain valve shall open automatically and an alarm shall be initiated in the control room. Closing of motorised valve shall be by remote manual. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 27 ii) On high-high level in the drain pot, an alarm shall be raised in the control room, and an automatic repeat command shall be given for opening of the motorised drain valve. iii) Position indication of drain valve shall be provided in the control room. 3.7.8 Flash Tanks i) The flash tanks shall be adequately sized to take care of the total drains in the complete power cycle piping system. There shall be sufficient margin to accommodate the possible variation in dr ain quantities as well as flash steam. Flash tanks shall be designed as per the requirement of ASME boiler and pressure vessels (B&PV) codes, and ANSI standard. ii) The design pressure and temperature fo r the pressure vessels (except bellows) to be designed shall be 3.5 kg/cm 2 and 215 0C respectively. Flash tanks shall also be designed for full vacuum condition. iii) Corrosion allowance of 3 mm shall be added to the design thickness of the shell and",
+  "chunk_index": 201,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

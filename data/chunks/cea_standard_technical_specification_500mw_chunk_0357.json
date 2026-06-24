@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0357",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 370,
+  "text": "glandless diaphragm type, wherever possible. v) Purging During purging, filling and emergency operating conditions, the gases to be expelled to the atmosphere (outside the TG hall) through a manually operated vent valve. vi) Hydrogen safety relief valve To be provided at hydrogen manifold vii) Hydrogen driers 2x100% duty to maintain the H 2 inside the machine dry at operating pressure. Gas circulation at standstill: To run the gas system for short time shut down of generator for which gas circulation arrangement through drier, piping valves and accessories along with required control equipment shall be provided. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 13 viii) Reactivation of desiccant type dryer The d esign of the drier to be such that it is possible to reactivate the drying medium in situ after isolation from the generator casing and connecting it to atmosphere. For controlling the time/ regime of reactivation, suitable thermometers, thermostats, timers etc. with a local control panel to be provided. ix) Valve inter-locking 3-way valve used along with the drier for interconnecting the H 2 and air line (as applicable) preferably have mechanical inter-locking, such that closing of the H 2 side port is positively ensured before opening of the air side port. x) On-line dew point measurement On-line dew point monitoring system to be provided across the inlet and outlet lines to the drying system along with alarm/ annunciation in case of high moisture content in the generator casing H 2. xi) Gas Analyser To be provided with thermal conductivity/ gas density based type to continuously analyze the gas discharged from the casing during purging and also analyze samples of the casing H 2 during normal operation. The analyzer to measure the gas purity under the following three conditions : a) Normal percentage of purity of H 2 in air in the generator casing. Purity range to include a low purity alarm. b) Percentage of H 2 in CO 2 leaving the casing when H 2 is being admitted or expelled. c) Percentage of air in CO 2 leaving the casing when CO 2 is being admitted or expelled. xii) Local Control Panel : To be provided with all necessary switches, lamps, indicators, power supplies etc. along with the instruments, necessary outputs to DDCMIS. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW",
+  "chunk_index": 357,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

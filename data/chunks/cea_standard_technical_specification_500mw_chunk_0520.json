@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0520",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 542,
+  "text": "requirement stipulated under cl auses 6.2.4.2 & 6.2.4.3. Similarly, each of the dual redundant binary and analog inputs shall be wired to separate input modules. These redundant modules shall be placed in different racks, which will have separatel y fused power supply distribution. Implementation of multiple measurement scheme of these inputs will be performed in the redundant hardware. Loss of one input module shall not affect the signal to other module and also other channels of these modules can be used by other inputs of the same functional group. b) The single binary and analog signals required for control purposes shall be wired as follows: - The limit & torque switches and the MCC/ Swgr checkbacks shall be wired to drive control modules wherever provided. For the drives where drive control modules are not provided, these signals shall be connected to input module only. - Other single analog & binary inputs shall be wired to single input modules. vii) The binary and analog outputs from one subsystem of the Control System to other which are required in these syst ems for control purposes, (only very few critical signals e.g., reheater protection or MFT, load set point to electro hydraulic turbine control (EHTC) from CLCS, etc.), shall be made available from triple/dual redundant binary a nd analog output modules. However, redundancy in binary and analog outputs to indicators/recorders, SOE and annunciation facia lamps is not required. viii) The signal conditioning functions like multiple measurement schemes, square root extraction for flow signals, pressure and temperature compensation, limit value computation can be performed eith er in the controllers or in signal conditioning and processing hardwa re outside controllers. ix) The maximum number of inputs/outputs to be connected to each type of module shall be as follows: 1. Analog input module - 16 2. Analog output module - 16 3. Binary input module - 32 4. Binary output module - 32 5. Analog input & output (combined) - 16 Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 15 6. Binary input and output (combined) - 32 (Note : For binary inputs, one changeover contact is counted as 2 inputs) Further, minimum 10% spare channels shall be kept in each of the input/output modules. x) The following requirements shall be met : a) Input filters to attenuate",
+  "chunk_index": 520,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0054",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 64,
+  "text": "tapped off the generator bus duct. 1.4.2 The unit shall be designed to operate satisfactorily under prevailing tropical conditions. The boiler unit shall be suitable for outdoor installation. The steam turbine generator unit shall be suitable for indoor installation on spring supported vibration isolation foundation. The turbine driven BFPs and motor driven BFP shall be installed on reinforced concrete foundations. 1.4.3 The unit shall be designed to operate as a base load station. However, continuous operation under two shift and cyclic modes dur ing certain periods of the year is also envisaged. The design should cover adequate provision for quick startup and loading of the unit to full load at a fast rate and apart from constant pressure operation would also have the facility for sliding pressure opera tion. The design of the equipments and control system would permit participation of the machine in automatic load frequency control. 1.4.4 The unit shall be capable of operating on a daily cycling basis. There shall be a HP & LP bypass system to facilitate quick starting and loading under hot restart conditions and to facilitate conserving condensate where too many start ups occur. Owing to certain conditions in the system, part load operation of the machine could occur for prolonged durations. Under such conditions there shall not be any undue deterioration in the parts and the elements. The turbin e unit shall be capable of deriving economic benefits due to lower temperature of circul ating water and environment in winter while it shall be able to meet the MCR requi rements under adverse conditions of higher temperature in summer. 1.4.5 The boiler, turbine- generator and associated equipment and systems shall be of proven design, using proven materials with well est ablished physical and chemical properties and as appropriate to the service as intended. For plant site in the coastal areas, the environment is likely to be corrosive and the materials of construction for a ll exposed metal/ concrete surfaces shall be so chosen as to withstand the corrosive environment. Also suitable weather protection shall be provided to all exposed surfaces. Underground piping shall be avoided to the extent possible, and suitable anti-corrosive mea sures shall be provided for under-ground piping where the same is absolutely necessary. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 39 1.4.6 Type, make and",
+  "chunk_index": 54,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

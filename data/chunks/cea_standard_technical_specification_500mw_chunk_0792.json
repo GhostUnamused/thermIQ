@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0792",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 820,
+  "text": "size of the strainer assembly. 8.3.5.5 BFP drive turbine and associated equipment The QA requirements for BFP drive turbine a nd associated auxiliaries shall be same as those applicable for main stea m turbine and its auxiliaries described at clause 8.3.1 of this Section. 8.3.6 Condensate Extraction Pumps (CEPs) 8.3.6.1 Pump i) Tests shall be carried out on the materials on various components to establish their mechanical properties and chemical composition. Further, heat treatment shall be carried out for materials of shaft and rotor. ii) 100% UT shall be carried out on pump shaft. iii) 10% RT shall be carried out for butt welds on fabricated components of thickness more than 10 mm. iv) 100% MPE shall be carried out on pump shaft. v) 100% DPT shall be carried out on welds on casing, suction bell, shaft, impeller and fabricated components. vi) Hydraulic test shall be carried out on casing and pressure containing fabricated parts at 1.5 times the pump shut off pressure or 2 times the working pressure whichever is higher. vii) Individual impellers and completed roto r assembly shall be subject to dynamic balancing test. Rotor assembly shall be subject to run out test also. viii) Visual check and dimensional measuremen t shall be carried out for all the components and completely assembled pump. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 34 ix) Final tests a) Performance testing shall be carried out as per Hydraulic Institute Standards (HIS) on each pump to determine its characteristic curve at design speed and to ensure compliance with design requirements. Tests shall be carried out using cold soften quality water. b) Vibration on all pumps shall be meas ured in transverse, horizontal and vertical direction at all measuring points. c) Noise Level on each pump shall be measured at a distance of 1.5 m above floor level in elevation and 1 m horizontally from the nearest surface of the equipment as per HIS. The measuremen t shall be taken at six points around the equipment for each flow condition. d) NPSH test NPSH (R) test shall be carried out on one pump using cold water at pump flows of 25%, 50%, 80%, 100% and 125% of design flow at design speed. This shall be preferably done at 1 % and 3% head break. In case, NPSH",
+  "chunk_index": 792,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

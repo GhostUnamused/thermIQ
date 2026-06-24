@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0265",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 272,
+  "text": "temporary piping shall include the following: a) Selection of temporary piping including disturbance factor calculation. b) Preparation of layout of temporary piping and performing stress analysis as per ANSI B 31.1. c) Selection of temporary hang ers and supports as required. v) The following piping systems shall be cleaned through steam blowing operation. a) Main steam, HRH, CRH,HP bypass & LP bypass piping b) Auxiliary steam piping incl uding TG gland sealing lines. c) Steam lines feeding turbines of boiler feed pumps vi) Steam blowing shall be carried out for removal of particles (rust, scales, weld splatter etc.) from various piping systems to avoid damage to turbine bladings. Cleanliness of system shall be checked by m eans of test plates made of steel, which will be installed in the centre line of the piping system. vii) Cleaning shall be achieved by steam pur ging i.e. by blowing of steam through the piping such that the momentum of flow is greater than that of steam flow during normal operation of unit (at TMCR). The disturbance factor during steam blowing (ratio of momentum of flow during purge to that during TMCR) shall be more than 1.4. viii) The blow off shall be done with st eam, which is exhauste d through adequately sized, open-ended temporary piping. Tem porary piping and motor operated valves shall be installed for steam blowing operati on. Pressure shall be built up in the boiler and the piping warmed before release of steam by quick opening of motor operated valve located on temporary piping. The cycl e shall be repeated until steam from the blow out pipe is determined to be clean. ix) If the flow nozzles and control valves etc. have already been erected these shall be removed and replaced by spool pieces befo re steam blowing. The removed flow nozzle and control valves etc. shall be put back after steam blowing. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -17 x) The motor operated valves used for steam blowing shall have special characteristics like minimum loss of pressure, resistance to wear during severe working conditions (high velocity and carry over of water and solid particles), quick opening time, minimum effort on electric actuator etc. xi) The steam blowing termination criteria shall be as under: a) Acceptable",
+  "chunk_index": 265,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

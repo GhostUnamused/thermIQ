@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0268",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 275,
+  "text": "with high lift cage guided plugs & quick change trims shall be supplied. iii) Cast iron valves are not acceptable. iv) Bonnet joints for all control valves shall be of the flanged and bolted type or other construction acceptable to the Purchaser. Bonnet joints of the internal threaded or union type will not be acceptable. v) Plug shall be one-piece construction either cast, forged or machined from solid bar stock. Plug shall be screwed and pinned to valve stems or shall be integral with the valve stems. vi) All valves connected to vacuum on down stream side shall be provided with packing suitable for vacuum applications (e.g. double vee type chevron packing). vii) Valve characteristic shall match with the process characteristics. viii) Extension bonnets shall be provided when the maximum temperature of flowing fluid is greater than 280 deg. C. ix) Flanged valves shall be rated at no less than ANSI press class of 300 lbs. 4.2.4 Valve Materials The control valve body & trim materi al shall be generally as given below: S. No. Service Body material Trim material 1 Non-corrosive, non-flashing and non-cavitation service below 275 deg. C like Aux. steam flow to Deaerator, Condensate flow to Deaerator, CRH flow to Deaerator Compatible with piping material 316 SS with stellite faced guide posts and bushings Standard Technical Specification for Sub- critical Thermal Power P roject - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulation and Miscellaneous Systems/ Equipment) 4 -20 2 Severe flashing/ cavitation services like HP heaters & LP heaters emergency drain, Deaerator overflow drain to hotwell etc. Alloy steel as per ASTM-A 217 Gr.WC9 400 series SS or equivalent to suit the specific requirement 3 Low flashing/ cavitation service like HP heater/ LP heater normal drains level control, GSC minimum flow, gland seal steam pressure control valve etc. Alloy steel as per ASTM A217 Gr. WC6 400 series SS or equivalent to suit the specific requirement 4 Condensate service below 300 deg. C like condensate normal and emergency make-up control, ECW DP control 316 SS 316 SS Note : Valve body rating shall meet the process pressure and temperature requirement as per ANSI B16.34. However, Bidder may offer valves with body and trim materials better than specified materials and in such cases Bidder shall furnish the comparison of properties including cavitation resistance, hardness, tensile strength, strain energy, corrosion resistance and erosion resistance",
+  "chunk_index": 268,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

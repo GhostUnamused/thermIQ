@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0151",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 159,
+  "text": "loads all occurring together: a) Wind load as specified. b) Dead weight including weight of insulation, lining, wash water and vertical live load. c) Horizontal flue gas ducts shall be designed additionally for minimum 245 kg/m 2 fly ash loading on the surface or for one fourth of duct full of ash or for maximum possible accumulation of ash in the duct work, under all normal, upset or abnormal operating conditions, whichever is higher. The ash density for the purpose of loading shall be at least 1300 kg/m3. d) Expansion joint reaction. e) The following minimum load factors shall be applied to the design loads: Temp. ( 0C) : 27 38 93 149 203 260 316 321 Load factor : 1.00 1.02 1.12 1.19 1.25 1.29 1.34 1.42 f) The duct work and its structure shall take into account loads due to future addition of FGD interconnection ducts and dampers in the duct between ID fan outlet and chimney inlet. ii) Duct slope: All interconnecting gas ducts, connectin g one gas stream to another, between the boiler and the ESP shall have a minimum slope of 45 deg. with respect to horizontal so that any chance of accumula tion of ash particles in the duct can be avoided under a ll operating conditions. iii) Type of duct construction: The ducts shall be of rectangular cross-section and shall be of all welded construction. Circular ducts shall not be acceptable. The following requirements shall be satisfied: a) Duct stiffening shall be made of rolled sections. b) The thickness of the duct plate sha ll be suitably increased, if required, in the transition zone at steam generator outlet where the flue gases change direction, to increase the wear life of the duct plates. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 58 iv) Material of construction: a) Duct plates, turning vanes : ASTMA 36 or equivalent perforated plates b) Structural shapes : ASTMA 36 or equivalent c) Pipe struts, trusses tracing : ASTMA 53 or equivalent d) Erection bolts for ducts : ASTM A 307 or equivalent e) Bolts for connection to : ASTM A 325, AISIA 325 structural steel (friction type) or equivalent f) Stainless steel : ASTM A 316 L g) Gaskets : \u2019Refrasil\u2019 by Hitco or equivalent h) Access and inspection doors",
+  "chunk_index": 151,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

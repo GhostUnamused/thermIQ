@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0338",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 346,
+  "text": "various electrical areas (e.g. switchgear/ MCC rooms) shall be fitted with both pre-filter and fine filters, whereas for other areas supply air fan shall be fitted with pre filter only. 4.10.3 Redundancy of Equipments i) Pumps for each air wash er unit/ unitary air filtration system shall be 2 x 100% or 3 x 50% capacity. ii) Fans for each air washer unit/ unita ry air filtration system shall be 2x50% capacity. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -91 4.10.4 Equipment Description 4.10.4.1 Air washer unit i) Each air washer unit (evaporative system) shall consist of the various Sections such as air washer chamber / casing, tank, distribution plates, set of metallic/fabric filters at suction, suction louvers, bird screens, water headers, spray nozzle, piping, valves, drift elimin ators, pumps, fans, necessary controls and instrumentation, and all other required accessories. ii) The air washer chamber casing shall be RCC or fabricated from MS sheet as the case may be. The sheet metal air washer chamber casing shall be fabricated from 10 SWG black M.S. sheet with adequate stiffeners etc. and various sections shall be bolted through gaskets to avoid leakage of water. The inside of casing shall be protected by spray galvanization or by three coats of epoxy painting. iii) The air washer tank shall be fabricated from MS plate of minimum 6 mm thick and inside and outside surface of the ca sing and tank shall be spray galvanized. Minimum depth of the tank shall be 60 0 mm. Tank construction shall be such that the suction screen can be replaced while the unit is operating. Tank shall be provided with overflow, drain with valve, float valve makeup connection with a gate valve backup, quick fill connection with globe valve etc. The overflow pipe shall be connected to drain pipe after isolating valve on drain pipe. iv) The distribution plate shall be fabricated out of 18 gauge galvanized steel sheet and galvanized steel angle supports with minimum 50% free area. v) Air washers shall be of two-bank co nstruction (one uni-flow and the other cross flow). All header and stand pipes shall be galvanized. vi) The spray nozzles shall be of brass or bronze with chrome plating and shall be self cleaning type. The pressure drop through the",
+  "chunk_index": 338,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

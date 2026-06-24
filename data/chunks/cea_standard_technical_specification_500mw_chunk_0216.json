@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0216",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 221,
+  "text": "grade) screen. v) The pressure drop of the strainer at design flow and clean condition shall not exceed 0.1kg/cm 2. Pressure drop at design flow and 50% clogged condition shall not exceed 0.15 kg/cm2. vi) Strainers shall be designed to permit ease of inspection and cleanliness. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 42 3.9.5 Condenser On Load Tube Cleaning System (COLTCS) i) COLTCS shall be of sponge rubber ball type designed for continuous and trouble free operation. Provision of abrasive coated balls shall be made for cleaning in case of hard deposits inside tubes. ii) The system shall consist of non-clog ty pe ball recirculation pump, ball injection nozzles, ball collecting vessel, ball monitoring system, necessary instruments, pipings and accessories etc. iii) Provision of manual and automatic back wash arrangement shall be made with automatic collection of balls prior to back washing. iv) Ball monitoring system shall include ba ll circulation monitor, oversize monitor and ball sorter. v) The ball collecting strainer shall have differential pressure transmitter with back- washing system. vi) Provision shall be made to prevent loss of balls under normal and abnormal operation including tripping of CW pumps. vii) The no. of balls in circulation shall be at least 10% of no. of condenser tubes. Bidder shall indicate no. of ball losses in 1000 hours of normal operation. viii) Provision shall be made to avoid any de ad zone inside water box. There shall not be crowding of balls at the inlet of ba ll collecting strainer at discharge pipe. 3.9.6 Debris Filters 17 i) Two number debris filters shall be provided on the ci rculating water pipelines upstream of the condenser for online filtering of cooling water. ii) Each debris filter shall comprise of perforated stainless steel screen, butterfly valves, turbulence flap, debris flushing valve, drain plug valve, motor actuators for the valves, differential pressure gauge and control and instrumentation etc. iii) The materials of construction of various components shall be of proven type as per quality of water to be handled by the debris filters. Inside surface of the debris filters shall be coated with anti-corrosive paint to ensure long life. iv) The filters shall be capable of removi ng solids, suspended matter and fibrous material up to 5 mm size. v) The removed debris shall be",
+  "chunk_index": 216,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

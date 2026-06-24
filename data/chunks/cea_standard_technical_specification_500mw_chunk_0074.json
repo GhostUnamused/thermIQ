@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0074",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 82,
+  "text": "conditions at 89 mm Hg (abs) 5 worst condenser pressure with 3% make up. b) Continuous output at generator terminals corresponding to VWO condition under rated steam conditions at design condenser pressure and 3% make up. c) Maximum continuous output at gene rator terminals corresponding to one string of HP heater out of operation under rated steam conditions at design condenser pressure and 3% make up. d) Maximum continuous output at gene rator terminals corresponding to both strings of HP heaters out of operation under rated steam conditions at design condenser pressure and 3% make up. Note: While conducting the tests of (a) to (d) above the condenser pressure measurement shall be done at 300 mm above the top row of condenser tubes. 5 70 mm Hg (abs) for sea water based once- through type CW system Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 57 xxi) HP & LP bypass capabilities The HP & LP bypass system should satisfy the following functional requirements under automatic interlock action. It sh ould come into operation automatically under the following conditions: a) Generator circuit breaker opening b) HP & IP stop valves closing due to turbine tripping c) Sudden reduction in demand to house load Under all these conditions, while passing the required steam flows as per the relevant heat balances, the condenser should be able to swallow the entire steam without increasing the exhaust hood temp erature and condenser pressure beyond the maximum permissible value indicated by the bidder in his offer and accepted by the purchaser. The same shall be demonstrated. xxii) Steam condensing plant a) The value of design condenser pressure to be measured at 300 mm above the top row of condenser tubes shall be guaranteed under VWO condition, 3% make-up, design C.W. inlet temp. and C.W. flow. The condenser vacuum shall be measured with a vacuum grid utilising ASME basket tips. b) Temperature of condensate, at outlet of condenser, shall not be less than saturation temperature corresponding to the condenser pressure at all loads. c) Oxygen content in condensate at hotwe ll outlet shall not exceed 0.015 cc/litre over 50-100% load range and shall be determined according to calorimetric Indigo-Carmine method. d) Air leakage in the condenser under full load condition shall not exceed more than 50% of design value taken for sizing the",
+  "chunk_index": 74,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

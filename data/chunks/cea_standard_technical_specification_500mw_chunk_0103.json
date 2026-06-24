@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0103",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 110,
+  "text": "heaters out condition shall be equal to at least 100% BMCR heat output with HP heaters in service. Under this condition the superheater and reheater outlet steam temperatur e shall be maintained at rated values within the whole control range of steam generator lo ad. Further, during such operation the metal temperature of various pressure parts shall not exceed the limits stipulated in their design/ selection. 2.1.13 Operation with/ without Turbine HP- LP Bypass System i) As specified elsewhere, when unit trips under full load, HP-LP by-pass system will come into service. This will call for boiler operation in HP-LP bypass mode, with SH flow of 60% BMCR capacity and feed water temperature of 140 0C at economiser inlet. For such condition the economiser shall be suitably designed to take a thermal shock of sudden change of feed water temperature from the rated value to approx 140 0C. The superheater and reheater outlet steam temperatures, during such operation shall be maintained at the rated value without the metal temperature for various pressure parts exceeding the safe limits s tipulated for their design/ operation. ii) Irrespective of the fact that HP-LP bypass system is provided for smooth start-up, fast loading and house load operation of the unit; the steam generator shall also be capable of start up without HP-LP bypass system in service, except in case of hot start-up. 2.1.14 Mode of Steam Generator Operation and Rate of Loading i) In line with the plant operating capability re quirements, the steam generators shall be designed for both constant as well as variable pressure operation. Thermal design of steam generator and the selection of materials shall be suitable for both the operational modes. ii) The steam generators shall be designed for minimum rate of loading/ unloading mentioned below from 50% to 100% (TMCR) loads without compromising on design life of pressure parts. a) Step load change : Minimum + 15% b) Ramp rate : Minimum + 3% per minute under variable pressure operation Minimum + 5% per minute under constant pressure operation Bidder shall clearly bring out the max. rates of loading/ unloading achievable with steam generator offered and the corresponding limiting variations ( + % ) o f b o i l e r parameters such as throttle pressure, oxygen in flue gas, drum level, SH steam temperature, RH steam temperature, furnace draft, etc. Standard Technical Specification fo r Sub- critical",
+  "chunk_index": 103,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

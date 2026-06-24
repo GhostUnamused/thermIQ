@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0479",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 496,
+  "text": "comprise the following : i) One dynamic portable relay test system based on type Multi-Amp. PULSAR Cat. 10 E3T3N or equivalent with 3 current and 3 voltage modules allowing dynamic and steady state testing capabilities. ii) The DR recording of the generator in standard IEEE COMTRADE or EMTP simulations shall be compatible for transien t testing of protections with this test system. Required software for steady state/ dynamic testing of the protection relays shall also be supplied. iii) Other auxiliary items like phantom loads, etc. shall also be supplied as required for protection relay testing. iv) One portable over-current relay testing equipment with a timing of 0-10 sec. Voltage rating shall be 200-250V and output current range shall be 0.05 to 200A. v) Test plugs for modular protec tions and two relay tool kits. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 139 5.15 ELECTRICAL LABORATORY AND TESTING EQUIPMENT The following minimum electrical laboratory a nd testing instruments shall be provided complete with necessary hardware and software and other accessories such as mains cables, calibration leads, clamps, connectors, operating manual, calibration certificate etc. 5.15.1 Auxiliary Power Supplies The test equipments shall be suitable fo r working on the following auxiliary power supplies : i) 3 phase, 4 wire, 415V, 50Hz solidly earthed system with \u00b1 10% voltage variation, \u00b15% frequency variation a nd 10% combined voltage and frequency variation ii) 220V, 2 wire, DC system with floating neutral and (+)10% to (-)15% variation. 5.15.2 List of Minimum Requirements (for two units) Item No. Description/Specification Purpose Quantity i) Portable 5kV Digital Automatic Insulation Tester Complete with test leads, mains lead, carrying case, PC down load software, instruction manual, test/ calibration certificate etc. For checking the insulation level and polarising index of electrical equipments Two (2) a) b) c) d) e) f) g) h) Measuring Ranges : Resistance : <100 kilo ohm - > 1 Terra ohm Current : <100 pico A - > 5 mA Test Voltages : 500, 1000, 2500 and 5000V Accuracy : Better than 2% Test Time : Adjustable <15 Sec. -> 10 minute Display : LCD 3\u00bd digit with analog bargraph for Resistance, test voltage, current, PI Data storage : >75 Values capacity Power Supply : 240V, 50 Hz and rechargeable dc battery Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW",
+  "chunk_index": 479,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

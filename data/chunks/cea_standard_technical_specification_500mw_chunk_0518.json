@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0518",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 540,
+  "text": "of binary input module. d) Binary signal distribution to different users shall be in such a way so as to ensure that a short/ground fault on one user is not reflected to the other user. e) Implementation of multiple me asurement schemes for signals for control purpose. f) All binary signals shall be acquired, validated, processed, alarm checked and their data base updated within one second. In addition to this requirement, binary signals required for SOE shall have a resolution of 1ms. g) Checking for excessive number of status changes for all binary/contact inputs. h) Facility to delete any binary input from scan or to return to scan on operator demand. i) The non-coincidence monitoring shall be provided for binary inputs for all changeover signals, namely process actuated switches required for control purpose (i.e. protection/interlock, permissive, logical intervention etc.) Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 13 iii) Triple measurement scheme for analog inputs employing three independent transmitters connected to separate tapping points shall be employed for the most critical measurements used in analog control functions including but not limited to furnace draft, feed water flow, throttle pressure, turbine first stage pressure, drum level, deaerator level, turbine speed. The three signals shall be auctioneered to determine the median/average value which will be used for control pu rpose. In case one transmitter fails or shows excessive deviation with respect to others, it will be removed from computation of median/average value and the average of the other two transmitter outputs shall be used for cont rols. The control loop shall trip to manual when any two of the three transmitter signals fail. The operator shall be able to select any of the transmitters or the median/average value from the control desk. The outputs of the transm itters shall be continuously monitored for excessive deviation which shall be displayed, logged and alarmed. Individual transmitter signal, their status and selected value for control/measurement shall be available on OWS. iv) Dual measurement scheme for analog inputs employing two independent transmitters, connected to separate tapp ing points/ temperature element shall be employed for the remaining measurements used for analog control functions. The output of the redundant transmitters shall be continuously monitored for excessive deviation. In case the deviation is within limits, the mean value shall be used",
+  "chunk_index": 518,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0486",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 507,
+  "text": "- 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 149 xvii) Cable Fault Locator Working on pulse reflection (echo) technique. Capable of discriminating between inter-core and core to earth fault with facility to detect high resistance faults (>10 ohms) complete with surge generator, acoustic receiver, input filters, head phones etc. One (1) a) Input : 240V, 1 phase, 50 Hz b) Range : 10 nano sec. To 2000 ns c) Impedance range : 25 ohms to 100 ohms d) Surge Generator : 15kV, 100 mA, <512 joules, capacity 10-20 pulses per minute e) Display : Backlit LCD xviii) Portable Hand held SF 6 Gas Leakage Detector (wth audio-visual indication) Sensitivity : 3 to 5 ppm One (1) xix) Portable Hand held Hy drogen Gas Leakage Detector (wth audio-visual indication) Sensitivity : 50 to 100 ppm One (1) xx) Portable Vacuum Tester For testing the condition of vacuum in medium voltage switchgear with automatic discharging facility and high voltage screened cable and over load/over voltage protection One (1) a) Display : Digital display of applied voltage in kV and leakage current in mA. Red and green indications for defective and acceptable chambers b) Resolution : 0.1 kV and 0.01 mA c) Input : 240V AC, 50 Hz d) Output : 0-60 kV DC Adjustable 0-9.99 mA Adjustable e) Loading time : Upto 30 seconds Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 150 xxi) Portable Light Intensity Meter With selenium photocell, 2 metres lead and filters. a) Ranges : 0-15/30/100/300/1000/3000 lux b) Accuracy : \u00b1 4% of full scale One (1) xxii) Portable Circuit Breaker Motion Analyser For analyzing performance of SF6/Vacuum/air circuit breakers upto 400kV Microprocessor-based capable of measuring, recording and printing opening/ closing times and velocity , coil currents, dynamic contact resistance of main/aux. and arcing contacts, pole discrepancy etc. The instrument shall have user-friendly menu driven software for easy operation and reduced set up time. It shall have communication ports for downloading of data from memory on to a PC. It should have a built-in DC battery and printer. Other specifications shall be as follows : One (1) a) Input Supply : 110-240V, 50Hz with built-in DC battery backup with charger b) Current injection : upto 100A DC c) Timing Range : 0-9.99 S. with a resolution of 0.1mS and accuracy of",
+  "chunk_index": 486,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

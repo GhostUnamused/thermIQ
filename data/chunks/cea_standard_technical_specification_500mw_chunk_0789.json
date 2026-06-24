@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0789",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 817,
+  "text": "with measurements taken on all critical areas such as barrel, discharge branch, casing cover, casing cover stud. \u2022 Dry running withstand capability shall be demonstrated and established on one pump. The pump shall be capa ble of accepting complete loss of water and must be capable of bei ng shut down in a controlled manner and brought down to rest after being tripped from design condition with simultaneous closure of suction valve. \u2022 Visual cavitation test on one first stage production impeller shall be carried out to demonstrate absence of cavitation at design speed in cold water. The test shall establish th e cavitation characteristic to confirm that the cavity length under dyna mically scaled site conditions corresponding to design point shall not exceed an acceptable size. This test shall be carried out at 25% , 50%, 80%, 100% and 125% of design flow. e) Strip down test Complete strip down of one feed pump which undergoes NPSH test, dry run test, thermal shock test etc. shall be done after completion of all the tests on it. The strip down shall check for the condition of thrust bearing and journal bearing, and problems such as internal rubbing damage, excessive wear on the components. For other feed pumps, strip down examination shall be restricted to in spection of bearings only. However, if excessive vibration, high noise, high bearing temperature etc. is observed during performance test of a ny feed pump, complete strip down shall be done for such pumps also. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 31 Note: Tested pump parameters sha ll be within following tolerances. At design head : + 10% of design capacity At design capacity : + 5% of design head (for < 152.4 m) + 3% of design head (for \u2265 152.4 m) The results of the performance test must show no minus tolerance with regard to flow and head. No minus tolerance on efficiency or positive tolerance on power input at motor terminals shall be allowed. 8.3.5.2 Booster pump i) Tests shall be carried out on the materials on various components to establish their mechanical properties and chemical composition. Further, heat treatment shall be given as required. ii) 100% UT shall be carried out on shaft and wearing rings. iii) 100% MPE shall be carried out on casing,",
+  "chunk_index": 789,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

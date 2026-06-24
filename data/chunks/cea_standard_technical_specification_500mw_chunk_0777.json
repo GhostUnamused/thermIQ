@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0777",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 805,
+  "text": "on the erosion shield and blade joint in manufacture prior to fitting to the wheel and after overspeed tests. vi) Magnetic particle examination or dy e penetrant test (when MPE is not applicable) shall be carried out on finish machined blade profile, roots and shrouds. vii) All moving blades of over 225mm active length are to be moment weighed and assembled on shaft in a prescribed sequence to ensure optimum balancing of rotor. viii) Natural frequencies of the LP turbine blad es shall be determined before mounting on rotors to ensure that the same are outside operating frequency range. ix) Shroud bands after punching and after rive tting shall be subjected to 100% DPT to ensure freedom from harmful surface defects. x) In case of cast blades, following testing shall be done: a) Chemical analysis and mechanical testing per heat/heat treatment batch. b) MPE on rough machined and finish machined blade. c) RT on blades. d) Before starting mass productions, following technological tests shall be carried out on the first lot of 10 to 15 blades: \u2022 100% RT and 100% MPE on blades \u2022 100% hardness testing. \u2022 Mechanical testing and metallurgical testing. \u2022 Weld repair shall not be permitted. 8.3.1.5 Diaphragms i) Welded and fabricated diaphragms a) Concentricity checks shall be carried out on final machined diaphragms to ensure that there are no negative overlaps between guide and moving blades. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 19 b) 10% UT and 100% MPE shall be carri ed out on finished, stress relieved and machined welds. For inaccessible areas, DPT shall be carried out in place of MPE. ii) Cast, forged and machined diaphragms a) Tests shall be conducted to determine mechanical properties together with chemical analysis, metallographic/ metallurgical examination, and required heat treatment. b) Concentricity, flatness, blade drop and area checks shall be carried out on finally machined diaphragms to ensure that there are no negative overlaps between guide and moving blades and port wall. c) 100% ultrasonic examination shall be carried out on diaphragm materials. Blade junction areas with the side walls shall be checked by MPE or DPT. iii) Colour matching of all the diaphragms by putting two halves together and feeler gauge tightness check shall be carried out. 8.3.1.6 Exhaust hood All castings shall be subjected to chemical",
+  "chunk_index": 777,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

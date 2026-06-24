@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0188",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 192,
+  "text": "versa from unit control board. iv) During sliding pressure mode, throttle pressure shall slide from 100% to 40% of rated pressure corresponding to 30% load. v) Adjustable throttling reserve from 0 to 20% shall be provided. vi) TG set shall be capable of operating continuously with HP heaters out of service, with 89 mm Hg condenser pressure 4, 3% make-up and auxiliary steam requirement tapped from CRH, ge nerating maximum output without overstressing turbine components. vii) The peak to peak value of vibration measured on bearing housing shall be minimized and shall be within limits as per ISO 10816 and ISO 7919. viii) Normal DM water makeup to cycle a dded in the condenser hotwell shall be 3% which at times may go upto 5%. ix) During HP and LP bypass operation, the deaerating feed water heater and accessories shall be able to heat feed water from 45 0C to 140 0C. x) All cycle drains shall be led to condenser through flash tanks. In addition, the provision shall be kept for main steam line drains and HP bypass line drains to be led to a separate atmospheric flash tank. 4 70 mmHg (abs) for sea water based once through CW system Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 13 xi) Condenser shall be designed to accept additional flows from boiler during startup (as applicable). 3.1.9.2 Heat balance diagrams i) Following heat balances complete in all respects shall be furnished for the conditions stipulated with units indicated in MKS system and latest edition of BIS steam tables. He parameters of pressure (in ata), temperature (in 0C), enthalpy (in kcal/kg) and flow (in tonnes/hour) shall be indicated at all required locations to facilitate manual checking by the purchaser. a) 100% TMCR output under rated steam conditions at design condenser pressure with zero make-up (guaranteed heat rate condition). b) 80% TMCR output under rated steam conditions at design condenser pressure with zero make-up (guaranteed heat rate condition). c) 60% TMCR output under rated steam conditions at design condenser pressure with zero make-up d) 50% TMCR output under rated steam conditions at design condenser pressure with zero make-up e) 30% TMCR output under rated steam conditions at design condenser pressure with zero make-up. f) 100% TMCR output under rated st eam conditions at design condenser pressure",
+  "chunk_index": 188,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

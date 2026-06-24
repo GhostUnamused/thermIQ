@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0275",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 282,
+  "text": "Section- 4 (Piping, Valves, Thermal Insulation and Miscellaneous Systems/ Equipment) 4 -26 - The corrosion allowance fo r the heat exchanger parts such as pressure parts (support plates), nozzles, sliding channels and frame shall be 1.6mm (minimum). - At least 10% plates shall also be randomly tested by dye-penetrant test. 4.3.3.3 Butterfly valves i) Standard for design : AWWA C-504 or BS 5155 ii) Standard for testing : As per AWWA C-504 iii) Design pressure : 2 times working pressure or 1.5 times shut off head of pump, whichever is higher. iv) Water application : Suitable for circulating water/ DM water application as required. v) Material of construction : Primary side Secondary side 2 a) Body & disc 2% Ni-CI CI to IS 210 FG-260/ ASTM A-216-CLB or fabricated steel as per ASTM A-515 Gr 60/ 80/ IS 2062/ IS 2002 b) Shaft SS 410 AISI 410 c) Bearings --------------------Self lubricating ------------------- d) Seal Buna- N Buna- N e) Retaining segment SS-316 SS-316 f) Internal hardware SS-316 SS-316 g) Companion flanges ---- IS-2062/ ASTM A 285 Gr. C -------- 4.3.3.4 Self cleaning filters a) Body of filter shall conform to carbon steel to IS 2062 or MSRL as applicable based on cooling water quality. b) Strainer element shall be constructed of perforated stainless steel plate lined with SS 316L/ SS316 screen as applicable based on cooling water quality. 2 The material of construction of various co mponents are given for fresh water. For s ea water application these shall be of proven type as per the duty involved and subject to the approval of the purchaser Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -27 c) The mesh size shall be selected on the basis of average clearance between the plates of the plate heat exchanger. 4.3.4 Sizing/ Design 4.3.4.1 Pumps i) Flow : Design flow of respective plate heat exchanger(s) +10% margin. ii) Head : As per system requirement +10% margin on friction head. iii) Motor Rating : Continuous motor rating (at 500C ambient) for all pumps shall be at least 10% above the maximum power requirement at any condition of entire characteristic curve of the pump. 4.3.4.2 Plate type heat exchanger i) Design Secondary water inlet : 36 deg. C temperature ii) Secondary water outlet temperature : Not",
+  "chunk_index": 275,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

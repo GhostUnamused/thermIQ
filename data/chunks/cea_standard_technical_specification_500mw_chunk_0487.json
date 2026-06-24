@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0487",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 508,
+  "text": "have a built-in DC battery and printer. Other specifications shall be as follows : One (1) a) Input Supply : 110-240V, 50Hz with built-in DC battery backup with charger b) Current injection : upto 100A DC c) Timing Range : 0-9.99 S. with a resolution of 0.1mS and accuracy of \u00b10.01% d) Number of channels : 12 analog, 24 digital e) Display : 16 character alphanumeric LCD xxiii) Generator On-line Partial Discharge Real Time Monitoring System To detect and monitor partial discharge activity in generator stator windings and vibrations in generator end windings by acoustic sensors. To generate alarms in case of excessive partial discharge or end winding vibrations. Should have the capability to acquire partial discharge patterns and determine PD quantities as apparent charge, quadratic rate and average discharge current for each phase. Standalone type with facility for storage of trend data and patterns. With facility to download patterns and trends on to PC or LAN; visualization software and automatic report generation. Having noise suppression circuitry for input and signal transfer. Two (2) Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 151 The surge capacitors connected on the line Terminals of the generators shall be used as PD sensors. Necessary surge capacitor connection kit shall be included and the instrument shall be compatible with surge capacitors of 0.25 micro farads/ 24Kvsupplied with the generators The instrument shall be in 19\u201d rack-mounted design. Housed in a wall-mounting IP65 case. Other specifications as below : a) PD Input : 4 channels, 0-30 V rms b) Frequency Ranges : 0.3 MHz - About 10 M Hz c) Acquisition Software : Standalone C-based d) Evaluation Software : Standalone Java based e) Data Storage : Upto 48 values per channel 1 Pattern per day f) Visualisation : Web server with standard web-browser and Windows based internet capable software g) Communication : 100 M Bit Eithernet interface with TCP/ IP protocol and fibre-optic communication. xxiv) Interfacial Tension Meter for Transformer Oil Motorised operation using a Platinum Iridium Ring. In dust tight IP55 enclosure a) Range : 0-90 Dynes/per cm. b) Zero Drift : < 0.1 Dynes/m in 24 Hours c) Resolution : 0.05 Dynes d) Accuracy : \u00b1 0.5 Dynes/cm One (1) xxv) Portable, Hand-held Thermal Imaging Camera Having voice recording and alarm facility, double ocular view finder and clear CCD lens,",
+  "chunk_index": 487,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

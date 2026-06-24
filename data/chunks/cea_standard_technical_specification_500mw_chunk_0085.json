@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0085",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 93,
+  "text": "a calibra ted low Beta-ratio throat-tap nozzle assembly including re quired machined straight lengths meeting the requirement of ASME PTC-6 shall be provided. The test procedures, calibration standards, calibration procedures etc. shall be subject to purchaser\u2019s approval. All the instruments including the flow nozzle shall be calibrated by the contractor before and after the test, in a reputed international institute as approved by the purchaser. However, pos t test calibration of flow nozzle shall not be mandatory. These calibrations sha ll be performed in the presence of the purchaser. All calibrations shall be made available prior to the test and calibration certificates in original submitted to purchaser at least 15 days before conductance of the test for purchaser\u2019s a pproval. The instruments shall be sealed after calibration by calibrating lab. The percentage calibration error/deviation should not be more than accuracy class of the instrument. iii) Corrections to the test results for steam turbine shall be applied as per the correction curves furnished along with the bid. The corrections as listed in Section- 3 shall be applied. When the system is properly isolated for a performance test, the unaccounted for leakag es should not be more than 0.1% of the design throttle flow at that load. To achieve the above value of unaccounted for leakages, the bidder shall prepare the un it during pretest available shutdown. However, during the test if it is found th at the unaccounted leakage is more than 0.1% of design throttle flow at the load, then heat rate will be increased by an amount equal to half the difference between actual unaccounted for leakage expressed as percentage of design throttle flow at that load and 0.1% (allowed by the code). Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 68 iv) The performance guarantee test will be ca rried out after successful completion of trial operation. Ageing allowance shall be given during evaluation of PG test results and hence guaranteed heat ra te shall be increased by the amount calculated as per the formula given in clause No. 3.07, sub-section-3 of ASME- PTC-6 report 1985 (reaffirmed latest). Peri od of ageing shall be considered from the date of successful completion of trial operation to the date of conductance of PG test. In calculating the above fact or any period(s) during which the turbine has",
+  "chunk_index": 85,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

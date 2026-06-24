@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0508",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 531,
+  "text": "use of special tools. o Grouping of functions. o Interchangeability. o Malfunction identification facility/self surveillance facility. o Easy modular replacement. o Fool proof design providing proper identification and other features to preclude improper mounting and installation. o Appropriate derating of electronic components and parts. iii) The equipment shall employ latest state of the art technology to guard against obsolescence. In any case, bidder shall be required to ensure supply of spare parts for 15 years of the plant. In case, it is felt by the Bidder that certain equipment/component is likely to become obsolete, the Bidder shall clearly bring out the same in his bid and indi cate steps proposed to deal with such obsolescence. 6.1.5 Unit Control & Monitoring Philosophy i) The control & monitoring philo sophy for the plant envisages control from two locations: a) From Unit Control Room (UCR) There shall be one common UCR for controlling the boilers, turbine- generators and auxiliaries of the two units. Accordingly, the layout of UCR shall be developed to accommodate the complete control equipment associated with each unit and the control interface equipment for common facilities as specified. b) From local control stations for off site and ancillary plants ii) Control & Monitoring from Unit Control Room The main plant equipment (namely steam generator & auxiliaries, TG & auxiliaries, regenerative cycle equipmen t, equipment cooling water system etc.) for this project is envisaged to be controlled from the operator workstation (OWS) mounted on the unit control desk (UCD) in the unit control room (UCR) under all regimes of operation i.e. start-up, shutdown, load throw off and emergency handling . In addition, minimum 4 nos. large video-screens of minimum size of 200-210 cm (80\u201d-84\u201d) per unit shall be provided. All the information required for safe and efficient operation of the plant shall be displayed on TFTs at high speed and accuracy in specially designed displays suitable for power plant operation. The operation of CW pumps shall be integrated in bidder' s DDCMIS with a provision of operation of CW pumps from unit OWS as well as from local control panel to be provided by the CW pump supplier (not in bidder\u2019s scope). Operation of generator, generator auxiliary systems and breakers for 11kV (unit and station switchgears), 3.3 kV switchgear and 415 V associated with the main plant and DG sets shall al so be performed through OWS as described in Section-5.",
+  "chunk_index": 508,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0824",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 859,
+  "text": "PMG and exciter stator Y Y Y Banding wire Y Exciter field Breaker, field discharge resistor Y Bearing, exciter armature field, axis coil RTD Y Voltage Regulator Y Y = Test applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 73 8.6.1.5 Final acceptance tests fo r generator/ exciter (Table 1/3) Tests/ Checks Item/ Components/ Process Gas tightness for H 2 cooled machine Resistance measurement Rotor impedance at various speeds Heat run test Function check Voltage regulation OCC SCC Record auxiliary parameters Steady state reactance Efficiency by separation of losses Works tests on running generator Y Y Y Y Y Y Y Y Y Without Excitation, OC and SC with rated voltage and current for generator Y On total winding/ phases at interval 0.2Un for generator Condition after dismantling Works tests on brushless exciter Y Y Y PMG works tests Y Y Y Full load for PMG and converter assembly Y Converter assembly Y Y = Test applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 74 8.6.1.5 Final acceptance tests fo r generator / exciter (Table 2/3) Tests/ Checks Item/ Components/ Process Insulation resistance at 5 kV Polarization index at 5 kV Phase sequence voltage balance Shaft voltage and current HV test (except electronic circuit) RTD, BTD Check Capacitance measurement Tan delta, delta tan-delta Rotor journal Bearing oil catcher Works tests on running generator Y Y Y Y Y Y Y Y Without Excitation, OC and SC with rated voltage and current for generator On total winding/ phases at interval 0.2Un for generator Y Y Condition after dismantling Y Y Works tests on brushless exciter Y Y PMG works tests Y Y Y Full load for PMG and converter assembly Converter assembly Y Y Y = Test applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 75 8.6.1.5 Final acceptance tests fo r generator/ exciter (Table 3/3) Tests/ Checks Item/ Components/ Process Seal rings, liners Winding overhang Vibration measurement Reduced voltage running and No load Load characteristics Characteristics of search coil, quadrature axis Ripple content Visual and dimension Partial discharge, DLA Routine tests as per IS/ IEC Works tests on running generator Y Y",
+  "chunk_index": 824,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

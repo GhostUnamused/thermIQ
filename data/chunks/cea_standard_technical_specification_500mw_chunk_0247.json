@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0247",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 254,
+  "text": "ng fresh resin to that vessel. Control for chemical dosing system and alkali preparation facility shall also be provided in it. b) Regeneration shall include hydraulic reclassification of the resins and the transfer of the resins to the respec tive regeneration vessels. The separated resins shall then be backwashed, cation and anion regenerated with hydrochloric acid and sodium hydroxid e solutions respectively, rinsed and then followed air scrubbing and a good backwash. The resin is then transferred back to the resin separation vessel and the resins are air mixed. The mixed resins after regeneration are given a final rinse with the discharge conductivity being monitored. If the quality is satisfactory, the mixed resin shall be transferred to the resin storage vessel otherwise regeneration sequence shall be repeated. c) Demineralized water shall be used throughout the regeneration process for backwashing, regenerant diluent, ri nsing and resin transfer. A conical bottom hopper having a water ejector will be used for resin make-up. d) The complete control and operation of the regeneration plant shall be through programmable logic controller (PLC). e) It shall be possible to operate the regeneration plant in auto/semi-auto /manual mode. f) Following operations shall be possibl e from the regeneration control panel: \u2022 Complete regeneration \u2022 Resin transfer from CPU vessel to regeneration plant. \u2022 Resin transfer from regeneration plant to CPU vessel. g) In 'Auto' mode, once the sequence h as been initiated, it shall proceed from step to step automatically. h) In 'Semi-auto' mode each step sh all be performed only after initiation by the operator. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 75 i) In \u2018Manual\u2019 mode complete operati on shall be by the operator by operation of the control switches on the panel. j) On PLC failure, it shall be possibl e to operate the valves by means of manual operation of solenoid valves also. k) It shall be possible to switch mode of operation from one to the other at any moment and the operation shall proceed on the newly selected mode from that time. l) The system shall incorporate th e necessary safety features. During automatic sequential operation, if any pre-requisite criteria is not fulfilled or missing for a pre determined time interval, the steps should not proceed further, and Alarm shall be provided. Missing criteria,",
+  "chunk_index": 247,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

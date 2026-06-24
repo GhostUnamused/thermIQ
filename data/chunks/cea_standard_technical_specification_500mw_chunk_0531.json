@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0531",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 551,
+  "text": "3.3 kV. 415 V switchgears , synchronisation of unit etc. as described in Section -5. All the features and specification requirements as specified above shall also be applicable for electrical system. 6.2.4.5 Analog Controls/Closed Loop Control System (CLCS) Functions This Clause is applicable for analog controls of SG - C&I [6.2.4.1(i)], BOP- C&I [2.4.1(iii)] and TG - C&I [6.2.4.2(ii)]. The CLCS shall continuously act on valves, dampers or other mechanical devices such as hydraulic couplings etc., which alter the plant operation conditions. The system shall be designed to give stable control action in steady state condition and for load chan ges in step/ramp over the load range of 60% to 100% MCR with variation or parameters within permissible limits to be finalised during detailed engineer ing state. The system shall have the following minimum features: i) The controller capability shall, as a minimum, include (i) P, PI, PD and PID control functions and their variations (ii) cascade control (iii) feed forward control (iv) state-variable based pr edictive control for SH/RH temperature control (v) on-off control, (vi) ratio and bias control, (vii) logical operation etc. The loop reaction time (from change of output of the sensor of the transmitter/temperature element to the corresponding control command output) shall be within 500 milli seconds. However, for faster loops such as feed water, furnace draft, PA header pr essure control loop etc. the same shall be based on actual process requirement but shall not be more than 250 milli second. ii) The control system shall be bumplessly transferred to manual on the following conditions as a minimum and as finalised during detailed engineering. Control power supply failure, failure of redundant controllers, field input signal not available, analog input exceeding preset value, etc. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 24 iii) Any switch over from auto to manual, manual to auto and switchover from TFT operation to auto manual statio n operation and vice versa shall be bumpless and without resulting in any cha nge in the plant regulations and the same shall be reported to the operator. iv) Buffered analog output (positioni ng signal) of 4-20mA DC shall be provided from CLCS to the respective E/P c onverters. For electrical actuators , pulse type output (bound less control) shall be preferred. CLCS shall also",
+  "chunk_index": 531,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0765",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 792,
+  "text": "1.5mm maximum) or hydraulic tests and UT or RT on longitudinal welds at the tube mill. ii) All mother pipes shall be subjected to 100% UT prior to fabrication as per ASME E 213 or equivalent with longitudinal ca libration notch of depth 5% of wall thickness (0.3mm minimum and 1.5mm maximum). iii) All forged fittings shall be checked by UT and formed fittings shall be checked by MPE. iv) All pressure parts shall be 100 % UT tested. All welded, cast alloy steel and carbon steel fittings for use above 71 bar design conditions shall be 100 % RT tested. However, wherever the code/standard/process specifies random sampling, the same shall be minimum 20%. v) All bent pipes shall be checked for ovality and thinning by UT on first off lot and on random samples for subsequent pieces. Outer surface of bends shall be subjected to MPE or DPT. vi) The edge preparation for shop and site welds in stainless steel and alloy steel shall be subjected to dye penetration check. Non-destructive examination of welds shall be carried out after post weld heat treatment, if any. vii) All butt welds shall be subjected to UT or RT and MPE. For weld on alloy steel piping, UT or RT shall be done afte r stress relieving. Wherever the code/ standard/ process specifies random sampling, the same shall be minimum 20 %. viii) All butt welds in alloy steel piping of P91, X20 and X 22 shall be checked for RT or UT and MPE after stress relieving (SR) . UT shall be of digital recordable type. ix) All weld joints in alloy steel piping of P 91, X20 and X22 shall be checked for hardness. For preheating and post weld heat treatment (PWHT) induction heating shall be deployed. However, PWHT can be done in furnace also. 3% hardness check shall be carried out on welds of other alloy steel piping. x) All load-bearing attachment welds shall be subjected to MPE after stress relieving. xi) For HP piping, non-destructive examination of welds shall be carried out in accordance with the relevant design/manuf acturing codes. However, apart from above, the following requirements shall be met. Further statutory requirement, wherever applicable shall also be complied with the following: Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 6 a) Temperature",
+  "chunk_index": 765,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0350",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 360,
+  "text": "cooled by hydrogen iii) Stator core Cooled by hydrogen flowing through the radial and axial ventilating ducts. iv) Configuration for hydrogen cooling Generator to be designed for hydrogen pressure as per manufacturer\u2019s practice. The shaft mounted propeller type fans on one or both sides to facilitate circulation of hydrogen inside the machine. Hydrogen to be cooled by coolers using demineralised water mounted in the stator body. 5.1.4 Insulation Stator and Rotor windings Class 155 (F) 5.1.5 Temperature Limits i) The maximum temperature limits of generator windings : a) Maximum temperature of stator core (measured by thermometer) 120 o C b) Maximum temperature of stator winding (measured by RTD) 120o C c) Maximum temperature of rotor winding (measured by Resistance method) As per IEC-60034-1 d) Maximum temperature at slip rings (measured by thermometer) 120o C Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 3 ii) Generator derated capability (MVA output and stator current) a) When the temperature of cooling water entering hydrogen coolers or the temperature of hydrogen exceeds from rated temperature by 0o to 15oC. Bidder to furnish b) When the temperature of demineralised water at inlet of stator winding exceeds from rated temperature by 0o to 5oC. Bidder to furnish 5.1.6 Operational Requirements i) Voltage variation (\u00b1) 5% of rated value at rated power and rated power factor. ii) Frequency variation (-) 5 to (+) 3% of 50 Hz at rated power and rated power factor. iii) Combined voltage and frequency variation 5% (absolute sum) iv) Operating range MVA for short duration and time period at 110% rated voltage shall be specified by the bidder. v) Power factor variation 0.85 (lag) to 0.95 (lead) vi) Operation under unbalanced load Capable of operating continuously with a negative sequence current of 8% of the rated current. The maximum current in any of the phases not to exceed the rated current. vii) Operation under unsymmetrical short circuit Capable of withstanding during any transient unsymmetrical short circuit condition, negative sequence current I 2 expressed in per unit of rated current for duration of \u2018t\u2019 sec. such that the value of I 22 t is not less than eight (8). viii) Voltage waveform The voltage waveform shall be approximately close to a pure sine wave under all conditions of loading Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW",
+  "chunk_index": 350,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

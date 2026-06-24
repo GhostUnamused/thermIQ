@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0784",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 812,
+  "text": "be subject to 100% UT and 100% MPE. v) All welds shall be visually examined. Radiographic examination of 10% of butt welds shall be carried out. However, for vacuum containing welds, RT on atleast 10% of each butt weld shall be carried out. Surface defect examination by MPE or equivalent test method shall be car ried out for minimum 10% weldments. Nozzle welds shall be subject to 100% M PE or DPT. These shall apply to site welds also. vi) All edge preparations shall be examined for surface defects. Edge preparation for welds to be carried out at site shall be checked by magnetic particle examination method before dispatch. vii) In case of fabricated flanges, welds shall be checked by 100% RT or UT and 100% MPE to ensure freedom from internal and surface defects. viii) To ensure dimensional control of condenser, parts/ sub assemblies shall be trial assembled at shop. Trial insertion of a few tubes through main tube plates and support plates shall be carried out to en sure alignment of tube plates and proper fitting and matching of parts and sub-assemblies. 8.3.3.2 Spring assembly i) Static load testing of the springs shall be carried out and spring characteristics shall be drawn and verified. ii) Surface defect test shall be carried out on all the springs after coiling and heat treatment. 8.3.3.3 Condenser air evacuation system i) Vacuum pumps a) Vacuum pump shafts shall be subject to ultrasonic test. After finish machining, shaft shall be subject to 100% MPE or DPT. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 26 b) Pump casings and impellers shall be subject to MPE or DPT. Finished pump rotor shall be subject to dynamic balancing. c) Pump casings shall be subjected to hydraulic test at 1.5 times the shut off pressure or twice the maximum operating pressure, whichever is higher. d) Each pump shall be tested at s upplier\u2019s works at full speed and load conditions to demonstrate successful operation and performance in accordance with the design requirements. Visual cavitation test shall also be carried out to demonstrate that pump shall be operating under all operating condition including blank off condition without any cavitation. ii) The complete package shall be subject ed to hydraulic pressure and leakage test and shop tested to check interlocks and functional requirements.",
+  "chunk_index": 784,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

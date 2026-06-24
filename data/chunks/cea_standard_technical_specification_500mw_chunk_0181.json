@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0181",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 184,
+  "text": "of emergency stop and reheat stop valves, crossover/ cross around piping and electric motors for all its integral subsystems. Steam strainers integral with main steam emergency stop and reheat stop valves are also acceptable. iii) Hydraulic/pneumatic power operated quick closing non-return valves (QCNRV) and ordinary non-return valves for each extraction (except for the heater in condenser neck) including steam lines to BFP turbine drives and for each cold reheat line one hydraulic / pneumatic power operated QCNRV shall be provided. The type of actuation i.e., hydraulic/ pne umatic shall be as per the standard proven practice of the manufacturer. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 5 3.1.3 Turbine Design and Construction 3.1.3.1 Turbine casings The Turbine casing design shall have following features : i) Separate casing shall be provided with for HP, IP and LP turbines OR combined casing for HP-IP turbine and separat e casing(s) for LP turbine. ii) Casings shall be symmetrical in design to minimise the effects of thermal stress and creep. iii) Turbine casings shall be designed for maximum pressure and temperature to be encountered during service including those specified under equipment sizing criteria. The HP and IP turbine casings shall be designed for a hydro-static test pressure of at least 50% in excess of the working pressure. iv) There shall be no sudden cross section changes and sharp corners leading to stress concentrations. v) Steam tightness of HP and IP turbin e casings shall be ensured by providing horizontal joints with metal to metal co ntact. Steam tightness of LP turbine shall be ensured by providing suitable seals. vi) Steam chest support arrangement shall be of proven type and shall be capable of accepting piping forces during operation w ithout transmitting the same to the casings. vii) All extractions shall preferably be from the lower half of casing and extraction branches should be welded to casings except for LP casing extractions which can be bolted connections. viii) Adequate drainage facility shall be provided with temperature sensing devices (in pair) in casings and drain lines for wa ter detection and proper removal during start-up. ix) Pressure relief bursting diaphragms shall be provided for LP casing(s) to limit the exhaust hood pressure within a safe margin from design pressure. x) LP casing(s) shall be provided with comp letely self",
+  "chunk_index": 181,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

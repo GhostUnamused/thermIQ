@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0134",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 142,
+  "text": "atmosphere/ PA fan cold air bus. Silencers shall be provided, if required, at the suction of the fans to restrict noise level within permissible limits. vi) Mill gear box: The gear box shall be planetary type. The gear box design shall ensure that there is no ingress of coal dust into gear box under all conditions of operation. The gear box shall give trouble free operation of not less than 100,000 hours of mill operation. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 41 vii) Mill motor capacity: The mill motors shall be adequately sized and selected motor capacity shall enable restart of the mill after a trip with mill full of coal. Such restart shall not call for any emptying of the mill. viii) Inlet coal pipe between RC feeder a nd the mill shall not have any reduction in section throughout the length, including at entry point on top of the mill. ix) Each mill shall be fed with co al by an independent coal feeder. x) Materials of construction: a) The material of construction of wear parts shall be selected taking into account highly abrasive nature of coal resulting from coal contamination with silica sand and alpha-quartz. b) The grinding rings/ race shall be made of material having hardness of minimum 550 BHN at the surface with adequate ch illed depth. The grinding balls/ rolls shall be of material with minimum hardness 350 BHN. Minimum difference between hardness of rings/race and balls/rolls shall be 100 BHN. c) The classifier cone shall be lined with minimum 15 mm thick ceramic tiles on both inside and outside surfaces of the cone. The classifier vanes shall be lined with suitable material to provide minimum specified wear life. xi) Lubrication system: The design of lubrication system shall ensure continuous operation of mill bearings. Suitable arrangement shall be provided for readily determining the oil level in the gear box(es) and all other lubricated parts. xii) Pulverised coal sampling: a) Tapping points shall be provided on each pulverized coal pipe at mill outlet and shall be suitable for coal sa mpling as per ISO 9931. The sampling provisions shall be complete with screwed plugs, compressed air purging connections at tapping points, heating a rrangement and other requirements as per ISO 9931. b) One (1) no.",
+  "chunk_index": 134,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

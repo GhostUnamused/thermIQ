@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0559",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 576,
+  "text": "built in stabiliser, capable of simulating both oil and coal flame, and testing of flame detector head unit at field. The testing kit shall also have facility for testing all type of electronic cards as being used in the flame monitoring system. vi) In case of tangentially fired boiler, the bidder shall arrange flame detectors in such a manner that coal flame detect ors are available both above and below each coal burner and separate oil flame detectors are provided for each oil burner. In case bidder has discriminating type flame detectors capable of detecting and discriminating both oil and coal flame, with the help of a single scanner, the same can also be utilised for monitoring both oil and coal flame. For any other type of firing i.e. non-tangential type the flame detectors shall be provided for each coal and oil bu rner responding only to the flame of its associated burner. vii) Bidder shall furnish the deta ils of the flame detector locations and justification for the same. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 49 viii) The Bidder shall demonstrate the complete performance of flame detectors in cold start up test and load condition test. In cold start up test, capability of detectors to detect oil flame under varying oil pressure shall be checked. In load test, the detector shall be able to detect when only oil is present, only coal is present and both coal and oil ar e present. It shall be ensured that the detectors are able to detect the proven flame at very low load with oil guns withdrawn. The above tests shall be performed for every coal and oil elevation. ix) Provision of scanner air for c ooling the flame detectors by 100% redundant scanner air fans, one AC and other DC operated, shall be provided. The dampers associated with scanner air fans shall be pneumatically operated with DC solenoid valves. 6.3.2 Coal Feeders Control and Instrumentation i) Bidder shall provide a microprocessor based coal feeder C&I system. It is preferable to use the same family of hardware as that of DDCMIS for implementation. ii) Bidder shall provide a minimum of two independent speed sensors, pulser units and associated amplifiers, etc. for each of the coal feeders. Output from the speed sensors will",
+  "chunk_index": 559,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

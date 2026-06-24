@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0157",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 164,
+  "text": "dampers/ flap dampers (if provided) a) Dampers shall be single flap/double fl ap construction with flexible duplex seals mounted on the flap itself. The seals shall have minimum life of 3 years. The seal material shall be high nickel allo y equivalent or better than hastealloy C- 276 (ASTM B575, UNS 10276) or Inconel 625. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 63 b) The diverter damper shall ensure sealing efficiency of minimum 99.3% on flue gas flow without seal air. To provide man safe isolation for on-line maintenance of air pre heater, 2x100% seal air fans per damper shall also be provided to attain 100% gas tightness. c) The diverter flap shall be totally out of flue gas flow path in order to avoid any erosion from ash. d) The damper design shall prevent ash accumulation when in closed position. xviii) Weather hood to prevent rain water entry and accumulation shall be provided at damper top. xix) If grease lubrication is required, grease connection shall be accessible and suitable platforms etc. shall be provided. xx) Dampers operation: a) All dampers shall be arranged to facilitate local manual operation also from a gallery or floor level. Open and closed positions shall be clearly marked on the dampers b) The force required to operate the damper shall be limited to 35 kgs (maximum) at the rim of the hand wheel. c) The operating gear shall be fitted wi th a graduated indicator and shall be designed such that the damper may be re tained in any position. The isolating dampers shall additionally be fitted with locking devices to permit locking in the fully open and shut positions. d) All powered dampers shall also ha ve provision for manual operation during emergency and maintenance along with graduated local position indicator. e) Suitable all-around approach and pl atform shall be provided for manual operation of dampers and for carrying out maintenance on damper. f) All bearings for spindles for damper operating gear shall, be arranged for efficient grease lubrication. Grease lines of copper/ steel shall run from all greasing points on each damper to a convenient and easily accessible location adjacent to the respective damper and terminated with suitable clamps and grease nipples on a steel frame to facilitate easy lubrication. Standard Technical Specification",
+  "chunk_index": 157,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

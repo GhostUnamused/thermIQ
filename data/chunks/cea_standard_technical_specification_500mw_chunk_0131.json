@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0131",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 140,
+  "text": "features: a) Size of gates/valves shall be suitable for round bunker opening of minimum 914.4 mm (36\u201d). b) Shut off gates/valves shall be motor operated, with double rack and pinion drive arrangement and shall be of non-jamming type. c) Gate/ valve design shall ensure dust tight enclosure and shall be of self cleaning type. ii) All components coming in contact with coal and the roller bearing shall be of stainless steel material. iii) Shut off valves/gates shall be designed to operate with \u201cbunker full of coal\u201d condition without its motor getting overloaded. Normal motorised as well inching operation of these shut off gates/valves should be po ssible from the feeder floor. For manual operation from feeder floor level, wheel and chain shall be provided for each gate/valve. iv) The chutes between bunker outlet gate and inlet to the coal feeder shall not have internal diameter less than 914.4 mm. The chute between feeder outlet and pulveriser inlet shall not be of internal diameter less than 600 mm. v) The chutes shall be of made of minimum 12mm thick SS-410 material and shall be of fully welded construction. The chute between feeder outlet and pulveriser inlet shall have a SS lined hopper with suitable reinforcement. The provision shall be made for the insertion of poke rods in two direction opposite to each other at outlet of the bunker and inlet of the feeders. vi) Suitable coupling (Dresser or equivalent) shall be provided for chute connection(s) at outlet of feeder and pulveriser with SS 410 inner ring. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 39 vii) The arrangement of permanent bunker em ptying chute alongwith necessary coal flow diversion valve shall be provided between each bunker and RC feeder. Necessary access shall be provided for operation of coal flow diversion valves. The emptying chute shall enable unloading of bunkers on tr ucks at ground level. An arrangement with a temporary chute fitted on the bunker downspout alongwith a permanent chute from the feeder floor to the ground level shall also be acceptable. viii) Suitable indicators shall be provided in the downspout between bunker and feeder to detect presence of coal flow to ensure minimum seal height at inlet to feeder and trip the feeder if the level of coal tends to be below",
+  "chunk_index": 131,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

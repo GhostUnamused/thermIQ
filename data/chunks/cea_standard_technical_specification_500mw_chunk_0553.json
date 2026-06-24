@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0553",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 569,
+  "text": "specification shall not permit deviations which exceed those permitted by the manufacturers of the controlled process equipment, for load changes as indicat ed above. The exact parameters to be monitored for this test are given in the following table The control loops shall perform to return the controlled va riable to the set point in a stable manner without cycling in the shortest possible time and without any loop interactions or cycling of generatio n when generation matches unit load demand. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 42 Performance Requirements for Closed Loop Control System (Table 6.2.1) Sl. No. Load/Rate of load change (% of MCR per min.) Maximum Deviation of Parameters from Set Point Throttle pressure deviation (Kg/cm2) Flue gas oxygen deviation (% O 2) Furnace pressure deviation (mmwcl) S.H. steam temperature deviation (Deg. C) R.H. steam temperature deviation (Deg. C) Drum level mm A. Steady state condition 1. 90% to 100% + 2.0 + 0.4 + 8.0 + 5.0 + 5.0 + 15.0 2. 60% + 2.0 + 0.4 + 8.0 + 5.0 + 5.0 + 15.0 B. Ramp test (change for max. duration of five minutes) 1. + 3% + 3.0 + 0.6/- 0.4 + 12.0 + 8.0 + 8.0 + 25.0 2. + 5% + 3.0 + 0.8/- 0.4 + 12.0 + 10.0 + 10.0 + 30.0 3. + 10% + 4.0 + 1.0/- 0.5 + 15.0 + 15.0 + 15.0 + 50.0 C. Step load changes 1. From 100% to 80% at the rate of 10% per minute + 5.0 + 1.5/- 0.5 + 20.0 + 15.0 + 15.0 + 50.0 Notes: a. Sufficient time shall be allowed as setti ng period between conducting the tests. b. Plant operating condition, i.e. main equipm ent status, availability of auxiliaries, operational and equipment constraints, whic h can influence the test, shall also be recorded. c. Control system shall be running in the coordinated master control (CMC) mode i.e boiler master, fuel flow, air flow, feed water and turbine load control shall be in automatic mode. Load set point, maximum and minimum load set point, rate of raise / lower of load shall be set thr ough the TFT, keyboard/con ventional console. ii) The bidder shall also guarantee that the control system provided by him will be responsive",
+  "chunk_index": 553,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

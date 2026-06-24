@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0477",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 494,
+  "text": "be suitable to record the frequ ency excursions and response of generator field and governor control on system fluctuations. - It shall have options to select the scan rate in the range having a min. of 10Hz suitable to facilitate capture of low fre quency waveforms in the range of 0.5 - 3Hz. - The non-volatile memory shall be suitable for recording for a minimum of 15 minute at scan rate corresponding to sel ected pre-fault zone of recording. e. The fast scan facility shall be provi de with the following minimum features - The input shall be voltages and current etc. Any transducers, if required for interfacing, shall be provided. - It shall have scan rate of 1000Hz or better for sampling each of the analog channel having fundamental frequency of 50Hz. The frequency response for these channels shall be DC on the lowe r side to 500Hz or better on the upper side. Any interposing devices provided shall be suitable for this frequency response. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 137 - The pre and post fault recording time shall be atleast 200 ms and 5s respectively. f. All external and internal faults in the DR equipment such as power supply fail, printer faults, paper exhausting, processor failure, memory failure etc. are to be indicated by means of light emitting diodes on the front of the panel of restitution unit. The DR shall be provided with a MMI (man machine in terface) through a PC with VDU, keyboard and printer. g. The internal clock of the system shall be synchronized through the GPS. The output shall be in IEEE/ COMTRADE format. The format shall be compatible for dynamic protection Relay Test Kit Necessary interfacing and software for analysis shall also be provided. h. The amplitude resolution of the analog channels shall not be less than 16 bit and event resolution for digital channels shall be 1ms or better. 5.14.6 Electrical Control Board : a. One no. \u2018Electrical Control Board\u2019 (ECB) shall also be provided in the Central Control Room with minimum control and indication facilities for various equipments described below, as a back -up to Operator Work Station/ CRT keyboard (OWS) for both units and stati on supply. ECB shall be Simplex panel in mosaic grid configuration. b. Semaphore indicators shall be provided",
+  "chunk_index": 477,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

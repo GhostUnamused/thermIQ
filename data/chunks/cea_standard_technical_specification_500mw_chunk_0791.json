@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0791",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 819,
+  "text": "frame of booster pump, the test shall not be repeated and certificates of test carried out earlier shall be furnished for review of the purchaser. The validity of the type test carried out earlier shall be limited to five (5) years. \u2022 Dry run withstand capability shall be demonstrated and established on one pump. e) After performance testing, thrust bearing and journal bearing shall be subject to visual check. Note: Tested pump parameters sha ll be within following tolerances. At design head : + 10% of design capacity At design capacity : + 5% of design head (for < 152.4 m) + 3% of design head (for \u2265 152.4 m) The results of the performance test must show no minus tolerance with regard to flow and head. No minus tolerance on efficiency or positive tolerance on power input at motor terminals shall be allowed. 8.3.5.3 Gear box and hydraulic coupling i) Tests shall be carried out on the materials on various components to establish their mechanical properties and chemical composition. Further, heat treatment shall be given to the internal components as required. ii) Internal components such as gears, pinions , wheels and shafts shall be examined by 100% UT and 100% DPT or 100% MPE. iii) Leak test shall be carried out for the casing. iv) Dynamic balancing test shall be carried out for the assembled rotating component. v) Full load speed and back to back locked rotor torque t est shall be carried out on one gear box. vi) Visual check and dimensional measurement shall be carried out for the completely assembled equipment. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 33 8.3.5.4 Strainers i) Tests shall be carried out on the materials on various components to establish their mechanical properties and chemical composition. ii) In case of fabricated construction, th e welds shall be examined for surface defects by 100% DPT. iii) The strainer body shall be subject to hydraulic test. iv) Pressure drop test shall be carried out for each type and size of the strainer assembly. 8.3.5.5 BFP drive turbine and associated equipment The QA requirements for BFP drive turbine a nd associated auxiliaries shall be same as those applicable for main stea m turbine and its auxiliaries described at clause 8.3.1 of this Section. 8.3.6 Condensate Extraction Pumps (CEPs) 8.3.6.1",
+  "chunk_index": 791,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

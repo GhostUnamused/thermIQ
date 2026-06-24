@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0206",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 211,
+  "text": "stainless steel shroud to prevent erosion due to steam. v) Condenser(s) shall be designe d for minimum air leakage and under normal operating conditions the air leakage in the condenser(s) shall not exceed more than 50% of design value taken for sizing of vacuum pumps. The same shall be demonstrated at site under actual operati ng conditions, failing which bidder shall carry out necessary modifications. vi) For normal make up to the power cycle, DM water shall be added in the condenser hot well. The DM water shall be supplied from DM water storage tanks of DM plant, and shall be added in the hot well through a control valve. The indication for status of operating DM water supply pumps shall be provided in the UCB. vii) Emergency make up to the condenser hot well shall be supplied by 2x100 % centrifugal pumps of adequate capacity taking suction from the condensate storage tank which shall also receive ex cess flow from discharge of condensate extraction pumps. The condensate storage tank shall be of epoxy coated mild steel to IS 2062 Gr- B and its capacity shall be to meet 12 hour normal make up requirement of the unit subject to a minimum effective storage of 600 m 3. viii) Separate sponge rubber ball type condenser on-load tube cleaning system (COLTCS) shall be provided for each ha lf of the condenser including ball circulation pumps, strainer, ball monitoring system etc. 6 Purchaser to delete what is not applicable. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 32 ix) Maximum oxygen content of condensate leaving the condenser shall be 0.015 cc per litre over 50-100% load range. x) Condensate temperature at all loads shall not be less than the saturation temperature corresponding to condenser pressure. 3.9.2 Condenser(s) 3.9.2.1 Equipment sizing criteria i) The steam condensing plant shall be designed, manufactured and tested as per HEI (latest edition). The condenser(s) shall be designed for heat load corresponding to unit operation for valv es wide open (VWO) conditions, 3% make-up, design condenser pressure and ot her conditions specified in clause 3.9.2.2 and 3.9.2.4 below. The value of design condenser pressure to be measured at 300 mm above the top row of condenser tubes shall be guaranteed under VWO condition, 3% make-up, design CW inlet temperature and CW flow.",
+  "chunk_index": 206,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

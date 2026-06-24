@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0243",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 250,
+  "text": "from a temperature of 15 to 50 0C at the outlet of ejector. The water shall be heated to the required temperature within 5 hours. d) All interconnecting piping, valves a nd fittings as required for the system. e) Complete system for off-stream ammoniation of the resins, using ammonium hydroxide, shall be included in the offer, if felt necessary by the bidder to meet the system requirements. The system, if offered, shall include two (2) nos. bulk ammonia storag e tanks (total one month storage), two (2) nos. motor-driven feed and recirculation pumps (each with 100% capacity), regenerant dilution tank, in strumentation and controls and all other appurtenances mounted on a separate structural steel skid. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 71 iii) Alkali solution preparation facility Complete facility for preparing alkali solution from alkali flakes shall be provided as per details given below: a) One (1) no. alkali preparation tank complete with electrically driven stirrer, and dissolving basket shall be provided. The tank capacity shall be equal to 120% of regeneration requireme nt of one polisher vessel. b) 2x100% capacity horizontal centrifugal type alkali solution transfer-cum- recirculation pumps shall be provided to fill the alkali day tank in one hour. c) One (1) no. activated carbon filter shall be provided for alkali preparation. The rated flow of the filter shall not be less than the design capacity of the alkali transfer-cum recirculation pump, and the maximum velocity through the filter shall not exceed 12 m/hr. Depth of the filter material shall not be less than 1 m. d) The prepared alkali shall be stored in two (2) no. alkali day tanks. e) Facility of bulk storage tanks to hold 48% alkali lye shall also be provided and alkali dosing system shall be designed for this also. f) All interconnecting piping, valves and fittings as required for the system. iv) Materials All the equipment viz. tanks, valves, piping, resin trap etc handling acid, alkali, DM water etc. shall be of MSRL constr uction, Valves for handling acid, alkali, ammonia, etc shall be preferably of diaphragm type (MSRL). v) Air blowers 2x100% capacity air blowers (1W+1S) sha ll be provided for subsequent mixing of the resins. Further 2x100% capacity ai r blowers shall also be supplied for mixing the resins in the service",
+  "chunk_index": 243,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0535",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 554,
+  "text": "margins etc. on a separate dedicated colour VDU/Printer as well as on OWS for operator guidance and storage of necessary data such as percentage service life consumption etc. (f) Store long term data & carry out residual life analysis. (iii) BFP Turbine Electro hydraulic Governing System a) The drive turbine speed shall be controlled by electro - hydraulic governor, stable and satisfactory speed control over full speed range from 0% to 100%. The electro-hydraulic governing system hardware shall be microprocessor based, with hot back up. b) When the governing system is in auto mode, it will receive speed demand signal from FW control loop and in manual mode shall be fed either from TFT of OWS or through auto/manual sta tions. The actual speed of the turbine should be measured by three inde pendent speed sensors and three independent speed measurement channels. These three signals shall be fed to the selection circuit which will choose th e median value. The speed controller output shall be fed to the valve lift controller. The output of the valve lift Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 27 controller shall be fed to the electro- hydraulic converter which will vary the position of the control valve. The el ectro-hydraulic controller shall be designed such that the transfer between different steam sources should be bumpless. The electro-hydraulic control system to be provided by the bidder shall be of proven design, whose configuration a nd hardware implementation should have been employed in at least six(6) turbine driven pumps of equivalent capacity which are in operation for not less than two(2) years. c) A 220 V split-series field, reversible, totally enclosed DC motor along with an electronic controller, shall be pr ovided for remote speed changing operation. (iv) HP&LP Bypass System a) LP bypass control system The LP Bypass control system shall consist of steam pressure control loop and steam temperature control loop. The LP bypass control shall be implemented through a set of redundant controller modules, I/O modules etc. The LP bypass control shall suitably interface with other TG control like HP bypass, EHG etc. Further, condenser exhaust hood spray valve shall be interlocked to open whenever LP bypass comes into operation. b) HP bypass control system The system shall consist of steam pressure control loop",
+  "chunk_index": 535,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0768",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 795,
+  "text": "- 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 8 8.2.1.8 Pneumatic test of compensating pads All compensating pads shall be provided with two-threaded weep holes to test welds at 0.5 kg/cm2 (g) with soap solution and no leakage shall be ensured. 8.2.2 Boiler water circulation pumps i) Raw material for casing, shaft and impeller shall be checked for high temperature physical properties, apart from mandatory and supplementary check of material specification. ii) All forging and castings shall be subj ected to 100% UT or RT and MPE or DPT check. iii) Static and dynamic balancing of th e rotary parts shall be carried out. iv) Hydraulic pressure test shall be conducted on pump casing at minimum 1.5 times the design pressure. v) Each pump shall be subjected to perfo rmance test at the manufacturer\u2019s works under as near actual site conditions as possible. vi) Following test shall be carried out on assembled units: - A) Type test: a) NPSH test b) Temperature rises test. c) Under voltage test. d) Quality assurance proof test. e) Tests to establish unit functioning of pump at operating temperature and pressure. f) Hot standstill and start up tests. Note :- Type test if already done on the same model will not be repeated. Documents will be submitted for review and approval of the purchaser. B) Routine test: a) Hydrostatic test of complete unit. b) Overspeed test. c) Tests to determine unit characteristics. d) Pump performance. e) Unit run at rated voltage. f) Starting current at rated voltage. g) Cold start up test. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 9 h) Endurance test of motor windings, joints and terminal seals i) Noise level. j) Inspection of dismantled unit. k) High voltage test. vii) For heat exchanger for these pumps , butt welds on pressure parts shall be tested with RT or UT and all other welds shall be tested with MPE or DPT. viii) Hydraulic test shall be carried out both on tube side as well as shell side at minimum 1.5 times the design pressure. 8.2.3 Air Preheaters, Steam Coil Air Pre-Heater and Fuel Oil Heaters 8.2.3.1 Air Preheaters i) Forged shafts for air preheater like st ub shaft, main rotor forging, housing hub shall be subjected to 100% UT at mill",
+  "chunk_index": 768,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

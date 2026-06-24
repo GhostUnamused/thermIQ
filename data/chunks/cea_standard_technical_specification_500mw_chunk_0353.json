@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0353",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 364,
+  "text": "of bars High quality heat resistant and high strength teflon (PTFE) hoses. Single pass cooling arrangement shall be preferred. vi) Stator Winding Connection and Terminal Bushings a) Winding Star connected. 3 phase and 3 neutral terminals brought out. All stator terminal lead connections inside the generator to be suitably supported to contain vibration. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 7 b) Overhang portion of winding Over-hang portion of the stator winding to be suitably braced and supported so as to withstand 3 phase short circuit at its terminals as stipulated in IEC-60034, when the machine is operating at rated MVA, power factor and permissible maximum over voltage. c) Bushing housing Bushings to be housed in lower part of stator frame in a non-magnetic steel terminal box. d) Bushing material Porcelain or epoxy based material with non-hygroscopic property. The terminal bushings to be cooled by suitable arrangement with cooling medium/ system envisaged for the generator. e) Terminal connectors Silver coated copper having octagonal configuration, suitable for connection to the busduct through flexible connectors for which the operating conductor temperature shall be 105 0C. vii) Rotor Machined from a single alloy steel forging to give the required mechanical, metallurgical and magnetic characteristics. Shall have an adequate margin between critical speed and the running speed to ensure smooth running. viii) Rotor Winding a) Conductor Coils made of hard drawn silver bearing copper. b) Insulation Epoxy glass based material rated for class 155(F) insulation. ix) Retaining Rings and Nuts a) Retaining rings Machined from high strength, non- magnetic alloy steel forging, with the material specification 18Mn18Cr, resistant to stress corrosion. Floating type shrunk on the rotor body. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 8 b) Locking nuts/ snap rings Made of high strength non-magnetic alloy steel forging to be provided on the retaining rings to prevent any axial movement. c) Centering rings To be mounted at the end of the retaining rings to support it and prevent the movement of rotor winding in the axial direction due to thermal stresses. x) Bearings a) Type Self-aligning type sleeve bearings either mounted on separate pedestals or on the end shields. The bearing housings and bearing shells to be of split construction. The bearing shells to be",
+  "chunk_index": 353,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

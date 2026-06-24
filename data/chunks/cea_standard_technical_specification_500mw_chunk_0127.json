@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0127",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 135,
+  "text": "the top most row shall be shielded to reduce erosion. viii) Headers shall be located ex ternal to gas path and shall be drainable to the maximum possible extent. If locating headers in g as path becomes unavoidable, than suitable erosion shields must be provided. ix) The economiser header shall be provided with drains and suitable opening with forged weld on caps fo r internal inspection and chemical cleaning. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 34 2.2.3.3 Maintenance requirements i) Clear cavity height of minimum 1.5 m sha ll be provided between two sections/ banks of the economiser for maintenance access. ii) Access/opening alongwith air/ gas tight hinge d door shall be provided for approach to each tube bank. iii) Necessary walkways, platforms, runway beams, motorised hoists etc. shall be provided for removing, handling and placeme nt of complete tube bank/section at ground level for repair and replacement. 2.2.3.4 Space provision shall be provided on gas inlet side of the economiser for future addition of minimum 20% economiser surfaces. Structures and hangers shall be designed considering loads due to these additional surfaces also. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 35 2.2.4 Air Pre Heaters and Steam Coil Air Pre Heaters 2.2.4.1 Air pre heaters (APHs) i) In addition to sizing and design criteria re quirements elaborated at clause 2.1, the air preheaters shall be designed to cater to following requirements also: a) Type Regenerative type. b) No. of air preheaters Two tri-sector type APH or per steam generator two bi-sector type APH each for primary air and secondary air. c) Air temperature at Adequate to attain the required coal/air mix APH outlet temperature at burner inlet and to provide combustion air at required temperature to furnace at all loads and full range of specified coals. ii) Air and flue gas ducts at inlet and outle t of APH shall be of aerodynamic design to ensure uniform flow distribution acr oss the duct sections at all loads. iii) The air pre heaters shall be of rotary re generative, Lungstorm or approved equivalent type with axis of rotation as vertical. The construction of air pre heaters shall conform to the following: a)",
+  "chunk_index": 127,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

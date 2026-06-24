@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0493",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "Cooling Tower"
+  ],
+  "section": "",
+  "page_number": 516,
+  "text": "welded. v) Lubricating oil system a) Automatic pressure lubrication shall be provided by a shaft driven gear type pump through an oil cooler and fine mesh filters to the end bearing, camshaft bearings, camshaft chain and gear drives, governor, air starting, distribution, auxiliary drive gears etc. b) If pre-lubrication is required before starting of the DG set, than one (1) no. electrically operated and one (1) no. standby DC operated lube oil pump shall also be provided for the purpose. c) All necessary accessories like pressure gauges, temperature and oil level indicators, pressure relief valves, bypass valves, pressure switches for alarm and control shall be furnished together with all inter connecting piping, fittings, supports, valves, etc. vi) Cooling system Totally air cooled type DG sets are preferable. However, in case jacket water cooling system is offered, the same shall be in closed cycle and have radiator located in front of the engine with a fan driven mechanically from the engine shaft. Forced water circulation by means of pump driven by the engine shaft shall be employed. As an alternative to radiator located in front of the engine with a fan driven mechanically from the e ngine shaft, separately located radiator (which will be located outside the DG room) with motor driven fan by 415V DG MCC directly fed from alternator terminals. The radiator tube shall be of copper with sufficient transfer area. Heat exchanger/ cooling tower arrangement shall also be acceptable. vii) Governing system a) The governor shall be electronic A1 type as per BS-5514 Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 159 b) The governor shall have necessary characteristics to maintain the speed substantially constant even with su dden variation in load. However a tripping shall be provided even if speed exceeds the maximum permissible limit. c) A mechanical over-speed trip device shall be provided to automatically shut-off fuel in case the speed ex ceeds 110% of the rated value. viii) Ancillary equipment - The following minimum equipments shall be provided : a) Flywheel b) Fuel piping c) Tachometer/RPM indicator d) Lubricating oil cooler (if applicable) e) Exhaust silencer and piping f) Fuel and lubricating oil filters, air filters. g) Temperature gauges for water and lubricating oil and pressure gauges for lubricating oil. h) Hand barring gear. i) Necessary foundation bolts and base channels for",
+  "chunk_index": 493,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

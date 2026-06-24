@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0640",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 666,
+  "text": "however, furnish all required hardware/ equipment/ cubicles for conversion and/or stabilisation of the power source provided by the Purchaser to all other levels which may be necessary for mee ting the individual requirements of equipments/ systems furnished by him within the Contractor\u2019s quoted lumpsum price. For separately mounted I/O racks, separ ate power supplies shall be provided. Power supply module shall be of ample capacity to supply all modules. In addition 20% spare capacity for future shall be provided. All the drives shall be switched ON/OFF through 24V DC c oupling relays to be provided in HT/LT SWGR panels. Power supply dist ribution from Contractor\u2019s power supply cabinets shall be in the scope of Contractor. The exact power supply scheme shall be as approved by Purchaser during detailed Engineering stage. ii) Each set of PC along with TFT shall be provided with smart type line interactive UPS with software & hard ware for remote management along with features of surge suppression & AVR facility by the Contractor. The UPS shall be of sufficient capacity of at least 30 minute at machine load. iii) The battery shall be sealed maintenance free Ni-Cd type or Plante type Lead Acid batteries with long life and shall be able to provide a back-up for one hour at full load requirement of the complete control system. 6.12.9 Control Cabinets / Panels / Desks i) The cabinets shall be IP-22 protection cl ass. The Contractor shall ensure that the packaging density of equipment in these cabinets is not excessive and ab- normal temperature rise, above the cabinet temperature during normal operation or air-conditioning failure, is prevented by careful design. This shall be demonstrated to the Purchaser during the factory testing of the system. The Contractor shall ensure th at the temperature rise is limited to 10 deg. C above ambient and is well within the safe limits for system Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 139 components even under the worst condition as specified in Sub-section-basic Design criteria and specification requirements for remote I/O cabinets. Ventilation blowers shall be furnishe d as required by the equipment design and shall be sound proof to the maximum feasible extent. If blowers are required for satisfactory system operati on, dual blowers with blower failure alarm shall be provided in",
+  "chunk_index": 640,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

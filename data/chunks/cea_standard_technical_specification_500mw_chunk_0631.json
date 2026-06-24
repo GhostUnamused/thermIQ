@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0631",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 658,
+  "text": "shall produce digital output of 0 to 5 V provision for free output contacts for on/off status to be also provided. xix) Logic Probe, Quantity : four numbers It should test all digital circuits based on CMOS, TTL, DTL etc. other specification shall be as per detailed engineering. xx) Function Generator: one number a) Waveforms - Sine, square, triangl e, pulse and ramp with variable symmetry. b). Symmetry- 10% to 90%, 1% step, +/- 2% accuracy c) Frequency- Range : 0.002 Hz to 20 MHz Accuracy : (a) Continuous mode - +/-0.1%; (b) Trigger, gate, burst modes - +/- 0.1% (for freq. less than or equal to 200 Hz) & +/- 5.0% (For freq. more than 200 Hz) d) Resolution : Continuous mode - 4 digits. e) Amplitude range : 20 mv to 20 Vp-p (open ckt). : 10 mv to 10 Vp-p (50 ohm load). xxi) Logic Analyzer Two numbers microprocessor based latest proven type of portable logic analyzers, which are highly flexible, (so that they can be connected to many different circuit points easily and also to provide a clear visual display for the user), shall be furnished. Specification shall be as per detail engineering. All required accessories to be provided. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 131 xxii) Portable infrared thermometer : One number Range shall be from 900 to 1600 deg C with resolution of 1deg C. Accuracy shall be + 1% of full scale. Power supply shall be (1) 240V, 1 phase, 50 Hz & (2) chargeable battery. all required accessories to be provided. xxiii) Clip on AC power meter : One number Range shall be 20-600 vrms, 0.2-20A rm s, 0.2-20 KW and accuracy shall be +/-1% of rdg +0.5% of range. Display shall be 3 1/2 digit LCD. All accessories to be provided. xxiv) Portable gas analyzer : one number It shall be latest proven type . various measurements such as O 2, CO, NO X, SO2, opacity etc. shall be as per detailed engineering. only. xxv) DDCMIS Modules Testing kit fo r complete diagnostic testing of DDCMIS modules in addition to built in diagnosti cs present in DDCMIS. The facilities shall include functional processor test, working memory test, communication controller test, I/O modules test as a minimum. xxvi) Digital insulation tester :",
+  "chunk_index": 631,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

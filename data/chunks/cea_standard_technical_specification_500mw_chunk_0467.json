@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0467",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 483,
+  "text": "utilise diodes/ thyristors and heat sinks rated to carry 200% of the load current continuously and the temperature of the heat sink shall not be permitted to exceed 85\u00b0C absolute duly consider ing the maximum charger panel inside temperature. The Contractor shall submit calculations to show what maximum junction temperature will be and what the heat sink temperature will be when operating at 200% and 100% load current continuously duly considering the maximum surrounding air temperature for these devices inside the charger panel assuming air ambient temperature of 50\u00b0C outside the panel. Necessary surge Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 126 protection devices and rectifier type fast acting fuses shall be provided in each arm of the rectifier connections. 5.13.4.8 Instruments DC voltmeter, DC ammeter and AC voltmeter in 96 mm square shall be provided for all Chargers. The instruments shall be flush mounted type, dust proof and moisture resistant. The instruments shall have easily accessible means for zero adjustments. The instruments sh all be of 1.5 accuracy class. 5.13.4.9 Air Break Switches All Chargers shall have AC input and DC output switches of air break, single throw, load break and fault make type. The contacts of the switches shall open and close with a snap action. Switches shall be rated for 120% of the maximum continuous load. \u2018ON\u2019 and \u2018OFF\u2019 pos ition of the switch shall be clearly indicated. 5.13.4.10 Control and Selector Switches Control and selector switches shall be of rotory stay-put type with escutcheon plates showing the functions and positi ons. The switches shall be of sturdy construction and suitable for mounting on panel front. Switches with shrouding of live parts and sealing of contacts against dust ingress shall be preferred. The contact ratings shall be atleast the following : - Make and carry continuously \u2013 10 Amps. - Breaking current at 220 V DC \u2013 0.5 Amp. (inductive) - Breaking current at 240 V AC \u2013 5 Amp. At 0.3 p.f. 5.13.4.11 Fuses Fuses shall be of HRC cartridge fuse link type. Fuses shall be mounted on fuse carriers which are mounted on fuse bases. Wherever it is not possible to mount fuses on fuse carriers, fuses shall be directly mounted on plug in type bases. In such cases one insulated fuse pulling handle shall be supplied for each charger. Kick-off",
+  "chunk_index": 467,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

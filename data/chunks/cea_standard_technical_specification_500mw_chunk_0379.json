@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0379",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 395,
+  "text": "full load for ten (10) minutes after the failure of oil pump or fans without exceeding the winding hot spot temperature of 140 0C. The transformer fitted with two coolers, each capable of dissipating 50% of losses at continuous maximu m rating shall be capable of remaining in operation for twenty minutes in the event of fa ilure of pump or fans associated with one cooler without exceeding hot spot temperature of 1150C. 5.4.3 Specific Technical Requirements 5.4.3.1 Generator Transformers 1) The MVA capacity of the 3 phase bank shall be chosen equivalent to the Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 38 maximum MVA capacity of the generator for an ambient temperature of 500C. No reduction in capacity shall be made fo r the auxiliary load tapped before the generator transformer. 2) One (1) no. single phase generator tran sformer shall be provided as spare and suitably located in the transformer yard. 3) The HV phase & neutral and LV bushing shall be provided with bushing type current transformers (CT). 4) Salient features of the Generator Transformer i) Service Outdoor ii) No. of phases 3 Nos. single phase, 2 winding, 200 MVA for each 500MW unit (or \u2026 MVA for \u2026 MW unit)2 iii) Voltage HV : 420/ \u221a 3kV LV : as per generator terminal voltage iv) Frequency 50Hz v) Winding connection HV : Star (with neutral solidly earthed) LV : Delta vi) Vector Group YN d11 vii) Type of cooling OFAF viii) Impedance (%) 15 (indicative) ix) Maximum permissible temperature rise over an ambient of 50 oC In top oil : 500C In winding: 550C x) Cooling equipments 2x50% cooli ng radiator banks (suitable no. of working fans and one no. stand-by fan and 2x100% oil pumps) xi) Type of tap changer Off circuit tap changer (OCTC) xii) Tapping range (+)5% to (\u2013)5% in 4 equal steps on HV side xiii) Short circuit capability To withst and the rated short circuit at its terminals for three seconds xiv) Type of insulation HV : Graded insulated LV : Uniform xv) System fault level 400kV system : 40/ 50kA3 for 1 second xvi) HV neutral earthing Solidly earthed through a CT with copper bar suitably with bolted isolating link. xvii) HV terminal details Out door type oil filled condenser bushing insulators with test taps. Terminal",
+  "chunk_index": 379,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

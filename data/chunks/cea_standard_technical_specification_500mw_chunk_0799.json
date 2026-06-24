@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0799",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 828,
+  "text": "100% MPE or DPT xiii) Finished welding for carbon steel class- I piping having design temperature \u2264 218 deg C or design pressure for steam \u2264 17.6 kg/ cm 2 (g) or design pressure for feed water \u2264 24.6 kg/cm2 (g) shall be subject to the following NDTs: a) Butt welds: pipe size > 100 NB 100% RT and 10% MPE or DPT pipe size \u2264 100 NB 10% MPE or DPT b) Welds for nozzle, branch 10% MPE or DPT connections/ attachments Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 42 c) Removal of weld defects 100% MPE or DPT xiv) Non-destructive examination of welds sha ll be carried out after post weld heat treatment, if any. xv) Pre- heating, stress relieving and post weld heat treatment as applicable shall be carried out as per requirements of ASME B 31.1. For welds in P91, X20 & X22 materials, only induction type of heating shall be deployed for heat treatment. xvi) Hardness survey of welds shall be carri ed out on alloy steel/ stainless steel piping. (100% hardness survey of welds on P91, X20 & X22 material grade pipings). xvii) All other pipes not covered above (excep t oil piping) shall be subjected 100% MPE or DPT in case of under ground pi ping and 10% MPE or DPT in case of over ground piping. Further, 10% of bu tt welds of underground piping shall be subjected to RT. xviii) Oil piping shall be subjected to following NDTs. a) Butt welds of Oil piping shall be subj ected to 10% RT and 10% DP Test. For Jacking oil lines 100% RT and 100% DPT shall be carried out on butt welds. b) Fillet welds with load transfer shall be subjected to 100% MPE or DPT and fillet welds without load transfer shall be subjected to 10% MPE or DPT. xix) Rubber lined pipes shall be hydraulically tested before rubber lining. All rubber lining shall be subject to following tests as per IS-4682 part-I or acceptable equivalent: a) Adhesion test b) Check for resistance to bleeding (if applicable) c) Measurement of thickness d) Shore hardness test e) Visual examination and spark test at 5 kV/mm of thickness. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality",
+  "chunk_index": 799,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

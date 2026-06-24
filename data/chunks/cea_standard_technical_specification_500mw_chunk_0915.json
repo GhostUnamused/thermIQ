@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0915",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 1001,
+  "text": "Electronic cards 20% or 2 nos. of each type and model whichever is more. c) Lamps/ LEDs of display units 100% ix) Electronic remote drum level monitoring system a) Electrodes 50% of population. b) Electronic cards 20% or 2 nos. of each type and model whichever is more. c) Lamps/ LEDs of display units 100% x) Mill and air pre heater fire detection system. a) Thermocouple 10% or 2 nos. whichever is more b) Process actuator switches 10% or 1 no. whichever is more c) Electronic cards including 20% or 2 nos. of each type and power packs model whichever is more xi) Turbine supervisory system a) Power supply assemblies of all types 10% or 1 no. of each type whichever is more b) Temperature sensing elements 10% or 1 no. of each type whichever is more c) CJC assemblies of all types 10% or 1 no. of each type whichever is more d) Local gauges of all types, range, 5% or 1 no. of each type model no. for temperature, pressure, whichever is more flow, DP, differential expansion and axial shift e) Process actuated switch devices of all 5% or 1 no. of each type types, range, model no. for pressure, whichever is more DP, temperature, flow, level, proximity and any other measurement used f) Electronic cards/PCBs/interface 10% or 2 nos. of each type, units of all types used in TSS whichever is more Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 9 (Mandatory Spares) 9 - 74 g) Instrument valves of all types like 5% or 1 no. of each type isolating, 2/3/5 way valve manifolds whichever is more high pressure reducing, safety relief, back pressure solenoid valves and any other type of instrument valve used h) Sensors of all types, range, 10% or 1 no. of each type, model for vibration, eccentricity, whichever is more proximity, differential expansion, axial shift and any other turbo suupervisory measurement used. xii) Boiler feed pump turbine supervisory system a) Power supply assemblies of all types 10% or 1 no. of each type whichever is more b) Temperature sensing elements 10% or 1 no. of each type whichever is more c) CJC assemblies of all types 10% or 1 no. of each type whichever is more d) Local gauges of all types, range, model 5% or 1 no. of each no. for temperature,",
+  "chunk_index": 915,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0413",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 432,
+  "text": "LAN configuration. These switches shall be mounted inside the switchgear Panel. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 75 xxxi) Relay shall be suitable to accept both AC & DC supplies with 110V AC or 220V DC with tolerance of 80% to 120 % of rated voltage xxxii) Relay shall be immune to capac itance effect due to long length of connected control cables. Any external hardware, if required for avoiding mal operation of the relay due to cable capacitance shall be included as a standard feature. All IOs shall have optical isolation. Analog inputs shall be protected against switching surges, harmonics etc. xxxiii) No separate earth bus shall be required for the relays. It shall be possible to connect the relay earth to the common earth bus in the switchgear panel which shall be connected to the plant earth mat. xxxiv) Numerical relays shall have two le vel pass word protections, one for read only and other for authorization for modifying the setting etc. e) Contactor i) Mechanically latched type contactors shall be backed by HRC fuses for outgoing motor feeders. The high volta ge contactors shall be of AC-3 utilization category and shall be SF 6 or vacuum type. The fuse and contactor assembly shall be mounted on a withdrawable truck. Circuits shall be provided with suitable single phasing protection. ii) Surge supressors shall be provided on all contactor controlled motor feeders. iii) The contactors shall close satisfactorily with a control voltage between 85 to 110 per cent and trip satisfactor ily with a control voltage between 70 to 100 percent of the rated control supply voltage. Mechanical indication of contactor open / closed shall be provided. An anti-pumping relay shall be provided even if it has mechanical anti-pumping feature. Trip circuit supervision relay shall be provided to monitor the healthiness of trip coil. f) Surge arrestor The surge arrestors shall be provided for all motor/ transformer feeders and shall be metal oxide, gapped or gap less type generally in accordance with IEC 60099- 1 and suitable for indoor duty. These shall be mounted within the switchgear cubicle between line and earth, preferably in the cable compartment. Surge arrestor selected shall be suitable fo r non-effectively earthed system and rating shall be in such a way that the value of steep fronted switching over",
+  "chunk_index": 413,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

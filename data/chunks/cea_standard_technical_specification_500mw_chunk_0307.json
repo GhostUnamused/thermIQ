@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0307",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 313,
+  "text": "temperatures are exceeded, the contractor shall either replace the insulation with a s uperior material or provide additional insulation thickness at no extra cost. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -58 4.7 MAIN PLANT EOT CRANE One number EOT crane shall be provided for the TG hall. The crane shall be electrically operated indoor travelling type with span to suit the requirement of turbine hall. The crane capacity shall be to handle the weight of single heaviest piece in the turbine hall with 10% margin (except for generator stator which needs to be handled by separate arrangement). The capacity of auxilia ry hook shall be minimum 25 T. 4.7.1 Design Requirements and Constructional Features i) The approximate maximum full load speeds shall be as below: a) Main hoist : 1.6 m/ min. b) Auxiliary hoist : 7.5 m/ min. c) Trolley travel : 15 m/ min. d) Crane travel : 30m/ min. e) Creep speed of main and auxiliary hooks : 10% of maximum speed f) Creep speed cross travel & long travel : 10% of maximum speed ii) The crane shall be complete with all equipment, accessories like operator\u2019s cabin, bridge girder, lifting beam, hook block assembly, runway le ngth, trolley rails, rail end stops, rail joints and fi xing, trolley frame, platforms and ladders, repair cage, gearing, bearing, brakes etc. as per Gr oup M5 of IS : 3177 and IS : 807. iii) The crane shall be complete with all electrical equipment, accessories (like drive motors, electrically operated brakes, contro llers, resistors, conductors, insulators, protective and operating devi ces, cables, current collectors, etc.) and cabling/wiring as may be necessary for the efficient, safe and satisfactory operation and maintenance of the crane. Down shop lead s (DSL) shall be MS Angle Type, ISA \u2013 75 x 75 x 6 sections. iv) In the design of components on the basis of strength, the factor of safety shall not be less than five (5) based on ultimate strength. The crane shall be rigid in construction and all movements shall be smooth and non-jerky. For compression members, the slenderness ratio shall not ex ceed 120. In case of other load carrying members and subsidiary members the sle nderness ratio shall not exceed 180. For girders, the maximum span to",
+  "chunk_index": 307,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

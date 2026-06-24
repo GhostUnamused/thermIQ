@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0489",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 511,
+  "text": "Discharge Rod and Portable Earthing Equipment Class \u2018F\u2019 insulated. Having non-li near carbon film resistor with negative temperature co-efficient. Non-hygroscopic a) Dimensions : ID 25 mm OD 31 mm Length 1250 mm (main rod and each extension) Total Length : 6 metres b) Discharge hoo k: 100 mm dia 12.5 mm dia copper rod c) Earth lead : Flexible braided copper d) Voltage rating : Upto 400 kV Two (2) xxxi) Hot Sticks (Live/ Dead Line Tester) Class \u2018F\u2019 insulated, upto 400kV, extendible from 1.25 metre to 6.0 metres with inbuilt self-check feature. Contact or proximity type in a special carrying case. Two (2) Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 154 5.16 EMERGENCY DIESEL GENERATING SETS One number DG set complete with Automatic Mains Failure (AMF) panel and other accessories shall be provided for each unit. In addition, one number common stand-by DG set shall also be provided. 5.16.1 Codes and Standards IS:10000, BS:5514 and as per standard practice of diesel engine manufacturer\u2019s association of USA Diesel engine IS : 4722 / IEC - 60034 Generator IS : 3977 Diesel oil system 5.16.2 Design Requirements and Sizing Criteria a) AMF (Automatic Mains Failure) Diesel Generator Sets capable of starting and picking up the load within 30 seconds sha ll be provided for power supply to the following : i) Barring gear motors of turbo-generator sets and BFP turbine ii) Seal oil system comprising of (AC seal oil pump, Re-circulating seal oil pump and seal oil vacuum pump) iii) Air pre-heaters lubricating oil pumps iv) Jacking oil pumps for main tu rbine and for BFP turbine v) Main oil tank vapour extractors vi) Turbine gear oil pump. vii) Turbine Auxiliary oil pump (AOP) viii) Stator water cooling pumps. ix) Bearing chamber exhaust fans for hydrogen. x) Lubrication oil systems for BFP, ID, FD and PA fans. xi) Seal air fans. xii) Elevators. xiii) Air pre-heaters lubricating oil pumps. xiv) Battery chargers for 220 volts and other DC system Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 155 xv) Emergency lighting for reduced illumination (This shall cover 20% of fixtures in the main plant building and switchyard control building). xvi) 220 volts control supply. xvii) Scanner air fans. xviii) Emergency service cubicle. xix) HP",
+  "chunk_index": 489,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

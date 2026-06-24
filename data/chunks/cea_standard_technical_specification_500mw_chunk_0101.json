@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0101",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 108,
+  "text": "construction of the steam generator shall be such as not to call for any other liquid or gaseous fuel than that mentioned above for purpose of operation of the steam generator at low load including initia l ignition. High energy arc (HEI) igniters shall be used for ignition of HFO/HPS/LSHS fuel oil directly. 2.1.7 Cooling Water Cooling water required for coolers, beari ngs, instruments etc. will be supplied from the equipment cooling water (ECW) system of the plant described in Section-4 of this specification. 2.1.8 Ambient Air For the purpose of steam generator design, the ambient air temperature and relative humidity shall be taken as 27 o C and 60% respectively, unless specifically mentioned otherwise for design and sizing of individual equipment/ auxiliary of steam generator. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 7 The steam generator and its auxiliaries shall, howev er, also be so sized that they are capable of giving boiler maximum continuous rating (B MCR) within the range of ambient air temperature from 60C to 500C. 2.1.9 Limiting Parameters fo r Steam Generator Design The steam generator design shall comply with the following limiting parameters with design coal firing, under stipulated ambient air condition i.e. 270C temperature and 60% relative humidity: i) Excess air at economiser outlet at TMCR load : 20% (minimum) ii) Flue gas temperature at air-heater outlet (corrected) at TMCR load : 1250C (minimum). The steam generator guarantees shall, however be as per the conditions stipulated in relevant section of the specification. 2.1.10 Minimum Load without Oil support for Flame Stabilization The design of steam generator shall be such that it does not call for any oil support for flame stabilization beyond 40% BMCR load when firing any coal from the range specified, with adjacent mills in service and mill load not less than 50% of its capacity. This shall be guaranteed and demonstrated by the Contractor. 2.1.11 Cyclic Load Capability and Adoptability for Sudden Load Changes/ Load Throw Off i) To match the desired plant operating capabilities, the steam generator shall also be designed for regular cyclic/ two shift operati on. The total number of start ups shall be as under: a) Hot starts (less than 10 hours of unit shutdown) : 4000 b) Warm starts (between 10 and 72 hours of unit",
+  "chunk_index": 101,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

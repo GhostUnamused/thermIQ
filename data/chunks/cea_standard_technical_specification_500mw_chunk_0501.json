@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0501",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 524,
+  "text": "be provided with thermal insulation. The compartment shall be designed such as to prevent i ngress of flue gas into compartments. Insulators for supporting emitting frame and r oof bushing shall be of porcelain suitable for long life, in ESP internal environment (highly polluted with flue gas temperature of 2000C and going upto 3000C for 5 minutes). Rated voltage for the insulators shall be such that AC rms one minute dry power frequency w ithstand voltage shall be 1.5 times the DC maximum operating voltage as per relevant IS. 5.17.4 ESP earthing shielding and Safety interlocks i) Earthing and shielding a) A complete earthing system with double path to the ground for all equipment and ESP structure shall be furnished. Each casing shall be provided with two earthing pads located on diagonally opposite corners of each casing. The pad surfaces shall be tinned, drilled and shall be connected to earthing mat by 50x6 galvanised steel flats. b) Manual safety earthing switches shal l be furnished so that individual equipment can be grounded during maintenance. All access doors, gas distribution baffles or perforated plates located in the inlet or outlet nozzles of the precipitators shall have ground straps connected to the precipitators casing if they are not welded permanently to the casing. ii) Safety Interlocks a) A full proof manual key sequence type interlock system for the safety of operating personnel from contacting en ergised high voltage equipment shall be provided. Key interlocks shall be provided such that for a particular ESP casing any TR set cannot be energised until all insulator housing compartments, disconnect sw itch boxes, casing inspection doors are locked and emitting and collecting electrode rapping motors are prevented from energisation. It shall also prevent opening of any inspection door unless all TR sets of that stream are de-energised and all HV disconnect switches are opened to earthed position. Rapping motors operation shall be prevented under this condition unless interlock is specifically defeated for testing. b) Key interlock system shall be simp le, robust, weather proof construction suitable for outdoor mounting. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 167 5.17.5 ESP Control system The control system shall be designed for au tomatic and manual local/ remote operation. ESPs serving one boiler shall be provided with a complete control system consisting of microprocessor based Electrostatic",
+  "chunk_index": 501,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

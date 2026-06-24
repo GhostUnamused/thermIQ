@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0059",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 67,
+  "text": "operate with all the specified margins for continuous operation without any limitations under any of the conditions indicated in the Technical Specification. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 42 1.5 LAYOUT CONSIDERATIONS The broad salient features of the layout a rrangements of various equipment in the main plant building housing the turbine- genera tor and its auxiliaries and steam generator area are given as hereunder. (i) The arrangement of the turbine- generator in the main plant building shall be of longitudinal type. The boiler centre line shall be the same as that of TG condenser as far as possible. Unit pitc hing distance between centre lines of two boilers shall be approximately 120m. The column spacing of main plant building may be about 10 m. (ii) The conventional arrangement of AB, BC and CD longitudinal bays with D row as first row of boiler columns should preferably be adopted with their respective widths of about 30m, 10m and 11m. The mill bunker buildings shall be about 12m wide on each side of the boiler. (iii) Two transverse bays at 0.0 m elevation equivalent to minimum area of 700m2 shall be provided for unloading and maintenance at one end of main plant building. One additional bay shall be provided between two units for maintenance at ground floor. Alternatively, two transverse bays may be provided between two units for unloading and maintenance with one bay on either end of the building for maintenance at ground floor. Further, a minimum lay down area of 600 m 2 per unit with EOT crane approach shall be kept on the operating floor. (iv) The location of control room (common for two units) shall be in BC bay at the operating floor level. Adjoining the contro l room, there shall be a control tower which shall accommodate control equipment room, AC plant room, battery room and UPS for C&I system, cab le vault etc. at its different floor levels. (v) There shall be no regular basement floors in main plant building and mill bunker bay building. Also the local pits /trenches in main plant building/ mill bunker bay building/ boiler/ ESP area are to be avoided as far as possible. (vi) The dearator shall be located in the BC ba y at an appropriate elevation so as to meet the NPSH",
+  "chunk_index": 59,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

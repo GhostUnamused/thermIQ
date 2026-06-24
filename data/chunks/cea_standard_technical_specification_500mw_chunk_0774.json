@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0774",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 802,
+  "text": "pipes and transition pieces before dispatch to site. e) Hardness survey on the weld joint, he at affected zone (HAZ) and parent material. ix) Wall thickness measurement for critical and highly stressed zones of the casting shall be carried out by ultrasonic method. x) Colour matching of castings by putting two halves together and feeler gauge tightness check from both sides, i.e. inside and outside to ensure required contact area and joint tightness shall be carried out. 8.3.1.2 Low pressure (LP) enclosure (fabricated) i) Tests shall be carried out on the plate material to establish its mechanical properties and chemical composition. ii) Plates used for fabrication shall be subject to 100% UT. iii) Where welds are made by chipping and gr inding back to the first side weld before completing the weld from second side, a magnetic particle or dye penetrant examination of the chipped area shall be carried out. iv) Fabricated enclosure shall be subjected to stress relieving as per manufacturer's standard practice. v) Dimensional check shall be carried out on the fabricated enclosure. vi) The following minimum requirements sh all be met for NDT on the welds: a) Butt welds & full penetration welds : 10% RT or UT and 10% MPE or DPT b) Fillet welds : 10% MPE or DPT c) Nozzle welds : 10% MPE or DPT d) Lifting lug and other load : 100% MPE or DPT bearing fillet welds e) Site weld edge preparations : 10% MPE or DPT Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 16 vii) Fabricated enclosure shall be subject to hydraulic pressure tests. If it is not the manufacturer\u2019s practice, the justification for not carrying out hydraulic test shall be furnished for purchaser\u2019s approval. viii) Feeler gauge tightness check from inside and outside to ensure required joint tightness shall be carried out. 8.3.1.3 Turbine rotors 8.3.1.3.1 Forgings Rotor forgings (mono block and/ or discs) , impulse wheel and nozzle box and coupling forgings: i) Fully representative tangential, radial and axial test pieces shall be provided at each end of the body, at each shaft end and from the trepanned core (when a core is trepanned) to determine mechanic al properties including impact, Brinell hardness etc. and tests for notch toughness (both transition temperature and room temperature impact values ). ii) Forging supplier should",
+  "chunk_index": 774,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

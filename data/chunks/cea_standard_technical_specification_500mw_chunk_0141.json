@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0141",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 149,
+  "text": "minimum 10 mm thickness. High strength Al-alloy with anti wear spray coating/ liners. iii) Fan speed Maximum 1500 rpm Maximum 600 rpm Maximum 600 rpm iv) Air/flue gas flow control Blade pitch control Variable frequency drive or hydraulic coupling Blade pitch control v)Fan critical speed Not less than 125% of fan maximum operating speed Not less than 125% of fan maximum operating speed Not less than 125% of fan maximum operating speed vi) Fan component design To withstand torsional stresses three times the normal full load motor torque at all speeds To withstand torsional stresses three times the normal full load motor torque at all speeds The shaft material shall be 15 Mo3 or better. The operating stresses shall be limited to 2kg/mm 2. Welded zones shall be suitably stress relieved and residual stress shall be considered for design. To withstand torsional stresses three times the normal full load motor torque at all speeds The shaft material shall be 15 Mo3 or better. The operating stresses shall be limited to 2kg/mm 2. Welded zones shall be suitably stress relieved and residual stress shall be considered for design. vii) Fan casing material and plate thickness 5 mm (min.) Abrasion resistant high BHN Steel 8 mm (min.)/ 12mm (min.) mild steel with liner thickness 6 mm (min.). Abrasion resistant high BHN Steel 8 mm (min.)/ 12mm (min.) mild steel with liner thickness 6 mm (min.). viii) Fan housing design pressure Shut off head of the fan Shut off head of the fan Shut off head of the fan Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 48 Note : a) Fan components along with servo/blade pitch control mechanism shall be designed to withstand and continuously operate with the maximum air or flue gas temperature that these fans will be required to handle. b) ID fan components shall also be designed to withstand the excursions upto 3000C which may persist for about 30 minutes duration. 2.2.8.3 Fan bearings i) Bearing shall be provided with oil bath to avoid damage in case of complete loss of plant auxiliary power when the fans must coast down without power. ii) Oil reservoir in bearings housing shall be sized for maintaining lubrication for extended periods in case of oil circul ation system being out of service. iii) One number",
+  "chunk_index": 141,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

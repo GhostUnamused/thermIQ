@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0235",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 243,
+  "text": "critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 63 xii) Protection against water induction Turbine shall be designed for protection against water induction. All drains shall consist of motorised drain valves with isolating valves and drain piping for connection to drain flash tank i.e. for wa rming up drains before and after valve seats, casing drains, gland steam system drain, IP extraction, CRH and auxiliary steam lines alongwith necessary controls. xiii) Protection against erosion and corrosion Last stage blading of turbine shall be designed for protection against erosion and corrosion by moisture. xiv) Governing system Turbines shall be designed for electro- hydraulic or electronic control system to control speed from 0% to 100%. It sh all be of the type which provides continuous corrective action until equilibr ium conditions are obtained in response to changes in external signals or speed change resulting from other causes, such as changes in energy of the steam availa ble to a turbine during sudden load pick ups or rejection on the main turbine ge nerator unit. The system shall ensure controlled accelerating of the drive turbine and shall prevent over speed without tripping of the equipment under any ope rating condition or in the event of maximum load rejection. 3.11.9.2 Source of steam for TD-BFP i) During low unit load conditions, turb ine bypass operation, shutdown operation when extraction steam pressure from IP turb ine is insufficient to operate the drive turbine, steam from alternate source i.e. cold reheat steam shall be admitted through a separate set of stop and control valves. Both sets of control valves shall be controlled by electro-hydraulic gov erning system. Bidder can offer single admission turbine with an external cont rol valve (to be operated from the same governing system). ii) During cold/warm/hot start of boiler, TDBFP can be started with auxiliary steam (in case MDBFP is inoperative) till motive steam from CRH is available. iii) All other auxiliaries shall be designed for auto start of standby equipment on tripping of running auxiliaries. 3.11.10 Suction Strainers Strainer shall be provided at suction of each boiler feed pump and its booster pump. The details and requirements of the strainers sh all as per clause 3.9.4.3 of this Section. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and",
+  "chunk_index": 235,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0778",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 806,
+  "text": "carried out on diaphragm materials. Blade junction areas with the side walls shall be checked by MPE or DPT. iii) Colour matching of all the diaphragms by putting two halves together and feeler gauge tightness check shall be carried out. 8.3.1.6 Exhaust hood All castings shall be subjected to chemical and mechanical tests as per relevant material standards. In case of fabricated construc tion of exhaust hood, butt welds shall be subjected to 10% RT and 100% DPT. Exhaust hood shall be pressure tested. No repair of welding shall be carried out on cast iron castings. Blue matching shall be carried out on exhaust hood parting planes. 8.3.1.7 Stop, control and bypass valves, actuators/ servo-motors and steam strainers i) Test pieces shall be provided to enable the determination of mechanical properties of valve bodies, bonnets, valve disc and seat, and valve spindle. Casting suppliers should ha ve established practices to ensure requirements of creep and rupture for long exposure of the component/ equipment to high temperatures and pressures. ii) Tests shall be carried out on the materials to establish their mechanical properties, and chemical compositions. iii) Dye penetrant tests shall be carried out on stellited and nitrided areas of components and on stellite components in the finish ground or honed condition. iv) Hardness check shall be carried out to ensure required hardness. v) Valve body and bonnet castings or forgings shall be subjected to 100% RT or 100% UT. Body and bonnet shall also be subjected to 100% MPE on entire surface. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 20 vi) All pressure containing welds in body and bonnet shall be subjected to 100% RT or UT and 100% MPE. vii) Wall thickness of the body and bonnet after finish machining shall be measured by ultrasonic method and valve seat bore shall be checked for size and concentricity. viii) Dimensions of valve spindle shall be me asured and valve lift shall be checked. ix) Bar stock of 50 mm and above size for valve stem shall be subjected to UT, and finish machined stem shall be subjected to MPE or DPT. x) Each valve body and bonnet shall be hydraulically tested at minimum 1.5 times the maximum working pressure after applying temperature corrections. xi) All the actuating cylinders and servomotors shall be performance tested.",
+  "chunk_index": 778,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

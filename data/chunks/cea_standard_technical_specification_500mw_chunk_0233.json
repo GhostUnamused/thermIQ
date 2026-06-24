@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0233",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 240,
+  "text": "forced feed lubricated type, lined with babbit or suitable anti-friction alloy. The thrust bearing shall be of proven design as per standard practice of the manufacturer. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 61 b) Bearings shall be arranged outside drive turbine so th at these are readily accessible. Lower half of bearing shall be capable of being removed and replaced by minimum lifting of shaft. vi) Couplings a) The disconnect coupling shall automatically disconnect the pumps from the drive turbine so as to permit independent operation of turbine on turning gear. Alternatively, dry type flexible membrane coupling may also be provided between BFP and drive turbine to facilitate disengagement by dismantling of spacer bolts as per standard practice of the manufacturer. b) Other couplings shall be of flex ible metal diaphragm type, requiring no oil lubrication from the external source. However, the coupling between gear box and drive turbine may be oil fille d flexible type without requiring external oil supply. Closure plates shall be supplied to allow drive turbine to be disconnected for spin testing. vii) Turning gear a) Turbine shall be provided with an adequately sized AC motor driven or hydraulically operated turning gear for rotation of complete TDBFP train i.e. booster pump, gear box, drive turbine and main pump while unit being started or taken out of service. b) Turning gear shall be so arrange d that drive gear is engaged manually by means of external lever while turbine is at rest. When steam is admitted to the turbine and its speed reaches beyond turning speed, its gear shall automatically disengage and la tch in a disengaged position. c) Necessary interlock shall be provided to prevent the starting of turning gear motor and shall trip on loss of lube oil pressure and should have provision of starting from the control room. d) Hand barring gear shall be provide d for manually rotating the drive turbine in an emergency. The lube oil shall be made available to the bearings during such operation. viii) Lubricating oil system a) Each drive turbine shall be provided with a complete lubricating oil system which shall provide lube oil for drive turbine, main pump, booster pump and disconnect coupling and also to ca ter the control oil of governing system and turning gear oil requirements.",
+  "chunk_index": 233,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

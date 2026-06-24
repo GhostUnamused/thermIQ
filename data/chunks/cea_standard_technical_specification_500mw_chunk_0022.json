@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0022",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 30,
+  "text": "mating flanges, expansion joints, RF type ash level indicators etc., and suitable approach platform for each hopper. ix) Off load water washing facility alongwith water supply pipework (water to be tapped from service water syst em) and drainage piping. x) Adequate number of thermocouples or platinum resistance temperature detectors (RTD) for measuring cold and hot end bearing metal temperature. xi) Temperature switches on the bearings for interlock purpose. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 5 xii) Forced lubrication system shall be provided for bearings and shall include 2x100% capacity oil pumps with motor, 2x100% oil coolers, 2x100% oil filters, one (1) oil tank etc. as applicable. xiii) Any other equipment/accessories /instrument etc., to make the system complete for reliable and safe operation. 1.2.1.11 Two (2) steam coil air pre-heaters (SCAPH) for secondary air at FD fan outlets bypass ducts with necessary dampers, drain pipe to IBD tank and necessary piping, valves and fittings for steam services. In case of bi- sector type air pre- heaters, two (2) nos. SCAPHs shall be provided for PA system also. 1.2.1.12 Coal preparation and firing system for direct firing complete with gravimetric raw coal feeders, chutes, coal pulverisers, primary air fans, seal air fans, pulverised fuel (PF) pipes, PF burners and burner wind box, co al burners tilt drives (if applicable) with linkages and complete actuator assemblies, air registers, igniters, scanners, scanner fans etc. as required. A) Raw Coal Chutes and Bunker Shut Off Valves i) Motor operated (sliding gate type) raw coal bunker shut off gate at the bunker mouth and manually ope rated gate at RC feeder inlet (both shall be for each coal feeder). ii) Chain wheel and chain for manual operation of bunker shut off gate and RC feeder inlet valve from the feeder floor. iii) Coal chute between bunker shutoff gate and RC feeder inlet. iv) Coal chute between outlet of feeder and inlet of mill alongwith motor/pneumatic operated shut o ff gate at RC feeder outlet. v) Permanent facility of bunker emptying chute to enable unloading of bunkers on trucks at ground level. vi) Suitable couplings (Dresser or equivalent) with 410 stainless steel liner ring one on each chute between RC fe eder and mill and one on each chute between coal bunker and RC feeder. vii) Devices to detect choking/flow/no flow of",
+  "chunk_index": 22,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

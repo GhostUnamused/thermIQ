@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0611",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Cooling Tower"
+  ],
+  "section": "",
+  "page_number": 636,
+  "text": "critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 108 iii) All other air supply lines of 1/2 inch to 2 inch shall be of carbon steel hot dipped galvanized inside and outside as per IS-1239, heavy duty with threaded ends. The threads shall be as per ASA B.2.1. Fittings material shall be of forged carbon steel A234 Gr. WPB galvanized inside and outside, screwed as per ASA B2.1. Dimensions of fittings shall be as per ASA B16.11 of rating 3000 lbs. iv) For air supply to various de vices mentioned above, the bidder shall provide 2 nos., 2 inch size GI pipe header with isolation valve, one for boiler area and one for turbine area. In the boiler area th e 2 inch head shall be provided upto top most elevation of boiler floor and from this 2 inch header, 1 inch sub- header shall be branched off at each fl oor with isolation va lve. From this 1 inch sub-header, branch line of 1/2 inch, with isolation valve shall be provided upto various devices. Similar air supply piping shall be done in the turbine area also. Similar system is to be followed for service air required for intermittent purging in the Local Instrument Enclosures (LIEs) etc. v) Instrument air filter cum regulator set with mounting accessories shall be provided for each pneumatic device requiring air supply. The filter regulators shall be suitable for 10 kg/ sq.cm max. inlet pressure. The filter shall be of size 5 microns and of material sintered bronze. The air set shall have 2 inch size pressure gauge and built in filter housing blowdown valve. The end connection shall be as per the requireme nt to be finalised during detailed engineering. vi) All the isolation valves in the air supply line shall be gate valves as per ASTM B62 inside screw rising stem, screwed female ends as per ASA B2.1. Valve bonnet shall be union type & trim material shall be stainless steel, body rating 150 pounds ASA. The valve sizes shall be 1/2 inch to 2 inch. vii) Purge Air Connection for Air and Flue Gas Applications a) The continuous purging with instrument air shall be done, for all air and flue gas measurements excepting instrument air and service air instruments, at the process source connection end. Nec essary arrangements required for",
+  "chunk_index": 611,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

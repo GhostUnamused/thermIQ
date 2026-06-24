@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0317",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 325,
+  "text": "for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -69 4.9.2.13 Design chilled water flow shall not be less than 0.7 m3/h per TR air-conditioning load and design condenser cooling water flow shall not be less than 0.9 m3/h per TR air- conditioning load. 4.9.2.14 Coil face area of air handling units sh all be designed considering a face velocity of not more than 2.5 m/s. 4.9.2.15 Water piping shall be sized for a ma ximum velocity of 2.5 m/s. However gravity flow/ pump suction line shall be sized for a maximum water velocity of 1.5 m/s. 4.9.2.16 The air distribution system shall be si zed to have a constant frictional drop along its length and velocity through ducts shall not exceed 7.62 m/s. 4.9.2.17 A minimum design margin of 10% sha ll be considered while sizing AC plant and related equipment like chillers, chilled water pumps and AHUs for each area. Head of the pumps shall take into account 10% margin on friction head. 4.9.2.18 For pumps, continuous motor rating (at 500C ambient) shall be at least ten percent (10%) above the maximum load demand of the pump in the entire operating range. 4.9.2.19 For fans, compressors and blowers continuous Motor rating (at 500C ambient) shall be at least ten percent (10%) above the maximum load demand of the fan, compressors, blower at the design duty point. 4.9.2.20 Wherever belt drives are used the belts shall be sized for 150% of the rated power and there shall be minimum of two belts per drive. 4.9.2.21 Noise level within the air conditional sp ace shall be restricted to 35-45 NC level with suitable acoustic attenuation/ duct sile ncers/ acoustic insulation, etc. 4.9.2.22 All GS sheets under air conditioning sy stem shall be hot dip galvanised or spray galvanised unless otherwise specified and minimum zinc depositio n shall conform to class 275 of IS:277. 4.9.2.23 False ceiling shall be provided 3m above the finished floor level and shall be of non luminous (opaque) type fire resistant material. 4.9.2.24 Glass areas exposed to sun shall be pr ovided with Venetian blinds of light colour. 4.9.2.25 Gravity louver dampers shall be provided for all exhaust air fans. 4.9.2.26 Chilled water pumps shall be insulated with 50 mm thick glass wool slab. Standard Technical Specification for Sub- critical",
+  "chunk_index": 317,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

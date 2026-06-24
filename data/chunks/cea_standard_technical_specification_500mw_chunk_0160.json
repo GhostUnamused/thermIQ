@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0160",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 167,
+  "text": "va lves, bypass valves, and the level controllers. 2.2.11.10 Boiler fill line shall be provided with a non-return valve of size not less than 100 Nb and a stop valve. 2.2.11.11 All required sampling points shall be pr ovided alongwith root valves including that for feed water at economiser inlet, saturated st eam, superheated steam reheated steam.. The sampling probes shall be provided as per relevant section of the latest ASME power test code. For laboratory samples, necessary samp le coolers with valves and cooling water pipe shall be provided. The root valves shall be of stainless steel. The cooling water shall be taken from the main cooling water sy stem. Drain from sample coolers shall be terminated at appropriate floor level. Each steam and water terminal connection for vent, drain, instrument tapping point and sampli ng shall be provided with two valves. 2.2.11.12 Tapping points shall be provided for all the instrumentation and controls as required for performance guarantee tests. 2.2.11.13 All the valves (including drain, vent and air release valves) required to be operated during startup and shut down of steam generator shall be provided with remote motorized operation. For valves located in inaccessible lo cations, remote operation facility shall be provided to enable startup, shutdown, load monitoring from unit control room. 2.2.11.14 The number, size, location and setti ng of safety valves on drum, superheaters and reheaters shall be as per IBR. The safety valves shall be provided on all steam lines including soot blowing lines, auxiliary PRDS lines and the steam lines, wherever pressurisation may take place. The safety valves and relief valves shall ha ve minimum discharge capacities as under i) Safety valves on boiler drum and : Combined capacity 100% BMCR superheater (excluding power operated impulse safety valve) ii) Power operated impulse safety valves a) Superheater outlet : 20% BMCR b) Reheater outlet : 20% of reheater flow at BMCR The noise level during lifting of safety valves of drum, superheaters and reheaters shall not exceed 105 dBA with the provision of silencer on the lowest set pressure safety valve. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 66 2.2.12 Soot Blowing System 2.2.12.1 The type of soot blowers to be provide d for different sections of the boiler shall be as below: i) For furnace",
+  "chunk_index": 160,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

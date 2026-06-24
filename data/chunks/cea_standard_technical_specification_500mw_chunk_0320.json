@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0320",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP",
+    "Condenser",
+    "Cooling Tower"
+  ],
+  "section": "",
+  "page_number": 328,
+  "text": "coil section, damper section, steel frame with vibration isolators (minimum efficiency of 85%) for the complete AHU, isolation da mpers at the suction and discharge of each AHU, pre-filter at the suction and fine filters (micro-vee type) in the discharge of each individual AHU, absolute (HEPA type) filters in individual discharge of all AHU's of control ro om, control equipment room, computer, programmer rooms etc and heater section in the common discharge of AHUs. ii) The casing of AHUs shall be of double skin construction. Double skin sandwich panels (inside and outside) shall be fabricated using minimum 16g (1.6 mm) galvanized steel, with 25mm thick polyurethane insulation of minimum 40kg/m 3 density in between. Reinforc ing by 16g galvanized steel hat-channel shall be used to give structural strength. iii) Face and bypass dampers (for DX type plant) of opposed blade type shall be provided. Dampers shall be made of 16 gauge G.S. sheet metal (class 275 of IS:277). The area of the bypass section shall be minimum 30% of the coil face area. Damper operating linkage and th e operating motor shall be located outside the casing. iv) Cooling coil shall be of seamless copper tubes with aluminium fins and shall be provided with suitable drai ns and vents connections. v) All filter plenum shall be provided with a walking platform inside the plenum chamber for filter cleaning purpose. Inspection door shall be provided at the plenum chamber and a removable type la dder shall be attached to plenum. vi) Fan impellers a) Fan impeller : Forward/ backwa rd curved blade & centrifugal type. b) Impeller material : Mild steel spray galvanised with minimum zinc deposition conforming to Class 275 of IS:277. c) Fan bearings : Self aligning t ype, permanently lubricated, heavy duty with a design life of 10,000 operating hours. d) Critical speed : First critical speed of rotating assembly shall be atleast 25% above the operating speed. e) Drive : Motor driven with removable belt guard. vii) Pan humidifier of suitable capacity shall be provided for each AHU. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -73 4.9.4.3 Cooling towers i) Type : Induced draft, cross or counter flow type. ii) Capacity : 110% of rated capacity of each cooling water pump. iii) Material of body and",
+  "chunk_index": 320,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

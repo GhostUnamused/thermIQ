@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0332",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser",
+    "Cooling Tower"
+  ],
+  "section": "",
+  "page_number": 340,
+  "text": "case heaters shall be interlocked with starting and stopping/tripping of compressor motor. Further, the safety thermostat shall switch off the crank-case heater in the ev ent temperature rises above safe limit. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -85 vii) Provision shall also be made for th e manual restarting of the compressor. viii) On-off type anti-freeze thermostats, one for each chiller shall be provided in addition to the controlling on-off thermost at for safety purpose and shall act in the event of failure of on-off thermostat to close the liquid line solenoid valve and also to trip the compressor simultaneously. ix) Compressor starting/running shall be interlocked with the flow switches to be provided at the outlet of each chiller and each condenser and as well as with pressure in the inlet of the condensers. In addition closure or open status of various valves through limit switches shall be used for interlock, alarm and control of air conditioning system. x) The standby condenser water pumps (if applicable), standby chilled water pumps, standby fresh air fan & standby AHU shall be started automatically when the working equipments are st opped/tripped. Auto/manual selector switches and working/standby selector switches for the pumps/AHU/fresh air fan shall be provided in the panel. xi) Closure of fire dampers shall raise an annunciation in the panel. xii) Condenser water pumps shall be interl ocked with the low level switch in each cooling tower sump and operation of coo ling tower fans. High level in the cooling tower shall be annunciated in th e panel by means of a separate level switch. 4.9.10.3 Air handling unit i) Control of the inside room temperatur e and humidity shall be by controlling the chilled water flow by means of motor operated three way modulating valve and the modulating valve shall get its signal from the temperature sensor. ii) Humidistat located in the return air duct shall actuate the pan humidifier to obtain the desired degree of humidification. iii) Separate Humidistat and thermostats sh all be provided and interlocked in steps with winter heater / re-heater / strip heaters for monsoon and winter re-heating or heating as the case may be. iv) Heater banks shall be interlocked w ith the running of AHU, temperature of return air, humidity of return",
+  "chunk_index": 332,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

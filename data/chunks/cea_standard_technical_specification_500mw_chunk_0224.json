@@ -1,0 +1,18 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0224",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 230,
+  "text": "over steam generator highest safety valve set pressure corresponding to 105% of boiler maximum continuous rating. iv) Shut off head The shut off head of the pumps sh all be between 120% and 130% of total developed head (TDH) under rated condition. v) Motor rating for MDBFP The maximum continuous motor rating corresponding to maximum cooling water temperature to cooler inlet shall not be less than the maximum load demand of driven equipment at its en tire range of operation at frequency variations from 47.5 Hz to 51.5 Hz and mo tor shall not be overloaded during any mode of operations of the driven equipment. Note: Discharge flow of the pump shall not include any seal flow, warm up flow and balance drum leakage flow. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 51 3.11.2 Design Aspects i) Drives a) TDBFP Each TDBFP shall be provided with a variable speed turbine drive. Main pump shall be connected to the turbine through a disconnect coupling and booster pump shall be connected at other end of turbine through a gear box. b) MDBFP MDBFP shall be provided with a constant speed squirrel cage induction motor. The main pump shall be connected to the motor through a combined gear box cum hydraulic coupling and booster pump shall be connected at other end of the motor. ii) Construction requirements a) Main pumps The main pump shall be of horizon tal, centrifugal type, multistage, outer casing barrel type with end rotor removal. b) Booster pumps The booster pump shall be of single stage, two bearing design and double suction impeller type. Overhung type impeller shall not be acceptable. iii) Suction and discharge connections a) Main Pump Location of suction and discharge connections of TDBFPs shall be on the bottom of barrel and those of MDB FP shall be on top of the barrel. Discharge connections shall be of but t welding type and suction connection shall be of either butt weldi ng or flanged connection type. b) Booster Pump Side suction and discharge connecti ons shall be of flanged type with weld neck raised face as per ANSI B16.5. iv) Shaft sealing Shaft sealing shall be achieved by mechanical seals both for main pump and booster pump. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or",
+  "chunk_index": 224,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

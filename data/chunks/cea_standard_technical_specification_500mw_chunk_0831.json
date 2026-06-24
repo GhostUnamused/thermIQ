@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0831",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 871,
+  "text": "2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 84 allowed variation in inductance shall be as per IEC 76-5. All dielectric routine tests shall be conducted before and after short circuit test at full value including following also: - Dissolved gas analysis - Frequency response analysis e) Recurrence surge oscillograph measurement. f) Test reports for DOP test (IP 55) on cooler control cabinet (CCC)/ OCTC/ common marshalling box (CMB) shall be submitted. ii) Station transformer and unit auxiliary transformer The following type tests shall be conduct ed on one station and one unit auxiliary transformer : a) Temperature rise test: Temperature rise test shall be performed at a tap corresponding to maximum losses. The test shall be carried out at minimum 110% of rated current. Oil samples as per IEC-567 shall be taken before and immediately after temperature rise test. DGA shall be conducted on this oil sample and th e values shall be recorded in the report. For evaluation of gas analysis in temperature rise test the procedure shall be as per IS 9434 (based on IEC 567) and results will be interpreted as per IS 10593 (based on IEC 599). b) Tank vacuum test c) Tank pressure test d) Lightning impulse test on HV and LV winding for station transformer and unit auxiliary transformer as per clause 14 of IEC 60076-3. e) Short circuit test: - The test procedure shall be as per IEC 60076-5. All type tests other than tank tests sha ll be conducted only after short circuit test to ensure delivery of healthy and proven transformer. All dielectric routine tests shall be conducted before and after short circuit test at full value. All dielectric routine tests shall be conducted before and after short circuit test at full value including following also: - Dissolved gas analysis - Frequency response analysis f) Recurrence surge oscillograph measurement. g) The test reports for DOP test \u2013 IP55 test on CCC/ CMB/ OLTC/ OCTC cabinet shall be submitted. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 85 iii) Special tests for Generator Transf ormer, Station Transformer and Unit Auxiliary Transformer The following special tests shall be conducted on each rating of transformer a) Power taken by cooling equipment b) No load harmonic measurement c) Noise level measurement as per NEMA",
+  "chunk_index": 831,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

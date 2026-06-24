@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0480",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 497,
+  "text": "Test Time : Adjustable <15 Sec. -> 10 minute Display : LCD 3\u00bd digit with analog bargraph for Resistance, test voltage, current, PI Data storage : >75 Values capacity Power Supply : 240V, 50 Hz and rechargeable dc battery Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 140 i) j) k) l) MMI : Via RS232 Printer/PC interface: Via RS232C Safety Standard : IEC 1010-1 EMC Standard : EN50081-1 and EN 50082-1 ii) Portable HV Decade Resistance Box. In Polystyrene case with lid and carrying handle For testing and calibration of insulation testers. One (1) a) b) c) d) Overall range : 1 kilo ohms to 1 Terra ohms Resolution : 1k Ohms Accuracy : 0.1% - 2% Connection : Shielded Plugs with 1 Metre cable iii) Portable HV AC Test Set comprising For checking the high voltage with-stand level of electrical equipments viz, transformers, switchgears, cables, motors/ generators etc. One (1) a) b) c) An epoxy cast, single phase, 50-200 kV/240V, 5kVA (continuous) and 10kVA (5minute) rated low discharge transformer with maximum discharge level of 1 PC mounted in a steel tank fitted with swivel cast or wheels, HV bushing. A control unit with microprocessor based automatic control, programming key pad LCD display analog ammeter and voltmeter with 2% accuracy trip push button, safety protections etc. A zero interlock circuit shall be provide d to prevent energization of HV output on less voltage control is set to zero. Necessary power and metering cables, removable earth link fuses etc. shall be provided. iv) Automatic Capacitance and Tan-Delta Test Set (Schering Bridge) with oil resistivity test cell. Fully automatic, microprocessor-based, accurate ac voltage bridge. For monitoring the condition of insulation of electrical equipments One (1) Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 141 a) b) c) d) e) f) g) h) i) Input : 120/240V, 50 Hz Output : 0-12kV, 100 mA (Cont.), 200mA (15 min) Extendible to 4A with resonating inductor Capacitance : 1.6 pF to 8 \u221dF (with 100pF std. capacitor) Measurement with \u00b10.02% to \u00b10.05% accuracy and 0.0001 pF resolution Tan-delta : 1 x 10 -6 to 9.999 with accuracy \u00b10.5% and 1 x 10-6 resolution Capacitive current : 0-5A Measurement oil test cell : 2.5 kV(RMS), 150\u00b0C, 100 cm 3,",
+  "chunk_index": 480,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0246",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 253,
+  "text": "plant to CPU vessel \u2022 Isolation from service \u2022 Rinse recycle c) A mimic diagram shall be provided for the CPU scheme on the front of the CPU control panel. Status of various valves shall be indicated by LED\u2019s on the mimic diagram. iii) Condensate polisher control system Each condensate polishing system shall be provided with programmable logic control based local panel that will clearly show the status of each service vessel. From this panel it shall be possible to initiate any of the following operating modes: a) Rinse recycle The rinse recycle shall be a manually initiated in full automatic sequence. This sequence shall include the rin se down step until the unit effluent quality is acceptable for boiler feed water. The effluent quality shall be determined by conductivity monitoring of the rinse water outlet. A panel mounted cation conductivity indicator shall be interlocked to prevent advancing of the automatic sequence until the rinse down is complete. b) Service mode Service flow rate for each polishing vessel shall be monitored by panel mounted flow indicators. During periods of low condensate flow the operator may select to remove one of the vessels from service by a manually initiated automatic sequence. A differential pressure switch installed between the influent and e ffluent headers shall on a high signal cause an annunciator alarm. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 74 Panel mounted cation conductivity indica tors shall be provided to monitor the polishing system influent and effl uent streams as well as the discharge of each service vessel. c) The sequence resin transfer from CPU vessel to regeneration plant and from regeneration plant to CPU vessel shall be initiated from the condensate polishing unit control pane l but shall be controlled by the programmable logic controller in the regeneration control panel. iv) Regeneration control system a) Manually initiated automatic sequen ces shall be provided for transferring resin from a vessel to the remote common facility for physical cleaning and chemical regeneration and for returni ng fresh resin to that vessel. Control for chemical dosing system and alkali preparation facility shall also be provided in it. b) Regeneration shall include hydraulic reclassification of the resins and the transfer of the resins to the respec tive regeneration vessels. The separated resins shall then be backwashed, cation",
+  "chunk_index": 246,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0562",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 578,
+  "text": "the associated transmitters/receivers shall be transmitted to the central processing unit (to be located at CER) for storage and analysis through suitable interface device. A temperature profile shall then be determined and displayed by analysing the mean temperature across every transit section using deconvolution technique. The time interval to take a complete cycle of eight transceivers should be less than one minute. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 51 The measuring range should be sufficient to cover the entire regime of boiler operation and shall not be less than 1900\u00b0C. The mean temperature and profile temperature accuracy shall be \u00b1 2%, & \u00b1 4% of reading respectively or better. Full colour VDU display and colour printer output shall be provided The system shall also provide 4-20mA DC output for SG -C&I and BOP- C&I part of DDCMIS. The transducers shall not be placed direc tly in the hot gas stream. The system shall be of proven design and it's perfo rmance must be proven using similar type of fuel . The components to be located at boiler area shall be able to withstand the stringent environmental condition expected at such locations with operating boiler. 6.3.6 M ill and Air Heater Fire Detection System Adequate number of thermocouples type fire detection system for each mill and air heater shall be provided as a composite and complete units with all required signals and accessori es with adequate redundancy. The controls & protection required for the mill fire detection system shall be implemented in the SG-C&I and air heater fire detection system shall be implemented in the BOP -C&I, Part of DDCMIS using rate-of-rise algorithm taking care of manufacturer's recommendation. 6.3.7 Furnace and Flame Viewing System i) Bidder shall include in his proposal a furnace and flame viewing system. The flame cameras shall be suitable for direct online continuous viewing in the central control room of the coal a nd oil flame and condition of the furnace internals including slagging of the wate r walls and any other deterioration in the furnace condition. The nos. of such flame cameras to be included in the proposal shall be selected by the bidder appropriate to his boiler design subject to minimum of four (4) numbers. The flame camera system will consist of the following facilities/",
+  "chunk_index": 562,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

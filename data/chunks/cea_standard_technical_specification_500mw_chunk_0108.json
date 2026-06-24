@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0108",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 114,
+  "text": "guard against low cold end temperature. or Regenerative type bi-sector air pre heaters for primary air and secondary air with facility of steam coil heating both on primary air side and secondary air side to guard against low cold end temperature ii) Design ambient air : 27 oC and 60% RH iii) Boiler load to be : a) 60% BMCR with worst coal and maximum moisture with one APH in service. b) 100% BMCR with worst coal and maximum moisture with both APHs in service. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 13 iv) Minimum average cold- : 760C end temperature at100% BMCR (with SCAPHs out of service) v) APH sizing shall also ensure following (for whole range of specified fuels) a) Minimum flue gas : 125 0C temperature (corrected) at APH exit at 100% TMCR load with design coal firing b) Air leakage : Less than 10% of the TMCR flue gas weight entering air-heater c) Minimum flue gas temperature : 50C above acid dew point of flue gas at all loads Sizing of air-preheater(s) shall also ensure that there is no need for economiser bypass to get the desired mill outlet temperature, for the whole range of specified coals. 2.1.21 Steam Coil Air Pre Heaters (SCAPH) SCAPH shall be designed and sized to incr ease the air heater inlet temperature based on following criteria: i) Design ambient air temp. : 6 0C ii) Number of SCAPHs : One(1) in secondary air by-pass duct after each FD fan for tri- sector type APH. In case of bi- sector type APHs, the SCAPHs shall also be provided for primary air in by-pass duct after each PA fan. iii) Air temperature at the inlet of : To keep average cold end metal temperature each air pre heater (throughout minimum 10 0C above the acid dew point for boiler control range) flue gases iv) Design SCAPH and connected duct work suitable to handle flows corresponding to 50% BMCR loads without any undue noise/vibration. 2.1.22 Auxiliary Steam PRDS The sizing of auxiliary steam PRDS shall be based on following: Description High capacity Low capacity auxiliary PRDS auxiliary PRDS i) No. of aux. PRDS/unit 1 1 ii) Source of steam Main steam line Cold reheat steam line Standard Technical Specification fo r Sub- critical Thermal",
+  "chunk_index": 108,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

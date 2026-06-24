@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0185",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 188,
+  "text": "by hydraulic actuators and shall be complete with hangers, supports and piping to the turbine. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 9 iv) Design features of the valves a) The valves shall be designed to allow blowing out of steam prior to startup. b) The valves shall not seize under any operating condition. c) Internal components of the valves shall be stellited to withstand high erosion. The valves are stable and shall not vibrate at high steam velocities. d) Steam admission valves shall be locat ed close to the turbine casing for limiting turbine over-speeding to safe limits because of entrapped steam volumes. e) The valves shall be designed so as not to cause any objectionable noise and vibrations of the pipes and valves. f) The valves shall be equipped with a uxiliary contacts and limit switches for control interlocks and signalling. Add itionally position transmitters shall be provided on control valves for remote indication and control. g) Each valve shall be provided with two additional normally open (NO) potential free direct limit switch contacts in the valve closed position. h) The valves shall be lagged with insu lation and provided with lifting eye bolts. i) Temporary and permanent steam strainers shall be provided for emergency stop and reheat stop valves. The strainers shall be arranged to permit easy inspection and cleaning. Steam strainers integral with main steam emergency stop and reheat stop valves shall also be acceptable. j) The valves shall be hydraulically operat ed, fail safe type and equipped with test device to permit complete closing of one valve at a time while the unit is carrying load. k) The valves shall close simultaneous ly and automatically when the overspeed governor trips and upon ac tion of other protective devices. 3.1.5 Non-Return Valves i) NRVs shall be suitable for on load testing individually and shall be provided with fail safe design and shall close on loss of power. ii) The valves shall be full bore type designed for minimum pressure drop. iii) Each valve shall be provided with two sets of limit switches for both open and close position with two changeover contacts. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 10 iv) Based",
+  "chunk_index": 185,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

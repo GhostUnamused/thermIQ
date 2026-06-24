@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0312",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 319,
+  "text": "of lift well structure. iii) Landing structure, inter connection with the main structure and landing doors with door guide rails and other accessories. iv) Lift machine assembly including electri c variable voltage variable frequency (VVVF) three phase induction motor, gearbox and sheave. v) Microprocessor based control system for VVVF drive including governing of speed, stopping and starting, leveling devices, safety provisions. vi) Complete wiring and traveling cable. vii) Governor and governor rope safety gears. viii) Counterweight shoes and adopter plates and adjustment of counterweight. ix) Car operating panel with directions and position indicator and intercom. x) Recessed fluorescent light fitting for illumination level of 100 lux on car floor. xi) Provision of automatic rescue device in the lift and emergency light and alarm with inverter back up in the car. xii) Landing push boxes with directions and positions indicator at all landings. xiii) Spring buffers for car and counterweights. xiv) Three pin plug socket with switch on top of the lift car. xv) Over load annunciation and alarm. xvi) Complete installation including co mmissioning, testing and PG testing. xvii) Storage of materials till handed over to project authorities. xviii) Fireman\u2019s switch at ground floor lobby. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -64 4.8.2 Design Criteria Elevators shall be designed based on following criteria:- i) Number and type of: service : a) Two number passenger- cum- goods elevators (3000 kg capacity), one for each steam generator . b) Two number passenger lifts/ elevators (900 kg capacity) in TG hall building, one for each unit. . c) One number passenger lift/ elevator (900 kg capacity) in service building. ii) Design/construction : a) Latest edition of IS: 14665 (all parts) and specified conditions for electrical equipment. b) Local fire regulations and rules in force and Lifts Act and rules in force. c) Any other equivalent code, subject to purchaser\u2019s approval. iii) Load carrying capacity : As at (i) above. iv) Rated speed : As per IS 14665. v) Total travel : As per application requirements. vi) Entrance and platform size : As per IS 14665. vii) Number of floors to be : As per application requirements. served viii) Drive/ motor : Worm geared traction machine driven by VVVF motor. Motors shall be rated for frequent starting, S4 duty class as per",
+  "chunk_index": 312,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

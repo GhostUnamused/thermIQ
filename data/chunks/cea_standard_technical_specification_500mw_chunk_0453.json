@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0453",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 470,
+  "text": "Electricity Rules and IS Code of Practice for the Protection of Buildings and allied Structures against Lightning (IS : 2309). ii) Lightning protection system shall compri se vertical air terminations, horizontal air terminations, down conductors, test links and earth electrodes. iii) Air terminations, down c onductors and test links shall be of galvanized steel conductors and earth connection below ground level shall be of mild steel rod. iv) For tall buildings and structures, early streamer emission (ESE) type air terminal systems such as marketed by Heary Brothers (USA) are preferred. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 113 v) Lightning protection conductors/ air term ination rods and circumferential bands provided at the top portion of chimney stack shall be lead coated in order to avoid melting by exposure to hot flue gases. vi) Horizontal air termination flats provide d on top of boilers, main plant building, pump houses and other buildings shall be laid such that no part of the roof shall be more than 9 meters vii) Conductors of lightning protection system shall not be connected with conductors of earthing system above ground level. viii) Down conductors shall be cleated on outer side of building wall at 1000 mm interval or tack welded to outside of building columns at 1000 mm interval. ix) Down conductors shall be connected to separate earth electrodes through test points located at height of above 10 00 mm above ground level. These earth electrodes shall in turn be connected to earth mat at two points. x) Lightning protection conductors shall not pass through or run inside GI conduits. xi) All metallic equipments on roof and exposed steel works within the vicinity of 2000 mm from lightning protection c onductors in air shall be bonded to conductors of lightning protection system. xii) Lightning protection system shall have as few joints as possible and avoid sharp bends. Down conductors shall have, as far as possible, no joint except at test point and end termination. xiii) Termination at the metallic equipmen ts on roof should be made by suitable nuts, bolts, pressure washers and bitumen wa shers with good electrical conductivity. xiv) All lightning protection conductors shall be exposed to atmosphere unless specifically mentioned. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works)",
+  "chunk_index": 453,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

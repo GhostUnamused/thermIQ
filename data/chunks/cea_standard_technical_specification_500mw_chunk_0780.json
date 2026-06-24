@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0780",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 808,
+  "text": "ii) All the major castings and forgings shall be subjected to suitable NDT methods depending upon their application and criti cality to ensure the freedom from harmful defects. iii) All the main assemblies and sub-assemblies shall be subjected to functional test. iv) All butt welds shall be subjected to minimum 10% RT or UT and all fillet and corner welds shall be subjected to MPE or DPT. v) All control equipment shall be subjected to rig testing, if it is not possible to test it on the steam turbine light run. The pur pose of rig testing shall be as far as practical to prove that the functioning of the control equipment is in accordance with the approved design. vi) Nitrided and stellited components shall be subject to DPT and hardness check. 8.3.1.11 Inspection of completed turbine i) HP and IP turbines The steam turbine shall be assembled in the manufacturer\u2019s works to such an extent that a thorough inspection can be carried out. The purpose of this inspection shall be to ensure that the fit between mating components is correct and that all clearances are in accordan ce with the design requirement. The following minimum checks/ measurements shall be carried out on the assembled turbine: a) Check and measurement of clearance between shaft seal casing and shaft seal ring. b) Check and measurement of clearance in anti- rotational device in shaft seal casing joint. c) Check and measurement of axial and radial alignments of inner and outer casings. d) Check and measurement for radial and axial blade clearances in blading section. e) Check and measurement for axial and radial clearances in shaft seal. f) Check and measurement for tightness and elongation of horizontal joint inner casing bolts. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 22 g) Check and measurement of minimum axial clearances and minimum radial clearances in completely assembled steam turbine. h) Check for alignment of overspeed governor. i) Check for axial distances fo r shroud bands for casings. j) No load running test on the stea m turbine including functional tests for steam turbine control and emergency control equipments. k) Pre- dispatch inspections including clearance check for transportation device. ii) LP Turbines For the LP turbine, the following mi nimum checks/ measurements shall be carried out on the assembled turbine at",
+  "chunk_index": 780,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

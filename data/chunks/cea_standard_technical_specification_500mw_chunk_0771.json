@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0771",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 798,
+  "text": "speeds by coal flow on one feeder. vi) Calibration check shall be carried out on all feeder cabinet and assemblies prior to dispatch. 8.2.8 Boiler structure, ducts, hoppers, dampers etc. i) Only those materials which have been identified against mill sheet or test certificates shall be used for construction. Structural steel and built up plate girders for main boiler shall be fully k illed fine grained and normalised. All plates of tension and compression flang es and connection material and plates above 40mm thickness shall be 100% ultrasonically tested. ii) Visual inspection of all welds shall be performed in accordance with AWS D.1.1. Also the butt and fillet welds for built up plate girders shall be inspected 100% by magnetic particle examination. iii) RT or UT shall be performed on all but t welds of thickness 32mm and above. For thickness below 32mm and upto 25mm, 100% MPE shall be carried out and for thickness below 25mm 10% MPE or DPT shall be performed. Edge preparations for field welding shall be examined by MPE for plate thickness 32mm and above. Field welds ends in ceiling girder shall be subjected to Ultrasonic examination for 100mm depth from the edges. iv) Ceiling girders, columns, ducts hoppers and tunnels shall be trial assembled and match marked prior to dispatch/erecti on. At least two consecutive girders alongwith cross member shall be assembled at a time. v) Drum sling rods a) Sling rods forging shall be subjected to ultrasonic examination. b) Welds shall be examined by UT and MPE after stress relief. c) Trial fitment of the rods with the drum shell shall be carried out to ensure proper contact. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 12 d) Screw thread of the rods shall be suitably protected to avoid damage during handling and transport. vi) Dampers a) All the dampers shall be subjected to operational test/checks. b) Gas tight dampers shall be subjected to shop leakage test to demonstrate the guaranteed tightness (minimum one damper of each type and size offered). In case such type test is al ready done, the reports of the same shall be submitted for review. c) All dampers shall be checked for sealing dimensions to establish guaranteed tightness. 8.2.9 Electro- Static Precipitators (ESPs) 8.2.9.1 Discharge and collecting electrodes i) Work tests for discharge",
+  "chunk_index": 771,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

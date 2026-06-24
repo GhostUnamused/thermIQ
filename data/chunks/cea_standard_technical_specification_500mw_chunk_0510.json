@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0510",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 532,
+  "text": "failure without any loss of function, or departure from the specification requirements covered under this specification. Ambient temperature (outside cabinets) Pressure Relative humidity Atmosphere Required protection Class of panels/ cabinets/ desks Outdoor Location 55 degree C max. Atmosphere 100 % Max. Air (dirty) IP 55*** 4 degree C min. Atmosphere 5 % min. Air (dirty) IP 55*** Indoor Location 55 degree C max. Atmosphere 95 % Max. Air IP 54** 4 degree C min. Atmosphere 5 % min. Air IP 54** Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 5 Air Conditioned Areas 24 +/- 5 degree C normal Atmosphere 95 % Max. Air IP 22 50 deg C max. * Atmosphere 5 %min. Air IP 22 * During air conditioning failure. ** For non-ventilated enclosures. For ventilated enclosures, protection class shall be IP 42. ***With a suitable canopy at the top to prevent ingress of dripping water.. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 6 6.2 DISTRIBUTED DIGITAL CONTROL, MONITORING AND INFORMATION SYSTEM (DDCMIS) The microprocessor based distributed digital control, monitoring & information system (DDCMIS) shall be provided for the safe and efficient operation of steam generator, turbine generator and all auxiliaries under all regimes of operation. 6.2.1 General Requirements i) The requirements for distributed digital control monitoring and information system (DDCMIS) are indicated on functional basis in this specification. Bidder shall be responsible for engineering, selection and connection of all components and sub-systems to form a complete system whose performance is in accordance with functional, hardware, parametric and other requirements of this specifications. It is not the intent or purpose of this specification to specify all individual system components since the bidder has full responsibility for engineering and furnishing of a complete system. ii) DDCMIS shall basically consist of : a) Control system of boiler, turbine & balance of plant (namely SG - C&I, TG - C&I & BOP - C&I including their respective measurement system); b) Man-Machine interface and plant Information system (MMIPIS); c) System programming & documentation facility; d) Data communication system (DCS); e) Sequence of events (SOE) recording system; f) Annunciation system; g) Master & slave cock system . iii) System Expandability Modular system design shall be adopted",
+  "chunk_index": 510,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

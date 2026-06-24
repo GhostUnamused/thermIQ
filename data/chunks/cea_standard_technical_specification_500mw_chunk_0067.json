@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0067",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 75,
+  "text": "value then the purchaser will be entitled (at the purchaser's sole discretion) to reject the works, terminate the Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 50 contract, and recover from the contractor any loss the purchaser has suffered. The purchaser will give credit for any part of the works which he retains. In case, the plant is rejected by the purchaser, the price recovery from the Contractor will be done upto the maximum of contract price. 1.6.2.4 Auxiliary Power Consumption The auxiliary power consumption shall be calculated using the following relationship: P a = Ptg + T L P a = Guaranteed auxiliary power consumption P tg = Power consumed by the auxiliaries of the unit under test T L = Losses of the transformers While guaranteeing the auxiliary power c onsumption, the bidder shall necessarily include all continuously opera ting auxiliaries. The auxiliaries to be considered shall include but not be limited to the following: i) Mills. ii) PA fans. iii) FD fans. iv) ID fans. v) Air heaters. vi) Coal feeders. vii) Boiler water circulation pumps. viii) Seal air fans. ix) Lube oil pumps for fans/ air heaters and mill system etc. x) Scanner air fans. xi) Electrostatic precipitator (with T.R sets and hopper heaters of all ESP fields in service, insulator heater of all ESP fields/ pent house fan (as applicable) and rapping system under normal operation). xii) Condenser air evacuation pumps xiii) Condensate extraction pumps xiv) Condenser tube cleaning system pumps xv) Lube oil pumps of 2x50% TDBFPs xvi) Auxiliary oil pump for MDBFP xvii) Oil pumps for HP & LP bypass system Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 51 xviii) DM cooling water pumps to supply cooli ng water on the primary (DM) side of the PHEs for boiler and turbine aux iliaries in the closed loop ECW system xix) Secondary cooling (normally working) water pumps to supply cooling water on the secondary side of the plate type heat exchangers in the closed loop equipment cooling water system xx) Unit lub oil purification system including heaters, feed and discharge pumps xxi) Unit control oil purification system xxii) Oil purifiers of 2x50% TDBFPs including their heaters, feed and discharge pumps xxiii) Chemical dosing pumps xxiv) Air conditioning",
+  "chunk_index": 67,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

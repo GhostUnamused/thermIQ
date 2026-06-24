@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0402",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 421,
+  "text": "station facilities (e.g. coal handling system, ash handling system, water systems etc.) and tie feeders with unit switchgears 5.8.1 Codes and standards The equipment, materials and service shall conform to the latest applicable provision of the following standards : IS : 722 AC electricity meters IS : 996 Single phase small AC and universal electrical motors. IS : 1248 Direct Acting indicating analogue electrical measuring instruments and Accessories IS : 13947 Degree of protection provided by enclosures for low voltage switchgear and control gear IS : 2544 Porcelain post insulators for systems with nominal voltages greater than 1000V IS : 2705 Current transformers. IS : 3156 Voltage Transformers IS : 3231 Electrical relays for power system protection IS : 3427 Metal enclosed switchgear and control gear IS : 5082 Specification for wrought aluminium and aluminium alloy bars, rods, tubes and selections for electrical purposes. IS : 6005 Code of practice for phosphating of iron and steel. IS : 8686 Specification for static protective relays. IS : 9046 AC contactors for voltages a bove 1000 volts and upto and including 11000V. IS : 9224 Low voltage fuses IS : 9385 HV fuses IS :9431 Specification for indoor post insulators of organic material for system with nominal voltages greater than 1000 volts upto and including 300 kV IS : 9921 AC dis-connectors (isolators) and earthing switches for voltages above 1000V IS : 11353 Guide for uniform system of marking and identification of conductors and apparatus terminals. IS : 13118 Specification for high voltage AC circuit breakers. IEC-60099 part 4 Metal oxide surge arrestor without gap for AC system IEC-62271-100 High voltage alterna ting current circuit breakers. IEC-60099-1 Non-linear resistor type gapped arrestor for AC systems IEC-60298 High voltage metal enclosed switchgear and control gear. CIGRE WG 13.02 Chapter-3 Recommendation for substitute test for switching over voltage test Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 64 5.8.2 Technical Parameters i) The switchgears shall be indoor, metal clad, draw out type. The feeders rated 2000kW and above shall be provided with vacuum/ SF 6 circuit breakers. Outgoing breakers shall be suitable for sw itching transformers and motors at any load. They shall be capable of being used for frequent direct-on-line starting of squirrel cage induction motors of following ratings a) 3.3KV Above 200 kW up to 1500 kW b) 11",
+  "chunk_index": 402,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

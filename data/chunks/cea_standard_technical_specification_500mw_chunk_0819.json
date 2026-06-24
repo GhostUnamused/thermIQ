@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0819",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 850,
+  "text": "the type tests listed under Category -II for the respective equipment which should have been carried out within last five (5) years from the date of bid opening. These reports should be for the tests conducted on the equipment si milar to those proposed to be supplied under this contract and the test(s) shoul d have been either conducted at an independent laboratory or should have been witnessed by a client. In case the contractor is not able to submit report of the type test(s) conducted within last five years from the date of bid opening, or in case the type test report(s) are not found to be meeting the specification require ments, the contractor shall conduct all such tests under this contract free of cost and submit the reports for approval. iv) Site Tests Some site tests have also been identified below which shall be carried out by the contractor. The site tests as per the manufacturer\u2019s practice, other than those specified herein, shall also be conducted by the bidder :- Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 64 8.6.1 Generator and auxiliary systems 8.6.1.1 Process check for static parts of generator/ exciter Tests/ Checks Items/ Components/ Process Visual, dimension Chemical property (raw material) Heat treatment Mechanical property (raw material) Impact (raw material) Hydraulic test Pneumatic test RT or UT (10% for butt weld) MP or DPT (All welds) Relative permeability Ferrite content DIN 43760, IS:2848,7358 DIN 48124 Sheet and Fabrication : - END shield Y Y Y Y Y Y Y Y Y - Stator casing Y Y Y Y Y Y Y Y Y - Bushing boxes Y Y Y Y Y Y Y Y Y - Terminal plates Y Y Y Y Y Y Y Y - Manhole and covers Y Y Y Y Y Y Y Y - Trunniuns Y Y Y Y Y Y Y - Core bar Y Y Y - Press ring Y Y Y Y - Core bolt (insulated) Y Y Y Y Y - Gaskets Y Y - Bearing seals and hydrogen seals Y Y Y Y1 - Terminal bushing Y - RTD/ Thermocouple Y Additional check for nonmagnetic components Y Non magnetic components welding Y Y=Test applicable, Y1=UT on babbit for bearing Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW",
+  "chunk_index": 819,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

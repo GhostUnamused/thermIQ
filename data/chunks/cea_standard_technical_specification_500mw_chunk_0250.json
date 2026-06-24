@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0250",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 258,
+  "text": "Package Section- 4 (Piping, Valves, Thermal Insulation and Miscellaneous Systems/ Equipment) 4 -2 g) LP bypass : 76-100 m/s h) Extraction steam : 60 m/s (max.) (Super heated) i) Condensate suction : 1.5 m/s (max.) j) Condensate discharge : 3.0-5.0 m/s k) Other pipings : As per good engg. practice ii) Pipes shall be sized for the worst operating conditions (i.e. maximum flow, temperature and pressure values). In case of BFP suction sizing, transient analysis shall be carried out for optimum sizing of the system in order to establish the pipe inside diameter for minimum pressure drop in system to match with the pump NPSH requirement under worst operating conditions. 4.1.3 Material Selection Piping system generally shall be of carbon steel for design temperature upto 400 0C and alloy steel materials P11/P22/P91 for design temperature from 400 to 5500C and P91/stainless steel above 5500C. 4.1.4 Pipe Wall Thickness Thickness calculation shall be made on the basis of procedure and formula given in ANSI B 31.1. Stress values of piping material for calculation shall be selected from tables given in ANSI B 31.1. Thickness, thus calculated shall be checked as per IBR formula (where applicable) and the more stringent of the two shall then be selected. In any case the thickness selected shall not be less than the standard thickness specified in ANSI B 36.10. In such cases where thickness calcu lated does not fall in the standard range of thickness as given in ANSI B 36.10, ID/OD controlled pipes as per ASA-530 shall also be acceptable. However, the minimum selected pipe thickness shall be corresponding to Sch.-80 for pipe sizes 50 NB & below. For 300 NB & above, minimum pipe thickness shall be corresponding to Sch.- STD. 4.1.5 Layout i) All high points in piping system shall be provided with vents. All low points shall be provided with drains. Provisions of drai ns on steam piping shall be as per ASME code TDP-1. Drain lines shall be adequately sized so as to clear condensate in the line and prevent water hammer and damage to turbine due to water induction. All piping shall be sloped towards the system low point such that slope is maintained in both hot and cold condition. All drains and ve nt lines in piping system with design pressure 40 kg/cm2 and above shall have two valves in series. Standard Technical Specification for Sub- critical Thermal",
+  "chunk_index": 250,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

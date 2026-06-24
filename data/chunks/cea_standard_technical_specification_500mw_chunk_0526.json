@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0526",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 547,
+  "text": "system to immediately identify to the operator any system module failure. l) Allow burners and igniters to be started, stopped and tripped on a burner basis. m) Allow the automatic start and stop of burners based on boiler load. The sequence of which burner will be started or stopped will be selected by the operator from a TFT display. 6.2.4.3 Turbine Protection System (TPS) Functions i) Fully proven microprocessor based system, based on hardware and software proven for turbine protection applicati on for the same turbine being offered for this project, shall be provided to achieve the turbine protection action. ii) The Turbine Protection System shall meet all applicable safety standards/requirements including those stipulated in VDE 0116 Section 8.7. The system design shall be such that saf ety function of the total system must not be jeopardized on occurrence of fault. Any single fault in either primary sensor, input/output modules, controller module etc. shall in no way jeopardise the safety of the turbine. All modules to be used in this system shall be of fail safe design. iii) The Turbine Protection System shall also be implemented in 2 out of 3 voting logic. Three independent trip channe ls each having its own and dedicated processing modules, controllers, input/output modules etc. shall be provided Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 20 to achieve 2 out of 3 voting logic. Th e outputs of the three channels will be used to implement 2 out of 3 voting logic in two relay units, the output of which will be fed to the two turbine trip relays. As an alternative, bidder may also propose two independent trip channels, each having its dedicated processing m odule with hot backup. Two out of three voting logic will be implemented in each of the channels and the output of each channel to be fed to each of the two turbine trip relays. Turbine shall be tripped when either of the above two trip relays operates. The exact implementation shall be subject to purchaser's approval during detailed engineering. iv) All the input signals (trip signals etc. from the field devices) shall be fed in parallel to all the two/three redundant channels of protection system as mentioned above via signal conditioning cards designed for such application. Further, the computation",
+  "chunk_index": 526,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

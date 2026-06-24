@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0615",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 640,
+  "text": "6 (Control and Instrumentation Works) 6 - 112 viii) Air/ flue gas outside furnace M ASTM-A106 Gr.B/C 80 (3/4 inch) ASTM-A105 -do- 3000 lb 800 Air/ flue gas inside furnace N ASTM-A335 Gr.P22 80 (3/4 inch) ASTM-A182 Gr. F-22 -do- 3000 lb 800 NOTE: 1 Rating of piping/fittings/valves etc. is subjected to the final design pressure & temperature during the detailed engineering . 2 In case temperature is more than 540 deg C, the material shall be P-91 only. 3 Material shall be compatible with that of the impulse pipe material and design parameter. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 113 6.10 INSTRUMENTATION CABLES 6.10.1 General Requirements i) The bidder shall supply, erect, te rminate and test all instrumentation cables for control and instrumentation equipment/devices/systems included under bidder's scope. ii) Any other application where it is felt that instrumentation cables are required due to system/operating condition requir ements, are also to be provided by the bidder. iii) Other type of cables like co-axial cables for system bus, cables for connection of peripherals etc. (under Bidder's scope) are also to be furnished by the Bidder. iv) Bidder shall supply all cable er ection and laying hardware like cable trays, supports, flexible conduits, cable glands, lugs, pull boxes etc. on as required basis for all the systems covered under this specification. v) In addition to above, bidder shall supply all the cables including co-axial cables for station Wide LAN interconnecting all the common plant, main plant & control system in Bidder's scope as well as the control systems supplied by Purchaser for DM plant, coal handling plant, ash handling plant and ash water recirculation system etc. Further, the instrumentation cables for interconnecting few nos. information si gnals from each of the common plant packages being supplied by purchaser for all signals of CW pump package to DDCMIS are also in the scope of bidder. 6.10.2 Instrumentation Cable Specifications 6.10.2.1 All the instrumentation cables i.e. twisted and shielded multipair cables, compensating cables, pre fabricated cables etc. shall be flame retardant low smoke (FRLS) type. The Cables shall be provided in non returnable drums. The drum length shall be 1000m (+/- 5%) up to & including 8 pairs and 500 m (+/- 5%) above 8 pairs. 6.10.2.2 Voltage grade of the instrumentation cables shall",
+  "chunk_index": 615,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

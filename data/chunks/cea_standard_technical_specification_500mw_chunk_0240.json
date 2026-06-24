@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0240",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 248,
+  "text": "of the vessel shall take care of all operating regimes including HP-LP bypass operation. c) All pressure vessels shall be designed and constructed in strict accordance with the ASME code Section- VIII or acceptable equivalent international standard. Suitable mill tolerances shal l be considered for determining the thickness of the shells and dished ends. A minimum thinning allowance of 2 mm shall be considered for the dished ends. d) All service vessels and regeneration area pressure vessels shall be fabricated from carbon steel plates to SA 285C or SA-516 Gr. 70 or equivalent and lined internally. Conical or flat end service vessels shall not be accepted. e) Lining used may be soft rubber having a shore durometer reading of 40-70 on the A scale, or semihard rubber having a durometer reading of 45-70 on the D scale. The lining shall be applied in three layers, resulting in a total thickness of not less than 4.5 mm anywhe re on the internal surfaces of the vessels. v) Resin traps Outlet of each condensate polisher vessel, activated carbon filter and waste effluent header of the common regeneration shall be provided with a resin trap. Pressure drop at design flow through a clean resin trap shall not exceed 0.35 kg/cm 2. Resin trap shall be of rubber lined steel construction and internals (cord and screen) shall be of Johnson Screen s (Ireland) or equivalent (SS-316) construction. vi) Emergency bypass system a) Each condensate polisher service unit shall be provided with an automatic bypass for the condensate polisher on the condensate inlet and outlet headers of the unit with a butterfly type control valve and wafer type butterfly isolation valves on the upstr eam and down stream sides of the control valve. In the event of excessi ve pressure differential between the condensate inlet and outlet headers, this control valve will open automatically to bypass requisite quan tity of condensate to prevent this pressure differential from exceeding a preset limit. The control system shall be so designed that the control valve is able to bypass 50% of rated flow when any of the service vessel is out of service and 100% of flow when both the service vessels are out of service. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 69 b) Complete instrumentation and controls for this",
+  "chunk_index": 240,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

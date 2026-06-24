@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0098",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 104,
+  "text": "including design metal temperatures. iv) Steam pressure at superheater outlet : To correspond to turbine throttle steam pressure of 170 kg/cm 2 (abs) [indicative value:179 kg/cm 2 (abs)]. v) Steam generator control range : 50% TMCR to 100% BMCR. However, the bidder to specify the feasible mill combinations below 60% TMCR. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 3 Note: a) Pressure drop in reheater should not exceed 2.5 kg/cm2 under all operating conditions. b) The steam temperatures at superheater and reheater outlet(s) shall be guaranteed to be maintained at +50C of the rated value at all loads within control range, under all operating conditions including HP heaters out of service condition. 2.1.6 Fuels A) Coal i) The plant systems shall be designed considering project specific data 1 on coal quality and ash analysis. However, the typical co al quality parameters on as received basis are indicated below: - . Sl. No. Particulars Units Performance coal Worst coal A. Proximate analysis 1. Moisture % 10 15 2. Ash % 35 45 3. Fixed carbon % 31 20 4. Volatile matter % 24 20 Total % 100 100 B. Gross calorific value kcal/kg 4100 3200 C. Grindability index HGI 50 50 D. Ultimate analysis 1. Carbon % 43.02 32.88 2. Hydrogen % 2.82 2.13 3. Sulphur % 0.45 0.28 4. Nitrogen % 0.81 0.59 5. Oxygen (by difference) % 7.90 4.12 6. Moisture % 10.0 15.0 7. Ash % 35 45 Total % 100 100 1 Coal and ash analysis data to be furnished by the purchaser. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 4 ii) Typical Ash analysis Characteristics Range/ value SiO 2 54 to 60 % Al2O3 27 to 31 % Fe2O3 3 to 5% TiO 2 0.3 to 0.5% CaO 1 to 3% MgO 0.5 to 1.5% Chloride as Cl 0.03 to 0.06% Sulphate as SO 4 0.1 to 0.2% Alkalies as NaOH < 0.01mg/kg Chromium as Cr 25 to 28 mg/kg Mercury as Hg < 0.002 mg/kg Lead as Pb <0.1 mg/kg Cadmium as Cd < 0.01 mg/kg Nickel as Ni 71 to 95 mg/kg Zink as Zn 84 to 86 mg/kg Copper as Cu 56 to 60 mg/kg",
+  "chunk_index": 98,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

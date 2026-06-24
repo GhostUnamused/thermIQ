@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0110",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 116,
+  "text": "mm iv) Coal quality : As per specified coal Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 15 v) Bidder shall guarantee the wear life of mill wear components (for whole range of specified coals) as per the table given below: Component Guaranteed wear life in equivalent hours a) Classifier cone and ot her items : 25,000 hrs. lined with ceramic materials b) Classifier vanes : 25,000 hrs. c) Seals : 20000 hrs. d) Mill discharge valve : 15000 hrs. . e) Grinding elements : 5500-8000 hrs. (rolls, balls, rings and race) The bidder shall indicate YGP (Yancey, Geer and Price method) index considered for design of wearing components, and shall furnish curves along with his offer indicating the variation in guaranteed wear life with variation in quality of coal fired. Separate curves for different wear elements of mill shall be furnished i.e. grinding rolls, balls, rings etc. The curve shall be subject to purchaser's approval. B) Pulverised coal pipe i) Velocity in coal pipe : Minimum15m/s Maximum 28m/s ii) Continuous operating : 110 0 C (Minimum) temperature for pipe design iii) Special erosion protection : Ceramic lining (on identified areas) iv) Guaranteed liner life : 25000 Hrs. v) Design pressure : 3.5 kg/cm 2 (minimum) as per NFPA requirement C) Raw coal feeders i) Type : Gravimetric, belt type with minimum coal inlet pipe size of 36 inches ii) Maximum moisture : As per specified coal iii) Feeder capacity : Minimum 20% spare capacity over maximum mill capacity Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 16 iv) Environment withstand : a) Operating pressure of 0.14 kg/cm 2 capability as per NFPA norms b) Explosion pressure of 3.5 kg/cm 2 (minimum) c) Ambient temperature 700C (minimum) d) Other environmental conditions envisaged D) Primary air fans i) Type : Two stage axial type with rotor blade of aerofoil design. ii) Nos. of fans : Two (2) for each unit iii) Capacity: a) Each fan shall be rated to me et requirement of 60% BMCR load (one stream in operation) with following conditions all occurring together. \u2022 Worst coal firing with maximum moisture content. \u2022 Power supply frequency - 47.5 Hz. \u2022 Ambient air temperature",
+  "chunk_index": 110,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

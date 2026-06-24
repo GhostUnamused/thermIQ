@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0082",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 90,
+  "text": "location type and accuracy of the test grade thermocouples and pressure gauges shall be to purchaser's approval. xiv) The steam generator efficiency testing sh all be carried out with any combination of mills in operation to purchaser\u2019s choice, with fineness of pulverized coal not exceeding 70% through 200 mesh. xv) Steam generator efficiency shall be with guaranteed or actual air heater leakages, whichever is higher. 1.6.5.3 Method of computing test efficiency of ESP i) The performance test on electrosta tic precipitator will commence after a minimum period of three thousand (3000) hours of continuous operation after completion of initial operation. During the interval between the commencement of initial operation and the commencemen t of performance test only routine Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 65 maintenance shall be carried out. No physi cal or chemical cleaning of ESP shall be permitted during this period or immed iately before the conductance of the performance tests. ii) The test efficiency shall be based on the overall performance of the electrostatic precipitator over a mutually agreed period of operation under the conditions given in this specification and allowing th e normal operation of the unit including rapping and normal soot blowing and / or when fuel oil is being fired in the ignitors and / or warm up guns. The overall test efficiency and test temperature/inlet dust burden for one set of ESPs serving one steam generator sh all be worked out as follows : a) Vm (guarantee point test flow) shall be the total of inlet gas flows to the four gas streams at the time of test b) Test inlet dust burden (Di) shall be weighted mean of the inlet dust burdens for the individual streams i.e.: Di = (Vm1 x Di1) + (Vm2 x Di2) + (Vm3 x Di3) + (Vm4 x Di4) (Vm1 + Vm2 + Vm3 + Vm4) Similarly the test outlet dust burden (D o) will be calculated based on outlet gas flow. c) The weighted test inlet gas temperatur e (Ti) shall also be worked out in a similar manner i.e. Ti = (Ti1 x Vm1 ) + (Ti2 x Vm2) + (Ti3 x Vm3) + (Ti4 x Vm4) (Vm1 + Vm2 + Vm3 + Vm4) d) The measured test efficiency shall be: Em = ( Di \u2013 Do) x 100",
+  "chunk_index": 82,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

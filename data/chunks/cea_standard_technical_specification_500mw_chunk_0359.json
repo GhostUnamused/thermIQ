@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0359",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 373,
+  "text": "above) Main Plant Package Section-5 (Electrical Works) 5 - 15 The seal oil system to be designed, such that it is possible to run the machine at no load in air medium at a slightly positive air pressure without any modification in the system. vii) Oil level gauge For alarm/ annunciation of high and low levels, switches to be fitted in the tank and adequate contacts to be provided for annunciation. viii) Hydraulic sealing arrangement Nece ssary hydraulic sealing arrange-ment to be provided in H 2 side oil discharge line, to prevent circulation of gas due to any possible difference of heads developed by fans mounted at the end of the generator rotor. ix) Coolers 2x100% duty seal oil coolers along with necessary 3-way valves for isolating or bringing one cooler in service to be provided. Coolers to be of shell and tube type suitable for using DM water of condensate quality. x) Cooler tube redundancy Seal oil coolers to be designed to have 15% excess tube surface area over and above designed tube surface area required for the rated load conditions, while maintaining the design pressure drop on cooling water side. xi) Water pressure Oil pressure in the cooler to be greater than water pressure under all operating conditions. xii) Filters Suitable filters of 2x100% duty to be provided. Possible to carry out cleaning and maintenance of any cooler and filter, when the machine is in operation. xiii) Temperature/ Flow Measurement Temperature gauges and flow meters to be provided at all appropriate locations. xiv) Pressure gauges and switches Pressure gauges and switches to be provided at least at the following locations: a) At the inlet and outlet of pumps b) At the outlet of the cooler Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 16 c) At the inlet and outlet of the pressure regulators and filters. d) At the oil supply header. xv) Control and monitoring Bidder to offer proven micro-processor/ PLC based controller. System to be controlled from Man Machine Interface and Plant Information System (MMIPIS) as part of turbine control system at unit control room (UCR). In addition to the remote control and monitoring, local control and monitoring for this system to be realized in the local panel mounted near these systems as per manufacturer\u2019s standard. Local panel to be provided with all",
+  "chunk_index": 359,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

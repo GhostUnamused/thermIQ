@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0539",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 558,
+  "text": "and operator displays. The calculation sha ll be carried out at 30% unit load or higher. The calculation frequency shall be selectable at site from 10 minutes to 1 hour, with a step of 10 minutes. The performance calculations shall be broadly subdivided into two classes: Class I : Equipment protection calculations Class II : Plant/equipment efficiency calculation. The Class I calculations are generally for the purpose of detecting and alarming unit malfunctions. These shall include cold reheat steam approach to saturation temp, superheater spray outlet approach to saturation temp., turbine steam-metal temp. differences, turbine metal temp. rates of change, feedwater heater terminal temp. difference, feedwater heater drain cooler approach, excess air deviation from standard, feed water heater temp. deviation from standard, drum water sa turation temp. rate of change, metal temp. difference for SH 'Y' and RH 'Y' piece etc. The Class-II performance calculations sh all be performed to determine the performance of individual items of equipment and the overall unit. The periodicity of these calculation shall be selectable from 10 minutes to 60 minutes in increments of 10 minutes. These shall include calculations for boiler efficiency, gross turbine generato r heat rate, gross unit heat rate, net unit heat rate, operating hours, plant load/availability factors, HP,IP,LP turbine enthalpy drop efficiency, performance of condenser, deaerator, economizer , airheater performance, unit availability calculations, merit order rating, deviation from expected values for each calculation shall also be computed. c) Other Calculations Variable alarm limit calculations, heat rate deviations and revenue calculations, frequency excursion time integr ation etc. shall also be provided. ii) Alarm monitoring and reporting The system shall display history of alarms in chronological order of occurrence on any of the OWS. The MMIPIS shall have the capability to store a minimum of 1000 alarms each with paging features allowing the operator to view any page. The OWS ke yboard shall have all alarm functions and related function keys like alarm acknowledge, reset, paging, summaries etc. Other design features like prioritisation, set point/dead band adjustments, alarm report format etc., shall be as finalised during detailed engineering. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 31 iii) Displays Various displays on the TFTs shall as a minimum include P&ID displays or mimic, bar chart displays, X-Y & X-T plot (trend) displays, operator guidance",
+  "chunk_index": 539,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

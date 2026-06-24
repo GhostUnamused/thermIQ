@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0197",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 201,
+  "text": "hot back-up as described in Section- 6 of this specification. The turbine governing system shall meet the following requirements: i) The governing system shall be capable of controlling with stability the turbine speed between zero to maximum power output when the unit is operating isolated or in parallel with other units. ii) Over speed during full load loss shall be limited to 8% of the rated speed. iii) Adjustable steady state speed regulation shall be provided between +3% to +8% of rated speed. iv) Dead band at rated speed and at any power output within rated output shall not exceed 0.06% of rated speed. 3.5.2 Speed Load Changer The governing system shall be equipped with speed and load changers to control the speed or power output of the steam turbine within the limits. The speed/load changer provided shall be capable of adjusting the sp eed of the turbo set to any value in the range of 94% to 106% of rated speed for manual/auto synchronisation of the generator with the bus. It shall be capable of varying the load on the mach ine from no load to full load. For remote control, suitable motor drive sh all be provided. Indication of the speed/load changer position shall be provided on the operator\u2019s work station and console panel insert. 3.5.3 Load Limiting Device The governing system shall be equipped w ith a load limiting device capable of being operated both locally as well as remotely from unit control room for the purpose of limiting the amount of opening of the governor controlled valves to set the load at a pre-determined limit, while the turbine is in operation. A remote position indicator shall be provided on the console panel insert for in dication of the setting of the load limit. Contacts shall also be provided on the load limiter for signalling load limited operation in unit control room. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 22 3.5.4 Turbine Protection Devices i) Emergency governor a) Bidder shall provide a separately actuated overspeed device called quick acting emergency governor to trip the unit at 110% of rated speed in case speed governor fails to limit the turbine overspeed. b) The emergency governor resetting shall be as per manufacturer's standard practice. However, it shall meet the IEC-45 requirements for",
+  "chunk_index": 197,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

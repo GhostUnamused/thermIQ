@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0225",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 231,
+  "text": "Side suction and discharge connecti ons shall be of flanged type with weld neck raised face as per ANSI B16.5. iv) Shaft sealing Shaft sealing shall be achieved by mechanical seals both for main pump and booster pump. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 52 v) NPSH margin NPSH (R) at 3% head drop for booster pump as well as main pump shall be one third of NPSH (A) at design point with lowest deaerator level and maximum pressure drop across the strainer. vi) Inter-stage bleed Inter-stage bleed tap off for boiler reheater desuperheating shall preferably be taken from the lowest available intermediate stage pressure of main pump. vii) Kicker stage (if required) Spray water requirement of boiler supe rheater desuperheating shall be taken either from Kicker stage or any proven arrangement of bidder shall be acceptable subject to purchaser's approval. Kicker stage shall be capable for continuous operation with no flow to superheater desuperheating. viii) Trip speed of TDBFP Trip speed of TDBFP shall be 10% a bove the design speed of the feed pump. ix) Performance curve The characteristic curves of all the pumps shall be identical and shall be of continuously rising type with decrease in flow. The shut off head of the pump shall be between 120 and 130% of TDH at rated condition. x) Minimum recirculation a) The minimum flow of the booster pump and main pump shall not be less than 25% of their respective design flow or on set recirculation (discharge/suction) whichever is higher. b) ON-OFF type minimum recirculation valve shall be provided with valve body designed for 40% of design flow. xi) Interchangeability The boiler feed pumps, booster pumps, drive turbines, hydraulic coupling and major equipment shall be identical in design in order to provide complete interchangeability. xii) Motor drive start- up time for MDBFP Motor drive shall be able to accelerate the pump from standby condition to its rated pumping condition in less than 15 seconds after receipt of starting signal while operating either singly or in para llel with other operating pump. MDBFP and associated auxiliaries shall be designed for auto start-up on failure of running equipment/ auxiliaries. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 -",
+  "chunk_index": 225,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

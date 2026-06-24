@@ -1,0 +1,18 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0039",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 46,
+  "text": "st eam turbine driven pump, jacking oil system, electro-hydraulic governing system, turbine supervisory system along with all control and accessories. 1.2.2.7 Condensate polishing system Condensate polishing system for each un it along with common regeneration facility including service vessels, regeneration vessels, resin transfer system, pumps, blowers, piping, chemical tanks, waste neutralization and disposal system, instrumentation and control etc. 1.2.2.8 PG test flow nozzle Calibrated low Beta-ratio throat tap nozzl e assembly including flow straighteners, upstream and downstream machined straight lengths for main condensate flow measurements as per ASME-PTC-6. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 21 1.2.3 High Pressure/ Power Cycle Pipi ng, Valves and Miscellaneous Systems/ Equipment 1.2.3.1 High pressure/ power cycle piping Scope of supply and works for high pressure / power cycle piping system shall include the piping system as listed below. i) High pressure piping covering complete ma in steam, hot reheat and cold reheat piping between boiler and turbine nozzles, HP & LP bypass piping. ii) Complete auxiliary PRDS and auxiliary steam piping system. iii) All extraction steam pipings. iv) Complete feed water piping including booster pumps suction, inter connection between booster pumps and main pumps, boiler feed discharge piping upto economiser, recirculation, BFP warm up a nd leak off and BFP turbine exhaust piping to condenser. v) Spray piping system for reheater/ superheater attemperation, HP & LP bypass system and auxiliary PRDS system. vi) Condensate piping system. vii) Condenser make up water system. viii) Heater drains and vents pi ping including necessary flash tanks. ix) Steam drains including necessary flash tanks. x) Valve gland sealing piping system. xi) Miscellaneous line drains and vents including necessary flash tanks. xii) Complete safety valve exhaust piping for safety valves on steam generator, HP piping, Aux. PRDS, heaters and deaerator etc. xiii) Start up vents, safety valves, pneumatic relief valves (PRVs), flash tanks and all vents from the respective equipments and pipes upto a level of one meter above the boiler house/ TG building roof. Silencers shall be provided for start up vents, lowest safety valve and PRVs. All drains from respective equipments and pipelines shall be connected to the drain manifold of the flash tanks. xiv) Complete chemical dosing system piping. xv) Any other piping system to make the power cycle piping complete. Standard Technical Specification for Sub- critical Thermal Power Project -",
+  "chunk_index": 39,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

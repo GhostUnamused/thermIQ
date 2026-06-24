@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0556",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 573,
+  "text": "printers for the least accurate input range and maximum scan rate shall be not worse than +/- 0.2% of full scale of the process range. e) TFT updated rates All TFT displays shall be updated at least every two seconds. 6.2.16 Large Video Screen (LVS) Large video screens, complete with projectors, screens, control units (graphical generators) & associated ac cessories shall be supplied as per the following specifications. 1. Size (diagonal) 80 inch 2. Type LCD projection type with rear - screen configuration (other type proven technology e. g. that based on digital light processing shall also be acceptable subject to purchaser approval). 3. Resolution of each screen 1280 x 1024 pixels 4. Configuration of LVS Double tier with screens seamlessly combined with provision of expansion of one screen on each side. 5. Control unit Same as operator work station without the TFT LCD monitor. Facility of projecting a particular display on a selectable area of the screen upon activation of a predefined event shall be provided. 6. Interfacing with video signals, to receive & project pictures from CCTV, purchaser\u2019s Live camera, VCP Video signal interface Signal types : PAL, NTSC or SECAM in S-VHS/VHS Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 46 No. of channels : 16 Remote unit for switching between video signal & HMI signal, selecting the video signal channel (live camera no./location typically) shall be provided. 7. Illumination level To be finalised during detailed engineering. 8. Degree of viewing in horizontal & vertical To be finalised during detailed engineering. 9. Other features a) LVS shall be designed for continuous viewing (24 hours in a day) under normal room ambient lighting without any need to darken the room. Suitable darkening of the projection screen for light absorption shall be provided for this purpose. b) Adjustment of the projections shall be performed. Suitable mounts on installation and all othe r components shall be adjusted in the factory and shall not require further adjustment at site. Maintenance work on the LVS shall be confined to easy replacement of the lamps and cleaning of the fans, which shall be performed in few minutes by the purchaser's staff without any special training. Suitable means (operating hours displays etc.) shall be provided to indicate the need of replacement of lamp. Power switch shall",
+  "chunk_index": 556,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

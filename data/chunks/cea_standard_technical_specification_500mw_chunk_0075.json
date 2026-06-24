@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0075",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 83,
+  "text": "c) Oxygen content in condensate at hotwe ll outlet shall not exceed 0.015 cc/litre over 50-100% load range and shall be determined according to calorimetric Indigo-Carmine method. d) Air leakage in the condenser under full load condition shall not exceed more than 50% of design value taken for sizing the condenser air evacuation system. e) When one half of the condenser is is olated, condenser shall be capable of taking at least 60% T.G. load under TMCR conditions. f) The capacity of each vacuum pump in free dry air under standard conditions at a condenser pressure of 25.4 mm Hg (abs) and sub cooled to 4.17 deg. C below the temperature corresponding to absolute suction pressure shall not be less than 30 SCFM. Correction curv es for establishing the capacity at site conditions shall also be furnished. g) The air and vapour mixture from air c ooling zone of condenser shall be 4.17 0C below the saturation temperature corresponding to 25.4 mm Hg (abs) suction pressure. Correction curves for establishing the same at site conditions shall also be furnished. h) Life of sponge rubber balls and number of balls lost during 1000 hours of plant operation shall be as indicated by bidder in the offer and accepted by the purchaser. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 58 xxiii) Feed water heaters and deaerator The following parameters shall be demonstrated: a) TTDs and DCA\u2019s of feed water heaters as per guaranteed heat balance diagram. b) Dissolved O 2 content in feed water at deaerator outlet without chemical dosing at all loads, not to exceed 0. 005 cc/litre determined as per ASTM-D- 888 \u2013 Reference method-A or Indigo Carmine method. c) Difference between saturation temperature of steam entering the deaerator and temperature of feed water leaving the deaerator. d) Continuous and efficient operation and performance of feed heating plant without undue noise and vibrations at all loads and duty conditions. xxiv) Condensate extraction pumps The Contractor shall demonstrate the following: a) Each CEP set shall be capable of delivering the flow and total dynamic head corresponding to best efficiency point. b) Each CEP set shall be capable of delivering flow and total dynamic head corresponding to runout point as specified. c) The vibration, noise level and paralle l operation of any two of the three pumps as",
+  "chunk_index": 75,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

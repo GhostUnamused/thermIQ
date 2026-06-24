@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0173",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 177,
+  "text": "rapping mechanism shall produce sufficient force to keep the pe rforated plates/guide vanes clean. 2.2.16.12 Dust hoppers i) Dust hoppers shall be of pyramidal type or conical as per bidder\u2019s proven practice, each having a storage capacity of minimum of eight (8) hours corresponding to the maximum ash collection rate of the field under which the hopper is being provided when two preceding fields are de-energised. The hopper capacity shall be based on the inlet dust burden, gas flow rate and gas temperature indicated at clause 2.1.27 for the design point condition while firing the maximum ash coal. Storage shall be upto a level that will not reduce the overall efficiency of the precipitator due to re-entrainment. Ash storage capacity shall be at least 10% higher than the ash storage capacity theoretically required for each dust hopper. Specific weight of ash shall be assumed as 650 kg/m\u00b3 for calculating storage capacity and 1350 kg/m\u00b3 for structural design. Further, for hopper strength and ESP structural calculations the level of ash in ESP shall be considered at least upto the top of hopper partition plane or the bottom of plates (whichever is more). The number and arrangement of dust hoppers shall be such that there is at least one dust hopper per TR set. The hoppers for all fields shall be identical in shape and size. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 76 ii) Hoppers shall be in welded steel plate construction. The lower 1.5 meters of each hopper shall be lined with 16 gauge or heavier stainless steel 304. All hopper internal sloping corners shall have 100 mm radius. Hopper valley angle to the horizontal shall not be less than sixty ( 60) degrees. Hopper outlet flanges shall be terminated at a height of 3.5 meters above the ground level to facilitate installation of fly ash removal system. iii) The dust hoppers shall be electrically heated upto a minimum of lower one third (1/3) of the dust hopper height but not less than 1.5 meter in height by thermostatically controlled panel type h eating elements to prevent ash bridge formation. All heaters on each level shall have same wattage and be capable of maintaining internal hoppers temperature of 1400C or the gas temperature whichever is lower, and capacity selection of these",
+  "chunk_index": 173,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

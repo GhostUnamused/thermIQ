@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0428",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 446,
+  "text": "possible only when local/ remote selector switch is in local position. Tripping from remote shall be either breaker in service position or selector switch being in remote position. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 89 xviii) Suitable self powered transducers as per IS : 12784 Part - I for feeding signals to panel mounted electrical meters (ammeters, voltmeters, VAR meters and watt meters etc.) and DCCMIS shall be provided. Transducers shall be tested as per IEC:600298 or impulse test etc and short circuit withstand capability as per ANSI C 37.90a, 1989 Transducers shall be provided with two decoupled 4-20mA output signals, one for meter and one for DDCMIS. Current limiting features shall be provided for all the transducers. xix) Transducers a) Current transducers - Input 0-1 A (CT secondary) - Rated frequency 50 Hz - Output 4-20 mA (2 Nos. decoupled) for meter/ DDCMIS - Accuracy 0.5% b) Bus voltage transducers - Input 110V, 50 Hz (from VT secondary) - Output 4-20 mA (2 Nos. de-coupled) - Accuracy 0.5% xx) Necessary hardware shall be provided in the switchgear panel like coupling relays (24VDC with maximum burden of 2.5VA), auxiliary relays in addition to current/ bus-voltage transducers (4-20 mA, dual output) etc. to effect interlocks, exchange information/ status and exercise control from remote. f) The motor feeders for the following essential auxiliaries shall have contactors with delayed drop- out feature adjustable up to three seconds. i) Seal air fans ii) Ignitor air fans iii) Scanner air fans iv) Stator water cooling pump v) Barring gear/ Jacking oil pump/ Auxiliary oil pump vi) Lubricating oil pumps of various unit auxiliaries vii) Hydrogen seal oil pump viii) Centrifugal fan of hydrogen seal oil pump ix) Lubricating oil system vapour fans x) Bearing cooling water pumps xi) AC emergency lubricating oil pum ps/Auxiliary lubricating oil pumps Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 90 xii) Air Pre- heaters xiii) Control air compressors and Service air compressors xiv) Any other drive recommended by Boiler, Turbine and Generator manufacturer 5.9.7 Protection i) 415V AC and 220V DC Incomers a) Time graded short circuit protec tion on incoming supply feeder circuit breakers to main switchgears (PCCs and MCCs) b) Instantaneous over-current pr otection on all outgoing feeders c)",
+  "chunk_index": 428,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0809",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 839,
+  "text": "Complete strip down of one pump shall be done after completion of all the tests on it. The strip down shall check for the condition of bearings and problems such as internal rubbing, excessive wear. 8.4.7.2 Plate heat exchangers i) The material used for cover plates, heat exchange plates and tie rods shall be subject to chemical and mechanical tests on one per heat basis. ii) Each plate after pressing shall be subject to light box test, vacuum test or air chamber test as per manufacturer\u2019s practice. iii) UT shall be done for plates with thickness 25 mm or above. iv) DPT shall be conducted for 10% of the lot of heat exchanger plates. However, in case of any defects, entire lot shall be tested and only defect free plates shall be accepted. v) 100% DPT shall be conducted on all welds. vi) Each heat exchanger shall be subjected to hydraulic test. vii) Assembly fit up and dimensional checks shall be carried out for each heat exchanger. 8.4.7.3 Auto clean filters i) Tests shall be carried out on the materials on various components to establish their mechanical properties and chemical composition. ii) In case of fabricated construction, the welds shall be examined for surface defects by 100% DPT. iii) The body shall be subject to hydraulic test at 1.5 times the design pressure. iv) Pressure drop, flow and particle size tests shall be carried out for the filter assembly. 8.4.7.4 Pipes, Valves and fittings The QA requirements for piping, valves and fittings shall be as per clause 8.4.6 of this Section. 8.5.8 EOT Cranes and Hoists 8.4.8.1 Hooks i) All tests including proof load test as per relevant IS shall be carried out. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 53 ii) MPE or DPT shall be done after proof load test. 8.4.8.2 Steels castings Steel castings shall be subjected to DPT on machined surface. 8.4.8.3 Girders, end carriage, crab, gear-box and rope drum i) The plates of thickness 25mm and above for girders, end carriage, crab, gear-box and rope drum shall be ultrasonically tested. ii) NDT requirements on weldments shall be as follows: a) Butt welds in tension : 100% RT and 100% DPT b) Butt welds in compression : 10% RT and 100% DPT c) Butt weld in rope drum : 100%",
+  "chunk_index": 809,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

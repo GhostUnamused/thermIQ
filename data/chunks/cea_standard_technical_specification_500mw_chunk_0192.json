@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0192",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 196,
+  "text": "of plant performance by DDCMIS and true copies of performance guarantee test reports for sets rated for 100% TMCR rating or more. vii) The bidder shall turbine clearance diag ram indicating values for radial and axial clearances and leakage rate at TMCR and under worst ope rating conditions. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 17 3.2 GLAND SEALING SYSTEM FOR STEAM TURBINE AND BFP TURBINE i) Gland sealing system for the TG set and BFP drive turbines shall comprise of spring back labyrinth seals. However, the gland seals of BFP drive turbine may not be of spring back type and shall be as per stan dard practice of the turbine manufacturer. ii) Turbine shaft glands shall be sealed with steam. Fully automatic gland sealing steam supply system shall be provided includi ng necessary piping, valves, fittings and control and instrumentation as required. iii) Gland steam condenser shall be provided to condense and return to cycle all gland leak off steam alongwith 2x100% capacity motor drive exhausters to remove air and non-condensable gases. The exhaust gases sh all be discharged above the TG hall roof level. iv) Suitable arrangement shall be provided to bypass gland steam condenser (designed to operate under vacuum condition also) alongwith desuperheating arrangement, if required, for the bypass. The exhaust shall be discharged above the TG hall roof level. The gland steam condenser shall be provided with bypass on water side also. v) The gland seal material shall be of proven type. vi) The turbine shall be self sealing during normal operation of the unit. During startup and low load operation, sealing steam shall be supplied from high temperature or low temperature auxiliary steam he ader or CRH depending upon the sealing requirement. Facility shall be provided for automatic switchover from alternative source to the main source and vice versa. vii) During changeover of steam supply sour ce from turbine or CRH or auxiliary steam header, there shall be no rubbing at gla nds and no undue increase in vibration and the system shall be capable of withstanding thermal shock. viii) Effective drain system shall be provide d alongwith instrumentation to monitor and maintain the required temperature to a void thermal shock to the rotor during changeover from self sealing to alternate source of sealing steam. ix) Two nos.",
+  "chunk_index": 192,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

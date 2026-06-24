@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0807",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 837,
+  "text": "wrapping of pipes Spark test, adhesion test and material test for primer and enameled and coal tar tapes, as applicable, shall be carried out as per AWWA-C-203-91. 8.4.6.5 Rubber expansion joints i) Rubber compound test slab after valcanising shall be tested for tensile strength, elongation and shore hardness. Tests on rubber compound shall also include hydro stability test as per ASTM D-3137 and ozone resistance test as per ASTM D- 380. ii) Fabric strength of synthetic fibre for re inforcement shall be checked, and test for rubber to fabric adhesion as per IS: 3 400 or ASTM D- 413, rubber to metal adhesion as per IS 3100 or ASTM D-429 shall be carried out. iii) All expansion joints in assembled condition shall be subjected to vacuum test at 730 mm Hg under conditions to ensure its suitability to withstand deflection in each axial transverse and longitudinal direc tion. Duration of test shall be of minimum 10 minutes. iv) All bare bellows shall be subjected to hydraulic pressure test in normal condition at twice the design pressure for a duration of 30 minutes. Additionally, all bare bellows shall be subjected to deflection tests under pressure, pressure being raised from zero to the design value in regular steps and deflection measured at each step. v) All expansion joints in assembled c ondition alongwith control rod assembly shall be subjected to deflection test under design pressure. vi) Either during the hydraulic test or during the vacuum test, change in circumference at the top position of the arch shall not exceed 1.5% of measured circumference at normal position. vii) Twenty four (24) hours after the above tests, the permanent set (variation in dimensions with respect to its original dimension) shall be measured and recorded. The permanent set sh all not be more than 0.5%. viii) Life cycle test and burst test shall be carried out on bellows of each type, design and size. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 51 8.4.7 Equipment Cooling Water (ECW) System 8.4.7.1 Primary side and secondary side pumps i) Tests shall be carried out on the materials on various components to establish their mechanical properties and chemical composition. Further, heat treatment shall be carried out for materials of shaft and rotor. ii) 100% UT shall be carried out on pump shaft. iii)",
+  "chunk_index": 807,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0815",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 845,
+  "text": "conditioners. 8.4.10.12 Pipes, valves and fittings The QA requirements for piping, valves and fittings shall be as per clause 8.4.6 of this Section. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 59 8.4.11 Ventilation System The QA requirements for ventilation system equipments shall be same as those applicable similar equipments of air conditioning system equipments described at clause 8.4.10 of this Section. 8.4.12 Miscellaneous Items/ Equipments 8.4.12.1 Chemical dosing system i) Pumps of chemical doing system shall be performance tested as per relevant codes. ii) In case of diaphragm type of pumps, the life cycle test shall be done on pumps. iii) Dosing skid shall be subjected to leakage test and functional test. 8.4.12.2 Ce ntrifugal pumps i) Tests shall be carried out on the materials of the pumps to establish their properties, and chemical compositions. ii) 100% DPT or MPE shall be carried out for the rotor and machined surfaces of casing and impellers. iii) UT on pump shaft (diameter greater than or equal to 50mm), MPI or DPT on pump shaft and impeller after machining shall be carried out. iv) All rotating components of the pumps shall be statically and dynamically balanced to ISO-1940 Gr. 6.3. v) Assembly fit up check, and dimensi onal check shall be carried out for the completed pump assembly. vi) Pump casings shall be subject to hydraulic test at 1.5 times the shut off pressure or 2 times the working pressure whichever is higher for a minimum duration of 30 minutes. vii) All pumps shall be tested at manufactur er\u2019s works for head , capacity, power and efficiency as per requirements of HIS, USA or equivalent standard.. Pump shall be given running test over the entire ope rating range covering from the shut-off head to the maximum flow. Acceptance shall be as per approved datasheet and HIS only. viii) Pumps shall be subjected to strip down examination visually to check for mechanical damages after testing at shop in case abnormal noise level and/or excessive vibration are observed during the shop test. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 60 8.4.12.3 Blowers and exhausters i) Tests shall be carried out on the materials of the rotary blowers to establish their properties, and chemical",
+  "chunk_index": 815,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0775",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 803,
+  "text": "be provided at each end of the body, at each shaft end and from the trepanned core (when a core is trepanned) to determine mechanic al properties including impact, Brinell hardness etc. and tests for notch toughness (both transition temperature and room temperature impact values ). ii) Forging supplier should have established practices to ensure requirements of creep and rupture for long exposure of the component to high temperatures and pressures. iii) Heat treatment shall be carried out in such a way so as to ensure minimum residual stress in the rotor. Residual st ress measurement will be carried out. iv) Tests shall be carried out on the forg ing material to establish its mechanical properties, chemical composition and micro structure. v) Thermal stability tests shall be carried out on HP and IP rotor forgings to ensure the thermal stability of the rotors in service and at overspeed. vi) Each forging shall be subjected to a 100% ultrasonic examination. Normal probes and angular probes with different probe angles shall be used for thorough examination to ensure complete soundness of the forging vii) Each rotor shall be subjected to a 100% MPE after final machining on journal areas and before gashing on other areas. viii) When a rotor forging is bor ed, a visual check and magnetic particle examination of the bore shall be carried out. ix) Following tests shall be carried out on the rotor welds: a) Ultrasonic examination with normal and angular probes of the weld to ensure complete coverage and freedom from harmful defects. b) Run out of rotor before and after welding. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 17 c) MPE on finish welds. d) Hardness survey on the welds. e) Stress relieve annealing. f) Test reports of filler material used. g) Dimensional record of weld preparation. x) Dimensional examination of the ro tor blade grooves and other important dimensions shall be carried out to ensure the conformance to drawing dimensions and log sheets/records shall be prepared for all important dimensions. 8.3.1.3.2 Complete rotors i) Axial & radial run-outs and surface finish checks shall be carried out before and after blading and after overspeed tests. Run out examination shall be carried out at blade shrouds also. ii) Check shall be carried out for clearance between rotor groove and blade at",
+  "chunk_index": 775,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

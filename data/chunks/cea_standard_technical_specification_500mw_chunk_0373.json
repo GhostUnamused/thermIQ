@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0373",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 389,
+  "text": "Wye - Secondary Grounded Wye e) Insulation Class E or better f) Over voltage Factor - Continuous 1.2 - 30 seconds 1.9 g) Other ratings Accuracy Class VA burden - Protection 3P 100 - Automatic Voltage Regulator (AVR)/ Electro Hydraulic Governor (EHG)/ Synchronization and other measurements 0.5 100 - Acceptance testing, energy accounting and audit meters 0.2 100 vi) Neutral grounding transformers a) Type Cast iron insulated self cooled b) Service Indoor c) Phase Single d) Voltage ratio 22 kV/ 220 V e) Rated Output 175 kVA f) Duty Time rating 5 minutes g) Insulation class Class F or better h) Maximum Temperature 900C rise above 500C ambient vii) Neutral Grounding Resistor a) Type Grid Type b) Material Punched Stainless Steel c) Service Indoor d) Resistance As per system requirement e) Current ---------do-------- f) Voltage 250 Volt g) Duty (Time rating) 5 minutes h) Maximum temperature rise 3000C above 500C ambient viii) Surge Capacitors 0.125 micro-farad/ Phase, 24 kV Class. 5.3.3.4 The maximum temperature of the bus conduc tor and enclosure shall be as defined in the technical parameters when operating at maximum ambient temperature and carrying rated current continuously. For outdoor portions the effect of solar radiation shall also be considered. The bidder shall furnish calculation for temperature rise taking effect of solar radiation into consideration. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 32 5.3.3.5 The bus ducts shall be capable of with standing the mechanical forces and thermal effects of three phase short circuit currents, mentione d in the technical parameters, without any damage, deformation or de terioration of material. 5.3.4 Temperature rise For continuous operation at rated current under specified site conditions, the temperature rise shall not exceed the limits as defined under technical parameters. 5.3.5 Enclosure i) Each phase shall be enclosed in a weather proof, dust tight, non-magnetic metal (aluminum alloy) enclosure. The enclosure shall be designed for welded connection . ii) Filtered drain tapping with dual stop cocks shall be provided for drainage of condensate at the lowest point and at su ch other locations where accumulation of condensate can be expected. In particular a drain valve shall be provided at the lowest point of transformer end terminati on. The contractor shall be required to add drainage points if required during installation. 5.3.6 Bus Conductor i) The Bus Conductor shall",
+  "chunk_index": 373,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

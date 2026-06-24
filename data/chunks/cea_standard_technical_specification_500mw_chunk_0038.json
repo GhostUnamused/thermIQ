@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0038",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP",
+    "Cooling Tower"
+  ],
+  "section": "",
+  "page_number": 45,
+  "text": "includi ng one number caniste r drainage pumps (common for all units). v) Emergency DM make up system including condensate storage tank and emergency make up pumps. vi) Debris filters (applicable for seawater based once- through CW system and seawater cooling tower based CW system) complete with strainer, interconnecting pipes, valves, actuators , control panel, switchgear and other accessories. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 20 1.2.2.5 Feed water heating plant Complete regenerative feed heating system including full capacity drain cooler, low pressure heaters, deaerator and feed storage tank, high pressure heaters, all accessories, associated piping, valves, instrumentation and controls etc. 1.2.2.6 Boiler feed pumps i) One half capacity (1x50%) motor driven boiler feed pump for each unit complete with booster pump along with its drives, mechanical seals, flexible couplings, hydraulic coupling, gear box, common base plate, forced oil lubricating system (including oil pumps, oil tank, lube oil c oolers, working oil coolers, duplex oil filters etc.), suction strainers, ON/OFF type low load re-circulation valve, mobile cradle, integral piping and valv es, local instrument racks/enclosures, instrumentation and control etc. One portable compact oil purifying unit of centrifuge type per station of adequate capacity complete with all accessories shall also be provided. ii) 2x50% capacity steam turbine driven main boiler feed pumps for each unit complete with booster pumps, step down gear box, flexible couplings, quick disconnect coupling, mechanical seals, foundation base plates, suction strainers, ON/OFF type low load recirculation valve, mobile cradle, integral piping and valves, local gauge boards, instrumentation and control etc. iii) Two steam turbine drives for the turb ine driven boiler feed pumps per unit complete with ESV, control valves, non return valves for single admission drives, permanent and temporary steam strainers, preferably hydraulic turning gear, hand barring device, atmospheric relief diaphr agm and its vent piping, all inter connecting piping, foundati on base plates, integral gland seal system, complete lube oil and control oil system including oil tank, oil coolers, duplex oil filters, vapour exhausters, 100% cap acity centrifuge for each st eam turbine driven pump, jacking oil system, electro-hydraulic governing system, turbine supervisory system along with all control and accessories. 1.2.2.7 Condensate polishing system Condensate polishing system for each un it along with common regeneration facility including service vessels, regeneration vessels, resin transfer system, pumps, blowers, piping, chemical tanks, waste",
+  "chunk_index": 38,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0525",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 546,
+  "text": "primary sensors for unit/boiler protection shall be triple redundant. iv) The acquisition and conditioning of binary and analog protection criteria signals for MFT shall be carried out in each of the three triple redundant channels. Each channel shall compute the 2 out of 3 voting logic and issue a trip command. The trip signals of the th ree channels shall be fed to a fail safe 2 out of 3 relay tripping unit for each drive. The protection criteria for tripping shall be executed by a program which shall be identical in each of the triple redundant channel. The check b ack contact signals of each relay of the 2 out of 3 relay tripping unit shall be fed back to each of the triple redundant channels and shall be conti nuously monitored for equivalence in each of them v) The BMS shall be designed to : a) Prevent any fuel firing unless a satisfactory purge sequence has first been completed. b) Prevent start-up of individual fu el firing equipment unless permissive interlocks have first been satisfied. c) Monitor and control proper equipment sequencing during its start-up and shutdown. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 19 d) Provide equipment status feed b ack and annunciator indication to the unit operator. e) Provide flame monitoring when fuel-firing equipment is in service and effect a burner trip or master fuel trip upon warranted firing conditions. f) Continually monitor boiler conditions and actuate a master fuel trip (MFT) during adverse operating conditions which could be hazardous to equipment and personnel. g) Reliably operate and minimize the number of false trips. h) Provide a master fuel trip rela y independent of processors and I/O modules to provide a completely independent trip path. i) Provide all logic and safety inte rlocks in accordance with National Fire Protection Association (NFPA). j) Include a first out feature in all controllers to identify the cause of any burner trip or boiler trip. k) Provide a complete BMS diagnostic system to immediately identify to the operator any system module failure. l) Allow burners and igniters to be started, stopped and tripped on a burner basis. m) Allow the automatic start and stop of burners based on boiler load. The sequence of which burner will be started or stopped will",
+  "chunk_index": 525,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

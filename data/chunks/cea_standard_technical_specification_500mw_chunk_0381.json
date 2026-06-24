@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0381",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 397,
+  "text": "radiator banks (suitable no. of working fans and one no. stand-by fan and 2x100% oil pumps) xi) Type of tap changer On Load Tap changer (OLTC) 4 To be indicated by purchaser as applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 40 xii) Tapping range (+)10% to (\u2013)10% in 16 equal steps on HV side xiii) Type of insulation HV : Graded insulated LV : Uniform xiv) Maximum fault level HV : 40/ 50kA5 for 1 second LV : 40 kA for 1 second xv) Neutral terminal to be brought out On HV winding xvi) Short circuit capability To withstand rated short\u2013circuit at its terminals for 2 seconds. 5.4.3.3 Unit Auxiliary Transformers (UATs) 1) Two (2) nos. unit auxiliary transformers for each unit shall be provided. The capacity of each transformer shall have at least 20% margin over the calculated load requirement. However, minimum capacity of each UAT shall be minimum 25MVA for 500 MW (\u2026\u2026MVA for \u2026.MW ) unit. 6 2) Salient features of the unit auxiliary transformer i) Service Outdoor ii) No. of phases Three (3) phase bank iii) Voltage HV : as per generator terminal voltage LV : 11kV iv) Frequency 50Hz v) Winding connection HV : Delta LV : Star (Non-effectively earthed) vi) Vector Group Dyn1 or Dd0 vii) Type of Cooling ONAF / ONAN viii) Cooling equipments 2x50% cooli ng radiator banks (suitable no. of working fans and one no. stand-by fan) ix) Maximum permissible temperature rise over an ambient of 50oC In top oil : 500C In winding : 550C x) Percentage impedance 10 (indicative) xi) Type of tap changer On load tap changer (OLTC) xii) Tapping range \u00b1 10% in 16 equal steps for OLTC xiii) Type of insulation HV : Uniform LV : Uniform xiv) Maximum fault level LV : 40kA for 1 second xv) LV neutral earthing Throug h Neutral Grounding Resistor 5 Fault level to be decided as per system requirement 6 To be indicated by purchaser as applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 41 xvi) Short circuit capability To with -stand rated short\u2013circuit at its terminals for a time duration considering the actual duty to which the transformer is subjected depending upon the generator\u2019s initial loading and other design",
+  "chunk_index": 381,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

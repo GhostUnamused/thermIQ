@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0577",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 595,
+  "text": "of flue gas analysers Specification requirements SO2 analyser and NOx analyser cum monitor (combined) Oxygen analyser cum monitor CO analyser cum monitor Dust density stack opacity monitoring a) Type of instrument Sampling type Heated type in-situ In-situ type In-situ dry type visible light (through LED) stack b) Principle of measurement Radiation absorption Partial-pressure using Zirconium Oxide Cell IR double beam absorption Transmissi on and absorption c) Measurement range 0-200/0-1000-0-2000 selectable in mg/m 3 0-25% oxygen programmable up to min.0.5%of O 2 0-999 selectable in 0-100, 0-200, 0-500, 0-999ppm 0 to 999mg/ m 3 d)Accuracy + 1% of F.S. + 1% of F.S. + 5% of F.S. + 0.2% of F.S. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 68 e)Linearity + 1% of F.S. + 1% of F.S. + 2% of F.S. + 1% of F.S. f) Repeatability < 0.5% of Span < 0.5% of Span < 0.5% of Span < 0.5% of Span g)Response time (upto 90% of full scale) 5 sec. or less 5 sec. or less 5 sec. 5 sec. o Temprature drift o Zero drift o Span drift + 1% / 10 deg. C < 1% span/ week < 1% measured value/week + 0.005% 2 deg. C Automatic temp compensa- tion <1% span/ week <1% measured value/ week 1% in 24 hrs. h)Sensor type Luminiscence/ /IR . zirconium oxide cell IR Luminisc- ence i)Operating temperature range 0-300 deg.C 0-450 deg.C 0-300 deg.C 0-300 deg.C j)Filter Ceramic 3.5 micron Ceramic 3.5 micron Ceramic 3.5 micron Ceramic 3.5 micron k)Sampling system With dual sampling through heavy duty pumps (with bypass pump), solenoids filters etc. alongwith coolers and flow meter and level switch in gas coolers for auto draining purpose, moisture detection/ alarm unit. Not applicable Not applicable Not applicable Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 69 6.4.5 Vibration Monitoring System i) Microprocessor based vibration monitoring system shall be provided for ID fans, FD fans, PA fans, CEPs , BFPs ,and all other pumps/ fans operating on 3.3kv/11kV.The number of bearing loca tions to be monitored on each fan/ pump shall be as per requirements fina lized during detailed engineering but not less than 2 bearing locations for each fan/pump (except",
+  "chunk_index": 577,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

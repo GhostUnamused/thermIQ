@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0614",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 638,
+  "text": "testing of associated process piping or without the associated process piping (by closing the root valve. In both the cases the instrument sh all be isolated by closing the shut- off valve). iii) Air Testing All air headers & branch pipes shall be air tested by pressure decay method as per ANSI B31.1. Flexible hoses and short signal tubing shall be tested at normal pressure for leakage. Long signal tubing shall be tested by charging each tube with air at 2 kg/ sq. cm. through a bubbler sight glass. The boiler draft and vacuum piping shall be air te sted by the same method as long signal tubing. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 111 TABLE 6.9.1 Process Connection Piping S.No. System/Line Description Piping Class Impulse Pipe Material Schedule (Size ) Materials for Fitting/Valve Body Valve Stem Material Rating of Piping/ Fittings Pr. Class of Valve i) Main steam/ upstream of HP bypass and auxiliary steam pressure reducing valve A ASTM-A335 Gr.P-91/22 (Note-2) XXS (1/2 inch) (Note-3) (Note-3) 9000 lb 3000 SPL ii) BFP discharge/superheater attemperator/ spray to PRDS B ASTM-A106 Gr.C 160 (1/2 inch) ASTM-A105 ASTM-A-182 Gr.F6a 6000 lb 2500 iii) Reheater attemperator C ASTM-A106 Gr.C 160 (1/2 inch) ASTM-A105 -do- 6000 lb 1500 iv) Hot reheat/ down stream of aux. steam press. reducing valve upto desuper heater/ Flash tank drain manifold. D ASTM-A335 Gr.P-91/22 (Note-2) 160 (1/2 inch) ASTM-A182 Gr.F- 22 (Note-3) 3000 lb 900 v) Cold reheat upto tee-off for HP bypass / extraction steam No. 5 to HPH E ASTM-A335 Gr.P-22 80 (1/2 inch) ASTM-A182 Gr.F- 22 ASTM-A-182 Gr.F6a 3000 lb 800 vi) Cold reheat down steam of tee-off (HP Bypass) F ASTM-A106 Gr.C 80 (1/2 inch) ASTM-A105 -do- 3000 lb 800 vii) BFP suction/ condensate system/ extraction to LPH/ ext-4 to BFP-T, deaerator/ auxiliary steam G ASTM-A106 Gr.B 80 (1/2 inch) ASTM-A105 -do- 3000 lb 800 Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 112 viii) Air/ flue gas outside furnace M ASTM-A106 Gr.B/C 80 (3/4 inch) ASTM-A105 -do- 3000 lb 800 Air/ flue gas inside furnace N ASTM-A335 Gr.P22 80 (3/4 inch) ASTM-A182 Gr. F-22 -do- 3000 lb 800 NOTE: 1 Rating of piping/fittings/valves etc. is",
+  "chunk_index": 614,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0165",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 171,
+  "text": "PRDS is unable to meet auxiliary steam requirement on its own. 2.2.14.6 Low capacity PRDS shall be capable of supplying continuous requirement of auxiliary steam to the unit. The change over of cont rol from high capacity PRDS to low capacity PRDS and vice versa shall be automatic with manual override facility. 2.2.14.7 In case each unit is provided with only high temperature auxiliary steam header as per manufacturer\u2019s standard and proven practice, auxiliary steam requirement at lower parameters shall be met with PRDS stations pr ovided for individual application. Further, connections with individual PRDS shall also be provided to meet the auxiliary steam requirement of other systems which are not in contractor\u2019s scope such as fuel oil system. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 70 2.2.15 Walk Ways, Platforms and Stairs etc. 2.2.15.1 Walkways, platforms and staircases shall be provided in accordance with following clear width requirements: i) Operating platforms and maintenance access walk ways : 1500 mm ii) Other walk ways : 1000 mm iii) Ladders and staircase : 850 mm 2.2.15.2 Platforms with necessary access shall be provided at all burner levels and all around the furnace to facilitate operation, service and maintenance of all burners and associated auxiliaries. The platforms shall generally ex tend upto 3 m from furnace walls. However where there are layout constraints, it shall be minimum 2.7 m. Platforms shall allow complete burner withdr awal. The platforms at each burner elevation shall be continuous and run at same level w ithout any interruption from intervening steps and obstructions etc. Adequate space sha ll be provided for placing local instrument enclosure/ racks and for performing maintenance work including enough space for door opening. The burner platforms within 200 mm of igniter shall be welded steel chequered plate with edges welded-in place to preven t oil spillage from spreading. 2.2.15.3 Personnel access requirements: Personnel access shall be provided for Class I, Class II and Class III areas as per following: i) Class I area: These are regularly attended access areas such as operating platforms which are fully accessible from an elevator landing. No ladders etc. shall be used for the access to these areas. a) Burner platforms shall have direct access to elevator unless levels are so close together that the 3500 mm minimum",
+  "chunk_index": 165,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

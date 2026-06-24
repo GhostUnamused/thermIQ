@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0323",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 330,
+  "text": "idistat, heater box, insulation etc. Heaters shall be provided in ducting common to all AHUs. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -75 4.9.5 Balance Equipment Specification 4.9.5. 1 Centrifugal pumps i) Type : Horizontal centrifugal, axially split type casing pump ii) Impeller : Closed type iii) Material of construction : a) Casing : 2% Ni Cast Iron : IS:210 Gr. FG-260 b) Impeller : Bronze IS:318 Gr-2 c) Wearing rings : Bronze d) Shaft : SS 410 e) Shaft sleeve : SS 316 f) Shaft sealing arrangement : Mechanical seal g) Base Plate : Carbon steel as per IS:2062 h) Speed : Maximum 1500 rpm The design of the pumps shall conform to IS 5120. The pumps shall have stable rising head capacity characteristic towards shut off. The pumps shall be capable of developing the required total head at ra ted capacity for continuous operation. The impellers shall be of non overloading type. Pumps of particular category shall be identical and shall be suitable for parallel operation. The shut off head of the pu mps shall be at least 20% higher than the rated head for better operation. 4.9.5.2 Piping and fittings i) Piping for chilled water and condenser water : Heavy grade-IS:1239 for pipes upto 150 NB and IS:3589 for pipes beyond 200 NB with a minimum thickness of 6mm. ii) Drain piping : Same as (a) above and galvanised as per IS:4736. iii) Refrigerant piping : : Seamless steel tubes conforming heavy grade IS:1239 or copper tubes as per IS:2501 (copper material as per IS:191 hard copper grade). Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -76 iv) Fittings : The steel fittings shall conform to ASTM A234 Gr WPB for sizes 65 NB and above. For sizes 50 NB and below, the material shall conform to ASTM A-105. For pipe sizes above 350 NB, fabricated fittings from sheets of adequate thickness may be used. The bend radius in case of mitre bends shall be minimum 1.5 times the nominal pipe diameter and angle between two adjacent sections shall not be more than 22.5 deg and shall be as per BS:2633/BS:534. Fittings, flanges and pipe joints",
+  "chunk_index": 323,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0917",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 1003,
+  "text": "outlet temperature more and SH/RH/Economiser true gas temp. in boiler * (With head assembly, terminal block and nipple) iii) Local Indicators like temperature, 5% or 1 no. of each make, pressure, differential pressure, flow model and type whichever is gauges and flow meters etc., more (to be divided to various ranges in proportion to main of all make, model, type population) iv) Process actuated switch devices 5% or 1 no. of each type Including all types of pressure, and model whichever is more differential pressure, flow, temperature, differential temperature, level switch devices Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 9 (Mandatory Spares) 9 - 76 v) Indicators/Recorders a) Digital Indicators of each model, 10% or 2 nos. min. whichever type & range (including relevant is more digital indicators of electrical system) b) Vertical Indicators of each 5% or 1 no. of each model type & model whichever is more. c) Recorders for each type and 5% or 1 no. whichever is more model d) Consumables for continuous 25 rolls per recorder/ 25 nos. recorders Charts Ink capsules per recorder/ 20 nos. per recorder / Ink Pads /Pens e) Consumables for multi point recorders \u2022 Charts 5 nos. per recorder \u2022 Ink pads 5 nos. per recorder \u2022 Print mechanism/ print head 10% or 5 nos. of each type assembly whichever is more. f) Level transmitters (displacer type) \u2022 Electronic cards / PCB\u2019s of 5% or 1 no. whichever is more level transmitters for each type and model. \u2022 Level transmitters. 5% or 1 no. of each type, displacer length and model whichever is more. g) PD type flow transmitters 5% or 1 set of each type and model whichever is more. 9.5.4 Power Supply System (24 V DC power supply system) i) Silicon controlled th yristors, diodes, 100% power transistors ii) Capacitors 2 set iii) CTs, CVTs, VTs chokes, AC/DC 10% or 2 nos. of each type isolators, contactors, timers, rela ys and rating, whichever is more. iv) Fuses of each types and rating 300% Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 9 (Mandatory Spares) 9 - 77 v) Fuse free circuit breakers 5% or 2 no. of each type and rating, whichever is more vi) Battery/ cells 10% or 2 nos. whichever is more vii) Electronic modules of all",
+  "chunk_index": 917,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

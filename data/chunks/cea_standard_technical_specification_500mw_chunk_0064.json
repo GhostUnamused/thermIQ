@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0064",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 72,
+  "text": "The performance guarantees under this category shall be called \u2018Category-II Guarantees\u2019. Conformance to the performance requirements under Category-II is mandatory. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 47 c) For Category-III Guarantees Reject the equipment/system and recover from the Contractor the payments already made. OR Accept the equipment/system after assessing the deficiency in respect of the various ratings, performance parameters and capabilities and recover from the contract price an amount equivalent to the damages as determined by the purchaser. These parameters/ capacities sh all be termed as \u2018Category- III Guarantees\u2019. 1.6.2 Guarantees under Category- I 1.6.2.1 The performance guarantees which attract liquidated damages are as follows: i) Steam generator efficiency a) Efficiency of the steam generator at 100% TMCR and 27 oC ambient temperature and 60% RH while firing the design coal at rated steam parameters, rated coal fineness and rated excess air. b) Efficiency of the steam generator at 80% TMCR and 27oC ambient temperature and 60% RH while firing the design coal at rated steam parameters, rated coal fineness and rated excess air. ii) Steam generating capacity Steam generating capacity in kg/hr. of steam at rated steam parameters at superheater outlet (with any combinati on of mills working as per purchaser\u2019s discretion) with the coal being fired from within the range specified under this subsection. iii) Turbine cycle heat rate a) Turbine cycle heat rate in kcal/kWh under rated steam conditions at design condenser pressure with zero make up at 100% TMCR load. b) Turbine cycle heat rate in kcal/kWh under rated steam conditions at design condenser pressure with zero make up at 80% load. iv) TG output Continuous TG output of 100% TMCR under rated steam conditions at design condenser pressure with 3% make up. v) Auxiliary power consumption a) Auxiliary power consumption at 100% TMCR unit load. The total auxiliary power consumptio n for all the auxiliaries of boiler, turbine- generator, and the equipments of turbine cycle included in this package required for continuous unit operation at TMCR load under rated steam conditions and at design conde nser pressure with 0% make up and with ambient air temperature of 27 0C and RH of 60% shall be guaranteed in line with the requirements stipulated in clause 1.6.2.4 of this sub-section. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or",
+  "chunk_index": 64,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

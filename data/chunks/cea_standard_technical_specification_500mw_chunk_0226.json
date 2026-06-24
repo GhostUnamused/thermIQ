@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0226",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 232,
+  "text": "either singly or in para llel with other operating pump. MDBFP and associated auxiliaries shall be designed for auto start-up on failure of running equipment/ auxiliaries. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 53 xiii) MDBFP lube oil system Common lubricating oil system shall be provided for BFP, booster pump, motor and hydraulic coupling complete with AC motor driven auxiliary oil pumps, two full capacity each of working oil coolers, l ube oil coolers, oil filters, strainers. The system shall be provided with piping, valves, fitting, instruments etc. as required. xiv) Shaft design The pump shall have stiff shaft design and minimum internal clearances more than maximum static shaft deflection. xv) Critical speed The first critical speed in water shall be above the speed corresponding to turbine over speed trip condition and internal clearances being 150% of new clearance or 130% of design speed whichever is higher. xvi) First stage impeller life The wear life due to cavitation for first stage impeller shall not be less than 40,000 running hours. xvii) Dry running The pumps shall be capable of accepting complete loss of water due to incidents such as inadvertent complete closure of suction valve and brought down to rest in controlled manner from design condition w ith simultaneous closure of suction valve. xviii) Clearance between impeller and casing The clearances between periphery of impeller and casing of boiler feed pump shall not be less than 4% and 6% of impeller outer diameter for diffuser and volute type pumps respectively. xix) Efficiency Efficiency of the BFP shall not be c onsidered more than 83% (hot) for the purpose of arriving at capacity of the drive. xx) Suction specific speed The suction specific speed of first stage impeller for main pump and booster pump shall not exceed 8000 US units a nd 9500 US units respectively based on 3% head break down. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 54 xxi) TDH per stage TDH per stage for the main pump shall not exceed 670 mwc. xxii) Casing design pressure Casing design pressure for TDBFP shall be TDH at minimum flow with pump operating at trip speed under lowest operating density plus maximum suction pressure at booster",
+  "chunk_index": 226,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

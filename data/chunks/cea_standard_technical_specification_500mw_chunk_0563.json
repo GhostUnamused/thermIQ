@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0563",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 579,
+  "text": "r walls and any other deterioration in the furnace condition. The nos. of such flame cameras to be included in the proposal shall be selected by the bidder appropriate to his boiler design subject to minimum of four (4) numbers. The flame camera system will consist of the following facilities/ components as a minimum: - a) 19\" High resolution color monitor. b) Facility for zooming and adjustment of iris from the monitor c) Proper cooling arrangement (pre ferably air) and protection against cooling medium failure. d) Weatherproof local control box for mounting of electronics. e) All necessary remote/ local programming tool. f) All interconnecting cable and termination device. g) Any other accessory to make the system completely operational. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 52 ii) The cameras and the total system sh all be suitable for the furnace design as being offered by the main boiler ve ndor, the firing arrangement, the fuel being fired considering the ash content of worst coal. The cameras should be expected to withstand the temperature expected in the furnace of the offered boiler but shall not be less than 1600 deg C. iii) The viewing angle of the camera shall be commensurate with the furnace size, the camera location and the positio ning of the burners. The system shall conform to PAL and number of TV lines shall be adequate for a clear image of the furnace. iv) The offered flame camera system shall have a record of trouble free performance of minimum one (1) year in a coal-fired boiler of size 500 MW or above where the firing arrangement is similar to the offered boiler. v) The system shall be capable of transmitting the image to the DDCMIS system where it should be possible to display the same on the monitors of operator workstation. 6.3.8 Electronic Remote Drum Level Monitoring System Bidder shall provide electronic remote drum level monitoring system working on principle of difference in electrical conductivity between steam and water. The monitoring system shall meet the requirements as indicated below: i) Each end of the drum shall ha ve independent pressure vessels with adequate no. of electrodes covering the entire range for indication for each end of drum. Further, independent and separate pressure vessels shall also be provided for each",
+  "chunk_index": 563,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

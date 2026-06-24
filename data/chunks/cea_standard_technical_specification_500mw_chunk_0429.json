@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0429",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 448,
+  "text": "compressors xiv) Any other drive recommended by Boiler, Turbine and Generator manufacturer 5.9.7 Protection i) 415V AC and 220V DC Incomers a) Time graded short circuit protec tion on incoming supply feeder circuit breakers to main switchgears (PCCs and MCCs) b) Instantaneous over-current pr otection on all outgoing feeders c) Under- voltage protection for 415V bus d) Sensitive earth fault detectors sh all be provided in DC system to annunciate earth faults ii) 415 Volts motor feeders 1) Contactor controlled motor feeders (Motors up to 200 kW) i) Instantaneous short circuit protection on all phases through HRC cartridge type fuses rated for 80 kA rms (prospective breaking capacity at 415V). ii) Thermal overload protection iii) Single phasing protection for motors protected by fuses 2) Breaker controlled motors f eeders (motors rated above 200 kW) i) Instantaneous short circuit protection on all phases ii) Overload protection on two phases iii) Over load alarm on third phase iv) Earth fault protection v) Under voltage protection vi) Hand reset lockout relay with a blue lamp for monitoring 5.9.8 Design and constructional features a) All 415V switchgears, AC and DC distribution boards (DBs), etc shall have following features : Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 91 i) Shall be of metal enclosed, indoor, floor mounted and free standing type. ii) All frames and load bearing members shall be fabricated using mild steel structural sections or pressed and shaped cold rolled sheet steel of thickness not less than 2mm. iii) Frame shall be enclosed in cold rolled sheet steel of thickness not less than 2mm (CR).Doors and covers shall also be of cold rolled sheet steel of thickness not less than 1.6 mm. Stiffeners shall be provided wherever necessary. Removable gland plates of thickness 3mm (hot/cold rolled sheet steel) or 4 mm (non-magnetic material) shall be provided for all panels. iv) For motors above 160kW, remote c ontrolled electrical circuit breakers, and for smaller motors, switch-fuse contactor feeders shall be provided. The other outgoing feeders would be switch-fuse units or moulded case circuit breakers. v) The switchboards/ MCC/ DBs of 1600A and above rating shall be of DOP IP42 and of IP52 for less than 1600A rating. vi) All 415V switchgears, MCC\u2019s, AC and DC distribution boards etc. shall be painted by powder coating process. Paint shade for complete panels",
+  "chunk_index": 429,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0769",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 796,
+  "text": "side as well as shell side at minimum 1.5 times the design pressure. 8.2.3 Air Preheaters, Steam Coil Air Pre-Heater and Fuel Oil Heaters 8.2.3.1 Air Preheaters i) Forged shafts for air preheater like st ub shaft, main rotor forging, housing hub shall be subjected to 100% UT at mill and magnetic particle examination after machining. ii) For non-modular design, trial assembly shall be carried out at shop prior to despatch to site. iii) Critical welds of rotor post shall be s ubjected to radiographic examination. 8.2.3.2 Steam coil air pre-heater and fuel oil heaters Hydraulic pressure test shall be carried out on the heating coils. All pipes, valves, steam traps and mountings shall be subjected to hydraulic test as called for under IBR, BS or other approved codes. 8.2.4 Soot Blowers i) Butt weld between nozzle and lance tube shall be subjected to 100 % radiography tests. ii) Soot blower shall be subject ed to operational checks as below: a) Smooth operation b) Long tube travel, closing and opening time. c) Current drawn. 8.2.5 ID, FD and PA fans i) Rotor components shall be subjected to ultrasonic test at mill and magnetic particle examination/dye penetrati on examination after rough machining. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 10 ii) Butt welds in rotor components shall be subjected to 100% UT and all welds shall be subjected to MPE or DPT after stress relieving. iii) All rotating components of fans shall be dynamically balanced to quality grade 2.5 of ISO 1940. iv) Test for natural frequency of all fan co mponents, including fan blades shall be carried out for the fans. v) Full range performance test shall be carried out on one fan of each type and size as per BS 848, Part-1. vi) Hydraulic coupling of ID fan shall be checked for string test i.e., operational check of one fan assembly using hydrau lic coupling to check temperature rise, smooth operation, vibration and noise level. Dry run test shall preferably be carried out during string test. 8.2.6 Coal Mills, Pulverised Coal Piping and Burners i) Raw material for shaft, coupling, gear s and pinions, top and bottom races and other rotating components shall be subjected to UT. MPE or DPT shall be carried out to check surface soundness. ii) Wear-resistant parts shall be",
+  "chunk_index": 769,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

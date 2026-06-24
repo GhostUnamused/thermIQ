@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0835",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 877,
+  "text": "(Quality Assurance Plan) 8 - 90 8.6.5 Auxiliary Service Transformers 8.6.5.1 Oil-filled Outdoor Transformers Tests/ Checks Items/ Components/ Sub- systems Visual and Dimensional checks Mechanical properties Electrical strength Thermal properties Chemical Composition Compatibility with oil Core Loss (on first Job) Hot Spot NDT, DP or MPI, UT Ageing Test Voltage Ratio, Vector Group and Polarity, Magnetic balance test Make, Type, Rating, Model, TC, General physical Iispection. WPS and PQR Vacuum and Pressure Test Routine Tests Tank, HV and LV Cable Box/ Flange throat Y Y Y Y Conservator/ Radiator/ Cooler/ Pipes Y Y Y Copper Conductor (IS:191) Y Y Y Y Insulating Material Y Y Y Y Y Y CRGO Lamination and Built Core Y Y Y Y Y Y Bushing / Insulator ( IS:2544/ 5621) Y Y Y Y Gasket Y Y Y Y Transformer oil ( IS:335) Y Off-circuit tap changer Y Y Core coil assembly and pre- tanking Y Y Marshalling box Y Y Y WTI, OTI, MOG, PRD, Breather, Terminal Connector, Bucholz Relay, Globe and Gate Valve, Y Y W e l d i n g ( A S M E S e c t - I X ) Y Y Complete Transformer (IS:2026) Y Y Y =Test applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 91 8.6.5.2 Dry Type Indoor Transformers Tests/ Checks Items/ Components/ Sub-systems Visual and dimensional check Mechanical properties Electrical strength Thermal properties Chemical properties Core loss (on first job), Hot Spot NDT, DP or MPI Voltage ratio, vector group and polarity Make, Type, Rating, Model, TC, General physical inspection WPS and PQR Measurement of capacitance and tan delta between winding Routine tests Enclosure door, HV and LV Cable box/ Flange throat Y Y Y Copper conductor Y Y Y Y Insulating material Y Y Y CRGO lamination and built core Y Y Bushing/ Insulator ( IS:2544/ 5621) Y Y Y Gasket Y Y Y Off-circuit tap changer Y Y Core coil assembly Y Y Marshalling box Y WTI, Thermister, Terminal connector Y Y Welding Y Complete transformer (IS:11171) Y Y Y Y =Test applicable 8.6.5.3 Type tests 8.6.5.3.1 Type tests (Category-I) The transformer shall be subjected to the following type tests for rating above 2 MVA. i) Short Circuit test \u2013 This test shall be carried out after conducting the routine tests. Rest of the",
+  "chunk_index": 835,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

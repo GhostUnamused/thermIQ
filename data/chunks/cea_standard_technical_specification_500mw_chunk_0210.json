@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0210",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 215,
+  "text": "mm for water boxes, tube plates and 1.6 mm for shell, hotwell and condenser neck shall be provided. xi) All bolts, nuts and stays etc. inside the steam space shall be of approved material and where such parts project through tube pl ates they shall be fitted with stainless steel or approved cap nuts and protectiv e sleeves. For dearating zone, trays, fittings etc. made of stainless steel shall be provided. xii) Stand pipes shall be provided with necessary connections for instruments, with water level gauges and isolation valves. xiii) Condenser design shall provide for effi cient steam distribution in the condenser when one half of condenser is isolated and shall ensure atleast 60% of rated output under this condition. xiv) Suitable provisions shall be made for expansion between shell and tube. 12 For sea water application, the tubes shall be of titanium B- 338 Gr- II and continuous without any circumferential joint with average wall thickness of minimum 22 BWG. 13 For sea water application, materials shall be of prove n type as per duty involved and shall be compatible with titanium tubes. The materials proposed shall be subject to approval of the purchaser. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 36 xv) Suitable provisions (like sliding and fixed base plate of condenser support feet etc.) shall be made for expansion of condenser shell under various operating conditions. 3.9.2.4 Other features i) Condenser shall be designed to receive exhaust steam from steam turbine, BFP drive turbine, HP-LP bypass system, heater drains and vents, drains during start-up, low-load and abnormal conditions. ii) Steam dumping device shall be provided for dumping of desuperheated steam from LP bypass. Sizing of steam dumping device shall be adequate to accept the steam from HP-LP bypass with necessary spray water including abnormal condition like HP heaters out of service etc. iii) Air removal section shall be designed to cool the air and vapour mixture to at least 4.17 0C below saturation temperature corresponding to 25.4mm Hg (abs). Connections to air evacuation pump s shall be made at this section. iv) Condenser shall be designed to carry flooded weight (upto tip of last stage of LP turbine blades) for hydraulic and hydrostatic testing of condenser without installation of temporary supports or bracing. v) CW butterfly valves with actuators sh",
+  "chunk_index": 210,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

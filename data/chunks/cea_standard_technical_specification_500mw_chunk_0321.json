@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0321",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser",
+    "Cooling Tower"
+  ],
+  "section": "",
+  "page_number": 329,
+  "text": "- 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -73 4.9.4.3 Cooling towers i) Type : Induced draft, cross or counter flow type. ii) Capacity : 110% of rated capacity of each cooling water pump. iii) Material of body and sump tank : FRP iv) Fan :Cast aluminium / FRP propeller type and multi- blade aerofoil construction with adjustable pitch. v) Fill : Non combustible PVC or equivalent of light grey, cream or white colour. vi) Louvers : FRP/ PVC/ Aluminium. vii) Nozzles : Brass with chrome plating/polypropylene. viii) Eliminators : In removable sections to reduce the drift loss to 0.2% of water flow. ix) Supporting structure :Mild steel with spray galvanisation or epoxy painting. x) Strainer at water outlet : Plate strainer made of GI /SS wire mesh of 16 gauge. xi) Bird screen : 25 mm square made of GI/SS wire mesh of 16 gauge. xii) Ladder : Hot dip galvanised steel ladder for each tower. xiii) Distribution pipe : Galvanised MS pipe. xiv) Accessories : a) Drain connection with isolation valve b) Make up connection with ball - float valve, back up gate valve and a bypass with a gate valve for manual operation. c) Overflow connection d) Equalizing connection to connect sump of all the towers wherever applicable. e) Access door in louvers / fan deck. 4.9.4.4 Window type air conditioners i) The equipment assembly shall be designed as a self-contained unit. It shall include a prime source of refrigeration, dehumidification, means of circulating and cleaning and filtering the air and sh all have the provision to ventilate and/or exhausting and heating. Th e unit shall be suitable for continuous operation. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -74 ii) The external casing shall be heavy gauge GS sheet weather proof with corrosion resistant primer and finished in backed enamel paint. Cleanable air filter of dry type shall be provided. The compressor shall be hermetically sealed reciprocating type or scroll type of reputed approved make. Motor shall be protected by overload relay. The condenser shall be air-cooled type with copper tubes and external fins. Evapor ator shall be D.X. type with copper tubes and external fins. iii) Units shall be complete with electrica lly operated",
+  "chunk_index": 321,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

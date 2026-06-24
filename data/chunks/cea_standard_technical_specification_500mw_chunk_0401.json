@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0401",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 420,
+  "text": "motors Class 130 (B) v) Motors rated above 1000KW shall have insulated bearings to prevent flow of shaft currents. vi) Motors with heat exchangers shall have dial type thermometer with adjustable alarm contacts to indicate inlet and outlet primary air temperature. vii) Noise level and vibration shall be lim ited within the limits prescribed in IS: 12065 and IS: 12075 respectively. viii) In 11kV and 3.3kV motors, at least four numbers simplex/ two numbers duplex platinum resistance type temperature detectors shall be provided for each phase of stator winding. Each bearing shall preferably be provided with dial type thermometer with adjustable alarm co ntact and two numbers duplex platinum resistance type temperature detector Motor body shall have two earthing points on opposite sides. ix) 11kV and 3.3kV motors can be offered with either elastomould termination or dust tight phase separated double walled (metallic as well as insulated barrier) cable boxes. In case elastomould terminations are offered, then protective cover and trifurcating sleeves shall also be provided. Removable gland plates of thickness 3 mm (hot/cold rolled sheet steel) or 4 mm (non magnetic material for single core cables) shall be provided in case of cable boxes. x) All motors shall be so designed that maximum inrush currents and locked rotor and pullout torque developed by th em at extreme voltage and frequency variations do not endanger the motor and driven equipment. xi) The motors shall be suitable for bus transfer schemes provided on the 11kV, 3.3 kV, 415V systems without any injurious effect on its life. xii) Motors rated 2000kW and above sha ll be provided with neutral current transformers of PS class on each phase in a separate neutral terminal box for differential protection. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 63 5.8 11kV & 3.3kV SWITCHGEARS The following 11kV and 3.3kV switchgears shall be provided: a) All 11KV unit switchgears as required for unit auxiliaries b) All 3.3KV unit switchgears as required for unit auxiliaries c) 11kV station switchgears for providing 11kV supply feeders to station facilities (e.g. coal handling system, ash handling system, water systems etc.) and tie feeders with unit switchgears 5.8.1 Codes and standards The equipment, materials and service shall conform to the latest applicable provision of the following standards : IS : 722 AC electricity meters IS : 996 Single phase",
+  "chunk_index": 401,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

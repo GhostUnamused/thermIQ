@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0154",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 162,
+  "text": "be arrange d to avoid formation of pockets. x) Access and inspection doors of hinged ty pe with matching heavy duty surface shall be provided. The access and inspection door shall be minimum of 500 mm x 500 mm size. The door closing devices shall be designed to force the doors to make an air or gas tight sealing when closed. 2.2.10.2 Expansion joints i) The expansion joints shall be of metallic type suitable for the service conditions. ii) Expansion joint shall not support the duct work. iii) The materials for joints shall be tested as per IS/ASTM/DIN or other international standards. iv) The outer cover shall preferably be elast omer coated for better corrosion and abrasion resistance and weatherability. v) The minimum trouble free operational life of expansion joint shall not be less than 20000 hrs of operation from the date of commissioning. 2.2.10.3 Blanking plates Bolted plates or other positive closure means sh all be provided in order to permit pressure testing of steam generator enclosure. 2.2.10.4 Dampers i) Power operated gas tight isolation dampers along with their drives shall be provided at all locations required for carrying out internal repair and maintenance of pulverisers, electrostatic precipitators, ID fans, PA fans, FD fans when the steam generator is under operation. Interconnecting dampers shall be provided where necessary. As a minimum, the following locations shall be provided with power operated gas tight dampers: a) On each hot air duct to each of the mills. b) On each inlet and outlet to each ESP stream (there being four ESP streams, with eight inlets and eight outlets). c) Before and after each ID fan. d) At inlet to each of the regenerative air pre heater on flue gas side. e) Before and after each of the regenerative air pre heater on air side. f) At discharge of each of PA fan. g) At discharge of each of FD fan. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 61 h) Interconnecting duct dampers as necessary. ii) Heavy duty multi louver dampers shall be provided at locations not requiring tight shut off duty. iii) Pneumatically or motor operated control dampers shall be provided on the hot and cold primary air inlet to each mill, and at each air pre heater outlet on flue gas path",
+  "chunk_index": 154,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0829",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 868,
+  "text": "(set up shall include inspection cover, flanged joint and bellow) 8.6.2.3.2 Type test (Category-II) a) Panels, cubicles and marshalling boxes shall be type tested for the degree of protection provided by the enclosure as given below : - For 5X-it shall not be possible to insert a thin sheet of paper under gaskets and through enclosure joints. - For 4X-It shall not be possible to insert a one mm diameter steel wire into enclosure from any direction without force. - For 2X-It shall not be possible to insert a twelve (12) mm dia steel wire into the enclosure from any direction without any force. - Test for second digit shall be in line with IS:13947 part-1 b) For the equipment and materials such a current transformers, voltage transformers, lightning arresters, gro unding transformers, loading resistors, bushings and surge capacitors for which type test are not specified in this section, successful type tests certificate shall be submitted to the purchaser. 8.6.2.4 Site tests i) 10% radiography and 100% DP test on all site welded joints of busbar and enclosure ii) Milli-volt drop test iii) Ratio and polarity tests on current and voltage transformers iv) Insulation measurement of equipment and all wiring v) Functional test on pressurization (Tightness test as per ANSI 37.20) vi) One minute high potential power frequency withstand test at 75% of rated test voltage Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 82 8.6.3 Power Transformers 8.6.3.1 Generator Transformers/ Unit aux iliary transformers/ Station transformers) (Table 1/2) Tests/ Checks Items/ Components/ Sub- systems Visual and dimensional checks Mechanical properties Electrical strength Thermal properties Chemical composition Compatibility with oil Core Loss, Hot spot NDT, DPT or MPI, UT Ageing test. Voltage Ratio, Vector Group and Polarity, Magnetic Balance test Make, Type, Rating, Model, TC, General physical inspection. 10kV Isolation test on core WPS and PQR Routine tests as per relevant standard Tank Y Y Y Y HV and LV cable box/ Flange throat Y Y Conservator/ Radiator/ Cooler/ Pipes Y Y Y Copper conductor (IS:191) Y Y Y Y Insulating material Y Y Y Y Y Y CRGO lamination and built Core Y Y Y Y Y Y Bushing/ Insulator (IS:2544/ 5621) Y Y Y Gasket Y Y Y Y Air Cell Y Transformer oil ( IS:335) Y On load/ off-circuit tap changer (IEC:214)",
+  "chunk_index": 829,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

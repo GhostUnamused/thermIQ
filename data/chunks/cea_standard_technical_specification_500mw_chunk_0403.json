@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0403",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 422,
+  "text": "with vacuum/ SF 6 circuit breakers. Outgoing breakers shall be suitable for sw itching transformers and motors at any load. They shall be capable of being used for frequent direct-on-line starting of squirrel cage induction motors of following ratings a) 3.3KV Above 200 kW up to 1500 kW b) 11 kV Above 1500 kW Surge arrestor shall be prov ided for each motor feeder The operating mechanism of the circuit breakers shall be of the stored energy type DC motor operated charging springs. ii) The circuit breaker, contactor and switc hgear assemblies shall have the following technical parameters : a) System parameters 1) Nominal System voltage 11 kV 3.3 kV 2) Highest System voltage 12 kV 3.6 kV 3) Rated Frequency 50 Hz 50 Hz 4) Number of phases Three Three 5) System neutral earthing Earthed through resistance to limit fault current to 300A or High resistance grounding through artificial earthing transformer and earthing resistor 6) One minute power frequency withstand voltage - for Type tests 28 10 - for Routine tests 28 10 7) 1.2/50 microsecond Impulse withstand voltage 75 kV (peak) 40 kV(peak) 8) Maximum system fault level including initial motor contribution 40 kA for 1 second 40 kA for 1 second 9) Dynamic withstand rating 100 kA (peak) 10) Control supply voltage - Trip and closing coils ----- 220V DC ----- Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 65 - Spring charging motor ------220V DC ----- (240V AC can be accepted for off- site areas) - Space heaters ----- 240V AC ---- 11) Ambient temperature 500C b) Busbars 1) Continuous current rating at 500C ambient as per system requirements 2) Temperature rise - 40 0C for plain joints - 550C for silver plated joints c) Constructional requirements 1) Colour finish - exterior and interior as mentioned elsewhere 2) Cable entry - Power cables Bottom - Control cables Bottom 3) Bus duct entry ----Top--- 4) Earthing conductor Galvanised steel strip d) Circuit breakers 1) Short circuit breaking current - AC component 40 kA - DC component As per IS 13118 or IEC 62271 2) Short circuit making current 100 kA (peak) 3) Operating Duty B \u2013 3min \u2013 MB \u2013 3min \u2013 MB 4) Total break time Not more than 4 cycles 5) Total make time Not more than 5 cycles 6) Operating Mechanism",
+  "chunk_index": 403,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

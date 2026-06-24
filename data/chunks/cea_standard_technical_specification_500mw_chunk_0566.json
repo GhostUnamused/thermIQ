@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0566",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 581,
+  "text": "provided as minimum. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 54 (a) Shaft eccentricity detection. (b) Absolute as well as relative shaft vibration measurement, of each bearing in both X & Y direction. (c) Differential expansion of rotor and cylinder for HPT, IPT and LPT. (d) Overall expansion of HPT and IPT. (e) Absolute bearing vibration measurement of each bearing in both X & Y directions. (f) Stator winding vibration measurement in radial and tangential directions. (g) Axial shift of th e rotor, (three sensors). (h) Turbine speed, (3 sensors). (i) Emergency stop and control valve position. (j) Main steam and hot reheat steam inlet temperature and pressure. (k) Bearing metal and drain oil temperature. (l) Turbine metal temperature. (m) In case of vibration, shaft mounted reference detectors and required supervisory instrument circuitry shall also be provided. (n) Any other measurement reco mmended by the turbine manufacturer or required for the safe and reliable operation. iii) The system shall be provided with suitable hardware for necessary signal processing. The system should be capable of signal distribution and interfacing with other control systems. The system should suitably interface with MMIPIS system supplied by bidder. For all vibration measurements indicated under (ii) above, a Microprocessor/computer based system shall also be provided to achieve the following functions a) On-line spectrum/harmonic analysis b) Identification of the exact nature of failure resulting in increase in bearing vibration and direct message on the TFT indicating the exact nature of fault e.g. misalignment, shaft crack, bearing looseness etc through use of intelligent software packages. c) Storage and comparative analysis of vibrations. d) Generation/ analysis of bode plot/ orbit plot and time waveform/ nyquist plot/ shaft centre line plot/ cascade and water fall plot. e) All the vibration parameters as well as turbine supervisory parameters shall also be fed to the turbine control syst em (TCS) through hardwiring or through suitable link so that all these paramete rs are suitably displayed on the TG Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 55 control TFTs. All required I/O cards and other processing modules etc. shall be provided for this purpose. f) Test calibration jigs for site calibration of all sensors of",
+  "chunk_index": 566,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

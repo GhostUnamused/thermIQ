@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0259",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 266,
+  "text": "inhibitor. x) All bolts and nuts for carbon steel valves shall be ASTM A-193 Gr. B 7 and ASTM A-194 Gr. 2H and for alloy steel valves shall be ASTM A-193 Gr B16 and A-194 Gr 4/7. xi) Hand wheels for valves shall be of carbon Steel or malleable iron. xii) Minimum differential hardness between seat and other disc material shall be 50 HB in case of 13% chrome hardened with heat treatment of steel. xiii) Valve closure test shall be as per AN SI B16.34 and MSS-SP-61. Acceptable seat leakage shall be 2 ml of water per hour per 25 mm of nominal pipe size. xiv) Safety and Relief valves shall be suppli ed complete with discharge elbow and drip pan along with drain. xv) For butterfly valves and all other valves of size 65 NB and above in vacuum service, water gland sealing arrangement shall be provided. For valves of size 50 NB and below, deep gland packing shall be provid ed. Butterfly valves, subjected to vacuum, shall be tested for vacuum as per relevant code. xvi) Specification for valve actuators shall be as indicated in relevant Sub-section. 4.1.13 Hangers and Supports i) All hangers and supports shall be erected such that they are vertical when the piping is in hot condition. However, in piping system connected to the turbine/turbine valve nozzles it may be required to erect the hangers/supports vertical in the cold condition or as per the recommendation of TG supplier to ensure that there is no transfer of undesired pipe weight/ load on the turbine valves/nozzles. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -11 ii) Design and Manufacture of hangers and supports shall conform to ANSI B 31.1, MSS-SP-58, MSS-SP-89. iii) Where hangers\u2019 rod angularity exceeds 4 degrees from cold to hot position, the hanger and structural attachments shall be offset in the cold position in such a manner that the hanger rod is vertical in hot position unless otherwise specified. iv) The Contractor shall furnish deta iled arrangement sketches for each support, restraints, anchor, snubber etc in case of critical piping. The sketches shall include the key plan identification no., bill of qu antities, design load, operating load, spring stiffness, amount of pre-compression, centre line elevation of pipe, spring box position/orientation, etc. v)",
+  "chunk_index": 259,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

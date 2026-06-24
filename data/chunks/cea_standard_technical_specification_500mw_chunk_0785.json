@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0785",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 813,
+  "text": "requirements. Visual cavitation test shall also be carried out to demonstrate that pump shall be operating under all operating condition including blank off condition without any cavitation. ii) The complete package shall be subject ed to hydraulic pressure and leakage test and shop tested to check interlocks and functional requirements. The one complete unit shall also be subjected to demonstrate successful operation and performance testing, with saturated ai r conditions at condenser design vacuum point as well as vacuum pump design point with total minimum three points. The test shall be conducted with the respective motors to be supplied. The test shall include check for vibration and noise level also. 8.3.4 Feed water heaters, drain coolers, gland steam condenser and deaerator 8.3.4.1 Heaters, drain coolers and gland steam condensers i) Tests shall be carried out on the materials of forgings, plates and tubes etc. to establish their mechanical properties, and chemical compositions. ii) Nozzle forgings shall be subject to su itable heat treatment and 100% ultrasonic testing. iii) Tubes a) Tubes shall be subject to dimensional check. b) 100% eddy current test shall be carried out for tube thickness < 3.6 mm and 100% UT for tube thickness \u2265 3.6 mm. c) Tubes shall be subject to 100% hydraulic test. d) Flattening and flaring tests shall also be carried out for the tubes as per applicable codes. e) Before tubes expansion in the tube sh eets, the mockup test for expansions shall be carried out. Torque setting of expander shall be based on mock up tests. Joints shall be checked for tube thinning. iv) Tube sheets a) Tube sheets shall be subject to visual examination and dimensional check. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 27 b) Impact test shall be carried out for the plate materials. c) 100% UT and 100% DP test shall be carried out after overlay and machining. In case overlay is not applicable, only 100% UT shall be carried out. d) For cladded plates, bonding shall be ch ecked by UT. Drilled tube plates shall be checked for ovality of ho les, ligaments, surface finish etc. e) Tube to tube sheet weld joints sha ll be subject to 100% DP test. These joints shall also be subject to air test. v) Shell, dished ends and hemi heads a) Impact",
+  "chunk_index": 785,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0910",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 994,
+  "text": "(20 mtrs. Set) 4 sets vii) Belleville washers 50 nos. viii) Space heaters complete set 2 sets 9.4.9 Power and Control Cables i) 11kV grade power cables for each type and size 10% of installed quantity ii) 3.3kV grade power cables for each type and size 10% of installed quantity iii) 1.1kV grade power cables for each type and size 10% of installed quantity iv) 1.1kV grade control cables for each type and size 10% of installed quantity 9.4.10 Battery i) Battery cell 10 nos. ii) Cell container of each type 10 nos. iii) Level indicator 5 nos. iv) Vent plugs 10 nos. v) Intercell connector 10 nos. vi) Set of nuts, bolts and washer 10 nos. 9.4.11 Battery Chargers 9.4.11.1 For float cum boost charger of unit batteries i) Electronic Cards of each type and rating (with all components mounted) 1 set ii) fuses of each type and rating 4 nos. iii) SCR of each type and rating 5 nos. iv) Blocking Diode of each type and rating 5 sets v) Potentiometer of each type and rating 3 sets 9.4.12 Control, Metering and Protection Panels i) Trip circuit supervision relay 1 set ii) Voltmeter of each ranges 1 set iii) Ammeter of each ranges 1 set iv) MW meter of each ranges 1 set v) MVAR meter of each ranges 1 set Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 9 (Mandatory Spares) 9 - 67 vi) MWH Meter of each make and model 1 no. vii) Frequency Meter of each make and model viii) MW Transducer of each make and model 1 no. ix) MVAR Transducer of each make and model 1 no. x) Summation MW Transducer 1 no. xi) Summation MVAR Transducer 1 no. xii) Synchroscope 1 no. xiii) Generator differential pr otection relay (87G) 1 no. xiv) Generator inter-turn fault relay (95G) 1 no. xv) 100% Generator stator earth fault relay (64G1) 1 no. xvi) Generator loss of excita tion protection relay (40G) 1 no. xvii) Generator back-up impedan ce protection relay (21G) 1 no. xviii) Negative phase sequence relay (46G) 1 no. xix) Generator reverse power relay (32G) 1 no. xx) Generator low forward power relay (37G) 1 no. xxi) Generator rotor earth fault protection relay (64F) 1 no. xxii) Generator over-voltage relay (59G) 1 no. xxiii) Generator pole slipping relay (98G) 1 no. xxiv) Synchro",
+  "chunk_index": 910,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

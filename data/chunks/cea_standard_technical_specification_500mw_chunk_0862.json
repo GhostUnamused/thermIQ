@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0862",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 915,
+  "text": "each 12 hours sh all be nominal voltage for 11 hours followed by 110% of nominal voltage for 30 minutes, followed by 90% of nominal voltage for 30 minutes. b) Degree of protection test. 8.6.12.2 Site tests The following minimum tests/ checks shall be conducted at site. Any other tests/ checks as per the manufacturer\u2019s recommendation shall also be carried out i) Complete physical examination ii) Checking of proper operation of annunciation system iii) Temperature rise test at full load Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 129 iv) Insulation resistance test v) Automatic voltage regulator operation vi) Load limiter operation. vii) Dynamic response test - overshoot/ undershoot in output voltage of the charger as a result of sudden change in load from 100% to 20% and 20% to 100% shall be measured with the batteries connected and disconnected. Output voltage of the charger connected with battery shall be within 94% to 106% of the voltage setting in above conditions and shall return to, and remain, within the limits specified as mentioned elsewhere, in le ss than 2seconds (as applicable). Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 130 8.6.13 Protection and relay panel for generator, generator transformer and UATs Tests/ Checks Items/ Components/ Sub- systems Make, Type, Model, Rating and TC Electrical Properties Dimensions and Finish Functional and operational features Item to conform to relevant Standards Pretreatment as per IS 6005 Paint shade, thickness, adhesion and finish Functional checks HV and IR test Degree of Protection - Routine test All Routine tests as per relevant standards Protective relays (IS:3231/ 8686 ) Y Y Y Y Y Y Auxiliary relays (IS:3231/ 8686 ) Y Y Y Y Y Y Control and selector switches (IS:6875) Y Y Y Y Y Indicating meters (IS:1248) Y Y Y Y Y Y Indicating lamps (IS:13947) Y Y Y Y Y Push buttons (IS: 4794) Y Y Y Y Y Control transformer ( IS:12021 ) Y Y Y Y Y LT fuses (IS:13703) Y Y Y Y Energy meters (IS:722 ) Y Y Y Y Y Transducers (IEC:60688) Y Y Y Y Y Diodes Y Y Y Y Y Terminal Blocks Y Y Y Y Synthetic Rubber Gasket ( IS:11149/ 3400 ) Y Y",
+  "chunk_index": 862,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

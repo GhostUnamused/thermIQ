@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0497",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 520,
+  "text": "162 v) CT shorting links, test terminal blocks etc. shall be provided. All the equipment mounted inside the control panel shall be identified by lamicoid labels/ stenciling by paint. vi) Panel shall be provided with panel illum ination lamp operated by the door switch and thermostat-controlled space heater. vii) The manual control of the engine speed and generator voltage shall be provided through suitable Raise/ Lower control switches on the local control panel and remote. viii) The following tripping and alarms shall be provided: - Fail to start (Alarm) - Overload (Alarm) - Cooling water pressure low (Trip) - Lube oil pressure inadequate (Trip) - Over Speed (Trip) - High cooling water temperature (Trip) - Abnormal voltage (under a nd over voltage) (Alarm). - Charger ON/OFF (Alarm) - Fuel level low in day tank (Alarm and Trip) - High lube oil temperature (Trip) - Low air pressure in receiver (Alarm) - Alternator stator temperature high (Alarm) - Electrical protective relays operated (Trip) ix) Necessary pressure switches, level switch es, thermostats, flow switches, auxiliary relays, etc. required for the above al arm and annunciation system shall be provided. x) The following minimum instruments shall be mounted on each engine: - Thermometers for lube oil temperature. - Pressure gauges for lube oil, fu el oil and air starting systems. - Differential pressure gauges across strainers and filters - Speed indicator - Exhaust pyrometers with temperature switch. - Level switches for alarm and trip in day fuel oil tank. 5.16.13 Sound proofing system i) The sound proofing system shall be designed to achieve a minimum 25dB insertion loss/ maximum sound level at \u00bd metre distance from enclosure/ acoustically treated room as per State Pollution Control Board norms. The ventilation system shall be of adequate design to ensure no deterioration in performance of DG. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 163 ii) The sound absorptive layer shall comprise of bonded type mineral wool/ glass wool of adequate thickness and density to comply the design requirements. iii) The exposed surface of lining inside room / enclosure shall be retained in place by a adequately thick CRCA/ aluminium perfo rated sheet (not less than 0.8mm). Absorptive lining shall be provided between the perforated sheet and absorbing material. Necessary acoustic sealing shall be done in the panels/ modular unit joints. iv) All",
+  "chunk_index": 497,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

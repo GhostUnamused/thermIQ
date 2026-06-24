@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0407",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 427,
+  "text": "designs of reputed switchgear manufacturer's where the truck front serves as the compartment cover may also be considered, provided the breaker/ contactor compartment is completely sealed from all other compartments and retains the IP-4X degree of protection in the Isolated position. iv) The switchgear assembly shall be dust, moisture, rodent and vermin proof with the truck in any position Service, Test and Isolated or removed, and all doors and covers cl osed. All doors, removable covers and glass windows shall have gaskets all round with synthetic rubber or neoprene gaskets. v) The VT/ relay compartments shall ha ve degree of protection not less then IP:52 in accordance with IS:13947. However, remaining compartments can have a degree of protection of IP: 4X. No louvers/opening shall be provided on the top of the panel. All ot her louvers if provided, shall have very fine brass or GI mesh screen. Tight fitting gourmet/gaskets are to be provided at all openings in relay compartment. vi) Enclosure shall be constructed with rolled steel sections and cold rolled steel sheets of at least 2.0 mm thickness, Gland plates shall be 2.5 mm thick made out of hot rolled or cold rolled steel sheets and for non magnetic material it shall be 3.0 mm. vii) The switchgear shall be cooled by natural air flow and forced cooling shall not be accepted. viii) Total height of the switchgear panels shall not exceed 2600 mm. The height of switches, push buttons a nd other hand operated devices shall not exceed 1800 mm and shall not be less than 700 mm. ix) Safety shutters complying with IEC-60298 shall be provided to cover up the fixed high voltage contacts on busbar and cable sides when the truck is moved to TEST and ISOLATED position. The shutters shall move automatically, through a linkage with the movement of the truck. x) The switchgears shall have the fac ility of extension on both sides. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 70 b) Circuit breaker i) The circuit breakers shall be of Vacuum/ Sulphur hexa flouride (SF 6) type. They shall comprise of three separate, identical single pole interrupting units, operated through a common shaft by a sturdy operating mechanism. Surge arrestor shall be provided for each motor/ transformer feeder. ii) Circuit breaker shall be restrike free, stored energy operated",
+  "chunk_index": 407,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

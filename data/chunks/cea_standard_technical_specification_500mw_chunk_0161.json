@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0161",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 168,
+  "text": "r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 66 2.2.12 Soot Blowing System 2.2.12.1 The type of soot blowers to be provide d for different sections of the boiler shall be as below: i) For furnace chamber : Short rota ry, single nozzle, retractable type. ii) Vertical pendent section : Two no zzles in diametrically opposite side, long retractable type. iii) For horizontal heat : Long rotary, multiple nozzle exchanger sections (rear pass) retractable type. iv) Air pre- heaters : Power driven swinging arm soot blower, or retractable multi-nozzle soot blower. DDCMIS controlled soot blower control system shall be provided for sequential operation of soot blowers, soot blower steam pressure control and drain temperature control etc. 2.2.12.2 The design of air pre- heater soot blow ing system including piping, valve and fittings shall allow use of high temperature steam from high temperature auxiliary steam header during start-up. A check valve and/or motor opera ted valve shall be provided on this high temperature line to prevent normal soot blowing steam from entering auxiliary steam header. Safety valve of adequate capacity and setti ng pressure shall be provided on the soot blowing lines. The location of elements, travel and nozzle angles shall be such that maximum cleaning is obtained with a minimum of flowing medium. The soot blowing system design shall be of self draining type. 2.2.12.3 Soot blowing system elements shall be manufactured from extra heavy seamless tubing of high temperature alloy steel. Heat, corrosion a nd erosion protection shall be provided for parts in permanent contact with hot gases. 2.2.12.4 Soot blower nozzles shall be single or mu ltiple row of nozzles welded to prevent falling out during service. Venturi or straight bore nozzle shall be installed as per system requirement. 2.2.12.5 Retractable soot blowers (RSB): i) RSBs shall be retractable even during emergencies such as drop in steam supply pressure and low steam flow etc. ii) Long RSBs shall be half of steam generator width on each side. iii) Double helix cleaning pattern shall be used. iv) RSBs shall be actuated by electric motors v) RSBs shall be controlled from soot blower panel and shall be actuated by electric motors. Dual electric drive shall be provided. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section-",
+  "chunk_index": 161,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

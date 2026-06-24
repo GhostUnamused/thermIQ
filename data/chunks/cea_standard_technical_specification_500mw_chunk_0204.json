@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0204",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 209,
+  "text": "LP bypass valves shall be equivalent to block valve tightness confirming to MSS SP61. iv) Complete HP-LP bypass system shall be provided with necessary control and instrumentation including all necessary positioners for continuo usly controlled actuators, power modules, various conve rters, power supply and other fault monitoring and alarming modules, position transmitters, etc. v) HP bypass station spray water requiremen t shall be supplied from boiler feed pumps discharge and LP bypass spray water requirement from condensate extraction pump discharge. Spray water system shall include spray water control valves, NRVs and isolating valves. vi) HP bypass shall be designed to accept continuous spray water at temperature corresponding to all HP heaters out of service and deaerator pegged at 1.5 ata. Spray water shall be sprayed at the most turbulent zone inside the valve having steam velocity in the order of 350 to 400 m/s. The entire atomization and evaporation of spray water shall be comple te within shortest possible distance but not exceeding 1.0 m from the spray point. The HP bypass spray controller shall have state controller with observer to achieve accurate control over outlet steam temperature under different operating conditions including the transients. vii) For LP bypass system, desuperheating may be done outside the valve body with spray water tapped from condensate pump discharge. viii) All valves (both in steam and spray water service) shall be electro-hydraulically operated. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 30 ix) Control oil system(s) for HP and LP bypass systems shall be provided with 100% redundant pumps, motors, accumulators and control cubicles etc. Accumulators shall be sized to take sufficient number of stroking operations of all actuators under a condition of loss of oil supply from the pumps. The LP bypass system shall also be provided with high pressure hydraulic system to have appropriate valve opening and closing response time. x) Alternatively for LP bypass system, the control fluid supply can be taken from the steam turbine control fluid system based on bidder's standard practice. xi) HP and LP bypass valves shall be pr ovided with gland c ooling arrangement, preferably using spray water, as per manufacturer's standard practice. Further, graph-oil packing rings or equivalent a rrangement shall be provided for valve glands. xii) Warming up arrangement shall be provided for HP and LP bypass",
+  "chunk_index": 204,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

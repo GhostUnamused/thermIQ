@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0584",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 605,
+  "text": "connection Yes N/A Yes l) Mounting Fully compatible to the mosaic grid Fully compatible to the mosaic grid Fully compatible to the mosaic grid m) Protection class IP-20 IP-20 IP-20 n) Chart speed Adjustable continuously from 10-600 mm/Hr o) Identificatio n ----------------------Engraved Phenolic tag ------------------------ p) Dimension 96 mm (W) x 48 mm (H) 36 mm (W) x 144 mm (H) 144 mm (W) x 144 mm (H) ii) Integrator shall have total display 6 digit, 4mm high. Totaliser mechanism shall be as per manufacturer\u2019s standard. It shall have an accuracy of + 0.3% a span. Input shall be 4-20mA DC. 6.4.10 Electric to Pneumatic (E/P) Converters E/P converters and associated accessories shall be furnished in accordance with the specifications given below : Air supply : 1.5 kg/cm sq., Input signal : 4-20m A DC(as required by the design of control system), Output signal : 0.2 to 1.0 kg/cm sq., Linearity : 0.5% of span or better, Hysteresis : 0.1% of span or better, Ambient temp effect : less than 0.02% of span per deg C between -20 deg. To +60 deg C. Mounting : close to actuator (but not on the actuator), Output capacity: to suit the actuator, Protection class: IP 55. Allowable drift rate + 2% of set point/ hour maximum. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 78 On loss of control signal, the last set point pressure shall be maintained so that the associated control valve remains in stay put condition. 6.4.11 Displacer Type Level Transmitters i) Displacer type level transmitters sha ll be provided for level measurements of the vessel under vacuum or low pressure applications (viz. condenser hotwell, LPH-1, 2, 3 level measurements). ii) The displacer spring and tube material shall be K-monel. The float movement shall be transmitted to the pivot mechanism by a torque device incorporating a positive seal between float cage interior and the transmitting mechanism without the use of stuffing boxes. Level transmitters, not incorporating torque tube mechanism, shall not be acceptable. iii) Level transmitters shall be complete with external float chambers of cast or fabricated steel construction with 2 inch upper side and lower bottom socket weld connections unless otherwise required as per main vessel connections. Displacement float chambers shall be designed for internal access without breaking the level connection",
+  "chunk_index": 584,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

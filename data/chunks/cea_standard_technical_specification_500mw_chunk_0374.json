@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0374",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 390,
+  "text": "at su ch other locations where accumulation of condensate can be expected. In particular a drain valve shall be provided at the lowest point of transformer end terminati on. The contractor shall be required to add drainage points if required during installation. 5.3.6 Bus Conductor i) The Bus Conductor shall be of high con ductivity, painted aluminum alloy as per IS:5082 supported on insulators. ii) The bus conductor shall be designed for welded connections except at equipment terminations, bolted disconnect links, and bolted flexible. iii) Flexible connections shall be provi ded between bus sections to allow for expansion and contraction of the conductor. Flexible connections shall also be provided at all equipment terminations. iv) All contact surfaces shall be silver plat ed. All connection hardware shall be non- magnetic and shall have high corrosion resistance. 5.3.7 Insulators i) Bus support insulators shall be inte rchangeable, high strength and fine glazed porcelain manufactured by wet process, or high strength cast resin insulators. ii) Insulator shall be mounted in such a way so as to permit its easy removal or replacement without disassembly of the bus. iii) The conductor shall be fastened on the insulator through fixed and sliding joints so as to allow conductor expansion or contraction without straining the insulator. Positive contact shall be made between e nd caps of the supporting insulators and the conductors. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 33 iv) Additional support insulators shall be provided at bend and at tap offs for withstanding all possible forces. 5.3.8 Connections and Terminations i) All matching flanges, seal off bushings , gaskets, fittings, hardware and supports required for termination of the bus duct at Generator, Transformers and other equipment shall be furnished under the sc ope of this specification. Flexible connections both for conductor a nd enclosure shall be furnished : a) At all equipment termination to take care for misalignment upto 25mm in all directions. b) Between bus duct supported from building steel and that supported by turbine foundation to preven t transmission vibrations. ii) The equipment terminal connections sh all be readily accessible and shall provide sufficient air gap for safe isolation during electrical testing. iii) If the material of bus conductor and that of the equipment terminal is different, then suitable bi-metallic connectors shall be provided by the contractor. iv)",
+  "chunk_index": 374,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

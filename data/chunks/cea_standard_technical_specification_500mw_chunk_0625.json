@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0625",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 652,
+  "text": "Mechanical Items i) Dead Weight Tester: one number Dual range dead weight pressure gauge tester with all required accessories shall be provided for testing of pressure gauges. The measuring range shall be 1 - 600 kg/cm 2 with an accuracy not less than 0.03% other requirement shall be as per detailed engineering. ii) Vacuum Tester: one number Air operated dead weight type vacuum tester along with electrically operated vacuum pump and all required accessories shall be furnished. It shall have a measuring range of 15-1000 mm bar and an accuracy of + 0.03% or better. iii) Hydraulic Pressure Gauge Tester: one number A hydraulic pressure gauge tester comprising of primary pump using light hydraulic mineral oil shall be furnished to compare the gauge under test with a standard test gauge for pressures up to 1200 kg/cm 2. The accuracy shall be + 0.05% of full scale. Gauge connection shall be 1/2\", 1/4\" & 1/8\" NPT. All required accessories are to be supplied. iv) Portable Hydraulic Pressure Generator: one number Portable hydraulic pressure generator comprising of two stage pump using light hydraulic oil shall be provided to generate pressure of approx. 15 bar (1st stage) and 700 bar (second stage). Provision for mounting standard pressure gauge and five volume adjustme nt shall be there with the unit. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 125 v) Portable Pressure Calibrator: two numbers It shall be microprocessor based and operated by rechargeable battery and by 240 AC, single phase, 50 Hz. Accuracy shall be \u00b10.05%. Overpressure protection & indication shall be provided. Tentative pressure range shall be (-)1.06 bar to 1000 bar (subject to fina lisation during detailed engineering). All required accessories to be provided. vi) Manometers a. Test Manometers (Mercury well type): two numbers It shall have 1500 mm extended transparent plastic tube. Scale shall be compensated for liquid level ch anges and shall be graduated in mm of Hg and kg/cm2 Body shall be made of steel. Test pr. to be 17.5 kg/cm2. All accessories to be provided. b. U-Tube Manometers (Mercury filled) : two numbers Manometer shall be clear plastic U tube/ Borosilicate glass tube. The scale range shall be (-) 1000-0-1000 mm having 1mm smallest division and zero adjustment facility. All wetted parts shal be 304SS. All required accessories to",
+  "chunk_index": 625,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

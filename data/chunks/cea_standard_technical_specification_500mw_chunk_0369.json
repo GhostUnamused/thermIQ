@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0369",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 384,
+  "text": "on the generator f oundation having journal bearings. Heat exchanger : Integrally mounted air to water heat exch angers. The heat exchangers shall be designed for DM water (condensate quality). Sizing criteria for the heat exchanger shall be similar as for generator mounted hydrogen cooler. Insulation : The stator and rotor winding insulation shall be of class-155(F) with the temperature rise limited to class-130(B) limits of IEC-60034. Overhang conductor : The armature conduc tor in the overhang portion shall be adequately held to withstand the electro-dynamic forces during field forcing condition. Rotor winding retaining ring shall be made up of stress corrosion resistant material. d) Rotating Rectifier Assembly - The rectifier assembly made of silicon diodes shall be arranged as two distinct rings with opposite polarity diodes on respective rings. - The diodes shall be connected in a conventional three arm full wave rectifier bridge. Rectifier assembly shall have one complete bridge as redundant. Alternatively a single three phase rectifier bridge having at least one redundant parallel branch in each of the six arms of the bridge may also be considered. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 27 Rectifier assembly shall have same requirements as regards the component features and rating as detailed out for the thyristor assembly. - Diodes shall be cooled by forced air circulation by means of fans mounted on the main exciter. - Each diode shall be provided with a fuse together with visual indication in the event of diode failure. - The output from the rectifier shall be fed to the generator field through the bore of the rotor shaft and necessary plug in type of shaft connection. The axial copper connector shall be designed such that it shall be possible to disconnect this connector at the point where the exciter sh aft couples to the generator so that, if necessary, the generator and excite r can be tested individually. e) Field application and suppression arrangement As detailed out in \u2018Static Excitation System\u2019 f) Instrumentation and Protection The system shall generally include, but not be limited to, the following : - Suitable twin resistance temperature detectors for measuring hot and cold air temperature of exciter with necessary provisions for protection tripping/ interlocks. - Dial type thermometers for measuring the inlet and outlet temperature of water to the air coolers. -",
+  "chunk_index": 369,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

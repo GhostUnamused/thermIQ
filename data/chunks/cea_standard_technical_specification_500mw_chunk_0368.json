@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0368",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 383,
+  "text": "Option : Separate breakers for field ap plication and suppression may also be considered if it is manufacturer\u2019s standard arrangement. Interlocks : Suitable interlock shall be provided to prevent closing of the field breaker unless the regulator reference signal is at/ near the minimum setting and minimum machine speed of 95% is attained. Adequate number of normally open and normally closed field circuit breaker auxiliary contact for remote position indication and interlocki ng with generator and field flashing circuit shall be provided. vi) Specific Technical Requirements for Brushless Excitation System : a) General The complete equipment shall be mounted on a bed plate and enclosed by suitable exciter cover. The system shall consist of : - Permanent Magnet Generator (PMG) type pilot exciter. - Voltage Regulator (AVR, MVR along with rectifier bridges for PMG) - Field Circuit Breaker along with field discharge resistor - Rotating rectifier bridges - Brushless AC Main Exciter Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 26 - Complete instrumentation and protection system - Inter-connecting cables between different components of the system. b) Pilot Excitation System - The pilot exciter shall be revolving field, rectifier assembly and excitation control equipment. The rotor shall be magnetized and stabilized by the Manufacturer to give stable magnetisation characteristic during operation. - The stator winding shall be of class-155(F) insulation or better, suitable for operation at 50 0C ambient temperature. The machine shall be fitted with fans for self ventilation. - Converter Assembly of pilot excitati on system, thyristor gate firing system and pulse transformer etc. shall be of simila r design as specified under static excitation system. c) Brushless AC Main Exciter Armature : This shall be of rotating armature, 3-phases, star connected, feeding current to the rotating diodes mounted on the exciter shaft. Armature core : The armature core sh all be made from silicon sheet lamination to reduce eddy losses and shall be su itably varnished on both sides. Exciter enclosure and support : The exciter shall be totally enclosed, self ventilated, frame supported on the generator f oundation having journal bearings. Heat exchanger : Integrally mounted air to water heat exch angers. The heat exchangers shall be designed for DM water (condensate quality). Sizing criteria for the heat exchanger shall be similar as for generator mounted hydrogen cooler. Insulation : The stator and",
+  "chunk_index": 368,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

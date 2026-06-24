@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0532",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 552,
+  "text": "in the plant regulations and the same shall be reported to the operator. iv) Buffered analog output (positioni ng signal) of 4-20mA DC shall be provided from CLCS to the respective E/P c onverters. For electrical actuators , pulse type output (bound less control) shall be preferred. CLCS shall also provide all the necessary outputs for indicators & recorders with output loop resistance of 500 ohms for each channel of the output module. v) The functional requirement of the CLCS loops as well as the detailed schemes shall be finalised during deta iled engineering stage and shall be subject to Purchaser's approval. vi) The system being supplied sha ll be such that when permissible limits are exceeded, an automatic switchover from an operation governed by maximum efficiency, to an operation governed by safety and availability is affected. vii) For safety reasons, switchover logics associated with the modulating control loops, shall be performed within the closed loop control equipment. viii) Time supervision facility sha ll be provided to monitor the final control element. ix) It shall be possible to block the controller output on a pre-programmed basis. x) All controllers shall be freely c onfigurable with respect to requisite control algorithms. xi) Whenever, alternate measurement is available for a control input the alternate measurement value will be automatical ly substituted in the control loop in case of loss of control input. All necessary software for switching and reconfiguration shall be provided. In addition, such substitution shall be balanceless and bumpless and shall be reported to the operator. 6.2.4.6 Turbine Control System (TCS) Functions The Turbine control system shall consist of turbine governing system, turbine stress control system and BFP turbine Electro-hydraulic governing system HP&LP bypass system & automatic turbine testing (ATT) system. In addition to the specific requirements i ndicated in subsequent clauses, the requirements of CLCS as elaborated in clause 6.2.4.5 shall also be applicable for TCS. (i) Turbine Governing System a) Following two alternatives fo r the turbine governing system shall be acceptable and bidder shall offer one of these alternatives based on his proven & standard practices. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 25 Alternative - I In this alternative, the turbine generator unit shall be equipped with electro- hydraulic governing (EHG) system b acked-up by mechanical-hydraulic control",
+  "chunk_index": 532,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0107",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 113,
+  "text": "and with 25% excess air at economizer outlet ii) Minimum transverse pitch of : a) 762mm in banks/ sections placed in area elements in heating surfaces wh ere gas temperature exceeds IDT for in the direction of gas flow the range of coal specified. b) 600mm in the banks/ sections where temperature exceeds FEGT [measured by multiple- shield high velocity thermocouple (MHVT)]. iii) Means of temperature control: a) Super heater : Spray water attemperation shall be tapped off from a suitable source upstream of HP heaters (from BFP discharge or Kicker stage outlet). The bidder can also tap off the spray water from a suitable location downstream side of HP heaters, provided, bidder has experience of such tapping, details of which shall be provided to purchaser. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 12 b) Reheater : Primary control Tilting of burners/ gas recirculation/ gas biasing Secondary (emergency) control Spray water attemperation (utilising water tapped off from interstage of BFP) iv) Maximum allowable spray : a) For superheater : 8% of BMCR flow water flow (The steam temperature downstream of desuperheater shall have at least 10oC super-heat to ensure proper evaporation). However, the control valve shall be sized for 12% of BMCR flow. b) For reheater : Nil (Reheater attemperation shall be used only under emergency conditions). However, the control valve shall be sized for 5% of the BMCR flow. 2.1.19 Economiser i) Type : Non steaming type, with parallel cross flow or counter cross flow arrangement ii) Approach temperature : 17 0C (min.) at BMCR load. However, there shall be no steaming at part load and/ or sliding pressure operation. iii) Maximum average flue gas : 10 m/s (maximum localized velocities velocity through inter-tube space shall not exceed 12m/s) of the economizer banks (the gas velocity shall be calculated considering 25% excess air at economiser outlet) 2.1.20 Air Pre Heaters i) Type : Regenerative type tri-sector air pre heaters with facility of steam coil heating on secondary air side to guard against low cold end temperature. or Regenerative type bi-sector air pre heaters for primary air and secondary air with facility of steam coil heating both on primary air side and secondary air side to guard against low cold end temperature ii) Design ambient air : 27 oC and 60%",
+  "chunk_index": 107,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0219",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 225,
+  "text": "shall be cascaded to suc cessively lower LP heaters and lowest LP heater drip shall be led to the condenser. All other LP drips shall be finally led to the condenser. Alternative heater drains shall be directly led to condenser in case of high - high level in the heaters. ii) Heaters shall be designed for all operating conditions including transients like sudden load throw-off, HP-LP bypass coming in the operation, preceding one or two heaters going out of service etc. iii) Each heater shall be designed for removal from service individually without shutdown of unit, using hydraulically operated or motorised bypass and isolating valves. In case, HP heaters are offered in two strings, these shall be isolated as a string and not individually. iv) Heaters shall be designed with minimum pressure drop on tube side. v) Heaters shall be designed for handlin g drains from proceeding heaters for all operating conditions and under emergency condition drains shall be led to condenser bypassing the drain cooling zone. vi) Heater installation shall be easy for floor mounting and shell removal dismantling except for LP heater in condenser neck. vii) Provision shall be made for complete dr ainage of heaters both on shell side and tube (water box) side. viii) Heaters shall be provided with start-up and operating vents with orifices and relief valves. Provision shall be made for removing non condensable gases collecting on shell side individually to the condenser. Vent orifices shall be sized to pass one half percent of rated steam flow to respective heater. ix) Tube material shall be stainless steel as per ASTM A 213 Gr. TP 304 for seamless tubes without circumferential joints and ASTM A 688 Gr. TP 304 for welded tubes . x) Tube sheet shall be of carbon steel as per ASTM A 266 Class II or SA 350-LF-2 or SA 516 Gr- 70 or equivalent and shall be welded to shell and water box. Tube support plates shall be of common quality steel of 16 mm (minimum) thickness. xi) Water box channels shall have access openings of minimum 450 mm diameter. These shall be of self sealing type and bolted design shall not be acceptable. xii) Superheated steam shall not come in cont act with tube plate and joint at entry to the heaters. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3",
+  "chunk_index": 219,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

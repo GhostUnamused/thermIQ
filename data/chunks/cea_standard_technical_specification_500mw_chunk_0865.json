@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0865",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 921,
+  "text": "Welding/ Brazing (WPS/ PQR) Heat treatment Magnetic characteristics. Hydraulic, Leak, Pressure test Thermal characteristics Run out Dynamic balancing Plates for stator frame, end shield, spider etc. Y Y Y Y Y Shaft Y Y Y Y Y Y Y Magnetic material Y Y Y Y Y Y Y Y Rotor copper/ aluminium Y Y Y Y Y Y Y Stator copper Y Y Y Y Y Y Y SC ring Y Y Y Y Y Y Y Y Y Insulating material Y Y Y Y Y Tubes for cooler Y Y Y Y Y Y Y Sleeve bearing Y Y Y Y Y Y Y Stator, Rotor, Exciter coils Y Y Y Y Y Castings, stator frame, terminal box and bearing housing etc. Y Y Y Y Y Y Fabrication and machining of stator, rotor, terminal box Y Y Y Y Wound stator Y Y Y Y Wound exciter Y Y Y Y Rotor complete Y Y Y Y Y Exciter, Stator, Rotor, Terminal box Y Y Y Accessories, RTD, BTD, CT, AVR. Brushes, Diodes, Space heater, antifriction, bearing, cable glands, lugs, gaskets etc. Y Y Y Alternator (IS:4722) Y Y Y Y =Test applicable Y1 = for HT Machines only Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 135 8.6.14.2 Alternator (Table 2/2) Tests/ Checks Items/ Components All tests as per IS:4722 Vibration Overspeed Tan delta, shaft voltage and polarization index Plates for stator frame, end shield, spider etc. S h a f t Magnetic Material Rotor copper/ aluminium Stator copper SC Ring Insulating material Tubes for cooler Sleeve bearing Stator/ Rotor, Exciter coils Castings, stator frame, terminal box and bearing housing etc. Fabrication and machining of stator, rotor, terminal box Wound stator Wound exciter Rotor complete Exciter, Stator, Rotor, Terminal box Accessories, RTD, BTD, CT, AVR. Brushes, Diodes, Space heater, antifriction, bearing, cable glands, lugs, gaskets etc. Alternator (IS:4722) Y Y Y Y1 Y =Test applicable Y1 = for HT Machines only Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 136 8.6.14.4 Type test (Category-II) All DG sets and accessories supplied shall be of type tested quality. Type test reports for the following sha ll be submitted for purchaser\u2019s approval : a) Measurement of resistance and air gap",
+  "chunk_index": 865,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

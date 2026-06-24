@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0478",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 495,
+  "text": "provided in the Central Control Room with minimum control and indication facilities for various equipments described below, as a back -up to Operator Work Station/ CRT keyboard (OWS) for both units and stati on supply. ECB shall be Simplex panel in mosaic grid configuration. b. Semaphore indicators shall be provided for isolators, earth-switches of 400kV system associated with generators. Fu rther, control and indication of the important but not limited to the followings breakers shall also be provided: i. Generator Transformer breaker (a t 400kV), field breaker for both units including manual synchronizing facilities, governor and excitation control. ii. Incoming and Tie breakers of 11kV, 3.3kV and 415V Unit Switchgears including Unit Emergency Switchgears of both units. iii. Incoming and Tie breakers of 11kV, 3.3kV and 415V Station Switchgears. iv. Emergency Diesel Generator sets c. Relevant Mimic shall be provided to cover the above 400kV, 11kV, 3.3kV and 415V system. Mimic shall be atleast 3 mm thick and 10 mm width and colour coded. d. The analogue meters for the following shall also be provided on ECB: i. Generator current, voltage, MW , MVAR, power-factor, frequency, field current, field voltage, etc. ii. Bus voltages for 400kV, 11kV, 3.3kV and 415V system Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 138 iii. Incoming current and wattage iv. Emergency Diesel Generator set parameters v. DC system voltages e. Annunciation system with su fficient no. of window facia shall also be provided. Annunciation system shall be solid st ate type. Minimum 20% annunciation channels and window facia shall be provided as spare. f. Suitable arrangement sh all be provided for the auto, manual synchronization consisting of synchroscope, voltmeters, frequency meters, lamps/ LED\u2019s, check synchronizing relays etc. for generators and other breakers where ever necessary. g. Necessary control switches, selector switches, lamps/ LED\u2019s, push buttons, auxiliary relays etc. shall be provi ded for completeness of the schemes. h. Suitable engraved/ painted name pl ates shall be provided for component identification. 5.14.7 Relay Test Kit for generator protection Relay test kit shall comprise the following : i) One dynamic portable relay test system based on type Multi-Amp. PULSAR Cat. 10 E3T3N or equivalent with 3 current and 3 voltage modules allowing dynamic and steady state testing capabilities. ii) The DR recording of the generator in standard IEEE COMTRADE or EMTP simulations shall",
+  "chunk_index": 478,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

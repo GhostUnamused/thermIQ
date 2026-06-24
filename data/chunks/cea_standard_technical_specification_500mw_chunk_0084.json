@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0084",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 92,
+  "text": "= 1-eZ Where Ec = Corrected test efficiency to guarantee point conditions Z = C.Ln (1-Eg) and and C = Ca. Cb. Cc. etc. Ca, Cb, Cc etc. = Correction factor for flue gas at temperature, inlet dust loading, sulphur, sodium contents of coal ash based on correction curves furnished by the bidder subject to owner\u2019s approval. The correction curves should be rea listic for expected range of operation and variation in characteristics specified. The test efficiency shall be the av erage of at least three corrected test efficiencies. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 67 iv) The performance/acceptance tests sh all be carried out in accordance with method-17 of EPA (Environmental Protec tion Agency of USA) code ASME PTC. The details of the test shall, however be mutually agreed upon between the owner and the contractor. 1.6.5.4 Turbine generator performance/acceptance test i) Performance test for the turbine ge nerator set will be conducted in accordance with the latest edition of ASME PTC-6. Su ch test shall be binding on the parties to the contract to determine compliance with the guaranteed heat balance conditions at 100% and 80% TMCR outputs corresponding to the conditions stipulated under clause 1.6.2.1 of this sub-section. Power consumed by the auxiliaries mentioned under clause 1.6.2.4 of this sub-section which is to be deducted from electrical power genera ted shall be measured during the performance/acceptance test. Wherever the measurement is not possible, design values of power consumption by an auxiliary shall be considered. ii) The essential mandatory requirements fo r instruments, methods and precautions to be employed shall be in accordance w ith the requirements specified in the respective codes. All the necessary in struments (in duplicate) required for the tests shall be furnished by the contractor so as to meet the accuracies specified in the codes. Any advanced class instrumen t system such as those using electronic devices or mass flow technique shall be arra nged by the contractor, if required. For determination of primary flow to th e turbine, a calibra ted low Beta-ratio throat-tap nozzle assembly including re quired machined straight lengths meeting the requirement of ASME PTC-6 shall be provided. The test procedures, calibration standards, calibration procedures etc. shall be subject to purchaser\u2019s approval. All the instruments including the flow nozzle shall be calibrated by the contractor",
+  "chunk_index": 84,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0029",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 37,
+  "text": "Two (2) nos. ID fans, radial type with variable speed, variable frequency/hydraulic coupling or axial t ype with constant speed, variable pitch controller, each with drive motor, base plate, foundation bolts and nuts, inlet box, discharge case, couplin g and coupling guard. Each ID fan shall be provided with bearing lubrication unit consisting of: a) 2x100% oil pumps each with motor, coupling and coupling guard. b) 2x100% oil coolers. c) 2x100% filters, differential pressure switches, etc. d) One (1) oil storage tank. e) Instrumentation, connected pipi ng, valves and fittings including pressure relief valves and NRVs etc. ii) ID fans shall be installed on ri gid RCC foundations. The fan shall be supplied with base plates, foundatio n bolts, suitable arrangements to prevent rain water entry to fan motor etc. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 12 iii) Adequate number of duplex platinum RTDs (100 ohm at 0oC) and temperature indicators shall be provided for bearing metal temperature control and monitoring. iv) The design and supply of transition duc t at chimney entrance shall be in the scope of contractor. Contractor to submit detailed arrangement drawing for the transition duct alongwith all re quired expansion joints, guide vanes etc. which will be connected to vertical and circular chimney flues. C) Penthouse Ventilation/ Cooling Fans 2x100% capacity fans complete with remote start/ stop facility. 1.2.1.15 Air and gas duct work with expansi on joints, including isola ting, regulating and hand- operated dampers, and spindles with leve rs, operating gears, linkages and actuator assemblies together with all accessories. The scope of ducting shall include but not limited to the following: i) Cold air inlet duct to FD fan suction, from FD fan discharge to APH bypass ducting for locating SCAPH down stream of FD fan. ii) Cold air inlet duct to PA fan suction, from PA fan discharge to APH. iii) Cold air duct from each PA fan discharge to coal mills. iv) Hot air duct from each APH to burner wind box and to coal mills. v) Flue gas duct from economizer outlet to APHs inlet ducts and from APHs outlet to ESP inlets. Economizer dust hoppers, (i f applicable) shall be provided with RF type ash level indicators. vi) Flue gas ducts from electro-static precipitato rs (ESP) outlets to ID fans inlets and ID fans",
+  "chunk_index": 29,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

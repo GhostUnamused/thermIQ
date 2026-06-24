@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0475",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 491,
+  "text": "with microprocessor based protection system comprising of the following protections : i) Generator a) Differential current protection (87) b) Inter-turn fault protection (w here split winding in stator is provided) if six neutral terminals are available (87TG) Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 134 c) 100% stator earth fault protection (64G) d) Loss of field protection (40) (to be duplicated) e) Back-up impedance protection (21) f) Negative sequence current protection (46) g) Reverse power protection (32) (preferably of 3-phase power relay) h) Low forward power interlock ( 37) (preferably of 3-ph. power relay) i) Rotor earth fault Protection: - First stage (alarm) (64F1) - Second stage (trip) (64F2) j) Over voltage protection (59) k) Generator pole slipping protection (98) l) Synchro-check relay (25) m) Under-frequency protection (based on manufacturer\u2019s recommendations, under-frequency re lays with timers set at prescribed values connected to alarm and trip (81). n) Stand by stator earth protection (64G2) o) Overload (51) p) Overheating (windings and/ or bearings) (49)(annunciation only) q) Over fluxing protection in add ition to all aforecited protections (99) (to be duplicated) r) Accidental back energisation protection s) Voltage balance scheme fo r blocking voltage dependent protection, in case of VT-fuse failure (60) In case digital multifunctional generator protection system (MGPS) is provided, the protections shall be duplicated. Each MGPS shall be preferably provided with individual inputs from CTs and VTs and c onnected to the independent set of hand-reset trip relays, such that one set is always available in case of testing and mal-operation of other set. Any protection, which is not a part of MGPS, separate discrete protection shall be provided as per the above table. The MGPS shall preferably have continuous self-monitoring and testing facilities. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 135 ii) Generator Transformer a) Overall differential current pr otection covering the Generator zone also (87OA) b) Time graded IDMT type back up non-directional over current protection in all phases on HV side (51) c) Restricted earth fault protection (87NT) d) Over- fluxing protection (99) (to be duplicated) e) Neutral over-current protection against sustained external system earth faults (51 NT) f) Buchholz protection (annunciation and trip) (63) g) Winding temperature high for annunciation and trip (49T) h) Oil temperature high",
+  "chunk_index": 475,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

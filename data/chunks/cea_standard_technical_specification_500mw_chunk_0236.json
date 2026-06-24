@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0236",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 243,
+  "text": "be provided at suction of each boiler feed pump and its booster pump. The details and requirements of the strainers sh all as per clause 3.9.4.3 of this Section. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 64 3.12 CONDENSATE POLISHING UNIT (CPU) The bidder shall supply complete system including common regeneration facility as per his standard design and as elaborated in these specifications for treating the condensate. 3.12.1 Salient Design Data i) There shall be 3x50% capacity ser vice vessels per unit designed as per condensate flow corresponding to maximum TG output at 3% make up, 89 mm Hg (abs)18 back pressure and all HP heaters out of service. ii) The quality of influent (condensate at inlet of CPU), effluent (condensate at outlet of CPU) and service run length to be considered for design of the CPU shall be as below: a) Normal conditions: During normal conditions, the quality of influent and effluent shall be considered as below: Description Influent Effluent Sodium, ppb 10 2 Iron, ppb 50 5 Silica, ppb 30 5 Chloride, ppb 10 2 Ammonia, ppb 500 - TDS (total dissolved solids), ppb 100 25 (excluding ammonia) pH 9.2 - Conductivity, \u00b5 mhos/cm 0.3 \u2264 0.1 at 25 0C Suspended solids (crud), ppb 50 5 Under the above operating conditions and design flow through the polisher units, the service run of the vessels shall be minimum 15 days (360 hrs). The mode of CPU operation during this period shall be either in hydrogen cycle or a combination of hydrogen and ammonia cycle which shall be decided by the bidder while maintaining the above effluent quality. 18 70 mm Hg (abs) for sea water based once through CW system Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 65 Bidder shall declare in his bid the number of days of operation in hydrogen cycle and ammonia cycle (if opted by the bidder) separately in a cycle of 15 days. Whenever specific conductivity starts increasing in the effluent, it shall be deemed that the ammonia cycle has commenced. b) Start up conditions During unit start- up conditions, the qua lity of influent shall be considered as below: TDS, ppb 2000 Silica, ppb 150 Crud (mostly black oxide",
+  "chunk_index": 236,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

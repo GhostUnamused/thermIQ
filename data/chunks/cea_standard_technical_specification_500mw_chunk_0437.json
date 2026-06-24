@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0437",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 456,
+  "text": "the smoke density in percent light absorpti on shall not exceed 20% when tested as per ASTM-D-2843. Cables required for the following systems shall be Fire survival type : a) DC emergency lube oil pumps b) DC seal oil pump c) DC emergency lighting cables for main building. d) Batteries to chargers and DC distribution boards. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 99 e) Turbine lub oil pumps f) Jacking oil pumps g) Emergency turbine trip by push button in control room h) Boiler turbine : Generator inter-tri p which includes the inter connecting cables between - Boiler master fuel trip and turbine trip relays - Generator trip relays and turbine trip relays - Generator trip relays and 400kV circuit breaker - Generator trip relays and generator field breaker - Generator trip relays and UAT breakers 5.10.5 Identification of cores The insulated cores of HT and LT power cables shall be identified by coloured code. The control cables shall have identification by me ans if indelible printing of numbers of its cores at intervals not more than 75 mm. At least 20% cores shall be kept as spares in the multi-core control cables. 5.10.6 Arrangement of cables As far as feasible, separate cables shall be provided for circuits of different plant and auxiliaries, for circuits of different voltages, and for circuit used separately. Power, control and instrumentation circuit shall invariably be taken through different routes, which shall not be laid together on the same cable trays. 5.10.7 Drums lengths Drum lengths of the cables shall be so chosen that straight through joints are eliminated. However, the drum lengths shall not be less than the following lengths: i) 11kV grade power cables 500 M ii) 1.1kV grade power / Fire survival cables etc. - Including and above 400 mm 2 size 400 M - Below 400mm2 size 500 M iii) 1.1kV grade control and instrumentation cables 1000M Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 100 5.11 INSTALLATION OF CABLES, EARTHING SYSTEM AND LIGHTNING PROTECTION SYSTEM The cable trays, and accessories, supports, condu its, cable glands, lugs, ferrules, tags, clamps and other accessories for installation of cables in cable galleries, trenches etc. for unit auxiliaries; earthing system network/ earth mat including interconnections; and",
+  "chunk_index": 437,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

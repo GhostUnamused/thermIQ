@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0132",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 141,
+  "text": "floor to the ground level shall also be acceptable. viii) Suitable indicators shall be provided in the downspout between bunker and feeder to detect presence of coal flow to ensure minimum seal height at inlet to feeder and trip the feeder if the level of coal tends to be below the seal height. 2.2.5.3 Raw coal (RC) feeders i) The raw coal feeders shall be of gravimet ric, belt type with minimum size of 914.4 mm (36\u201d). Each RC feeder shall be sized for 1.2 times the maximum capacity of coal pulveriser. The feeder casing shall be designe d to withstand an explosion pressure of 3.5 kg/cm 2(g). ii) The RC feeders shall comply with all the stipulations of NFPA. iii) The feeder belt shall be of multi- ply reinforced rubber of single piece construction with arrangement for tracking and to preven t spillage. The width of the belt shall have sufficient margin while operating in conjunc tion with feeder inlet opening. Suitable arrangement shall be provide d to adjust belt tension. iv) All components coming in contact with coal (except belt) shall be made of stainless steel. v) All site equipment shall be suitable for 70 0C ambient temperature and other environment conditions envisaged. vi) Detection for \u201cNo coal\u201d flow shall be provided to stop the feeder when no coal is detected on the conveyor and when pluggage occur at feeder outlet. Paddle type coal alarm switch shall be provided for this purpose over the feeder conveyor for indication of loss of coal flow and near the f eeder discharge to stop the feeder in the event of coal pluggage at the feeder outlet. vii) The feeder control system shall be micr oprocessor based. Coal weighing shall be automatic and shall include local and remote indication for rate of flow and totaliser counter. The feeder control cabinet shall be located in control equipment room (CER). viii) The weighing accuracy of the feeder shall be + 0.5% with repeatability of 0.1%. Facility for in-built calibration shall be provided. ix) The following facilities shall be provided for the feeders: a) Spraying water inside the casing. b) Providing purge air to the feeder. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 40 x) Feeders shall be provided with adequate number of manholes on for",
+  "chunk_index": 132,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

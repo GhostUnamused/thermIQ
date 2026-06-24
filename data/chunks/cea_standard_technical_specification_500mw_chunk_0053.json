@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0053",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 63,
+  "text": "1 - 37 b) Turbine area Connection with an isolation valve at a pressure of about 4 kg/cm2 (g) near C-row, to meet the service water network of respective TG and their auxiliaries. xiii) Instrumentation air a) Boiler area Connection from the instrument air ring main of the respective unit at suitable location in boiler bay for further interconnection. The pressure at terminal point shall be about 6 kg/cm2. b) Turbine area Connection from the instrument air ring main of the respective unit at suitable location in TG bay for further interconnection. The pressure at terminal point shall be about 6 kg/cm2 xiv) Service air a) Boiler area Connection from the service air ring main of the respective unit at suitable location in boiler bay for further interconnection. The pressure at terminal point shall be about 6 cm2. b) Turbine area Connection from the service air ring main of the respective unit at suitable location in TG bay for further interconnection. The pressure at terminal point shall be about 6 kg/cm2 xv) Liquid effluents a) Waste water Plant drain system b) Oils, chemicals Collection tanks xvi) Electrical system a) Terminal pads of the H V. side of generator transformers and station transformers b) 11 kV station switchgear for all station facilities 1.3.2 Exclusions i) Lighting system. ii) Fire fighting system, unless otherwise specifically indicated. iii) Communication system iv) Hydrogen generation plant v) Fuel oil tanks vi) Mill reject handling system Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 38 1.4 GENERAL TECHNICAL REQUIREMENTS 1.4.1 Steam generator and turbine generator unit shall be designed to produce maximum continuous output power with steam parameters of 170 kg/cm2 (abs) pressure and 5370C/ 5650C temperature at the turbine inlet. The power plant shall be designed to operate on unit basis having no interconnecti on with other units either on the boiler feed water side or main steam side. Each generator will be connected to its own generator transformer. The unit auxiliary pow er requirement shall be drawn from unit auxiliary transformer tapped off the generator bus duct. 1.4.2 The unit shall be designed to operate satisfactorily under prevailing tropical conditions. The boiler unit shall be suitable for outdoor installation. The steam turbine generator unit shall be suitable for indoor installation on spring supported vibration isolation foundation. The turbine driven BFPs and",
+  "chunk_index": 53,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

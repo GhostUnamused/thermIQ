@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0354",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 366,
+  "text": "it and prevent the movement of rotor winding in the axial direction due to thermal stresses. x) Bearings a) Type Self-aligning type sleeve bearings either mounted on separate pedestals or on the end shields. The bearing housings and bearing shells to be of split construction. The bearing shells to be lined with tin based TG bearing. b) Seal Provided with Labyrinth shaft seals. c) Jacking arrangement The hydrostatic jacking arrangement in line with turbine bearings. d) Bearing insulation At least one of the bearings to be suitably insulated with arrangements to measure the insulation of the generator bearing while the machine is in operation. Insulating material to be non-hygroscopic epoxy glass laminate. e) Bearing instrumentation Redundant pick-ups/ transducers for bearing metal temperature, bearing drain oil temperature. xi) Shaft Seals a) Type Double flow ring type, to be provided at both ends and designed in such a way that minimum oil comes in contact with hydrogen during operation to minimise contamination. b) Sealing ring lining The face of the sealing ring shall be lined with babbitt metal. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 9 c) Insulation The shaft seals and associated piping shall be adequately insulated to prevent circulation of shaft current. xii) Hydrogen Coolers a) General To be provided with 10% extra tubes. Cooler to be designed for at least 10 Kg/cm 2 gauge pressure on the gas side irrespective of a lower normal operating casing pressure. b) Cooler tubes Corrosion resistant with integral fins and arranged in the stator casing to avoid the direct fall of water during leakage, if any, on the winding insulation. Should be possible to clean/ plug the cooler tubes of a section with the machine under operation. c) Water pressure in coolers Shall be maintained below the operating hydrogen pressure in the generator casing. d) Temperature control To be provided with necessary control system including temperature sensing elements, control valves and devices. Also provided with adequate number of temperature and pressure gauges on inlet and outlet of cooling water, in case of water cooled machine. xiii) Generator drying arrangement Suitable equipments, accessories and controls shall be provided to enable drying out operation of the generator. xiv) Instrumentation for temperature measurement a) Temperature detectors Thermocouples/ Resistance temp- erature detectors (RTDs) of duplex 100 ohms platinum, calibrated as per DIN standard",
+  "chunk_index": 354,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

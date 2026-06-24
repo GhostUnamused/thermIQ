@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0567",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 583,
+  "text": "Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 55 control TFTs. All required I/O cards and other processing modules etc. shall be provided for this purpose. f) Test calibration jigs for site calibration of all sensors of TSS shall be provided. Telephone jacks shall be incorporated in all the TSS cubicles for communication during site calibration etc. 6.3.10 BFP Turbine Supervisory Instruments i) In addition to the instruments specified previously, the following instruments shall be provided for supervisory purp ose. The supervis ory equipment shall include detection, indication and recording of the following as a minimum. (a) Shaft eccentricity (b) Axial shift, (with three pickups) (c) Differential expansion. (d) Overall expansion. (e) Speed (triple pickups) (f) Turbine casing and bearing metal temperature for all bearings. (g) Stop valve metal temperature (h) Bearing pedestal vibration (both in horizontal and vertical direction) ii) Duplex K-type thermocouples/duplex 100 ohm platinum RTD\u2019s shall be provided for the metal temperature and on the thrust bearing faces. All the elements of the thermocouples shall be terminated by appropriate extension cable to cold junction compensation boxes. iii) Separate and independent hard ware/electronics shall be employed for each of the TDBFPs. 6.3.11 Plant Performance Analysis, Diagnosis & Optimization (PADO) Software The contractor shall provide PC based on- line plant performance analysis, diagnosis & optimization (PADO) system for the station. The PADO system shall incorporate the complete thermal design model of each unit. The model of each unit shall work together from the same PC for the complete plant. The system shall use the measured data from the C&I system through appropriate interface to be provided by the bidder. Instruments, which are specifically required for implementation of PADO, shall also be in the scope of contractor. The PADO system shall provide the following functions in a modular and seamlessly integrated environment, using a common plant model and a dynamically shared database: Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 56 i) Performance analysis and monitoring of systems and components a) Calculate thermal performance status of the plant and efficiency of generation using measured data. b) Calculate all the key system performance indicators at system level such as heat rate, plant and equipment efficiency, generator output and controllable losses.",
+  "chunk_index": 567,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

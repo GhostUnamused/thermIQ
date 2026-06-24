@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0340",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 348,
+  "text": "header and standpipe with support, spray and flooding type nozzle, screen type suction strainer, pumps, necessary controls and instrumentation, and all other required accessories. ii) All equipments, components used in unitary air filtration system shall be in line with the specification requirements stipul ated in air washer units above except the fans which may be of SISW type. 4.10.4.3 Centrifugal fans i) The casing shall be of welded cons truction fabricated with heavy gauge galvanised sheet steel or MS sheet with spray galvanisation. In case of spray galvaniation zinc deposition should c onform to class 275 of IS:277. The minimum thickness of casing shall be 3 mm. Split casings shall be provided on larger size fans. Casing drain with valves shall be provided wherever required. ii) The impeller shall have die-formed backward-curved blades tie welded to the rim and back plate to have a non overloading characteristics of the fan. The impeller along with driven pulley shall be dynamically balanced as per AMCA standard. iii) The bearing shall be self aligning, he avy duty ball/ roller or sleeve bearing. They shall be adequately supported, easily accessible and lubricated properly from outside. iv) Inlet guard shall be spun to have a smooth contour. Inlet screen, if provided, shall be of galvanized wire mesh of 25 mm square. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -93 v) Base plate with necessary number of spring type vibration isolators or ribbed neoprene rubber pad or cushy foot mounting shall be provided. The vibration isolators should have a minimum of 70% efficiency. vi) The first critical speed of the rotating assembly shall be at least 25% above the opening speed. 4.10.4.4 Axial fans i) These fans shall have single piece cast aluminium impeller with blades of aerofoil design. ii) The fan casing shall be of heavy gauge sheet steel construction minimum thickness of 3 mm up to a fan diameter of 750 mm, 5 mm for fans with impeller diameter of 750 mm and above a nd the same shall be spray or hot dip galvanized. iii) Necessary rain protection cowl, inlet and outlet cones, bird protection screen, adjustable damper, vibration isolators, back draft dampers etc. shall be provided. iv) For impeller diameter above 450 mm, the fan speed shall not exceed 960 rpm",
+  "chunk_index": 340,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

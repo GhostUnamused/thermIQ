@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0399",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 417,
+  "text": "RAL 5012 (Blue). Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 60 vii) Degree of protection a. Indoor motors IP 54 b. Outdoor motors IP 55 c. Cable box \u2013 indoor area IP 54 d. Cable box \u2013 outdoor area IP 55 5.7.3 Type i) AC Motors: - Squirrel cage induction motor suitable for direct-on-line starting. - Crane duty motors shall be slip ring type induction motor ii) DC Motors: Shunt wound. 5.7.4 Rating i) Continuously rated (S1). However, cran e motors shall be rated for S4 duty i.e. 40% cyclic duration factor. ii) Maximum continuous motor ratings sha ll be at least 10% above the maximum load demand of the driven equipment unless otherwise specified, under entire operating range including voltage and frequency variations. iii) Motors starting shall be as per IEC-60034 (part12) 5.7.5 Temperature Rise i) Air cooled motors 70 0C by resistance method for both class 130(B) and 155(F) insulation. ii) Water cooled motors 800C over inlet cooling water temperature, by resistance method for both class 130(B) and 155(F) insulation. 5.7.6 Operational Requirements i) Starting Time a) For motors with starting time upto 20 secs. at minimum permissible voltage during starting, the locked rotor withstand time under hot condition at highest voltage limit shall be at least 2.5 secs. more than starting time . b) For motors with starting time more than 20secs. and upto 45secs. at minimum permissible voltage during starting, the locked rotor withstand time under hot condition at highest voltage limit shall be at least 5 secs. more than starting time. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 61 c) For motors with starting time more than 45secs. at minimum permissible voltage during starting, the locked rotor withstand time under hot condition at highest voltage limit shall be more than starting time by at least 10% of the starting time. d) Speed switches mounted on the moto r shaft shall be provided in cases where above requirements are not met. ii) Torque Requirements a) Accelerating torque at any speed with the lowest permissible starting voltage shall be at least 10% motor full load torque. b) Pull out torque at rated volta ge shall not be less than 205% of full load torque. It shall be 275% for",
+  "chunk_index": 399,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

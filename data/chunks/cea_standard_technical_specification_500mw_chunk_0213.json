@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0213",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 218,
+  "text": "Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 38 iv) Selection of materials for vacuum pum ps and seal water recirculation pump shall be as below: a) Casing : Nickel cast iron b) Shaft : Carbon steel (EN8) c) Impeller : Nodular iron/stainless steel d) Shaft sleeves : Nodular iron/stainless steel v) Air evacuation pumps shall be designed for vibration levels as per VDI \u2013 2056. vi) Flexibility shall be provided for ope rating both pumps during hogging and must be able to evacuate the condenser in specified time as per HEI. vii) Standby pump shall cut-in automati cally in case running pump fails or when condenser pressure falls back to a preset value. viii) Each pump shall be suitable for evacu ating 100% designed air steam mixture and non-condensable gas as per HEI. ix) Pumps shall be designed for no cav itation under all operating conditions. 3.9.4 Condensate Extraction Pumps Each unit shall be provided with 3x50% condensate extraction pumps. 3.9.4.1 Sizing criteria i) Design capacity Combined flow of 2x50% condensate extraction pumps shall be based on 15% margin over highest Condensate flow envisaged during unit operation (excluding HP-LP bypass operation). ii) Design Head Design head shall be corresponding to (a) above considering 10% margin on deaerator pressure. iii) Best efficiency point Best efficiency point shall corr espond to 100% TMCR unde r rated condition. iv) Maximum capability One pump shall be capable of handling the flow and head corresponding to 65% unit load. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 39 v) Other capabilities a) Two pumps shall be capable of ha ndling the flow corresponding to 100% TMCR, HP heaters out, 3% make-up and worst condenser pressure at 47.5 Hz. b) Two pumps shall be capable of handl ing the flow corresponding to HP-LP by pass operation with turbine under tripped condition as well as turbine on house load so as not to fall into over-discharge trip due to rapid action of the LP turbine bypass de-superheater spray. vi) Motor rating Motor rating at 500C ambient temperature shall not be less than the maximum load demand of its driven equipment in its entire range of operation at frequency variations from 47.5Hz to 51.5Hz, and mo tor shall not",
+  "chunk_index": 213,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

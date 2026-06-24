@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0364",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 378,
+  "text": "shall be provided. Eith er channel shall be capable of being the main or standby. Either channel shall be capable of being selected as manual also. c) Automatic voltage regulators shall be either of solid state based type or microprocessor/ PLC based as per manufactur er\u2019s standard and having negligible time delay suitable for a large interconnected system. d) Input to AVR shall be through current transformer secondary 5A and voltage transformer secondary 110V phase to phase. e) Characteristics - Auto control range of generator operati on shall be (\u00b1)10% in all modes of voltage level adjustments. - Frequency range of opera tion shall be 47.5Hz to 51.5Hz. - Accuracy at which generator voltage to be held shall be better than 0.5% generator terminal voltage. - Range of transformer drop co mpensation shall be 0 to 15%. - Maximum change in generation voltage when AVR is transferred from auto to manual under all conditions of excita tion. shall be less than 0.5%. - Manual control range shall be 70% of no load to 110% full load excitation. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 21 f) Technical features - The AVR shall be provided with minimum following features : - Maximum and minimum excitation limiter. To keep field excitation within the specified limit. - Channel reference control Either motorised rheostats or microprocessor control. - Ramp generation circuit To en able gradual rise of reference signal applied to the comparator circuit to avoid sudden voltage build up. - Rotor earth fault detection Two stage rotor earth fault unit for continuous monitoring along with alarm and trip contacts. - Transformer drop compensation Suitable feedback proportional to transformer drop to be provided for compensation. - Rotor angle limiter A rotor angle limiter shall be incorporated in the system. This shall enable to keep the angle between the direct axis of the machine and network vector within the set reference value as determined by stability, by adjusting the excitation. - Stator current limiter The stator current limiter shall act immediately in under-excited range. The time delay in over-excited range shall enable a temporary overloading of the machine. - Rotor Current limiter The regulat or shall act with time delay, so that the regulation dynamics are not impaired in case of a fault. - Voltage/ frequency (V/F) limiter To limit the",
+  "chunk_index": 364,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

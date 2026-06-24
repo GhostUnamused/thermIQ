@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0248",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 255,
+  "text": "on the newly selected mode from that time. l) The system shall incorporate th e necessary safety features. During automatic sequential operation, if any pre-requisite criteria is not fulfilled or missing for a pre determined time interval, the steps should not proceed further, and Alarm shall be provided. Missing criteria, sequence which is under hold up etc. shall be displayed on the panel. m) A mimic diagram of the Regeneration system shall be provided on the front of the panel. The status of various dr ives and valves shall be indicated by LED on the mimic diagram. n) Wherever standby equipments are provided, it shall be possible to select each of the drive on \u2018standby\u2019 duty. o) The detailed logic for the sequence and for each of the drive shall be subject to the Purchaser\u2019s approval. p) Start, progress and stop of each of th e sequence shall be annunciated in all the control panels. q) At any time only one of the sequence shall be in progress. v) Interlocks All interlocks for safe operation of the plant shall be provided. They shall specifically include the following as minimum requirement: a) Service vessels shall be taken back in service, only after they have been pressurized. b) Service vessels shall be taken up for resin transfer only after they have been completely isolated from the condensate system and depressurized. c) Resin shall be transferred to and from only one service vessel at a time. d) Resin transfer between the service and the regeneration skids shall be permitted only when the receiving vessel is initially empty. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 76 e) It shall be possible for the operator to extend the timing of a particular step by isolating the timer for the duration. The timer will restart once the operator puts back the system on 'auto' and the other steps will then follow as programmed. f) The regeneration sequence shall be prev ented from advancing further in the event of tripping of a running motor or other fault condition which do not permit the various desired parameter of this step to be achieved. A manual override for this shall also be provided. g) The immersion heater in the hot water tank can be put on only when there is adequate water",
+  "chunk_index": 248,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0860",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 912,
+  "text": "Discharge performance at low temperature ii) Acceptance Tests - All acceptance tests as listed below shall be carried out on sample cell selected at random by the purch aser before dispatch and at site after completion of installation. a) Physical examination b) Dimensions, mass and layout c) Marking d) Polarity and absence of short circuit. e) Air pressure test f) Ampere - hour capacity g) Retention of charge h) Insulation resistance Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 126 If a battery fails to meet the guaranteed requirements, the purchaser shall have the option of asking to replace the same. 8.6.11.4 Site tests The following minimum tests/ checks shall be conducted at site. Any other tests/ checks as per the manufacturer\u2019s recommendation shall also be carried out \u2022 Physical examination \u2022 Dimensions, mass and layout \u2022 Marking \u2022 Polarity \u2022 Insulation resistance Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 127 8.6.12 Battery Charger Tests/ Checks Item/ Components/ Sub-system Make, Model, Type, Rating and Finish Chemical and Mechanical tests Sheet steel pretreatment and painting process checks Conform to relevant standard Dimensional check and paint shade, thickness, adhesion and finish checks Complete physical examination for constructional features of battery charger as per specification Temperature rise test Dynamic response test Ripple content test, load limiter and Annunciator and AVR operation test Operational and functional checks HV and IR test Burn-in test at 500C for 48 hrs Degree of protection test . Rectifier transformer (IS:2026) Y Y Y Y Electronic components including potentiometer ( vernier type) Y Y PCB and electronic cards Y Y 19\u201dstandard racks for electronic card Y Y Control and selector switches (IS:6875) Y Y Y Indicating meters (IS:1248 ) Y Y Y Indicating lamps (IS:13947) Y Y Y Air break switches/ Fuses ( IS:13947/ 13703) Y Y Y Control terminal blocks (IS:13947) Y Y Control transformer ( IS:12021) Y Y Y Push buttons ( IS:4794 ) Y Y Y MCB ( IS:8828) Y Y Y PVC insulated copper control wires (IS:694 ) Y Y Sheet steel ( IS:513 ) Y Y Y Y Synthetic rubber gaskets Y Y Y Annunciator Y Y Y Battery charger Y Y Y Y Y Y Y Y Y Y =Test applicable Standard",
+  "chunk_index": 860,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

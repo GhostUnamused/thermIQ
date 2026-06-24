@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0795",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 823,
+  "text": "tank shall be subject to water fill test to check for the leakage. 8.3.7.3 Dosing pumps/ metering pumps i) Tests shall be carried out on the materials of the pumps to establish their properties, and chemical compositions ii) Pump casings shall be subject to hydraulic test at 1.5 times the shut off pressure or 2 times the working pressure whichever is higher. iii) Pumps shall be performance tested as per HIS, USA. 8.3.7.4 Horizontal centrifugal pumps The QA requirements for horizontal centrifugal pumps shall be as per clause 8.4.12.2 of this Section. 8.3.7.5 Rotary blowers i) Tests shall be carried out on the materials of the rotary blowers to establish their properties, and chemical compositions. ii) 100% DPT or MPE shall be carried out for the rotor and machined surfaces of casing and impellers. iii) The shaft and impellers shall be dynamically balanced. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 37 iv) Assembly fit up check, and dimensiona l check shall be carried out for the completed blower assembly. v) The blower casing shall be subject to hydraulic test at 1.5 times the shut off pressure or 2 times the working pressure whichever is higher. vi) The blowers shall be performance tested as per relevant code/ standard. 8.3.7.6 Valves The QA requirements for high pressure valv es such as for service vessels shall be as per clause 8.4.2 of this Section. The QA requirements for other valves shall be as per clause 8.4.6.2 of this Section. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 38 8.3.8 Condenser On-Line Tube Cleaning System 8.3.8.1 Ball recirculation pump i) All rotating parts shall be dynamically balanced. ii) Pump casing shall be subjected to hydraulic test at 1.5 times the shut off head or twice the maximum working pressure whichever is higher. iii) Complete pump assembly shall be s ubjected to shop performance test at supplier\u2019s works. 8.3.8.2 Ball sorter/ fabricated body (housing) i) In the case of fabricated design, all butt welds shall be subject to 10% RT or UT. All welds shall also be subjected to 10% MPE to ensure freedom from surface and sub-surface defects. ii) Body shall be subject to hydraulic pressure test at 1.5 times the design pressure.",
+  "chunk_index": 795,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

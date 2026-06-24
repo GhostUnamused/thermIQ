@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0010",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 14,
+  "text": "3 6.1.6 Environmental conditions 6- 4 6.2 Distributed Digital Control, Monitoring and Information System (DDCMIS) 6- 6 6.2.1 General requirements 6- 6 6.2.2 System description 6- 9 6.2.3 Measurement functions of control system 6- 11 6.2.4 Control system requirements 6- 15 6.2.5 Man-machine interface system and plant information system (MMIPIS) requirements 6- 28 6.2.6 Program development/ modification, system maintenance and documentation facility 6- 34 6.2.7 Data communication system (DCS) 6- 36 6.2.8 Sequence of events recording/ annunciation functions 6- 37 6.2.9 Master & slave clock system 6- 38 6.2.10 Power supply & grounding 6- 38 6.2.11 System software requirements 6- 39 6.2.12 System documentation 6- 39 6.2.13 Training 6- 40 6.2.14 Warranty 6- 40 6.2.15 Performance requirement of the DDCMIS 6- 41 6.2.16 Large video screen (LVS) 6- 45 6.3 Other SG/TG Related Control & Instrumentation System/ Equipments 6- 48 6.3.1 Flame monitoring system 6- 48 6.3.2 Coal feeders control and instrumentation 6- 49 6.3.3 Electromatic safety valves 6- 50 Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package xiClause No. Description Page No. 6.3.4 Furnace temperature probes 6- 50 6.3.5 Acoustic pyrometer 6- 50 6.3.6 Mill and air heater fire detection system 6- 51 6.3.7 Furnace and flame viewing system 6- 51 6.3.8 Electronic remote drum level monitoring system 6- 52 6.3.9 Turbine supervisory system (TSS) 6- 53 6.3.10 BFP turbine supervisory instruments 6- 55 6.3.11 Plant performance analysis, diagnosis & optimization (PADO) software 6- 55 6.4 Measuring Instruments (Primary & Secondary) 6- 59 6.4.1 Configuration, maintenance, diagnostics & record-keeping facility for electronic transmitters and analysers 6- 59 6.4.2 Specification for electronic transmitters for pressure (DP), flow and level 6- 60 6.4.3 Temperature sensing elements and cold junction compensation boxes 6- 62 6.4.4 Flue gas analyser instruments 6- 66 6.4.5 Vibration monitoring system 6- 69 6.4.6 Specification for flow elements 6- 70 6.4.7 Specification for local gauges & rotameters 6- 72 6.4.8 Specification for process actuated switches 6- 74 6.4.9 Specification for indicator, recorders 6- 76 6.4.10 Electric to pneumatic (E/P) converters 6- 77 6.4.11 Displacer type level transmitters 6- 78 6.4.12 Positive displacement type flow transmitters 6- 78 6.4.13 Impact head or ultra sonic type flow meter 6- 79 6.5 Steam and Water Analysis System (SWAS) 6- 82 6.5.1 SWAS panels 6- 82 6.5.2 Specification of analysers 6- 83 6.5.3 System and type of measurements 6- 90 6.5.4 Alarm contacts 6-",
+  "chunk_index": 10,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

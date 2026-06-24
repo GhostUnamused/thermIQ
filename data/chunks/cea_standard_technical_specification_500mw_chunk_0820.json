@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0820",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 851,
+  "text": "Gaskets Y Y - Bearing seals and hydrogen seals Y Y Y Y1 - Terminal bushing Y - RTD/ Thermocouple Y Additional check for nonmagnetic components Y Non magnetic components welding Y Y=Test applicable, Y1=UT on babbit for bearing Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 65 8.6.1.2 Process check for core of generator/ exciter (Table 1/2) Tests/ Checks Items/ Components/ Process Specific loss before and after ageing Magnetisation Anotrophy of losses Stacking factor Burr level Check for varnish, insulation (chemical, electrical, viscosity, cure time, solid content, dielectric properties ) Dimension and surface (uniformity of varnish coat Spot weld check Core lamination Y Y Y Y Y Y After punching insulated core laminations Y Y Y Y Ventilation stamping Y Core assembly Y1 Y = Test applicable, Y1 = Visual checks 8.6.1.2 Process check for core of generator/ exciter (Table 2/2) Tests/ Checks Items/ Components/ Process Process check including heating and pressure application Insulation test of core tension bolt and core bar Functional check of ventilation ducts Hot spot by infra red camera, ELCID Location of temperature detectors Iron loss at rated flux density Core assembly (additional checks for generator) Y Y Y Y Y Y Y = Test applicable, Y1 = Visual check Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 66 8.6.1.3 Process check for stator conductor and winding of generator/ exciter (Table 1/3) Tests/ Checks Mechanical Properties (sample) Chemical Properties (sample) Resistivity/ Resistance Metallography properties Eddy current and pressure test Insulation adhesion Flexibility of bending Dielectric test Dimension/ visual Electric test Physical properties Brazing procedure Winding copper and connecting busbars Y Y Y Y Y1 Insulated conductor Y Y Y Y Insulation material Y Y Y Y Y Manufacturing winding bar and phase bar Y Y Y Y Winding laying Y Y Y Water supply hoses Y Y Y Y Winding support ring Y Y Y Connection between bars Y Wound stator Y = Test applicable, Y1 = Visual checks Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 67 8.6.1.3 Process check for stator conductor and winding of generator/ exciter (Table 2/3) Tests/ Checks Items/ Components / Process X-Ray Process check",
+  "chunk_index": 820,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

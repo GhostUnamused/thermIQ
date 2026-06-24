@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0699",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 728,
+  "text": "equipment shall be provide d with rigid foundation system except TG which shall be supported on vibration isol ation spring system mounted foundations. The vibration isolation system supplied should be of proven make, consisting of steel helical spring units and viscous dampers (p roviding damping resistance in all three planes). The vibration isolation founda tion system shall be provided for turbo- generator only and all other equipments su ch as boiler feed pumps, ID/FD/PA fans, coal mills etc. sh all be supported on rigid foundations. iii) If minor equipments are to be supported on building structures, floors etc. suitable vibration isolation shall be provided. 7.5.7 Concrete Works 7.5.7.1 Reinforced concrete struct ures shall be designed in accordance with the latest Indian standards IS: 456- Building code requ irements for reinforced concrete. Water retaining RCC structures shall be designed in accordance to IS: 3370 part I to IV \u2013 Code of practice for concrete structures for storage of liquids. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 7 (Civil Works) 7 - 52 7.5.7.2 Materials Quality of materials The materials described below shall be specified and used as a basis for design. i) Reinforcement: Reinforcement shall be high yield strength deformed bars conforming to IS: 1786 (Grade Fe415/ Fe500). ii) Cement: Fly ash based Portland Pozzolana cement conforming to IS: 1489 (Part- 1) shall be used for all areas other than for the critical structures identified below. However, Purchaser may allow the use of other types of cement namely, ordinary Portland cement and Portland slag cement conforming to IS: 269 and IS: 455 respectively under special circumstances on specific request of the bidder and prior approval of the purchaser. Minimum grade of cement shall be Grade 33. Higher grade of Portland ordinary cement namely Grade 43 and Grade 53 conforming to IS: 8112 and IS: 12269 respec tively can also be used for specific application. However the ordinary Portla nd cement shall necessarily be used for following structures. \u2022 TG foundation top deck and sub-structure excluding raft. \u2022 Structures requiring grade of concrete of M30 and above. In place of fly ash based Portland Pozzolana cement fly ash can be added in ordinary Portland cement (Grade 43). Ba tching plant shall be deployed for producing the concrete. Fly ash shall confor m to IS: 3412. Percentage of fly ash to be mixed",
+  "chunk_index": 699,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

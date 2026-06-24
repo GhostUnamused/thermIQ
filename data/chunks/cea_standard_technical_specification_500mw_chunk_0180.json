@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0180",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 183,
+  "text": "vii) No. of start ups : Expected numbers of turbine generator start- ups are given below. The design of turbine generator and the associated systems shall take care of these start ups without affecting the life of equipment adversely. No component shall be stressed beyond acceptable safe stress and fatigue levels when operating under the stated duty conditions. Type of starts No. of starts Hot start (within 10 hours 4000 of unit shut down) Warm start (between 10 hours 1000 and 72 hours of unit shut down) Cold start (after 72 hours 150 of unit shut down) Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 4 viii) Rate of loading/unloading The turbine generators shall be designed for minimum rate of loading/ unloading mentioned below without compromising on design life of pressure parts. a) Step load change: Minimum \u00b1 15% b) Ramp rate: \u2022 Minimum \u00b1 3% per minute under sliding pressure operation \u2022 Minimum \u00b1 5% per minute under constant pressure operation 3.1.2 Type of Steam Turbine i) The steam turbine shall be of tande m compound construction, condensing type with six (6) or seven (7) steam extractions at optimum points for regenerative feed heating. HP turbine shall be of double casing design. The HP, IP and LP casings shall be independent of each other OR combined HP-IP and separate LP casing(s). LP turbine may consist of two separate turbines. HP inner casing, IP casing and LP casing(s) shall be of horiz ontally split type. HP steam dumping device shall be provided for evacuation of steam from HP turbine to the condenser after shutdown /tripping to avoid windage. ii) Steam turbine shall be complete with casings, rotors, bearings, temperature detectors, couplings, steam gland seal, roto r turning gear preferably hydraulic type and having local/rem ote operation facility, hand barring gear, emergency stop and control valves (or combined em ergency stop and control valve) and reheat stop and control valves with their servomotors, removable type steam strainers for start up and normal opera tion upstream of emergency stop and reheat stop valves, crossover/ cross around piping and electric motors for all its integral subsystems. Steam strainers integral with main steam emergency stop and reheat stop valves are also acceptable. iii) Hydraulic/pneumatic power operated quick closing non-return valves (QCNRV) and ordinary non-return valves for each extraction",
+  "chunk_index": 180,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

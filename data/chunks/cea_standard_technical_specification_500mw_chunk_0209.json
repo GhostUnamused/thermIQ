@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0209",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 214,
+  "text": "service, welded construction and 16mm minimum wall thickness. The hotwell shall be of same material as that of the shell and shall be longitudinally divi ded with proper drainage provisions. iv) Condenser shall be spring supported and di rectly welded to the turbine exhaust. Alternatively condenser can be solid s upported with expansion joints (of fully stabilised austenitic stainless steel all welded type) in the condenser neck. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 35 v) Suitable impingement guards or baffles shall be provided on top row tubes. Similar guards shall also be provided for any steam or water connection to condenser. Other alternate arrangements to protect the top row of tubes can also be considered with th e approval of purchaser. vi) Condenser(s) shall be provided with eas ily removable/hinged type and refittable type water boxes alongwith suitable handling arrangement for the same. Hinged manhole (of minimum 460 mm size) shall be provided in shell, each water box and each hotwell section. vii) Adequate provisions shall be made fo r future installation of cathodic protection in water box, condenser on-load tube cleaning system, and other components of CW system to protect against corrosion. viii) For fresh water based application, tubes shall be of welded type stainless steel as per ASTMA-249-TP304 and meeting the ASME specification for general requirements for carbon ferritic alloy and austenitic alloy steel tubes SA-450 and continuous without any circumferential jo int suitable for the duty intended, with average wall thickness of minimum 22 BWG12. Top rows of tubes shall be extra thick. Provision for taking care of ther mal expansion of tube bundle and proper drainage of tubes during shut down shall be ensured. ix) Water box, tube plates and support plates material shall be carbon steel as per ASTM A-285 Gr. C/ IS 2062 or equivalent and suitable for duty intended. Water box interiors shall be painted with two coats of corrosion resistant primer and coated with coal tar epoxy paint.13 x) Corrosion allowance of minimum 3.2 mm for water boxes, tube plates and 1.6 mm for shell, hotwell and condenser neck shall be provided. xi) All bolts, nuts and stays etc. inside the steam space shall be of approved material and where such parts project through tube pl ates they shall be fitted with stainless steel",
+  "chunk_index": 209,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0351",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 361,
+  "text": "for duration of \u2018t\u2019 sec. such that the value of I 22 t is not less than eight (8). viii) Voltage waveform The voltage waveform shall be approximately close to a pure sine wave under all conditions of loading Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 4 within the tolerance limits specified in the relevant standards. The balanced and residual telephone harmonic factor (THF) to be within limits specified in IEC-60034-1. ix) Short circuit withstanding capacity Capable of withstanding of 3-phase short circuit at the generator terminals when operating at rated MVA and power factor with 5% over voltage for a period of not less than 3 seconds. However, the generator to be subjected to withstand test as per clause no. 8.7 of IEC-60034-1. x) Line charging capability (MVAR) Not less than 35% of the rated MVA at zero power factor leading. xi) Capacity with one hydrogen cooler out of service Capable of delivering at least two third of the rated MVA xii) Generator neutral earthing Non-effectively earthed neutral system. Neutral to be earthed through a distribution transformer loaded with a resistor. xiii) Generator capability diagrams Bidder to submit the capabilities of the generator at different p.f. (lead and lag) and also at varying hydrogen pressures, clearly indicating the operating limits. xiv) Impulse level and surge protection Impulse level as per IEC-60034,Pt.15 Surge arrestor of suitable rating to be provided for the surge protection of the generator winding. The surge capacitors also to be included. xv) Harmonics Voltage and current harmonics not to exceed the limits as per IEEE-519. 5.1.7 Design and constructional features i) General a) All components to be designed to avoid resonance at any of the frequency in the operating range and their multiples. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 5 b) All components requiring inspection and maintenance to be designed for easy access and replacement. ii) Stator Body a) Enclosure To withstand without any residual deformation, any internal hydrogen explosion. b) Handling 4 no. of trunions to be provided for handling the stator by means of crane. Bidder to clearly bring out in the proposal, the features provided in the generator body construction to enable generator stator to be lifted/ dragged. c) Transportation The bidde r to",
+  "chunk_index": 351,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0582",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 601,
+  "text": "gauge glass shall not be more than 1400 mm. If the vessel is higher, multiple gauge glasses with 50 mm overlapping shall be provided. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 74 Where the process fluids are corrosive, viscous, solid bearing or slurry type, diaphragm seals shall be provided. Parts below the diaphragm shall be removable for cleaning. The entire volume above the diaphragm shall be completely filled with an inert liquid suitable for the application. For HFO, LFO applications, SS capillary with thin wafer element with ANSI RF flanged ends are to be provided. ii) Specification for Rotameters Sr. No. Features Essential / minimum requirements a) Type scale Variable linear type b) Fluid media Water/oil c) Material body Transparent toughened glass d) Material of float 316 SS e) Indicator Magnetic float f) Accessories Flange, orifice in case of bypass rotameter (for line size above 50 mm) g) Housing protection class IP-55 h) Accuracy + 2% 6.4.8 Specification for Process Actuated Switches Features Essential / minimum requirements Pressure/ draft switches/ DP switches Temperature switches Level switches Capacitance types for oil and dirty medium, water, condensate application. a) Sensing element Piston actuated for high pressure and diaphragm or bellows for low pressure/ vacuum Vapor pressure sensing, liquid filled bellow type with SS bulb and capillary (10 m minimum) Float type switches for applications as decided by Purchaser during detailed engineering. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 75 Capacitance/ Conductivity/ Ultrasonic type for acid and alkali application. Radio-frequency/ ultrasonic type for ash hopper, ash slurry application. b) Material 316 SS Bulb 316 SS/ capillary 304 SS 316 SS c) End connection \u00bd inch NPT (F) \u00bd inch NPT (F) Manufacturer standard d) Over range proof pressure 150% of max. design pressure - 150% of max. design pressure e)Repeatability + 0.5% of full range f) No. of contacts 2 NO +2NC SPDT snap action dry contacts g) Rating of contacts 60 V DC, 6 VA (or more if required by DDCMIS or PLC)* h) Elect.con nection Plug in socket i) Set point/ dead band adjustment Provided over full range j) Enclosure Weather and dust proof as per IP-55 k) Accesso ries Syphon, snubber, chemical",
+  "chunk_index": 582,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

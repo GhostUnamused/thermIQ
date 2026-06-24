@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0172",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 177,
+  "text": "Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 75 2.2.16.11 Rapping System i) Independent rapping system shall be provided for discharge electrodes and collecting plates with control systems as per the requirements specified. The rapping mechanism shall be of either elect ric impact type or tumbling hammer type. This shall be adjustable in frequency, intensity (for electric impact type only) and frequency (for tumbling hammer type) to provide an efficient cleaning rate. Separate rapping equipment, shall be provided for the discharge and collecting plates served by one TR set so that each mechanism can be suitably adjusted when required. It shall be so arranged that th e rapping frequency can be independently set from the control room in accordance with the operating requirements. The rapping frequency range shall be adjustable in wide range and this facility shall be such that it does not require any stoppage of rapper operation. Sufficient number of rappers and rapper drives shall be provided so th at minimum collection area and discharge electrode lengths are rapped at a time, which shall not be more than 4.33% of the total collection area for at least the last tw o fields/discharge electrode length of each field served by one TR set. The bidder shall provide necessary calculations in support of fulfilling the above requirements. The rapping system shall be designed for continuous sequential rapping to pr event puffing under any conditions of precipitator operation. ii) A minimum rapping acceleration of 75 g measured normal to the plane of the plate shall be imparted on all parts of all the collecting plates. iii) All internal parts of the rapping mech anism shall be accessible for inspection and they shall be placed on wide access passages and shall be easily accessible for operational and maintenance purposes. Majo r part of the rapping mechanism shall be located external to the precipitator. Necessary lubrication system shall be provided for the rapping mechanism. iv) The perforated plates and/or guide vanes furnished for gas distribution system shall also be provided with rapping system s. The rapping mechanism shall produce sufficient force to keep the pe rforated plates/guide vanes clean. 2.2.16.12 Dust hoppers i) Dust hoppers shall be of pyramidal type or conical as per bidder\u2019s proven practice, each having a storage capacity of minimum of eight (8) hours corresponding to the maximum ash collection rate",
+  "chunk_index": 172,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

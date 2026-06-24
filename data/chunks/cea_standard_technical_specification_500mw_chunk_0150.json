@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0150",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 157,
+  "text": "with following requirements: Drain oil tank Condensate flash tank a) Medium to be Heavy fuel oil Condensate water/ stored (HPSLSHS/HFO) flash steam and LDO Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 56 b) No. of tanks Two (2) in boiler One (1) area and one (1) in FO pressurizing pump house area. c) Tank capacity 6m3 (each) in SG 6m3 area and 10m3 in FO pressurizing pump house area. d) Design and IS:800 IS: 2825 Class-II construction code or equivalent e) Design temperature 120 0C (minimum) 2150C (minimum) f) Tank design pressure - As per applicable code g) Type of Rectangular Vertical cylindrical construction with dished ends h) Material of As per IS:2062 As per IS:2825/ construction ASME Sec. VIII i) Corrosion allowance 1.8 mm 1.8 mm j) Insulation Required Required k) Nominal - Vent pipe of 250 Nb venting capacity (min.) and 3.5 m height l) Heater tube 50 Nb tubes as - material per IS1239 (heavy grade) or ASTM 106 Gr. B ii) The design, fabrication, erection, commissioning and testing of the tanks shall be conform to IS:2825. iii) Steam coil heaters shall be provided at the bottom of drain oil tanks to maintain the oil temperature to facilita tes its pumping. The heaters shall be sized considering ambient air temperature of 10 0C. Total heating surface of heaters shall not be less than 4 m2 per drain oil tank. Steam for the heaters shall be drawn from the auxiliary steam supply system. 2.2.9.3 Fuel oil cooler Oil cooler on the heavy fuel oil return line shall be sized for cooling the return oil from each unit to the temperature of oil in the fuel oil storage tanks. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 57 2.2.10 Duct Work and Dampers 2.2.10.1 Duct work i) Loads for design of ducts and structures: The duct design shall take into account following loads all occurring together: a) Wind load as specified. b) Dead weight including weight of insulation, lining, wash water and vertical live load. c) Horizontal flue gas ducts shall be designed additionally for minimum 245 kg/m 2 fly ash loading on the surface or for one fourth of duct full",
+  "chunk_index": 150,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

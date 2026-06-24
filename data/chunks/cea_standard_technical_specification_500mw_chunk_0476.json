@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0476",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 493,
+  "text": "on HV side (51) c) Restricted earth fault protection (87NT) d) Over- fluxing protection (99) (to be duplicated) e) Neutral over-current protection against sustained external system earth faults (51 NT) f) Buchholz protection (annunciation and trip) (63) g) Winding temperature high for annunciation and trip (49T) h) Oil temperature high (annunciation and trip) (49Q) i) Pressure relief valve trip (PRV) j) Generator Transformer differe ntial protection for single phase bank (87T) k) Overhead line connection differential protection(87L) (For 3 single phase banks, if 87L includes HV winding, separate 87NT is not mandatory) l) Pole discrepancy protection of the breaker if single pole breakers are used (162) m) Breaker (HV) back\u2013up protection (protection against breaker failure) (50Z) iii) Unit Auxiliary Transformer a) Differential current protection (87) b) Restricted earth fault protection for LV winding in case of low resistance grounding (87N) c) Back-up over- current protection on primary side (51) d) Back-up earth fault protection for low/ high resistance grounding (LV side) Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 136 e) Winding temperature high (a nnunciation and trip LV side breaker) (49T) f) Oil temperature high (annunciation and trip the LV side breaker) (49Q) g) Buchholz protection (annu nciation and trip) (63) h) Pressure relief valve trip (PRV) 5.14.5 Generator Disturbance Recorder (DR) a. One no. microprocessor based Disturban ce Recorder (DR) shall be provided for each generator to record graphic form of instantaneous values of voltage and current in all three phases and neutral, op en and closed positions of relay contacts and breaker during disturbances. b. It shall have the facility for slow and fast scan to record transient and dynamic performance of the system. c. Both slow and fast scan facility shall ha ve atleast 8 analog and 16 digital inputs. d. The slow scan facility shall be provi de with the following minimum features - The input shall be MW, MVAR, field vo ltage, frequency and generator terminal voltage etc. Any transducers, if requi red for interfacing, shall be provided. - It shall be suitable to record the frequ ency excursions and response of generator field and governor control on system fluctuations. - It shall have options to select the scan rate in the range having a min. of 10Hz suitable to facilitate capture of low fre quency waveforms in the range of",
+  "chunk_index": 476,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

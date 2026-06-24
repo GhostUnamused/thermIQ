@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0024",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 32,
+  "text": "complete unit with all required accessories with adequa te redundancy shall be provided. iv) Proven fire detection and fire extinguishing systems in line with the standard practice of the manufacturer shall be provided. In case of CO 2/N2 based system, the scope of supply shall also include the required cylinder/piping and valves network etc. In case, the proposed type of mill requires inerting during start-up / shut-down of the mill to ensure safety of operation, suitable system alongwith all piping valves instrumentation, interlock system etc. shall also be provided. v) Portable lubricating oil purification plant for pulverisers complete with tank, pumps, purifiers, piping, valves fittings and local instruments and control panels. D) Primary Air Fans i) Two (2) numbers of two stage axial PA fans for each steam generator, with hydraulic blade pitch control syst em each with motor, base plates, foundation bolts, inlet box, inlet bird and trash screen, inlet rain water canopy, inlet cone, diffuser, coupling, coupling guard and silencer. Each Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 7 PA fan shall be provided bearing l ubrication and hydraulic blade pitch control unit consisting of : a) 2x100% oil pumps, each with motor, coupling and coupling guard. b) 2x100% oil coolers. c) 2x100% oil filters. d) One (1) oil tank. e) Instrumentation, connected piping, valves and fittings. f) Electrical/ pneumatic actuators with all accessories. ii) PA fans shall be installed on rigid RCC foundations. E) Seal Air Fans 2x100% seal air fans common for all the pulverisers of one steam generating unit shall be provided. The fans shall be complete with motors, ba se plate, foundation bolts, coupling and coupling guard, seal air piping, dampers, supports etc. 1x100% self cleaning filter (Dynavane or e qvt.) on common line to fans shall be provided alongwith necessary manual isola tion dampers at suction and discharge for maintenance. The seal air fans shall take suction from cold primary air header. Alternatively suction may be taken from atmosphere also. F) Pulverised Coal (PC) Piping i) Pulverised coal piping from mills to burners including ceramic lined pipe and bends as per the specifications. ii) Power operated shut off gate before each coal burner and a power operated flap type mill discharge valve at each classifier outlet on each pulverized fuel pipe. G) Coal sampling system for obtaining samples from",
+  "chunk_index": 24,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0169",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 175,
+  "text": "requirements i) The Contractor shall offer the best design to accommodate the ESPs and accessories within the confines of the space available. The design shall permit satisfactory duct layout before and after the ESP terminal flanges. ii) ESP control room located at grade le vel adjacent to the ESP shall house the control cubicles. The Man Machine Interface (MMI) to be provided to enable unit control room operator to access the ESP controls fo r control, monitoring and data acquisition functions may be suitably located in the unit control room. 2.2.16.6 Model Study i) The Contractor shall conduct computer based model study using CFD technique to achieve optimum size and layout of the ducting, uniform flue gas distribution, maximum particulate collection, minimu m draft loss, minimum dust drop out and build up and minimum re-entraintment from within the precipitator. ii) The model study shall include the desi gn of all connecting duct work from the air preheater gas outlets to the induced draft fans inlets, induced draft fan outlet to chimney flue inlet including the inlet duct transition piece, including all dampers, turning vanes and distribution devices. Based on the model test studies, the Contractor shall finalise the design of the duct work, guide vanes, flow splitters etc. The model study shall also include a gas distribution study for the duct system around ESP to find out the effect of isolation of one stream of the ESP. iii) The report of CFD model study shall be furnished to the purchaser. iv) CFD model study for the ESP may not be needed in case the bidder has earlier carried out the CFD modeling for similar size and type of the ESP. The report of CFD model study earlier carried out by bidder for similar size and type of the ESP shall be furnished to the purchaser. 2.2.16.7 Maintenance Requirements i) The design of the precipitators shall allow adequate space above and between the adjacent fields to carryout necessary inspection and maintenance. A permanent walkway shall be provided at each rapper level both for the discharge and collecting plates. ii) Minimum 2.0 m wide plateforms shall be provided between the two casings of the ESPs to facilitate maintenance work. The protection for the platform and the rapping motors from exposure to rain shall also be provided. iii) Three (3) nos. of staircases of minimum 0.85m clear width shall be provided from ground",
+  "chunk_index": 169,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

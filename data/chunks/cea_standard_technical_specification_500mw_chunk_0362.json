@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0362",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 376,
+  "text": "accessories for primary water tank. iii) Control and monitoring Bidder to offer proven micro-processor/ PLC based controller. System to be controlled from Man Machine Interface and Plant Information System (MMIPIS) as part of turbine control system at Unit Control Room (UCR). In addition to the remote control and monitoring, local control, monitoring and alarms for this system to be realized in the local panel mounted near these systems as per manufacturer\u2019s standard. Local panel to be provided with all the necessary instrumentation and alarms. Outputs to be provided for alarm to DDCMIS Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 19 iv) On-line monitoring System for water qua lity Required for ensuring a corrosion free operation to be provided along with stator water system. v) Stator coolant flow recorder To be monitored in DDCMIS 5.2.4 Generator Excitation System i) General a) The generator shall be provided with \u2018Static Excitation System\u2019 or \u2018Brushless Excitation System\u2019 along with \u2018Automa tic Voltage Regulat or\u2019 to meet the requirement specified herein. The excitation system offered shall be of proven design and have a satisfactory field service record on machines of similar size and construction incorporating the type of excitation. b) Stability studies, both dynamic (long duration, transient) and steady state, shall be carried out to evaluate various parameters of the excitation system, e.g. response time, response ratio, ceiling voltage, loop gains, power system stabilizer (PSS) parameters etc., so as to meet the operational requirements of the grid particularly on loading side as the power station is connected to the grid by long transmission lines. The purchaser will furnish all information/ data necessary to carry out the stability studies to the contractor at detail engineering stage c) The excitation system shall have matching characteristics suitable for satisfactory parallel operation with other generators in the plant d) The necessary inputs and interface equi pment shall be provided with Generator Excitation and Automatic Voltage Regulato r for hooking up with Turbine Automatic Run-up system and Electro Hydraulic Governing System. ii) Design and Construction a) When the generator is subjected to a sudden loss of rated output at rated power factor, the system shall be capable of rest oring the voltage within 2% of the nominal preset value within negligible time b) The excitation system shall have 2x10 0% channels including independent AVRs, power converters",
+  "chunk_index": 362,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

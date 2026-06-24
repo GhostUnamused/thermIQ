@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0041",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 49,
+  "text": "specifically included above but required for completeness of the system shall also be in the scope of the bidder. 1.2.3.3 Equipment cooling water (ECW) system Equipment cooling water system complete with DM cooling water pumps, tanks, heat exchangers, NaOH dosing system, secondary cooling water pumps, self cleaning filters, interconnecting pipes, all accessories, valves, fittings, hangers and supports for cooling of turbine- generator and auxiliaries as well as steam generator auxiliaries. 1.2.3.4 Chemical dosing system i) High pressure chemical dosing syste ms (phosphate dosing) for boiler water including tanks, transfer pumps, measu ring tanks, mixing/ preparation tanks, metering pumps, piping, valves, instrumentation etc. ii) Low pressure chemical dosing systems (viz. ammonia and hydrazine) for condensate and feed water system incl uding tanks, transfer pumps, measuring tanks, mixing/preparation tanks, bulk ch emical storage tanks, metering pumps, piping, valves, instrumentation etc. 1.2.3.5 Steam and water sampling system Complete steam and water sampling system including sampling racks, sample coolers, pressure reducing devices, piping, va lves and required instruments. 1.2.3.6 Low pressure piping and valves etc. The scope of low pressure piping including miscellane ous piping shall cover piping systems for the following services from the term inal points within the main plant area as specified elsewhere:- i) Condenser cooling water system ii) Condenser make up, boiler fill and deaerator fill systems iii) Equipment cooling water system iv) Condensate polishing system v) Air pre heater water washing system vi) HVAC make up system vii) Condenser on load tube cleaning system viii) Debris filter (applicable for sea water based CW system) ix) Condenser air evacuation system Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 24 x) Drain water system xi) Chemical dosing system xii) Service water systems xiii) Potable/ drinking water system xiv) Fire water piping system xv) Oil storage and purification systems xvi) Liquid effluent system xvii) Any other piping system Piping systems shall be complete with fittings/ accessories and specialities, expansion joints, all isolating and regulating/ cont rol valves, hand operated and/or motorized/ pneumatic/ hydraulic actuators, surface painting/ protection, hangers, supports, trestles, restraints/ guides, snubbers and aux iliary steel etc as required. 1.2.3.7 Instrument air and service air distribution systems Instrument air and service air distribution piping in boiler and TG areas complete with all accessories such as pressure regulators, filters, driers and oil separators to be suitably tapped from respective",
+  "chunk_index": 41,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

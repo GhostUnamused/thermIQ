@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0080",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 88,
+  "text": "shall be included in the analysis. viii) Any loss in generation in terms of power (kW) or energy (kWh) during availability test due to grid restrictions shall be treated as deemed generation. However, the total cumulative deemed generation shall not exceed 5% of the total generation during the test period faili ng which the test shall be extended to limit the deemed generation to 5% of the total generation. 1.6.5.2 Steam generator efficiency tests i) Test code : As per BS EN 12952- 15, 2003 (by loss method) (except for specific requirements brought out herein) ii) Test loads : 100% TMCR and 80% TMCR iii) Test conditions : Boiler operating at rated steam parameter, excess air, coal fineness and firing design coal. iv) Ambient conditions : 27oC dry bulb temperature and 60% relative humidity. The reference air temperature for the efficiency guarantee/ testing shall be taken as the temperature of air (i.e.27oC) entering PA and FD fans. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 63 v) No. of readings : Two sets of consistent readings for each of test loads. Average of the test efficiencies based on above two readings for each load shall be considered for guaranteed efficiency. vi) Measurement and computation of heat losses will include but not be limited to the following: Sl. No. Losses to be measured a) Dry gas loss b) Loss due to hydrogen in fuel c) Loss due to moisture in fuel d) Loss due to moisture in air e) Loss due to unburnt carbon Ash samples shall be collected fro m the furnace bottom hoppers, airheater, economiser and ESP hoppers, duct hopper (if applicable). The ash collection distribution for computa tion of losses shall be 20%, 3%, 5% in the furnace bottom hopper, air heater, economiser/ duct hoppers (if applicable) and balance in ESP hoppers. f) Radiation loss g) Loss due to carbon mono- oxide (CO) in flue gas h) Loss due to sensible heat in ash To be computed based on the ash collection distribution indicated at (e) above and ash temperature of furnace bottom ash as 1040 0C. The temperature of economizer/ dust hopper ash, air heater hopper ash and ESP ash shall be considered same as that of flue gas in these areas. i) Loss due to radiation from furnace bottom To be worked out",
+  "chunk_index": 80,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

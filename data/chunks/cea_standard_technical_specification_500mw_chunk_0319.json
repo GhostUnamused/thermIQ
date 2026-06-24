@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0319",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 326,
+  "text": "for crank case heater, vibration isolators, safety guard for V-belt drive etc. Vibration isolators : Steel spring/ neoprene rubber cushy foot/ neoprene serrated rubber pad type with is olation efficiency not less than 85%. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -71 ii) Condenser Type : Water cooled, shell an d tube type with refrigerant on shell side and water on tube side. Capacity : To match with respective compressor and to provide atleast 20C sub-cooling. To store full charge of refrigerant. Design fouling Factor : Not less than 0.0002 ( in MKS units) Shell material : Mild steel (IS:2062) Tube material : Replaceable seamless copper Fin material Copper Accessories : Purge and drain connections, relief valves, liquid line shut-off valves, refrigerant filling charging, flow switches, Isolating valves, Pressure & temperature indicators at inlet and outlet etc. Refrigerant : R-22/R-134A Steel structure : The complete condensing/ chilling unit shall be mounted on steel structure and shall be provided with necessary vibration isolators iii) Chiller Type : Shell and tube type with refrigerant on shell side and water on tube side. Superheating : At least 2 0C Design fouling factor : Minimum 0.0001 (MKS units) Capacity : To match with respective plant capacity. Shell material : Mild steel (IS : 2062) Tube material Replaceable seamless finned copper Fin material : Aluminium Accessories : Purge and drain c onnections, isolating valves, flow switches, pressure & temperature indicators at inlet and outlet, anti-freeze thermostats, thermostatic expansion valve or float assembly as applicable, pilot solenoid valve, relief valves, operating thermostats for capacity control, supporting frame etc. Steel structure : The complete condensing/ chilling unit shall be mounted on steel structure and shall be provided with necessary vibration isolators. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -72 4.9.4.2 Air handling unit (AHU) i) Each AHU shall consist of casing, fan impeller section, cooling coil section, damper section, steel frame with vibration isolators (minimum efficiency of 85%) for the complete AHU, isolation da mpers at the suction and discharge of each AHU, pre-filter at the suction and fine filters (micro-vee type) in the discharge of each individual AHU, absolute (HEPA type) filters in individual",
+  "chunk_index": 319,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

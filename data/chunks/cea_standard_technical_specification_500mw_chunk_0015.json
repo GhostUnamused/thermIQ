@@ -1,0 +1,18 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0015",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 20,
+  "text": "Gland steam system 9- 31 9.2.8 Turning gear 9- 31 9.2.9 Turbine governing and protection system 9- 31 9.2.10 Turbine lubricating oil system 9- 32 9.2.11 Turbine control fluid system 9- 33 9.2.12 Turbine thrust bearing trip device 9- 33 9.2.13 Automatic turbine testing changeover valve 9- 33 9.2.14 HP bypass system 9- 34 9.2.15 LP bypass system 9- 34 9.2.16 NRVs on CRH line 9- 35 9.2.17 NRVs on extraction lines 9- 35 9.2.18 HP heaters 9- 35 9.2.19 LP heaters 9- 35 9.2.20 Gland steam condenser 9- 36 9.2.21 Drain cooler 9- 36 9.2.22 Deaerator 9- 36 9.2.23 Steam dumping device 9- 36 9.2.24 Condenser 9- 36 9.2.25 Condenser on- line tube cleaning system 9- 37 9.2.26 Boiler feed pumps 9- 37 9.2.27 Lubricating oil system for motor driven BFP 9- 39 9.2.28 Lubricating oil system for turbine driven BFPs 9- 39 9.2.29 Condensate extraction pumps (CEPs) 9- 40 9.2.30 Condensate polishing unit 9- 40 9.2.31 Debris filters 9- 41 9.3 High Pressure Piping, Valves, Thermal Insulation and Miscellaneous Systems/ Equipment 9- 42 9.3.1 Power cycle piping system 9- 42 9.3.2 Thermal insulation, refractory, lagging and cladding 9- 43 9.3.3 Low pressure piping system 9- 43 9.3.4 Equipment cooling water (ECW) system 9- 43 Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package xviiClause No. Description Page No. 9.3.5 HP and LP chemical dosing systems 9- 45 9.3.6 EOT crane 9- 46 9.3.7 Electric hoists 9- 46 9.3.8 Elevators 9- 47 9.3.9 Air conditioning system 9- 51 9.3.10 Ventilation system 9- 53 9.3.11 Miscellaneous valves 9- 55 9.4 Electrical Systems 9- 56 9.4.1 Generator and auxiliaries 9- 56 9.4.2 Generator isolated phase busducts (IPBD) and neutral grounding system 9- 58 9.4.3 Power transformer 9- 58 9.4.4 11kV and 3.3kV segregated phase busducts 9- 60 9.4.5 Auxiliary service transformers 9- 60 9.4.6 Motors 9- 61 9.4.7 11kV and 3.3kV switchgears 9- 62 9.4.8 415V switchgear and non-segrega ted phase busduct, DC boards 9- 64 9.4.9 Power and control cables 9- 66 9.4.10 Battery 9- 66 9.4.11 Battery chargers 9- 66 9.4.12 Control, metering and protection panels 9- 66 9.4.13 Emergency diesel generating set 9- 68 9.5 Control and Instrumentation System 9- 69 9.5.1 Distributed digital control monitoring & information system (DDCMIS) 9- 69 9.5.2 SG related sub-systems 9- 71 9.5.3 Measuring instruments 9- 75 9.5.4 Power supply system 9- 76 9.5.5 Process",
+  "chunk_index": 15,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

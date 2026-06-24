@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0813",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP",
+    "Cooling Tower"
+  ],
+  "section": "",
+  "page_number": 843,
+  "text": "casing and impeller as applicable shall be carried out. ii) UT of fan shafts (diameter greater than or equal to 50mm) shall be carried out. iii) DPT of fan shafts after machining shall be carried out. iv) DPT of welding on shaft (in case of fabricated shaft) shall be carried out. v) Blower fan shall be statically and d ynamically balanced to ISO 1940 Gr. 6.3. vi) One fan of each type and size shall be performance tested as per AMCA / IS for air flow, static pressure, speed, efficiency, power consumption, noise and vibration. vii) One per type of assembled AHU (AHU casing and fan assembly) shall be subject to free run test. Noise, vibration and temperature rise of bearing shall be measured during run test. viii) All cooling coil shall be pneumatically tested and no leakage shall be permitted. 8.4.10.5 Centrifugal pump The QA requirements for centrifugal pumps sh all be as per clause 8.4.12.2 of this Section. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 57 8.4.10.6 Cooling towers i) UT of fan shaft and drive shaft (diameter greater than or equal to 50mm) shall be carried out. ii) DPT of fan hub and shafts shall be carried out after machining. iii) Colors of fills shall be as per approved data sheet. iv) Fan assembly shall be statically balanced. v) Cooling towers being supplied to site in assembled condition shall be subjected to run test at shop to measure FAD, noise and vibration. For cooling towers being supplied in knocked-down condition, these tests shall be done at site. 8.4.10.7 Fans i) 20% DPT of welding on fan hub, blades , casing and impeller as applicable shall be carried out. ii) DPT of fan shafts shall be carried out after machining. iii) UT of fan shafts (diameter greater than or equal to 50mm) shall be carried out. iv) Rotating components of all fans shall be statically and dynamically balanced to ISO-1940 Gr. 6.3. v) All centrifugal fans shall be subjected to run test for 4 hour or till temperature stabilization is reached. Vibration, noise level, temperature rise and current drawn shall be measured during the run test. vi) One fan of each type and size will be performance tested as per corresponding IS code for airflow, static pressure, total pressure, speed, efficiency, power",
+  "chunk_index": 813,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

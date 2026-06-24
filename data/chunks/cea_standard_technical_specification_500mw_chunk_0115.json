@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0115",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 123,
+  "text": "the table below: Item Guarantee Design point point i) Unit loading 100% TMCR 100% BMCR ii) Type of coal Design coal Worst coal (maximum ash coal from range) iii) Ambient air condition 270C temp. 450C temp. and 60% RH and 60% RH iv) Gas flow per steam gen- To be worked out by To be worked out by erator at the ESP inlet bidder when firing bidder when firing the when firing respective the specifi ed design specified worst coal coal (m 3/sec) coal at TMCR with max. ash at BMCR load considering 25% load, considering 25% excess air at econo- excess air at economiser miser outlet, 15% outlet, 15% air heater air heater in leakage in leakage and 2% duct and 2% duct leakage leakage as a minimum. as a minimum. v) Gas temperature at ESP 1250C or as predicted 1400C or as predicted by inlet (0C) by the bidder under bidder under conditions conditions stipulated stipulated above, above, whichever is higher whichever is higher vi) Inlet dust burden To be worked out by To be worked out by (gm/Nm3) the bidder (based the bidder (based on on 85% of ash or 90% of ash or actual actual predicted predicted whichever is whichever is higher higher being carried being carried forward forward to ESP while to ESP while firing firing specified worst specified design coal. (maximum ash) coal. vii) No. of series electrical Nil one each in all 4 passes fields out of operation viii) ESP dust collection To be worked out To be worked out by efficiency (%) by bidder to limit to bidder to limit outlet dust burden outlet dust burden (ODB) to 45 mg/Nm 3 (ODB) to 80 mg/Nm 3 (maximum) with all (maximum) with one fields in operation. field out of service. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 22 ix) Minimum specific collection 180* area with one series of electrical fields out of operation (m 2/m3/s) x) Maximum flue gas velocity 1.0 1.0 through the ESP (m/s) xi) Treatment time of the flue 20 20 gases (seconds) minimum xii) Other design parameters: a) Minimum aspect ratio 1.5 1.5 b) Design internal pressure at + 660 + 660 67% yield strength (mmwc) c) Precipitator mechanical 200 200 design temperature ( 0C) d) Short temp excursion 300",
+  "chunk_index": 115,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0149",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 156,
+  "text": "suction side Cast iron \u2022 On pump discharge side Cast steel c) Material of valves on steam Cast steel and condensate lines Instrument root valves on heavy oil lines shall be of 25 NB size, flanged OS and Y type with body rating in ASA as per process conditions. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 55 xi) Maintenance facilities to be provided shall include: a) Burner maintenance tro lley along with accessories b) Fixed drip tray for each oil burner to contain any oil leakage c) Handling facility (with runway beam, hoist, equivalent structure etc.) for all pumps and heaters. d) Oil gun cleaning station and the facility for blow off of the oil guns using auxiliary steam at each firing floor. For this purpose auxiliary steam tapping with necessary isolation valves and necessary hose connection shall be provided. xii) Operational requirements: a) Facilities shall be provided for auto start of standby heavy fuel oil/LDO pressuring pumps in event of tripping of any running pump or low fuel oil pressure. For drain oil pumps, auto start and shutdown facility shall be provided in conjunc tion with level in the drain oil tanks. b) Interlock shall be provided for au tomatic purge before light up and after failure to first oil burner operation. c) Separate flame viewing opening/ facility shall be provided for boiler operation and for flame monitoring at each burner from out side. The provision shall be made to keep the system cool below 75 0C and to keep the optical system clean during firing/non firing by pressurised air. d) Adequate instrumentation such as temperature, pressure, differential pressure, flow transmitters, switches for independent high and low signalling contacts required for burner management system and other interlock/alarm shall be provided for interfacing with other systems/ equipments. e) Adequate potential free contacts shall be provided for status of individual pumps. 2.2.9.2 Fuel oil drain and condensate system i) Design and construction of drain o il tank(s) and condensate tank shall comply with following requirements: Drain oil tank Condensate flash tank a) Medium to be Heavy fuel oil Condensate water/ stored (HPSLSHS/HFO) flash steam and LDO Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 -",
+  "chunk_index": 149,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

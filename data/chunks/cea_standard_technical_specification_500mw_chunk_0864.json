@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0864",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 918,
+  "text": "component/ equipment iv) Check terminations and connections v) Wire ducting vi) Gap sealing and cable bunching b) Relays i) Check internal wiring ii) Insulation resistance between all terminals and body iii) Insulation resistance between AC and DC terminals iv) Check operating character istics by secondary injection v) Check minimum pick up voltage of DC coils Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 132 vi) Check operation of electrical/ mechanical targets vii) Check CT connections with partic ular reference to their polarities for differential type relays viii) Relay settings c) Meters i) Insulation resistance of all insulated portions ii) Check CT and VT connections with particular reference to their polarities for power type meter d) General i) Wiring check in conformity with schematics. ii) Insulation check. iii) Primary injection test. iv) Secondary injection test. v) On load test. vi) DC sequential test. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 133 8.6.14 Emergency Diesel Generating Set 8.6.14.1 Diesel Engine Tests/ Checks Items/ Components Material test DP or MPI UT (on forging and piston bonding) Balancing Hydraulic, water fill test Assembly, Fit up Dimension Functional/ Operation test Performance test as per BS-5514/ or equivalent IS/ ISO Standard including Governing test for 3 hours at full load and one hour at 10% Fuel consumption, rated power measurement, rated speed All other tests (if applicable) as per specification and standard Crank shaft Y Y Y Y Cylinder blocks/ heads Y Y Liner radiator Y Y Rotating, moving parts other than crank shaft Y Y Piston Y Y Y Diesel Engine Y Y Y Y Y Y Y =Test applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 134 8.6.14.2 Alternator (Tabl e 1/2) Tests/ Checks Items/ Components Visual Dimension Make, Type, Rating, TC, General physical ins pection Mechanical, Chemical properties NDT, DP or MPI, UT Metallography Electrical characteristics Welding/ Brazing (WPS/ PQR) Heat treatment Magnetic characteristics. Hydraulic, Leak, Pressure test Thermal characteristics Run out Dynamic balancing Plates for stator frame, end shield, spider etc. Y Y Y Y Y Shaft Y Y Y Y Y Y Y Magnetic material Y Y Y Y Y Y Y Y Rotor",
+  "chunk_index": 864,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

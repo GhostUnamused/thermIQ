@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0830",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 869,
+  "text": "(IS:191) Y Y Y Y Insulating material Y Y Y Y Y Y CRGO lamination and built Core Y Y Y Y Y Y Bushing/ Insulator (IS:2544/ 5621) Y Y Y Gasket Y Y Y Y Air Cell Y Transformer oil ( IS:335) Y On load/ off-circuit tap changer (IEC:214) Y Y Core coil assembly and Pre-tanking Y Y Y Marshalling Box Y Y Y Y WTI, OTI, MOG, Buchholz Relay, PRD, Thermister, Breather, Terminal connec-tor, Bushing CT, Fan and Pumps with Drives, Impact Recorder, Globe and Gate Valve, PD Detector, FRA and DGA Equipment Y Y Welding (ASME Sect-IX) Y Y Y Y = Test applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 83 8.6.3.1 Generator Transformers/ Unit au xiliary transformers/ Station transformers (Table 2/2) Tests/ Checks Items/ Components/ Sub-systems Oil Leakage Test Jacking test followed by DP Test on load bearing member DGA of oil for main tank and OLTC Chamber Measurement of capacitance and tan delta Partial discharge measurement (long duration) as per IEC-76 clause No. 12.4 Routine Tests Nitrogen dew point measurement before final packing for transportation to site Paint shade thickness and adhesion and finish Complete Transformer ( IS:2026/ IEC:76) Y Y Y Y Y Y Y2 Y Y = Test applicable Y2 = Applicable only for Nitrogen filled transformer Notes Each transformer shall be completely assemb led with all fittings and accessories meant for the particular transformer before offering for inspection and testing. 8.6.3.2 Type Tests (Category-I) i) Generator transformer The following type tests shall be conducted on one generator transformer : a) Temperature rise test b) Tank vacuum test c) Tank pressure test d) Short circuit test: The test procedure shall be as per IEC 76-5. All type tests other than tank tests shall be c onducted only after short circuit test to ensure delivery of healthy and proven transformer. The time duration for each shot during short circuit test shall be as per IEC 76-5. The Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 84 allowed variation in inductance shall be as per IEC 76-5. All dielectric routine tests shall be conducted before and after short circuit test at full value including following also: - Dissolved gas analysis - Frequency response",
+  "chunk_index": 830,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

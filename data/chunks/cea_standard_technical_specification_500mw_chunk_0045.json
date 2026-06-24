@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0045",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 53,
+  "text": "power and control cables, as requi red along with cable f acilities such as cable trays, racks etc. including installation of cables of main plant area. viii) Earthing and lightning protection system of main plant area. ix) 220V DC batteries, battery chargers and DC distribution boards to meet all essential unit and station services x) Operator work station (OWS) for contro l and interlocking of generator including generator auxiliary systems, generator transformer, unit auxiliary transformers, 11kV Incomers, tie feeders and outgoing transformer, supply feeders of unit and station switchgears, 3.3kV Income rs, bus-coupler feeders and outgoing transformer, supply feeders of unit switchgears and Incomers of station switchgears, 415V Incomers and bus-coupler feeders of unit and station switchgears, diesel generator. In addition, one no. \u2018Electrical Control Board\u2019 (ECB) with minimum control and indication facilities for various equipments as a back-up to Operator Work Station/ CRT keyboard (OWS) for both units and station supply. xi) The protection, relay, synchronizing an d metering panels for generator, generator transformer and unit auxiliary transformers including relay test kit shall also be provided. xii) Electrical laboratories and testing equipments. xiii) Emergency DG sets including automatic main failure (AMF) panels to meet all essential unit and station services. xiv) Electrostatic Precipitator (Electrical) Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 28 xv) Any other items not specifically covered but essentially required for completeness of the system. 1.2.4.2 The bidder shall provide all material, equipment and services so as to make a totally integrated and functional system together with all accessories and associated equipment ensuring safety, maintainability and reliability and shall be in compliance with all applicable codes, standards, guides, statutory regulations and safety requirements in force. 1.2.4.3 The contractor shall include in his propo sal and shall furnish all equipments, devices and services which may not be specifically stated but are needed for the completeness of system/ equipments. The details of electrical works are describ ed in section-5 of this specification. 1.2.5 Control and Instrumentation Works Complete control and instrumentation system as described in Section- 6 of this specification including the following: i) Distributed digital control monito ring and information system (DDCMIS) comprising of: a) Control system of boiler, turbine & balance of plant (namely SG - C&I, TG - C&I & BOP - C&I including their respective measurement system); b) Man-machine interface and",
+  "chunk_index": 45,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

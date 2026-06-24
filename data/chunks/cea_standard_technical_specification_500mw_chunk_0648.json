@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0648",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 675,
+  "text": "level switch Degree of protection test IS-2147 No Yes xviii) o Degree of protection test IS-2147 No Yes Battery charger ( Including chargers of UPS ) o Short circuit current capability IEC-146-2 No Yes o Temp rise test without redundant fans Approved procedure, IEC 146-2 Yes Yes o SWC test Approved procedure, No Yes o Efficiency / PF IEC-146-2,IEC146 Yes Yes o Audible noise test IEC 146-2 No Yes o Fuse clearing capability Approved procedure No Yes o Relative harmonic content Approved procedure No Yes o Radio interference IEC 146-4 No Yes o Over Load test on inverter & charger. Approved procedure No Yes Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 148 o Restart test IEC 146-2 No Yes o Output voltage tolerance Approved procedure No Yes o Output voltage harmonic content Approved procedure No Yes o Insulation test IEC 146 No Yes o Load tests Approved procedure Yes Yes o Preliminary light load test IEC 146 No Yes o Current division/ voltage division IEC 146-2 No Yes xix) Battery As per standard (col 4) IEC-623 / IS-10918 for Ni-Cd IS-1652 for Plate Lead Acid IS- 1651 for Lead Acid No Yes xx) Control valves CV Test ISA 75.02 Yes No xxi) Voltage stabilisers o Over load test Approved procedure No Yes o Temp rise test without redundant fans Approved procedure No Yes o Input voltage variation test Approved procedure No Yes xxii) Flow Nozzles & Orifice plate Calibration ASME PTC , BS 1042 Yes No xxiii) PLCs All tests as per IEC-1131 IEC-1131 Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 149 xxiv) DDCMIS a)I/O modules CMRR & NMRR verification Mfr standard No Yes b) Other modules CMRR & NMRR verification Mfr standard No Yes c)CLCS Systems Model test Approved procedure Yes Yes xxv) LIE / LIR / Junction Box Degree of protection test IS-2147 Yes Yes xxvi) Flue gas O2 Analyser Degree of protection test IS-2147 No Yes xxvii) Flue gas CO Analyser Degree of protection test IS-2147 No Yes xxviii) Flue gas SO2 Analyser Degree of protection test IS-2147 No Yes xxix) Flue gas NOX Analyser Degree of protection test IS-2147 No Yes xxx) Master Slave Clock Current/ Power efficiency",
+  "chunk_index": 648,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

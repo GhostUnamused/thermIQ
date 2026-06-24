@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0384",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 401,
+  "text": "shall be of sufficient capacity suitable for generator transformer with the following features : i) The capacity of the transformer oil centrifuging plant shall not be less than 10KLPH and vacuum in three stage degassing plant shall be better than one torr. First stage will be evacuated by a two stage rotary oil sealed pump. Second stage of degassing column will be evacuated by a mechanical booster pump. Third stage of the degassing column will be evacu ated by a roots pump. The plant shall be rated for continuous operation. The pl ant shall be mobile with four (4) wheel pneumatic tyres and suitable for being towe d on motorable roads. The plant shall also be supplied along with transforme r evacuation system consisting of roots pump backed by a two stage rotary pump. Provision at suitable place in the path of oil being processed shall also be mad e for connecting an ionic reaction column to be used for the removal of acidity and product of oxidation and ageing in used transformer oil. The ionic reaction column shall also be supplied with the plant. The plant shall be complete with on-li ne testing instruments and annunciating panel. ii) a) Dielectric strength : Suitable for 70kV or better with spark gap of 2.5 mm for 1 minute b) Water content in purified oil : Better than 20 ppm in single pass c) Suspended particles : 1 Micron d) Gas content : 0.1% by volume e) Dissipation factor of oil at : 0.05 90 0C after filling into the equipment iii) The centrifuging plant shall be supplied with the essential testing equipments including but not limited to the following :- a) Neutralization valve or total acidity test set to measure neutralization value of or total acidity content of transformer oil (organic or inorganic) as per IEC 296 and IS 335. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 44 b) Gas content measuring instrument to measure dissolved gas content in percentage of volume of same sample of transformer oil. c) Karl Fischer Apparatus to measure pr ecisely dissolved moisture content in transformer oil. d) Inter facial tensiometer to measure th e inter facial tension of insulting oil against water under non-equilibrium conditions in dynes/cm. e) Relative humidity (RH) and Oil dr yness test set to measure accurately water",
+  "chunk_index": 384,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

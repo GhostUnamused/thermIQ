@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0142",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 150,
+  "text": "bath to avoid damage in case of complete loss of plant auxiliary power when the fans must coast down without power. ii) Oil reservoir in bearings housing shall be sized for maintaining lubrication for extended periods in case of oil circul ation system being out of service. iii) One number duplex PE-RTD (100 ohm at 0 0C) and temperature indicator shall be provided for each bearing. iv) Bearing housings shall be provided with vibration pads and sensors for remote monitoring and interlock/ protection. 2.2.8.4 Fan balancing i) The fans shall be statically and dynamically balanced before. Balancing of each fan shall be checked and adjusted at site, if necessary. ii) Natural frequency of fan components shall be established by vibration testing to ensure that no part of the wheel is a dversely exited by any force generated at operating speeds. iii) For axial fan cantilever, variable pitch bl ade shall be subjected to natural frequency. The other components of ID & FD fan wheels need not be subjected to natural frequency test if supplier can prove that th ese component are very rigid and have very high natural frequency compared to the ope rating frequency of respective fans giving justification. 2.2.8.5 Operational requirements FD & ID fans shall meet the following operational requirements: Description FD fans ID fans Mode of operation a) Two fans in parallel a) Two fans in parallel. b) One fan operation b) One fan operation (one as well as both (one as well as both streams in operation) streams in operation) Fan control a) Capable of operating a) Capable of operating in automatic mode in automatic mode for all regimes of for all regimes of operation in a steady operation in a steady and stable manner and stable manner Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 49 b) The final control element b)The final control element shall not have any back shall operate in the range lash, plays etc., and shall of 20 to 85% BMCR load. operate in the range of 20% to 85% BMCR load. Vibration monitoring Suitable pads matching with Same as that for FD fans vibration pickup shall be provided on fan bearing housings. Bearing metal temperature Shall be possible from Shall be possible from monitoring remote as well as locally remote as",
+  "chunk_index": 142,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

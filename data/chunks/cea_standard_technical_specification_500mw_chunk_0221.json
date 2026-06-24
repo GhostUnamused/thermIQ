@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0221",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 226,
+  "text": "neck. LP heater- 1 may be provided with straight or U tubes. ii) Shell material shall be rolled steel as per ASTM A-516 Gr.70 or equivalent with SS-304 bands at cut points on shell to prevent damage against flame impingement during torch cutting. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 47 iii) Water box channel shall be of car bon steel as per ASTM A-516 Gr. 70 or equivalent and shall be welded to tube sheet. iv) Roller supports shall be provided fo r shell removal of all heaters except LP heater-1 and for LPH-1 heater roller suppor ts shall be provided for heater channel during tube bundle removal. v) Shell attachments shall be provided for supports of LP heater- 1 in the condenser neck. Anti-flash baffles shall be provi ded to protect the turbine from water ingress. vi) LP heaters shall have provision of integral desuperheating, condensing and drain cooling zones except for LP heater- 1 m ounted in condenser neck which has a separate drain cooler. vii) Provision shall be made for differential expansion between shell and tubes. viii) Details of tube sheets, tube to tube sheet joint, tube support plates and material of construction for drain cooler shall be identical to the LP heaters. 3.10.4 Deaerator i) Deaerator shall be of horizontal, sp ray-cum-tray type with integral vent condenser mounted on horizontal storage ta nk. Alternatively, deaerator may be of spray type with minimum two (2) spray cont rol valves of disc type or equivalent. ii) Design and construction shall be as pe r IBR, ASME code for unfired pressure vessels, Section-VIII or any other equivalent code subject to approval of purchaser. iii) Reinforced wide mesh strainer and anti-vortex baffles shall be provided at discharge connections from deaerator. iv) Fixed and saddle supports shall be provided on deaerator storage tank. v) All pressure parts like shell, heads and nozzles shall be of carbon steel as per ASTM A 515 Gr. 70. Shell plate shall be of minimum 15.8 mm thickness in welded construction. vi) Hardened 400 series stainless steel impingement plates shall be provided for flashed drain inlet from HP heaters, BFP recirculation, boiler start-up drains etc. vii) All water spray valves, splash plates, trays, vent condenser and other elements in contact with undeaerated water or non-condensable gases shall be",
+  "chunk_index": 221,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

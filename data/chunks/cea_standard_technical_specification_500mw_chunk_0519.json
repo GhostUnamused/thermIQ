@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0519",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 541,
+  "text": "employing two independent transmitters, connected to separate tapp ing points/ temperature element shall be employed for the remaining measurements used for analog control functions. The output of the redundant transmitters shall be continuously monitored for excessive deviation. In case the deviation is within limits, the mean value shall be used for the control loop. If the deviation becomes high (with both transmitters remaining healthy), the loop will be automatically transferred to manual. However, if one transmitter fa ils and the other transmitter remains healthy, then the output of the healthy transmitter shall be used for control. If the other transmitter also fails, loop shall trip to manual. The outputs of the transmitters shall be continuously m onitored for extensive operation which shall be displayed and logged and alarmed. Individual transmitter signal, their status and selected value for control/measurement shall be available on OWS. v) For binary and analog inputs required in furnace and turbine protection triple sensing devices shall be provided. Binary and analog inputs which are required for protection of more than one equipment (e.g. flame failure, deareator level very low, etc) as well as protection signals for turbine driven boiler feed pump (TDBFP)/ motor driven boiler feed pump (MDBFP), triple sensing devices shall be provided. For other critical binary and analog inputs required for protection and interlock pur pose of other equipment (e.g. those interlocks which may result in loss of generation, non-availability of a major equipment etc.), dual sensors shall be provided. However, for bearing temperature of FD/ID/PA/MILLS/APH and its HT drives, single sensor shall be used. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 14 vi) Wiring scheme for inputs to control system shall be as follows : a) Each of the dual/ triple redundant binary and analog inputs shall be wired to separate input modules. In addition, for functions employing 2V3 controllers like BMS/turbine protection, each of the redundant binary and analog signals shall be wired to separate input modul es associated with each controller and meeting requirement stipulated under cl auses 6.2.4.2 & 6.2.4.3. Similarly, each of the dual redundant binary and analog inputs shall be wired to separate input modules. These redundant modules shall be placed in different racks, which will have separatel y fused power supply distribution. Implementation of multiple measurement scheme of these",
+  "chunk_index": 519,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

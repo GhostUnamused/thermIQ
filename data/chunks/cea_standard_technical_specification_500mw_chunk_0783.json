@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0783",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 811,
+  "text": "test for expansions shall be carried out, in case not done earlier. Torque setting of expander shall be based on mock up tests. Joints shall be checked for tube thinning. g) Completed assemblies shall be pressure tested. The twin oil coolers shall be tested on both tube side and shell side. After hydrotest, the coolers shall be suitably dried. h) Atmospheric tanks shall be tested for leakage by water fill test for atleast 12 hrs. iii) Oil purifiers a) All pressure parts shall be subjected to hydraulic pressure test. b) Components/ parts of the equipmen t shall be subjected to suitable NDT depending upon the criticality of the application to ensure freedom from surface and sub surface defects. c) All rotating parts like bowl assembly etc. shall be subjected to static and dynamic balancing test. d) The complete purifier shall be test ed at manufacturer\u2019s works for capacity, mechanical running, sequential operation and interlocks, moisture content, vapour tightness, vibration, noise level, quality improvements etc. Sample shall be drawn from inlet and outlet of purifier after works test and shall be tested for moisture content, chemical tests and particle size of impurities. . In case, type test has already been ca rried out by the contractor for the offered model of the centrifuge, the test shall not be repeated and certificates of test carried out earlier shall be furnished for review of the purchaser. The validity of the type test carried out earlier shall be limited to five (5) years. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 25 8.3.3 Steam Condenser 8.3.3.1 Condenser i) Tests shall be carried out on the materials of plates, tubes and nozzles etc. to establish their mechanical properties, and chemical compositions. ii) Plates shall be subject to 100% ultrasonic testing. iii) Tubes shall be subject to dimensional check, 100% eddy current test and 100% hydraulic test. In place of hydraulic test, air under water or Helium leak detection test can also be carried out. iv) Forgings of the nozzles shall be subject to 100% UT and 100% MPE. v) All welds shall be visually examined. Radiographic examination of 10% of butt welds shall be carried out. However, for vacuum containing welds, RT on atleast 10% of each butt weld shall be carried out. Surface defect examination by MPE or equivalent",
+  "chunk_index": 783,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

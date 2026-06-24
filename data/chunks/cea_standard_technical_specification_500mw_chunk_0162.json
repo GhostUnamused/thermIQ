@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0162",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 168,
+  "text": "used. iv) RSBs shall be actuated by electric motors v) RSBs shall be controlled from soot blower panel and shall be actuated by electric motors. Dual electric drive shall be provided. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 67 2.2.12.6 Motor Control Centre (MCC) of soot blowers shall be draw out type, multi-tier, compartmentalised, double front type suitable for top/bottom entry of cable and shall be subject to approval of the purchaser. As an alte rnative, integral valve actuator with built in starter can also be offered. 2.2.12.7 The soot blowing control system shall be capable of following functions: i) Individual operation of any soot blower. ii) Facility to bypass any soot blower. iii) Automatic starting of each soot blower. iv) Cancellation of operation of any soot blower in the system when required. v) Monitoring all the essential requirements and display of operation of each soot blowing system. vi) Trip selected soot blower operation, in case of malfunctioning or upset condition. vii) Simultaneous operation of two soot blowers located on opposite walls. viii) Manual over riding of automatic operation. 2.2.12.8 Warming- up of complete piping system before the start-up of soot blowing operation shall be facilitated by providing adequate number of pneumatic drain temperature control valves. Each pneumatic flow control valve shall ha ve bypass line with adequately sized orifice plate for draining the system when the valve is closed. Temperature detectors shall be provided on the drain lines to ensure satisf actory warming- up and initiation of blowing operation. 2.2.12.9 All soot blowers shall be suitable for local and remote automatic sequential operation. Emergency hand crank shall be provided for each. 2.2.12.10 Provision shall be made to maintain th e soot blower heads free of deposits during the periods when they are retracted and are not in operation. 2.2.12.11 The soot blowers shall be accessible fr om local operation platform and platforms/galleries etc. shall be provided at and around the soot blowers to facilitate maintenance and inspection. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 68 2.2.13 Blow Down Tanks (BDTs) 2.2.13.1 Two number blow down tanks shall be pr ovided for each steam generator, one intermittent blow down (IBD) tank and",
+  "chunk_index": 162,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

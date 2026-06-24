@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0588",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 610,
+  "text": "etc. shall be carried out in the plant cycle at strategic points. The exact sample points, their location, type of chemical analysis to be carried out for each sample, measurement ranges etc., shall be subject to the approval of the Purchaser. The system shall be generally designed in accordance to the recommendation of ASME PTC 19.11 Part-II, water & steam in power cycle. ii) The bidder shall provide the chemical analysis system as a composite system including sample piping, valves, grab sample collection facility, gauges/indicators, coolers, on- line analyzers etc. 6.5.1 SWAS Panels i) Sample conditioning panel (wet section) shall house bulk head type fittings, removable cartridge type filters, pressure reducing elements, flow rate control, secondary coolers, grab sample valve and other sample conditioning equipments. For each sample, pressure gauge, temperature gauge, flow indicator, back pressure regulating valve, grab sample valve shall be provided on front of panel. The grab sampling facility and quick disconnect patch board facilities shall be provided on this panel. Analyzer panel (dry section) shall house cells, analyzers, monitors etc. ii) The above panels shall be physically separate from each other and shall be mounted in the air-conditioned SWAS room (common for 2 units). Sample conditioning panel shall be corridor type with walkway. The analyzer panel shall be free standing and of totally en closed construction. The panel sheet thickness shall be 2.5mm except for doors which shall be of 2.0 mm thickness. All SWAS panels shall be designed fo r ready access of components for easy maintenance. The layout and general arrangement of these panels shall be subject to Purchaser\u2019s approval. iii) Primary cooling of all samples having temperature in excess of 45 deg C shall be provided through an individual sample cooler (primary cooler) of submerged helical coil type of shell and tube design with removable shell, meeting the intent of ASTMD 1192-1977, to bring down the temperature to around 45\u00b0C. These coolers shall be rack \u2013 mounted and located at the field. The primary coolers shall use water from equipment cooling water system. The design, construction materials and technical features of the coolers shall be subject to Purchaser\u2019s approval. However, the sizing of the coolers should consider total sample flow plus 500 ml / min grab sample and a fouling factor of 0.2. All fittings, tubes & other we tted parts shall be 316 SS. All high pressure samples shall be provided with",
+  "chunk_index": 588,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,18 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0521",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 543,
+  "text": "- 15 6. Binary input and output (combined) - 32 (Note : For binary inputs, one changeover contact is counted as 2 inputs) Further, minimum 10% spare channels shall be kept in each of the input/output modules. x) The following requirements shall be met : a) Input filters to attenuate noise shall be provided. b) All analog outputs shall be short circuit proof. Any single sensor/transducer/transmitte r failure alarm shall be provided on programmer station TFTs for all sensors/ transducers/ transmitters. Similarly sensor break alarm for ther mocouples etc. shall also be displayed on the TFTs. 6.2.4 Control System Requirements 6.2.4.1 The control system shall be broa dly divided into SG - C&I, TG - C&I and BOP - C&I. i) The SG- C&I part of DDCMIS system shall perform the following function as minimum but not limited to a) Burner management system (BMS) including control & protection of coal mills, fuel oil system etc. b) Analog control functions pertai ning to secondary air damper control etc. c) Soot blower control. ii) The TG - C&I part of DDCMIS system shall perform the following functions: a) Turbine protection system function (TPS) b) Turbine governing system for main turbine c) Turbine stress control system (TSCS) d) Automatic turbine testing (ATT) e) Automatic turbine run up system. (ATRS) f) HP&LP bypass control system g) Turbine generator control system h) EHG, interlock & protection for turbine driven BFP Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 16 iii) The BOP- C&I system shall perform the following functions: a) Analog control functions, other than those covered in SG-C&I and TG-C&I, like co-ordinated master control, furnace draft control, SH/RH steam temperature control, FW flow control, heaters/deaerator/condenser level control, Auxiliary PRDS pressure & temperature control etc. b) Binary control functions pert aining to main plant auxiliaries like FD/ID/PA fans, APH, BFP etc., Generator auxiliary systems and electrical breakers etc. iv) Functional grouping of various c ontrollers shall be decided during detailed engineering which shall be subject to purchaser's approval. Functional grouping shall meet following general requirements: a) Process redundancies shall be maintained. For example, in case the mechanical equipment has been provided with redundancy, the drive shall not be controlled by a common controller i.e. for redundant set of process equipments(eg.2x60%ID fans ,3x60% CEP etc.),it shall be ensured",
+  "chunk_index": 521,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

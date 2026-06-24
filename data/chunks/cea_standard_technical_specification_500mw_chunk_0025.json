@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0025",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 33,
+  "text": "from mills to burners including ceramic lined pipe and bends as per the specifications. ii) Power operated shut off gate before each coal burner and a power operated flap type mill discharge valve at each classifier outlet on each pulverized fuel pipe. G) Coal sampling system for obtaining samples from the mill outlet. The minimum number of coal sampling systems to be provided for each steam generator shall be equal to atleast the number of PF pipe outlets from one coal pulveriser. H) Dirty pitot tubes per steam generato r for checking on line pulverized coal/primary air flow balance between the PF pipes from a mill. The no. of dirty pitot tubes provided for each steam gene rator shall be equal to the no. of pulverized coal pipes from a coal pulveriser. 1.2.1.13 Fuel oil pumping and steam heating un its complete with inter-connecting piping for supply and return oil mains, and valves incl usive of all control valves such as pressure control, temperature control, flow control, self actuated valves, instruments, sensing devices, trip valves, strainers, pressure switches, differential pressure switches, Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 8 temperature switches and all other accessories to make the system complete. The oil flow measurement device for the measurement of fuel oil consumption rate shall be included in the bidder's scope. . Fuel oil system shall cater to heavy fuel oils (HFO/LSHS/HPS) 1 and light diesel oil firing requirements of two (2) Steam Generators. A) Heavy Fuel Oil System The scope of above shall include but will not be limited to following: i) Three (2 working+1 standby) steam jacketed/ electrically traced rotary positive displacement type heavy fuel oil pumps with motor, coupling, coupling guards etc. ii) Three (2 working+1 standby) steam oil heaters, each heater with oil temperature control valve, bypass cont rol valve, isolating valves and relief valves to relieve excess oil pressure. iii) Three (2 working+1 standby) steam jacketed/electrically traced manually operated duplex coarse filters at heavy fuel oil pumps suction. iv) Base plates, foundation bolts, nuts and bolts. v) Fuel oil burners complete with diffu sers, tips extension pipes, atomizers, burner shut of valves, flexible hoses and all other ancillaries. vi) Oil connections to each burner from ring main. Also a common fine filter and common flow meter shall be provided in HFO system.",
+  "chunk_index": 25,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0599",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Cooling Tower"
+  ],
+  "section": "",
+  "page_number": 624,
+  "text": "form an enclosure. Vibration dampeners shall be installed for supporting each enclosur e. The internal layout shall be such that the impulse piping/ blowdown lines are accessible from back doors of the enclosure and the transmitters etc. are accessible from front side for easy maintenance. Gaskets shall be used between all mating sections to achieve protection class of IP-55. iii) The local instrument racks shall be free standing type constructed of suitable 3 mm thick channel frame of steel and shall be provided with a canopy to protect the equipment mounted in racks from falling objects, water etc. The canopy shall not be less than 3 mm thick steel, and extended beyond the ends of the rack. Bulk heads, especially d esigned to provide isolation from process line vibration shall be provided. Exact fa brication details shall be as finalised during detailed engineering stage. The junction box for racks also shall conform to IP 55 protection class. iv) Provision for continuous purging a rrangement is to be made for all air and flue gas applications. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 97 6.7 ELECTRIC POWER SUPPLY 6.7.1 General The requirements of electric power supply system are specified herein on system basis. The contractor shall be fully responsible for engineering and furnishing a complete and operational system fully meeting the intent and requirements of this specification and purchaser approved drawings. All equipment and accessories required for completeness of this system shall be furnished by the contractor whether these are specifically mentioned herein or not. All the equipments and sub syst ems offered shall be from reputed experienced manufacturers. All system cabinets, enclosures and distribution boards shall be manufactured, assembled, wired and fully tested as a complete assembly as per the requirements of this specification at the manufacturer\u2019s works. 6.7.2 Power Supply Requirements The power supply system shall be designed to meet the electric power requirements of various C&I systems including DDCMIS and shall be configured as described below: i) Three sets to meet the total DC load requirement each for SG-C&I system, TG-C&I system and for BOP-C&I and miscellaneous loads shall be provided. Each of the above set shall compri se of 2x100% 24V DC batteries, 2x100% redundant chargers, 2 x 100% DC distribu tion boards etc. Bidder shall clearly bring",
+  "chunk_index": 599,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

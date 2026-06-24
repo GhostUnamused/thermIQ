@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0318",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser",
+    "Cooling Tower"
+  ],
+  "section": "",
+  "page_number": 325,
+  "text": "resistant material. 4.9.2.24 Glass areas exposed to sun shall be pr ovided with Venetian blinds of light colour. 4.9.2.25 Gravity louver dampers shall be provided for all exhaust air fans. 4.9.2.26 Chilled water pumps shall be insulated with 50 mm thick glass wool slab. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -70 4.9.3 Redundancy of Equipments Redundancy of various equipments shall be as follows: i) Chilling units, chilled water pumps, condenser water pumps and AHUs : 2 x 100% or 3 x 50% ii) Condensing units and fresh air units : 2 x 100% iii) Cooling towers : 2x100% iv) Window and split air conditioners : 2 x 100% or 3x50% 4.9.4 Equipment Description AC plant shall comprise of compressor with drive motor, condenser, water chiller/evaporator, chilled water pumps, c ondenser water pumps, cooling tower, air handling unit and other accessories such as expansion tanks, steel structure, supporting frames, vibration isolators, insulation, piping, valves, instrumentation, control panel, etc. The sizing calculations for all the equipments shall be furnished by the bidder and shall be subject to approval of the purchaser 4.9.4.1 Chilling unit/ condensing unit i) Compressor Type : a) For plant capacity upto 200 TR, compressors shall be of reciprocating water cooled type. Two or more machines shall be provided for plant capacity between 100 TR and 200 TR. The compressors shall be of either open type or semi-hermetic type with load/ un-load and automatic capacity control (minimum 3 steps). b) For plant capacity of 200TR and above, the compressor shall be screw type. Capacity : Minimum capacity shall be suitable for the identified/selected evaporating temperature and condensing temperature and same shall be indicated. Type of drive : Motor driven, through direct/V-belt Accessories : High /low pressure cutouts, oil pressure switches, relief valves, pressure gauges at each stage, lube oil/control oil pressure gauges, suction and discharge stop valves, muffler, crank case heaters, oil filters, magnetic oil separators, temperature indicators for lube oil/ heaters, oil level indicators, safety thermostat for crank case heater, vibration isolators, safety guard for V-belt drive etc. Vibration isolators : Steel spring/ neoprene rubber cushy foot/ neoprene serrated rubber pad type with is olation efficiency not less than 85%. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package",
+  "chunk_index": 318,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

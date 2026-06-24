@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0104",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 110,
+  "text": "unloading achievable with steam generator offered and the corresponding limiting variations ( + % ) o f b o i l e r parameters such as throttle pressure, oxygen in flue gas, drum level, SH steam temperature, RH steam temperature, furnace draft, etc. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 9 2.1.15 Provision for Future Installation of FGD System i) A flue gas desulphurisation (FGD) system may be installed by the purchaser in future to meet the requirements of pollution control. ii) Following provisions needs to be kept by the bidder for this purpose: a) Suitability of duct between ID fan a nd chimney for future interconnection of FGD system with minimum modification. b) The ducting and supporting structure to be designed to take care of future guillotine damper to be installed between the two tap offs before chimney. 2.1.16 Furnace Furnace shall comply with following requirements at 100% BMCR with or without HP heaters out of service and with range of specified coals, under most stringent combination of operating conditions: i) Maximum net heat input (NHI) per unit : 5x10 6 kcal/hr/m 2 plan area of furnace ii) Maximum heat liberation rate : 1.1x10 5 kcal/hr/m 3 iii) Maximum burner zone heat release rate : 1.5x10 6 kcal/hr/m 2 iv) Maximum heat input per burner : 55.0 x10 6 kcal/hr/burner v) Maximum furnace cooling factor : 1.8x10 5 kcal/hr/m 2 vi) Maximum furnace exit gas temperature (FEGT) : 600C below minimum initial deformation temperature (IDT) of ash. vii) Minimum furnace residence time : 1.72 seconds. Selected furnace residence time shall be coal specific viii) Pressure withstanding capability : Minimum + 660 mmwc at 67% yield strength or maximum conceivable head of fans, whichever is higher. ix) No. of coal burner elevation to be : One fed from one mill x) Buckstay spacing : To ensure that its natural frequency is sufficiently away from the flame pulsation frequency. xi) Buckstay support : Self support from furnace walls with no interconnection with boiler structure. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 10 xii) Furnace bottom hopper : Designed for hopper with one third full of ash/ clinker with density of 1350 kg/m 3",
+  "chunk_index": 104,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

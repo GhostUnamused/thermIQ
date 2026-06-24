@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0186",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 189,
+  "text": "drop. iii) Each valve shall be provided with two sets of limit switches for both open and close position with two changeover contacts. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 10 iv) Based on TSR (tip speed ratio) analysis to be carried out by the successful bidder any additional requirements shall be met by him. v) Valves shall be of proven design w.r.t. type, size and rating offered (bidder shall furnish sufficient experience data for the same). vi) Valves shall close during unit trip. vii) The material of the NRVs shall be compatible to the material of piping on which these are mounted. 3.1.6 Insulation (Steam Turbine and BFP drive turbine) i) Bidder shall provide insulation and cl adding for all equipment and piping with surface temperature more than 60 oC. ii) The temperature of cold face of finish ed insulation shall not be greater than 60 oC with ambient temperature of 40 oC. iii) The insulation and cladding shall comp ly with the requirements specified in Section- 4 of this specification 3.1.7 Material Requirements The bidder shall submit the schedule of mater ials used in turbine construction. The steam turbine shall be built-up using materials/components which are field proven. The materials adopted shall not be inferior to those mentioned below: Description Material i) Turbine casing HP outer casing GS-17 Cr. Mo V 511 HP blade carrier GS-17 Cr. Mo. V511 IP casing GS-22 Mo 4 LP casing R St 37-2N. ii) Turbine shaft and shaft coupling HP shaft 28 Cr Mo Ni V 59 IP shaft 30 Cr Mo Ni V 511 LP shaft 26 Ni Cr Mo V145 Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 11 iii) Moving blades HP turbine first stage X22 Cr Mo V 121 HP turbine other stages X 20 Cr Mo 13 IP turbine stages X 22 Cr Mo V 121 LP turbine stages X 20 Cr 13 iv) Fixed blades First stage of HP and IP turbines X 22 Cr Mo V 121 Other stages HP and IP turbines X 20 Cr Mo 13 First stage of LP turbine X 20 Cr 13 Other stages of LP turbine X 20 Cr Mo 13 v) Casing joint bolts HP",
+  "chunk_index": 186,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

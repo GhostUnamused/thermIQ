@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0569",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 585,
+  "text": "user on a single workstation or multiple users across multiple workstations. d) Create alternative configuration of a unit, to study the impact of component replacements or changing the routing of fluid flows. e) The PADO system should be fully compatible with the functions of BPOS vi) Boiler performance optimization system The contractor shall provide a PC based on-line boiler performance optimization system (BPOS) for each steam generator. The BPOS shall incorporate the complete thermal design model of the boiler capable of both forward and backward calculation of complete boiler thermal performance. The model shall be calibrated and made \"Site Specific\" based on series of field trials of thermal performance of the boiler during startup and prior to trial operation. The input for the BP OS shall be based on accurate and continuous on line grid measurement of the following: a. Flue gas temperature at economizer outlet using acoustic pyrometer. b. Flue gas oxygen. c. Other fluid temperature(s) entering and exiting various heat transfer banks. d. Coal characteristics The BPOS shall be capable for continuous on-line calculation of the thermal performance of the boile r for the operating conditions indicating performance prediction z onal absorption, metal temperature and shall have necessarily the following features: \u2022 Fuel switching capability. \u2022 \"WHAT IF\" capability. \u2022 Selective soot blowing of furnace/super heater based on trends of zonal absorption. \u2022 Expert system diagnostics for quick identification of the 'Root Cause' of deviations from the predicted parameters. The computer modeling and arriving at factors to make it \"Site Specific\" shall be to the approval of the owner. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 58 The BPOS shall be furnished complete with the appropriate computer hardware to the approval of the owner. vii) Other requirements The PADO System, as described above, shall also include the following:- a) Boiler performance optimization packages including the optimized operation of soot blowing System. b) Boiler stress condition analyzer. c) Interactive water and gas chemistry management system. d) Regenerative cycle performance optimization system. viii) Hardware requirements a) The hardware shall include a computer server and at least 5 workstations along with the complete networking in a LAN network. b) The implementation of all the associated hardware, networking and related work shall be the responsibility of the bidder in order to successfully operate",
+  "chunk_index": 569,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

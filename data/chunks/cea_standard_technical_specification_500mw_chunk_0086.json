@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0086",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 94,
+  "text": "given in clause No. 3.07, sub-section-3 of ASME- PTC-6 report 1985 (reaffirmed latest). Peri od of ageing shall be considered from the date of successful completion of trial operation to the date of conductance of PG test. In calculating the above fact or any period(s) during which the turbine has not been in operation at a stretch for more than a week shall not be considered. v) The tests shall be arranged in a manne r that the purchaser\u2019s operation is not disrupted. Duplicate test runs sh all be performed at 100% TMCR and 80% TMCR unit loads. The results of corrected heat rate shall agree within 0.25%. If they differ by more than 0.25%, third test shall be run at the same point. The corrected result of any one of the three test runs, which deviates from the corrected averaged result of all the runs by more than 0.25% shall be eliminated; otherwise the results of all the three tests runs shall be accepted. vi) During performance/acceptance test, follow ing tests shall be carried out for TG set with test grade instruments as per ASME code: a) Turbine cycle heat rate in kcal/kWh under rated steam conditions at design condenser pressure with zero make up at 100% TMCR unit load. b) Turbine cycle heat rate in kcal/kWh under rated steam conditions at design condenser pressure with zero make up at 80% TMCR unit load. c) Continuous TG output of 100% TMCR unit load under rated steam conditions at design condenser pressure with 3% make up. d) Auxiliary power consumption at 1 00% TMCR and 80% TMCR unit loads under rated steam conditions and at design condenser pressure with 0% make up. e) Continuous TG output of 100% TMCR unit load under rated steam conditions at 89 mm Hg (abs) 6 pressure with 3% make up. f) Continuous output at generator te rminals corresponding to VWO condition under rated conditions at design conde nser pressure and 3% make up. g) Maximum continuous output at genera tor terminals corresponding to one string of HP heater out of operation under rated steam conditions at design condenser pressure and 3% make up. h) Maximum continuous output at genera tor terminals corresponding to both strings of HP heaters out of operation, under rated steam conditions, at design condenser pressure and 3% make up. 6 70 mm of Hg (abs) in case of sea water",
+  "chunk_index": 86,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

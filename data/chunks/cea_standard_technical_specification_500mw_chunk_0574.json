@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0574",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 591,
+  "text": "temperature b) Metal of thermocouple element : Chromel- Alumel Type K c) Type of thermocouple : Duplex with separate hot junctions, ungrounded type. d) Insulation : Mineral insulation Magnesium Oxide e) Thermocouple wire gauge : 16 AWG f) Protective sheath : SS 321 g) Protective sheath dia : 8 mm O.D h) Characteristics of thermocouple : Special limits of error as in ANSI MC 96.01.1975 i) Mounting accessories : 1/2\" BSP SS sliding end connector, weld pad, weld on clamps of heat resistant steel SS310. j) Cold end sealing : SS pot seal with colour coded PTFE headed sleeve insulated flexible tails. Sealing compound - Epoxy resin. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 64 k) Minimum bending radius : 30 mm l) Length of T/C : 30 mtr. (minimum) iii) Thermowell (for process temp. elements) (a) Shall be one piece solid bored type of 316 SS of stepless tapered design. (As per ASME PTC 19.3 1974) (b) For mill classifier outlet long life solid sintered tungsten carbide material of high abrasion resistance. (c) For air & flue gas 316 SS protecting tube with welded cap. (d) For furnace zone, impervious ceramic protecting tube alongwith Incoloy supporting tubes a nd adjustable flanges. iv) C J C Boxes a) Ref. temp. 60\u00b0C \u00b1 1.3 \u00b0C for type K thermocouple 60\u00b0C \u00b1 2\u00b0C for type R thermocouple b) Effect of ambient temp. \u00b1 0.1% per 10\u00b0C variation c) Material 4 mm thick fibreglass reinforced polyster d) Protection class of CJC boxes IP 55 e) Cable entry Bottom with gland plates suitable for cables used along with blanking facility f) Temp. control Automatic with remote temperature monitoring g) Power supply 240 V AC, 50 Hz v) Temperature Transmitter The temperature transmitter of following types (2-wire temperature transmitter directly powered from 4-20mA input car ds of DDCMIS) fully compatible with Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 65 thermocouples and RTDs shall be provi ded. Temperature compensation of the thermocouples shall be performed in the temperature transmitter itself. a. Single Input Head mounte d Temperature Transmitter These shall be suitable for mounting in the head of temperature element itself. The protection class of head of thermo",
+  "chunk_index": 574,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

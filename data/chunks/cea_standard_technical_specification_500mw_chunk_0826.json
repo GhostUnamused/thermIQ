@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0826",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 863,
+  "text": "rated stator current. In case of unsymmetrical cooler configuration, test with all possible variants of one cooler out of circuit shall be carried out. e) Vibration measurement on all planes on stator overhang winding at suitable locations on each end and at ot her critical locations to be decided by purchaser for th e following conditions: - Open circuit operation - Short circuit operation - Sudden short circuit conditions - Stand still condition - with Hammer test ii) Brushless excitation system a) Exciter - Temperature rise test at peak rating of excitation system. Ceiling duty condition shall also be demonstrated b) Permanent magnet generator - Temperature rise test at peak rating of excitation system and ceiling duty cond ition shall also be demonstrated c) Converter assembly (of the exciter field) - Temperature rise test at peak rating of excitation system. Ceiling duty condition shall also be demonstrated Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 77 8.6.1.6.2 Type test (Category-II) Brushless excitation system a) Converter assembly of the exciter field - Input and output surge withstand capability test - Soak test for Electronic module b) Degree of protection test for Excitation system panels 8.6.1.7 Site tests The tests to be conducted on each generator at site shall include but not be limited to those listed below. Any other test considered necessary by the contractor shall also be carried out : a) Electrical i) Measurement of the insulation resistan ce of the stator and rotor windings to the frame and between phases, after drying out the machine and measurement of the polarisation index ii) Measurement of the DC resist ance of all windings and embedded temperature detectors iii) Measurement of the insulati on resistance of bearings iv) Capacitance measurement and dissipation factor between the winding and body v) Open circuit and short circuit tests vi) Measurement of temperature rise at the rated load vii) Performance capability of the machine viii) Line charging capacity ix) Short circuit tests on the generator HV end and the gene rator transformer HV end to check the stability and op eration of the generator and the overall (i.e. generator and generator transformer) differential protections and negative phase sequence protection. b) Mechanical i) Hydrogen leakage test ii) Vibration test iii) Over-speed test iv) Hydraulic tests on coolers v) Bearing and shaft current",
+  "chunk_index": 826,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

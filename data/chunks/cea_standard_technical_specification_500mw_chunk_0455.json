@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0455",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 473,
+  "text": "Section-5 (Electrical Works) 5 - 115 -Nominal discharge voltage/ cell 2.0V -Float Voltage 2.2V/ Cell b) For Ni-Cd Type Battery -Battery Voltage 220V -Battery type Stationary Ni- Cadmium Pocket Plate High discharge type (KPH) -Capacity for five(5) hour rate to 1.14V/ Cell at 27 0C any time during the entire duty cycle As per system requirement -Nominal discharge voltage/ cell 1.2V -Float voltage 1.42V/ Cell v) The unit auxiliaries for which emergency power supply from the DC storage battery is required are listed below: - Minimum emergency lighting syst em for reduced illumination during failure of main power supply. - Hydrogen seal\u2013oil system. - TG bearing oil system (emergency lubricating oil pump) - Auxiliary control supply for 11kV unit and station switchgears and 3.3kV and 415V unit switchgears - Electrical protection system. - Turbine DC Jacking oil pumps (for main turbine and BFP turbine) - Any other emergency load considered necessary. 5.12.3 General Technical Requirements 5.12.3.1 Lead -Acid Plante Battery i) Equipments a) DC Batteries shall be stationary lead acid Plante positive plate type conforming to IS:1652. The battery sh all be high discharge performance type. For the purpose of design an ambient temperature of 500C and relative humidity of 85% shall be considered. b) DC Batteries shall be suitable for standby duty. The Batteries shall normally be permanently connected to the load in parallel with a charger and shall supply the load during emergency conditions when AC supplies Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 116 are lost. Batteries shall be suitable for a long life under continuous float operations and occasional discharges. The batteries shall be boost charged at about 2.7 volts per cell maximum and float charged at about 2.2 V/cell. ii) Construction Features a) Containers Containers shall be made of transparent glass, hard rubber, suitable robust, heat resistance, leak proof, non absorbent, acid resistant, non-bulging type and free from flaws, such as wrinkles, cracks, blisters, pin holes etc. Electrolyte level lines shall be marked on container in case of transparent containers. Float type le vel indicator shall be provided in case of opaque containers. The stem portion of the float should be long enough to prevent falling of the float in side the container even if there is no electrolyte in the container. The marking for the electrolyte level should be for",
+  "chunk_index": 455,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

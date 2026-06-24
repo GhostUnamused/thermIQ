@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0828",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 866,
+  "text": "enclosure and conductor Gasket, silicagel breather, CT, VT, surge capacitor and arrestor, NGT, NGR, elastomer spring head Busbar pressurisation system Complete busduct IS:8084 Y Y Y Y Y Y =Test applicable Note Trial assembly set-up shall include 3-phase straight run, 900 bend, set of flexible connection of each type, metallic bellow on enclosure, CTs mounted in position (as applicable), bolted link and necessary inspection covers. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 80 8.6.2 Generator Isolated Phase Bus ducts and Neutral Grounding equipment 8.6.2.2 Neutral Grounding Resistor Tests/ Checks Items/ Components/ Sub- systems Visual and Dimensional check Mechanical properties Electrical strength Chemical Composition Make, Type, Rating, Model, TC, General physical inspection. Insulation resistance measurement before and after HV Test HV Test Degree of protection test Routine test as per relevant standard Galvanizing test Routine test Resistor Y Y Y Y Y Cubicle Y Y Y Galvanized steel structures ( IS:2633/ 2629/ 6745/ 2062) Y Y Bushing/ Post and support Insulator ( IS:2544/ 5621) Y Y Y Y Y Complete NGR (IEEE-32) Y Y Y Y Y Y Y =Test applicable 8.6.2.3 Type Tests 8.6.2.3.1 Type test (Category-I) The following type tests shall be condu cted on one bus-ducts of each rating: a) Heat run test (the set up shall include 3 phase straight run, 900 bend, set of flexible connection of each type, metallic bellow on enclosure, CT\u2019s mounted in position, (as applicable), bolted link, and necessary inspection covers. Milli-volt drop across bolted flexible joint shall be measured b) Short circuit withstand test (set up same as for heat run) c) Impulse withstand test (set up shall include typical X-section with flexible connections, 90 0 bend, CT\u2019s in position, seal off bushing, inspection cover and bellows) Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 81 d) One minute high voltage power frequency withstand test (set up as for short circuit test) e) Air leakage rate and water tightness test (set up shall include inspection cover, flanged joint and bellow) 8.6.2.3.2 Type test (Category-II) a) Panels, cubicles and marshalling boxes shall be type tested for the degree of protection provided by the enclosure as given below : - For 5X-it shall not be possible to insert a thin sheet of",
+  "chunk_index": 828,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

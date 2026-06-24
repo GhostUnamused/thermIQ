@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0171",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 176,
+  "text": "distribution screens clean. 2.2.16.9 Collecting plates (electrodes) i) Collecting plates shall be designed for dimensional stability and to maintain the collection efficiency at the specified leve l. The specific collection area shall in no case be less than the value specified at cl ause 2.1.27. The profile of the collecting plate shall be such as to minimise the re-entrainment of collected dust at the time of rapping. Minimum plate thickness shall be 18 BWG. Each plate shall be shaped in one piece construction and shall be stiff e nough to carry the rapping intensity. The swaying and warping tendencies shall be prevented by suitable means. These means shall be clearly brought out in the proposal. ii) The collecting plate height shall in no case be higher than maximum height which has been successfully tested and proved by th e Contractor or his principal for the equipment offered, over a minimum period of one (1) year of commercial operation in at least one plant, where the ESPs are operating in conjunction with a coal fired boiler under coal firing conditions. In s upport of the above, the Contractor shall furnish sufficient data, to the purchaser's sat isfaction, with reference to the operating experience as stipulated elsewhere. 2.2.16.10 Discharge electrodes The high tension discharge electrodes shall be of rigid frame type design, located mid- way between the collecting plates. The electrodes shall be self tensioned, or restrained in pipe frames. They shall be constructed from durable, corrosion and erosion resistant material. In case spiral type discharge elect rodes are being offered, the material for the same shall be UHB 904 L or approved equivale nt. Vertical and horizontal members shall be rigid enough to maintain the alignment of the system without warping or distortion even at elevated temperatures. Provisions made to maintain alignment of electrodes during normal operation, including rapping a nd thermal transients, shall be clearly brought out in the offer. However, no anti sway insulators shall be used at the bottom of the discharge electrodes frame to accomplish the above. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 75 2.2.16.11 Rapping System i) Independent rapping system shall be provided for discharge electrodes and collecting plates with control systems as per the requirements specified. The rapping mechanism shall be of either elect ric",
+  "chunk_index": 171,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

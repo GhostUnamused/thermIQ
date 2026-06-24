@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0139",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 147,
+  "text": "The regulating dampers for air pressure c ontrol shall operate in the range of 20% to 85% steam generator loads up to BMCR conditions. iv) The system shall be capable of work ing on automatic mode for all regimes of operation in a steady and stable manner. 2.2.7.3 Constructional features i) Material of construction a) Fan blades : High strength aluminum alloy with minimum hardness of BHN-75. b) Base plate : Cast iron or welded steel. c) Casing : Sheet steel of suitable thickness. d) Fan inlet boxes, diffuser : Fabricated with sheet steel of and intermediate pieces thickness not less than 5 mm. ii) Special construction features: a) The fan suction shall be provided with rigid bird and trash screen assembly and shall have suitable arrangement to prevent rain water from directly entering the fan. b) The fan design shall be over hung type. The layout of PA fans shall ensure interchangeability of impellers. Similar fans shall have same direction of rotation. c) The contractor shall submit detailed calculations for purchaser's approval to confirm compliance with the sizing requirements specified under clause 2.1. d) Pulsation shall be avoided by suitable design of fan and connecting ductwork. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 46 iii) Fan bearings: a) The rotor assembly shall be supported over a oil lubricated bearing assembly consisting of antifriction/sleeve bearing ade quately sized to take care of radial thrust loads. b) Bearing housings shall be provided with vibration pad and sensors for remote monitoring, interlock and protection. c) In case of oil lubricated bearing, th e design shall be such that bearing are lubricated by external force oil lubricating system in which oil is cooled by external cooler. In addition, sump lubrication shall also be provided. d) One number duplex RTD (100 ohm at 00 C) and temperature indicators shall be provided for local and remote monito ring of the bearing metal temperature of fans for each bearing. iv) Fan lubrication system The lubricating system shall be complete in all respect, compact and frame mounted. The lube oil pressure shall be higher than cooling water pressure. Each bearing shall be provided with an oil level indicator and screwed drain plug. v) Silencers shall be provided to limit the noise level to the specified values. vi) Fan",
+  "chunk_index": 139,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

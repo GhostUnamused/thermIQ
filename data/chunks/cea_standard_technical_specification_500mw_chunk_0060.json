@@ -1,0 +1,18 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0060",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 68,
+  "text": "and mill bunker bay building. Also the local pits /trenches in main plant building/ mill bunker bay building/ boiler/ ESP area are to be avoided as far as possible. (vi) The dearator shall be located in the BC ba y at an appropriate elevation so as to meet the NPSH requirement of boiler feed pumps. Horizontal HP heaters and LP heaters shall also be located in BC bay with space provision for tube withdrawal. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 43 (vii) Clear walk ways of minimum 1.5 m width at all the levels shall be provided in the main plant building. For interconnection with service building, walk way of about 3.5 m width shall be provided along 'B' row of main plant building. Adequate fire escape staircases shall be provided in main plant building with fire doors at each landing. (viii) Through walkways of minimum 1.5 m width shall be provided along A-row columns at ground floor and operating floor. For EOT crane maintenance, through walkway shall be provided along both rails at crane girder level. Approach to the crane through rung ladders shall be provided at least at two places. (ix) Interconnecting walkways (minimum 2. 0m clear) shall be provided between main plant building and boiler on either side of boiler at three elevations viz. mezzanine, operating and deaerator floor levels. Two nos. walkways each shall be provided on either side of the bo iler between boiler and mill bunker building at feeder floor level, tripper floor level and roof of mill bay. (x) The layout arrangement of critical pipi ng connecting the steam generator and steam turbine shall be developed in such a way as to optimize the use of materials and resulting in minimum pressure losses in the steam flow. (xi) Steam turbine, generator, BFPs and othe r equipments located in the turbine hall shall be accessible by the EOT cranes for their handling during maintenance and overhauling. For all other equipment/ components located in the main plant building, suitable handling arrangement viz. cranes/ chain pulley blocks/ monorail hoists etc. as required shall be provided for the maintenance and overhauling. Wherever special handling procedures are to be followed, the same shall be described in a separate document. (xii) Facility shall be provided for handling of condenser water box to enable maintenance",
+  "chunk_index": 60,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

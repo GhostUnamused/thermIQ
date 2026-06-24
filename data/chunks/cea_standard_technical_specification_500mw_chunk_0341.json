@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0341",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 349,
+  "text": "above a nd the same shall be spray or hot dip galvanized. iii) Necessary rain protection cowl, inlet and outlet cones, bird protection screen, adjustable damper, vibration isolators, back draft dampers etc. shall be provided. iv) For impeller diameter above 450 mm, the fan speed shall not exceed 960 rpm (1440 rpm for fans having static pressure of 30 mmwc or above). For impeller diameter 450 mm or below, the fan speed shall not exceed 1400 rpm (2800 rpm for fans having static pressure of 30 mmwc or above). The first critical speed of rotating assembly shall be atleast 25% above the operating speed. 4.10.4.5 Roof ventilators/ extractors i) The roof extractors shall be \u201cCOWL\u201d t ype or equivalent and shall be used for buildings of height 7 m and above. ii) Impeller shall be of axial flow type, cast aluminium in one piece and casing shall be heavy gauge sheet steel constr uction of 3 mm thick for impeller upto 750 mm diameter and 5 mm for fans with impeller of diameter 750 and above and the same shall be spray or hot dip galvanized. Access door with locking arrangement shall be provided in the casing. iii) The cowl shall be designed for weather protection of the fan also inside of the roof on which the extractor is installe d. Galvanised bird screen of 15mm x15mm shall be provided with the cowl. All accessories, steel supports as required shall be provided. iv) The speed of the fan shall be limited as per criterion given above for axial fans. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -94 v) All accessories such as rain protection exhaust hood, transformation piece, vibration isolators etc. as required shall be provided. 4.10.5 Balance Equipment Specification 4.10.5.1 Centrifugal pumps Centrifugal pumps shall be of horizontal, centrifugal, closed impeller, axially split type. The materials of construction and technical requirements of the pumps shall be as indicated at clause 4.9.5 of this Section. 4.10.5.2 Piping and fittings i) Circulating water piping : Heavy grade-IS:1239 or Equivalent upto150 NB or equivalent and IS:3589 or equi valent for pipes beyond 200 NB with a minimum thickness of 6mm. ii) Drain piping : Same as (a) above and galvanised as per IS:4736. iii) Fittings : The steel fittings shall conform",
+  "chunk_index": 341,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

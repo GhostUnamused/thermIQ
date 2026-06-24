@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0558",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 575,
+  "text": "shall be capable of projecting displays over a part of screen to multiple screens. Any communication of windows shall be possible. Facility for overlays shall be provided. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 48 6.3 OTHER SG&TG RELATED CONTROL & INSTRUMENTATION SYSTEM/ EQUIPMENTS 6.3.1 Flame Monitoring System i) The purpose of the system is to de tect the individual flame and to enhance the boiler/furnace safety, to avoid spurious and unwarranted trips and to increase operational reliability, availability and e fficiency of the Steam Generator such that the consumption of fuel oil shall be reduced to optimal minimum. ii) Flame monitoring system shall be fail safe and easily maintainable which shall include flame detectors of proven design for the type of fuel, environmental condition and other conditi ons, of established reliability at all loads of the steam generator. It sha ll be designed to work under all adverse conditions such as wide variation in fuel/a ir input ratio, wide variation in fuel characteristics, variation in operating temperature, maximum temperature under interruption of cooling air supply. The system shall conform to NFPA recommendation and location of detectors as per NEC requirements. iii) Flame detectors shall be working on the dynamic and static properties of primary combustion zone of each type of fuel and flicker frequency of flame. It shall pick up only the flame to whic h it is assigned and shall not respond to the adjacent and background flame or other radiations generated in the furnace. The design shall also take in to account the absorption by a coal shroud, recirculated dust or other deposition on the flame detector head. The complete system shall provide the discrimination between oil and coal flame. Intensity indicators for main flame shall be provided alongwith galvanically isolated 4-20 mA DC signals and hooked to DDCMIS. iv) The system should be easily maintainable and include automatic self test facility at regular interval. v) The bidder shall also provide a portable flame detector testing kit with built in stabiliser, capable of simulating both oil and coal flame, and testing of flame detector head unit at field. The testing kit shall also have facility for testing all type of electronic cards as being used in the flame monitoring system. vi) In case of tangentially fired boiler, the",
+  "chunk_index": 558,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

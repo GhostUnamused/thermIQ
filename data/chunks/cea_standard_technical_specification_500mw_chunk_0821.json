@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0821",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 853,
+  "text": "Y1 = Visual checks Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 67 8.6.1.3 Process check for stator conductor and winding of generator/ exciter (Table 2/3) Tests/ Checks Items/ Components / Process X-Ray Process check Flow test Helium leak test and pressure test Check on RTD and location Winding copper and connecting busbars Insulated conductor Insulation material Manufacturing winding bar and phase bar Y1 Y Y1 Y Winding laying Y Y Water supply hoses Y Winding support ring Connection between bars Wound stator Y1 Y = Test applicable, Y1 = Visual checks Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 68 8.6.1.3 Process check for stator conducto r and winding of generator/ exciter (Table 3/3) Tests/ Checks Items/ Components/ Process Tan delta and delta ( tan delta upto 1.2 Un) Corona protection resistance Reactance of stator winding Magnetic permeability of metallic parts Magnetic test and Vibration fatigue Dielectric test at elevated, room temperature Inter strand Insulation test Thermal shock and boroscopic examination of brazed water box Slot wedge tightness and radial movement Type test on two bars for heating cycle test, Thermal stability test, Voltage endurance test Support arrangement Winding copper and connecting bus bars Insulated conductor Y I n s u l a t i o n m a t e r i a l Manufacturing winding bar and phase bar Y Y Y Y1 Y Winding laying Y Y Water supply hoses Y Y Y Winding support ring Connection between bars Y Wound stator Y Y Y Y = Test applicable, Y1= Applicable for hollow conductor Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 69 8.6.1.4 Process check for rotor and asse mbly of generator / exciter (Table 1/4) Tests/ Checks Items/ Components/ Process Sample tensile stress Sample 0.2 limit Sample elongation Hardness on sample Impact and stress rupture properties check on sample Sample chemical properties NDTT, FATT Process check including heat treatment (as applicable) Ultrasonic test/ RT (at suppliers works and after preliminary machining) Sulphur prints check flux carrying capacity/ magnetic properties Flux carrying capacity/ magnetic properties Boroscopic examination Rotor forging and slip ring shaft Y Y Y Y Y Y Y",
+  "chunk_index": 821,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

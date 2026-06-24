@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0552",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 569,
+  "text": "Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 41 ii) No repairs/replacement shall normally be carried out by the purchaser when the plant is under the supervision of bi dder's supervisory engineers. If in the event of any emergency, in the judgment of the purchaser, delay would cause serious loss or damage, repairs may be made by the purchaser or a third party chosen by the purchaser without advance notice to the bidder and the cost of such work shall be paid by the bidder. iii) In case of any hardware failure which hampers normal operation, the bidder during the warranty period must provide on-site technical expertise to repair/rectify the problem within a week and if any component is not available at site, the bidder must arrange to supply these components at site within another 48 hours. If a software problem is identified, this problem shall be corrected within one week. iv) After six months of DDCMIS operation, the bidder shall provide the list of parts and expandables utilized for the period. The same information will be provided at the conclusion of the warranty. v) The bidder shall depute and/or station additional specialist to rectify the problem to ensure 99.7% availability of system. The availability of system shall be calculated as specified elsewhere . 6.2.15 Performance Requirement of the DDCMIS i) The DDCMIS shall permit the pe rformance of the following dynamic load tests while maintaining safe furnace co nditions, major process parameters and without endangering other equipment. A ll tests will be performed with the system in automatic mode : a) Drop 50 percent of maximum load capability from approximately full load at a rate of 10 percent per minute. b) Drop load from full rated output to the lowest runback limit, at a rate corresponding to the fastest run back rate c) Pick up 50 percent of the maximum load capability from approximately 50 percent load at a rate of 10 percent per minute. During transient conditions causing deviation of process variables, the control system furnished under the specification shall not permit deviations which exceed those permitted by the manufacturers of the controlled process equipment, for load changes as indicat ed above. The exact parameters to be monitored for this test are given in the following table The control loops shall perform to return the controlled va riable",
+  "chunk_index": 552,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

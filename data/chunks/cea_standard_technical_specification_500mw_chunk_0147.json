@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0147",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 154,
+  "text": "with relief valves. b) Pump/motor base plate : Common c) Type of drive : Constant speed squirrel cage, induction motor with flexible couplings. d) Materials \u2022 Casing : Close grained cast iron \u2022 Shaft : Carbon steel e) Type of bearings : Antifriction v) Heavy fuel oil heaters shall be designed based on the following: a) Type and no. of heaters : Three (2 working + 1 standby) shell and tube type, preferably with oil through tubes. (oil through shell also acceptable). b) Capacity of each heater : To suit the rated capacity of each heavy fuel oil pressurising pump. c) Heater inlet fuel oil temp. : 30 0C (considered for sizing) d) Heater outlet temperature : To suit the viscosity requirements at the fuel oil tip s for the grade of oil (HPS/HFO/LSHS) used. e) Metal temperature of heater : 2100C (Maximum) heat transfer surface Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 53 f) Heater design and construction : TEMA, ASME Boiler and pressure vessel code, HEI standards, USA. Pipe connections to heater as per TEMA class C BEV type. g) Heater tubes : Seamless (tube bundles shall be of removable type) vi) Filters a) Coarse filter shall be provided at pressuring pumps inlet and fine filter at oil heater outlet. b) The maximum pressure drop across filters shall be 0.1 kg/cm 2 when filter is clean and 0.3 kg/cm 2 when filter is 50% clogged. . c) Material of filtering mesh shall be stainless steel. d) Aperture size for fine filter shall not exceed 150 \u03bcm or shall be at least 30% smaller than smallest oil orifice or passage to the burners. vii) Trip and nozzle valves a) Heavy fuel oil and light oil trip valves and nozzle valves shall be suitable to handle oils at temperature and pressure required at the burners. Further, these valves shall confirm to ANSI leakage Class-VI under shut off pressure conditions of respective pumps. b) The solenoids of trip valves and individual burner nozzle valve shall be of single coil heavy duty constr uction having class \u2018H\u2019 insulation. c) The closing time of trip and nozzle valve shall be less than one (1) second. The valves shall close when de-energised /failure of air supply. d) The operating voltage shall be as under: \u2022",
+  "chunk_index": 147,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,18 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0536",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 555,
+  "text": "I/O modules etc. The LP bypass control shall suitably interface with other TG control like HP bypass, EHG etc. Further, condenser exhaust hood spray valve shall be interlocked to open whenever LP bypass comes into operation. b) HP bypass control system The system shall consist of steam pressure control loop & steam temperature control loop. HP bypass system shall be implemented through a set of redundant controller modules, I/O modules etc. The system shall be supplied with redundant primary sensor and suita ble interface with other TG - C&I controls like LP bypass, EHG etc. (v) Automatic On Line Turbine Testing (ATT) System The bidder shall provide ATT system for on load testing of turbine protective equipment automatically in a sequential manner without disturbing normal operation and keeping all protective functions operative during the test. The ATT facility shall include but not be limited to the following. a) Opening and closing of emergenc y stop and control valves, reheat stop and interceptor valve. b) Over-speed trip c) Low vacuum trip d) Electrical remote trip. ATT mentioned at item b), c) & d) above shall be possible to be carried out on 100% load. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 28 6.2.4.7 Other SG - C&I Functions The SG control functions shall also c onsist of secondary air damper control, soot blower control, auxiliary PRDS etc. in addition to the burner Management system and shall meet the requirements of measurements system, binary and analog control system as described above 6.2.4.8 Other TG -C&I Functions The TG control functions shall also, consist of turbine generator control system like seal oil, primary water, hydrogen system etc. and TDBFP interlock & protection and shall meet the requirements of measurements system, binary and analog control system as described above. 6.2.5 Man-Machine Interface System and Plant Information System (MMIPIS) Requirements 6.2.5.1 i) Man-Machine Interface syst em shall be designed and engineered for safe, efficient, reliable and convenient operation. MMIPIS shall employ high-performance, non-propriet ary architecture to ensure fast access and response time and compatibility with other system. MMIPIS shall be used primarily for the following functions : (a) As operator interface for control operation of the plant or accepting data from and issuing commands to SG -C&I, TG - C&I and BOP - C&I systems etc.",
+  "chunk_index": 536,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

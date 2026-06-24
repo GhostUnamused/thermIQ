@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0565",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 581,
+  "text": "shall not affect the performance of the system. Self monitoring facility to detect and alarm the loss of power supply shall be provided. vii) The pressure vessel shall be cons tructed in such a way that density level error between drum and pressure vessel shall not be more than 25 mm upto the design temperature and pressure of boiler drum. All vents, drains and isolation valves shall meet 1.5 times the max. design conditions. viii) Electrode assembly sha ll have blow out and leakage proof sealing arrangement. Field proven ceramic/zirconia probe with insulation suitable for design pressure and temperature are to be provided. ix) The system design shall be such that it shall ensure that failure of one probe circuit shall not affect another probe circuit and failure of any electrode will not hamper the system function and opera tion. Further, the entire system shall be of proven fail-safe design. x) The logic shall be such that the trip and alarm relay circuits shall be independent for each for low, low-low, high and high-high levels of drum. Monitoring of set time for trip genera tion and provision of setting time delay shall be available in the system. Trip logic shall be independent and separate from fault finding logic. xi) The system shall have fault di agnostic features such as process fault, system hardware fault, probe failure, circuit bo ard failure, shorted wire etc. Further, the system shall be able to distinguish between a cable fault and an electrode fault. xii) The necessary relays and rela y modules for the output contacts shall be of proven design and each contact shall be rated for 5A, 240V AC/0.25A 220V DC rating. All these contacts shall be SPDT type. xiii) The system shall be proven and approved by IBR, Factory mutual, USA or equivalent etc. 6.3.9 Turbine Supervisory System (TSS) i) The turbine supervisory equipm ent shall be complete including sensors, transmitters, converters, limit value monitors, measuring and amplifier modules, power supplies etc. with the required accessories including twisted and shielded instrumentation cables, compensating cables, junction boxes etc. ii) Following measurements shall be provided as minimum. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 54 (a) Shaft eccentricity detection. (b) Absolute as well as relative shaft vibration measurement, of each bearing in both X &",
+  "chunk_index": 565,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

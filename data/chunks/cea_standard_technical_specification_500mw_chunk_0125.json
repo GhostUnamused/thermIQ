@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0125",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 133,
+  "text": "for temperature control in case of emergency conditions. 2.2.2.5 Bidder to ensure that no damage is caused to the reheaters with sudden closure of turbine interceptor valves. 2.2.2.6 For continuous temperature mon itoring, minimum nos. of thermocouples as per following shall be provided: Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 32 a) For supherheaters and reheaters elements placed before furnace exit plane (in the direction of gas flow), chromel-alumel thermocouples on at least two elements of every fifth assembly between the two headers shall be provided for tube metal temperature detection out of gas path (in SG casing). b) In addition to the above, adequate num ber of chromel-alumel thermocouples for measurement of tube metal temperatures outside the gas path shall also be provided. Total number of thermocouples including tho se at (a) above shall, however, not be less than 2 (two) thermocouples per RH/SH assembly between the two headers. 2.2.2.7 For maintenance and inspection of SH and RH, the following shall be ensured: a) Minimum 1.5 m clear cavity height between two sections/ banks of heat transfer surfaces for personnel access. For vertical surfaces, minimum clearance between the two banks shall be 600 mm. b) Access opening shall be provided alongwith air/ gas tight hinged door for approach to above maintenance spaces without any hindrance from hanger tubes. All access doors shall be of 500x500 mm size (minimum ) and access doors above 0.8 m from the nominal floor level shall have access plat forms. Hanger tubes of horizontal banks shall have access opening for crossing. c) Stainless steel erosion shields shall be provided for all bends of all SH and RH sections and hanger tubes in areas where flue gas temperature is below FEGT. For the pendent tube sections, the erosion shield s on the leading tubes and wherever else considered necessary by the bidder as per his proven practice shall be acceptable. d) Arrangement shall be provided for in ternal inspection of attemperators. e) Arrangement of structural steel, runway beams, motorised hoists, walkway platform etc.) shall be provided for removing, handling and placement of tubes banks/section at ground level for repair and replacement. f) Headers and pipes if made of using X20 Cr Mo V 12-1 material shall have provisions to ensure that no site welding of this",
+  "chunk_index": 125,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

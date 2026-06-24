@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0069",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 78,
+  "text": "separately driven (kW). f) Power required by turbine gland steam e xhauster, if driven separately (kW) Note: i) Heat balance diagrams for guarantee conditions shall indicate the quantities of water for super heater a nd re-heater spray, as applicable. ii) The term Mis (h1-his) shall not be aplicable in case desuperheating water for superheaters is taken from downstream of top HP heater. 1.6.3 Guarantees under Category-II NOx Emission: Bidder shall guarantee that maximum total NOx emission from the unit will not be more than 260 grams of NOx per giga joule of heat input (from thermal as well as fuel) to the boiler during the entire operating range of steam generator for the range of coals specified. The emission shall be measured during Steam generating capacity test. The bidder shall furnis h the methodology of measurement and demonstration of variations w.r.t. load upto 50% of total load. 1.6.4 Guarantees under Category-III The parameters/ capabilities to be demonstrat ed for various systems/equipments shall include but not be limited to the following: i) Start up (for one unit only) Start-up time (upto full load), and loading capabilities for the complete unit (Boiler, Turbine and Generator together) set for cold start conditions (greater than 72 hours shutdown), warm start conditions (between 10 and 72 hours shutdown) and hot start conditions (less than 10 hours shutdown) as indicated by the Contractor in the offer and accepted by the purchaser shall be demonstrated, ensuring that the various turbine operationa l parameters like vibration, absolute and differential expansion, eccentricity and steam metal temperature mismatch etc. are within design limits. ii) Sudden total loss of external load On occasions, the steam turbine generator unit my experience sudden total loss of all external load. Under these conditions , the steam turbine generator unit shall not trip on over speed but shall continue to be in operation under the control of its speed governor to supply power for the plan t auxiliary load while staying within the agreed limits of steam metal temperature mismatch, exhaust hood Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 53 temperature, absolute and differential expa nsion, vibration and eccentricity. The same shall be demonstrated. iii) Run back capabilities The contractor shall demonstrate automa tic runback capability of the unit (boiler- turbine-generator) on loss of critical auxilia ry equipment (such as tripping",
+  "chunk_index": 69,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

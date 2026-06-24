@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0530",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 550,
+  "text": "operation in the same sequence depending on certain process/ equipment condition. Some step can be automatically bypassed also based on certain process/ equipment condition. When the expected results of the sequence are reached the sequence is considered as \"End\". If during sequence initiation or seq uence progressing or during normal running of the drive, a shutdown criteri a is present, the sequence shall be stopped and the shut down sequence initiated. x) For the drives, the command shall be provided through redundant output module and inputs (status, switchgear & process) shall be acquired through input modules. The drive logic shall be implemented in the redundant controller. The status for the 11 KV, 3.3 KV drives and some other important drives (total approximately 40 nos. per unit) shall also be wired in parallel to redundant input modules so that on failure of the single input modules, the information regarding the status of the affected drive remains available in OLCS. xi) The output modules control module shall have the feature that ensures that in case of failure, all the outputs are driven to zero. The 24V DC command outputs to drives for on/open, off/close shall be separate and independent and inverted outputs shall not be employed. For inching type of drives, position transmitter power supply and monitoring of position transmitter signal shall be provided. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 23 xii) The termination for open/ close command for the drive actuator shall be performed in the actuators with integr al starter specified elsewhere in the specification. However, open/ close and disturbance status as a minimum shall be monitored in OLCS. The sequence interlock & protection requirements shall be finalised during detailed engineering and the same shall be subject to Purchaser's approval. xiii) The OLCS shall also include th e control of electrical systems in addition to the auxiliaries of boiler & turbine such as open/close or on/off etc. of various electrical systems such as generator, generator auxiliary systems, breakers of 11kV, 3.3 kV. 415 V switchgears , synchronisation of unit etc. as described in Section -5. All the features and specification requirements as specified above shall also be applicable for electrical system. 6.2.4.5 Analog Controls/Closed Loop Control System (CLCS) Functions This Clause is applicable for analog controls of SG - C&I",
+  "chunk_index": 530,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

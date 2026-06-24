@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0572",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 588,
+  "text": "Essential/ minimum requirements for electronic transmitter 1. Type of transmitter Microprocessor based 2 wire type, HART protocol compatible. 2. Sensor type Capacitance/Piezo-electric 3. Accuracy \u00b1 0.1% of span 4. Output signal range 4- 20 mA DC (analog) along with superimposed digital signal (based on HART protocol) 5. Turn down ratio 30:1 6. Stability \u00b1 0.1% of calibrated span for six months up to 70 Kg/cm\u00b2 and \u00b1 0.25% for range more than 70 Kg/cm\u00b2(g). 7. Zero and span drift \u00b1 0.015% per deg. C at max span and 0.11% per deg. C at min. span. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 61 8. Load impedance 500 ohm (min.) 9. Housing Weather proof as per IP- 67 with durable corrosion resistant coating 10. Over Pressure 150% of max. operating pressure 11. Connection (Electrical) Plug and socket type 12. Process connection 1/2 inch NPT (F) 13. Span and Zero adjustability C ontinuous, tamper proof, remote as well as manual from instrument with zero suppression and elevation facility. 14. Accessories (a) Diaphragm seal, pulsation dampeners, siphon etc. as required by service and operating condition (b) 2 valve manifold for absolute pressure transmitters, 3 valve manifold for gauge/ vacuum pressure transmitters and 5 valve manifold for DP/ level/ flow transmitters. (c) For hazardous area, explosion proof enclosure as described in NEC article 500. 15. Diagnostics Self indicating feature 16. Power supply 24V DC \u00b1 10% 17. Adjustment/ calibration/ Centralised PC based system as maintenance per clause 6.4.1. In addition total five (5) no. of hand held calibrators per unit shall be provided. 18. Response time Suitable to meet closed loop control reaction time specified elsewhere Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 62 Notes (i) In case it becomes necessary to use a DP transmitter for pressure measurement (furnace pressure & condenser vacuum etc.) then a 3 valve manifold should be used in place of 2 valve manifold (furnace pressure, condenser vacuum etc.). (ii) Type of transmitter i.e. gauge pressure or absolute pressure, shall be as per specific requirement and as approved by purchaser. (iii) For heavy fuel oil (HFO), light fuel oil (LFO) applications, stainless steel(SS) capillary with wafer element with ANSI RF flanged",
+  "chunk_index": 572,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0507",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 530,
+  "text": "signal loop nor cause the loss or malfunction of signal to other devices using the same signal. iv) To ensure availability, adequate redundancy in system design shall be provided at hardware, software and sens or level to satisfy the availability criteria mentioned at Cl.6.1.2(i) above. For the protection system, independent sensing device shall be provi ded to ensure adequate safety of plant equipment. 6.1.3 Standardisation and Uniformity of Hardware To ensure smooth and optimal maintenance, easy interchangeability and efficient spare parts management of va rious C&I instruments/equipment, the Bidder shall ensure that all instrument s/devices are of the same make, series and family of hardware. For example, all 4-20mA electronic transmitters/ transducers, control hardware, control valves, actuators and other instruments/ local devices etc. be ing furnished by the bidder for steam generator, turbine generator and other auxiliaries shall be of the same make and series for similar applications, except for the instrument integral to TG, boiler and BFP which may be manufacturer specific. 6.1.4 Operability & Maintainability i) The design of the control system s and related equipments shall adhere to the principle of \u2018Fail Safe\u2019 operation wh erever safety of personnel / plant equipment is involved. \u2018Fail Safe\u2019 opera tion signifies that the loss of signal or failure of any component shall not cau se a hazardous condition. However, it shall also be ensured that occurrence of false trips are avoided / minimised. The types of failure which shall be taken into account for ensuring operability of the plant shall include but not be limited to: o Failure of sensor or transmitter, o Failure of main and/or redundant controller/other modules, o Loss of motive power to final control element, o Loss of control power. o Loss of instrument air ii) The choice of hardware shall also take into account sound maintainability principles and techniques. The same shall include but shall not be limited to the following: o Standardization of parts. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 3 o Minimum use of special tools. o Grouping of functions. o Interchangeability. o Malfunction identification facility/self surveillance facility. o Easy modular replacement. o Fool proof design providing proper identification and other features to preclude improper mounting and installation. o Appropriate derating of electronic components and parts. iii) The equipment shall employ latest",
+  "chunk_index": 507,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

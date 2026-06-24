@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0109",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 115,
+  "text": "2.1.22 Auxiliary Steam PRDS The sizing of auxiliary steam PRDS shall be based on following: Description High capacity Low capacity auxiliary PRDS auxiliary PRDS i) No. of aux. PRDS/unit 1 1 ii) Source of steam Main steam line Cold reheat steam line Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 14 iii) Capacity As per Note-1 As per Note-2 iv) Indicative parameters of 16 kg/cm2(abs.) 16 kg/cm2(abs.) steam on downstream sides and 310oC and 210oC Note: 1) The high capacity PRDS shall be si zed for auxiliary steam requirement of the equipment in contractor\u2019s scope of s upply with the unit running at 60% TMCR load plus start up auxiliary steam requireme nt of another unit plus auxiliary steam requirement of fuel oil system (in purchaser\u2019s scope). 2) The low capacity PRDS shall be size d for auxiliary steam requirements of the equipment in contractor\u2019s scope of supp ly with unit running at 100% TMCR load plus auxiliary steam requirement of fuel oil system (in purchaser\u2019s scope). 3) The requirements of auxiliary steam for fuel oil system in purchaser\u2019s scope shall be confirmed during detailed engineering. 2.1.23 Coal Firing System A) Coal pulverisers (mills) i) The coal pulverizes shall be of vertical spindle ball and race type/ Raymond bowl mills/MPS mills or approved equivalent type. ii) No. of coal pulverizes to be supplied shall satisfy following requirements: Operating criteria No. of coal pulverisers 100% BMCR (worst coal firing) N 100% BMCR(design coal firing) N+1 100% TMCR(worst coal firing) N+1 'N' is number of working mills required for respective operating criterion. iii) Selection of number of mills at various loads as specified above shall be based on following requirements, all occurring simultaneously: Maximum permissible mill loading : 90% of design capacity for selection of mill capacity/ type/model meeting requirements specified at A (ii) above. Pulverised coal fineness at rated capacity of the pulveriser : 70% thru 200 mesh (75 microns) and 98% thru 50 mesh (300 microns) Input coal size : Upto 50 mm iv) Coal quality : As per specified coal Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 15 v) Bidder shall guarantee the wear life of mill wear components (for whole range",
+  "chunk_index": 109,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

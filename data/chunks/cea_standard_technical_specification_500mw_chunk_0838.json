@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0838",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 880,
+  "text": "current ii) The following additional checks sh all be made to see the following: a) All oil valves are in correct position closed or opened as required b) All air pockets are cleared c) Thermometer pockets are filled with oil d) Oil is at correct level in the bushi ng, conservator, divertor switch, tank etc. e) Earthing connections are made f) Colour of silica gel is blue g) Bushing arcing horn is set correctly h) CT polarity is correct (when bushing mounted CTs are provided) Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 94 8.6.6 Motors Tests/ Checks Item/ Components/ Sub-system Visual Dimensional Make,Type,Rating,TC,General physical inspection Mechanical, Chemical properties NDT, DP or MPI, UT Metallography Electrical characteristics Welding/ Brazing (WPS/ PQR) Heat treatment Magnetic characteristics Hydraulic, Leak, Pressure test Thermal characteristics Run out Dynamic balancing All tests as per IS:325/ IS:4722/ IS:9283 Vibration Over speed Tan delta, shaft voltage and polarisation index test Plates for stator frame, end shield, spider etc. Y Y Y Y Y S h a f t Y Y YYYY Y M a g n e t i c m a t e r i a l Y Y YYY Y Y Y Rotor copper/ Aluminium Y Y YY YY Y Stator copper Y Y Y Y Y Y Y S C r i n g Y Y YYYYYYY Insulating material Y Y Y Y Y T u b e s f o r c o o l e r Y Y YYY Y Y S l e e v e b e a r i n g Y Y YYY Y Y Stator, Rotor coils Y Y Y Y Y Castings, stator frame, terminal box and bearing housing etc. Y Y YYY Y Fabrication and machining of stator, rotor, terminal box Y Y Y Y Wound stator Y Y Y Y Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 95 8.6.6.1 Type tests 8.6.6.1.1 Type tests (Category-I) 11kV, 3.3kV motors The following type tests shall be conduc ted on each type and rating of 11kV, 3.3kV motor: - No load saturation and loss curves upt o approximately 115% of rated voltage - Measurement of noise at no load - Momentary overload test (subject to test",
+  "chunk_index": 838,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

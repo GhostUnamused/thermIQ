@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0880",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 950,
+  "text": "stem packing 9.1.23 Fuel Oil System i) Valves (gate, globe, check plug (For each type and size) and ball valves) a) 1 no. where total quantity of particular type and size of valve is less than or equal to 10 b) 2 nos. where total quantity of a particular type and size of valve is less than 40 but more than 10 ii) Steam trap 5 % of total number of each type and size of trap (in case of fractional quantity lower whole quantity shall be taken min qty.) Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 9 (Mandatory Spares) 9 - 23 iii) Pressure reducing valve 1 no. iv) Drain oil pump a) Complete cartridge assembly 1 set b) Mechanical seals 2 sets c) Bearing (pump) 1 set d) Set of all type of bushes and sleeve 2 sets e) Set of \u2018O\u2019 rings and seals 2 sets f) Set of gaskets 2 sets g) Relief valve complete with accessories. 1 set 9.1.24 Variable Frequency Drive (VFD) System (if applicable) i) Electrical cards a) Control modules 2 nos. of each type and rating b) I/O module 2 nos. of each type and rating c) Power supply modules 2 nos . of each type and rating d) Thyristor gate module including gate transformer 100% of installed quantity e) Exciter module 1 no. ii) Thyristor bridge leg 10% iii) Over voltage limiter and surge suppressor network 2 sets iv) Semi conductor fuses for thyristor 1 set v) Power and control fuse 100% of installed quantity vi) Control transformer 1 no. of each type and rating vii) Contactor/ breaker 2 nos. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 9 (Mandatory Spares) 9 - 24 viii) CT/VT 1 no. of each type and rating ix) Indicating lamps 100% of each type and rating x) Auxiliary contactors and rela ys 15% of installed quantity xi) Panel mounted meters 1 no. of each type and rating xii) Panel mounted printer 1 no. xiii) Indicating lamp holder full set 15% of each type/colour xiv) Parameter tuning device 1 no. xv) LT transformer (VFD) a) Bushings with metal parts and gaskets \u2022 Primary 3 nos. each rating \u2022 Secondary 3 nos. each rating b) Winding temperature indicator with alarm and trip contacts 1 no. c) Oil temperature",
+  "chunk_index": 880,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

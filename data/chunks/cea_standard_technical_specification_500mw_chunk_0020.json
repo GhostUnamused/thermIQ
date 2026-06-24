@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0020",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 28,
+  "text": "system to meet the intent of the specification shall be deemed to be included in the scope of the bidder. It is not the intent to completely specify a ll details of design and construction, but only to lay down broad sizing and quality criteria for the major equipment and systems and it is expected that the equipments shall conform in all respects to high standards of engineering, design and workmanship and sha ll be capable of performing in continuous commercial operation up to the contractor\u2019s guarantee in a specified manner acceptable to the purchaser. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 3 1.2 SCOPE OF SUPPLY The scope of supply and services covered unde r this specification shall broadly consist of the following: 1.2.1 Steam Generator and Auxiliaries The scope shall include all equipment and materials required for steam generators and their auxiliaries, power cycle piping, auxiliary piping and electrostatic precipitators etc. for two (2) units of 500MW (or above) as detailed hereunder. The scope for each steam generator shall include but not limited as hereunder: 1.2.1.1 Water cooled furnace complete with furnace bottom hoppers, drains etc. 1.2.1.2 Boiler water circulation pumps comple te with drive motors, discharge isolating valves complete with their cooling and lubricating system. 1.2.1.3 Steam generator drum with internals, mounting and fittings. 1.2.1.4 Steam generator integral piping, valves and associated fittings. 1.2.1.5 Superheaters including safety valves, drains, start up vents, air release valves, nitrogen connections, sampling connections etc. 1.2.1.6 Reheaters including safety valves, drains, start up vents, air release valves, sampling connection with reheater isolating device etc. 1.2.1.7 Superheater and reheater desuperhea ting spray systems complete in all respects and conforming to ASME standard No. TWDPS, Part-I. Each desuperheating spray system shall essentially consist of the following: i) Two (2) numbers of pneumatically actuated spray control valves each rated for the full duty. ii) One (1) number motor/ pneumatic operate d isolating valve upstream of each spray control valve. iii) One (1) number manual isolating valve dow nstream of each spray control valve. iv) Drain lines with individual isolating valves. v) Fast acting pneumatically operated block valve (with DC solenoid) at upstream of the spray control station in the common attemperation line. vi) Non-return valve in the common attemp eration line near water spray injection point. Standard Technical Specification for Sub-",
+  "chunk_index": 20,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

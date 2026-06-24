@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0195",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 199,
+  "text": "elements in steps. v) Entire purification equipment shall be mounted upon a suitable metal base having a raised lip around the outside with a drain connection. 3.3.3 Filters/ Strainers Duplex type filters/strainers with stainl ess steel element shall be provided at common lub oil supply line of the turbine. Differe ntial pressure switches with alarm shall be provided for the filters/ strainers. The filter element size shall be five (5) microns or a size suited to requirement of the turbine. 3.3.4 Oil Piping and Fittings i) Piping and all other components of system coming in contact with control fluid shall be of stainless steel. ii) Double oil piping or equivalent shielding arrangement shall be provided for all high pressure lines and all pipes close to hot pipes and parts to protect against fire hazards. iii) Oil return lines from bearings shall be fitted with illuminated sight fittings or any other device to see the flow of oil depending upon the standard proven practice of the manufacturer. iv) Oil supply lines to and oil return lin es from bearings and generator seals should have provision for oil flushing filters. O il flushing filters may not be provided in individual return lines if a common strainer is provided in the tank for return oil as per standard practice of the bidder. 3.3.5 Central Turbine Lubricating Oil Storage and Purification System. A central turbine lubricating oil storag e and purification system shall be provided common for both units. The system shall consist of identical dirty and clean oil tanks with capacity 1.5 times the capacity of unit o il tank, purification system identical to unit purification system and 2x100% capacity oil transfer pumps. The facility shall be provided to add new oil to any unit oil tank. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 20 3.4 TURBINE CONTROL FLUID SYSTEM 3.4.1 Each unit shall be provided with control fluid system consisting of the following: i) Fire resistant fluid for control fluid sy stem for servomotors of all hydraulically operated turbine stop and control valves, extraction NRVs and spray water valves for LP bypass system (if applicable). Th e grade of oil to be used with its complete specification shall be stated by the bidder. ii) 2 x 100% AC driven pumps connected to fluid reservoir alongwith",
+  "chunk_index": 195,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

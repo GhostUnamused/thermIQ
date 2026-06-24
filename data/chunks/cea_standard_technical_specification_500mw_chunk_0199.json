@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0199",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 204,
+  "text": "Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 24 3.6 TURBINE EXHAUST HOOD SPRAY CONTROL SYSTEM Steam turbine exhaust hood spray cooling system shall be provided to permit low load operation of the turbine- generator set without excessive rise in the exhaust-hood temperature. Steam turbine exhaust hood spra y cooling system shall be self-contained and complete with spray arrangements, asso ciated piping, instrumentation and control devices, valves and fittings, motor/solenoid operated valves and specialties, hangers, supports and insulation etc. The spray arrangement shall be activated automatically under the condition of low load or exhaust hood temperature exceeding the permissible value. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 25 3.7 WARMING UP, DRAIN, VENT SYSTEM AND FLASH TANKS 3.7.1 The bidder shall provide warming-up and drainage system for the turbine system to drain away the condensate which may be form ed due to steam coming into contact with cooler metal during start-up and stagnant steam sections. The system shall comply with the requirements of ASME TDP-1, \u201cRecommended practices for the prevention of water damage to steam turbines used for electric power generation\u201d. The drainage system shall be provided but not limited to the following:- i) Main steam, CRH and HRH line drains ii) Main steam stop and control valves iii) Reheat stop valves and interceptor valves iv) Steam lead and turbine drains v) Steam seal system vi) HP & LP bypass valves and warming up line vii) Turbine extraction steam piping system viii) BFP turbine system The drains shall be provided for every low poi nt with automatic disposal of collected condensate. The drains shall be connected to the flash tanks via headers. The connections on the header shall be graded according to the pressure, the farthest from the tank being the drain connection with highest pressure. The drains from main steam piping, HRH, CRH, and auxiliary steam headers etc. shall also be connected to the flash tanks described herein. 3.7.2 The following flash tanks shall be provi ded as a minimum to receive the drains and safety valve connections from various equipments and systems. i) Unit flash tank ii) Turbine drain flash tank (left) iii) Turbine drain flash tank (right) iv) HP drain flash tank v) LP drain flash tank Standard Technical Specification for Sub- critical Thermal Power Project -",
+  "chunk_index": 199,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

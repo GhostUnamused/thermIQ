@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0163",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 170,
+  "text": "fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 68 2.2.13 Blow Down Tanks (BDTs) 2.2.13.1 Two number blow down tanks shall be pr ovided for each steam generator, one intermittent blow down (IBD) tank and other continuous blow down (CBD) tank. The IBD shall be sized to receive the following: i) All blow down and drains from steam generator. ii) Drain from water wall headers, attemperators headers and CBD tank. iii) Alternate drains from main steam lines, CRH lines, HRH lines and SCAPH drains. iv) Other drains from power cycle piping. The CBD tank shall receive the continuous blow down from the steam generator drum. CBD system shall be designed for maximum blow down of 5% BMCR load. Facility for complete bypass of CBD tank shall also be provided. 2.2.13.2 The IBD tank shall be located at ground level near steam generator and CBD tank shall be located at deaerator floor. 2.2.13.3 Tank design shall not allow discharge of any free water from vent. Water drops leaving vent pipe shall have sizes not more than 0.127 mm . The steam velocity through the vent pipe shall not exceed 90 m/s. Vent pipe size sha ll be so selected that no pressurisation takes place in the blow down tank. The flashed vapour from CBD vessel shall be led to the deaerator. 2.2.13.4 Constructional features: i) Tanks shall be designed and fabricated as per requirements of IS 2825/ BS 806. ii) All drain connection to the tanks shall be tangential, and wear plates shall be provide to prevent erosion due to high pr essure and high velocity drains. iii) Matching flanges shall be provided fo r level switches and other instruments. iv) Drain valves and drain piping shall be provided at the bottom of the BDT. All drains from BDT shall be cooled to a temperature not exceeding 60 0 C. v) Manholes on BDT shall be provided with hung on hinged type bolted doors. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 69 2.2.14 Auxiliary Steam Pressure Reducing and Desuperheating Stations (PRDS) 2.2.14.1 General To meet the continuous and startup auxiliary steam requirements, two numbers auxiliary pressure reducing and desuperheating stations (PRDS), one taking tap off from main",
+  "chunk_index": 163,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

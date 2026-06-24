@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0436",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 455,
+  "text": "smoke (FRLS) extruded PVC of type ST2 outer sheathed. b) 3.3 kV system power cables - The cable shall be 3.3kV/3.3kV (unearthed) grade, heavy duty, stranded aluminium conductor, XLPE insulated, galvanized steel wire/ strip armoured, flame retardant low smoke (FRLS) extruded PVC of type ST2 outer sheathed. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 98 c) 415V system power cables - The cable shall be 1.1kV, grade, heavy duty, stranded aluminium conductor, PVC Type-A Insulated galvanized steel wire/strip armoured, flame retardant low smoke (FRLS) extruded PVC type ST1 outer sheathed. d) Control cables - The cable shall be 1.1kV grade, heavy duty, stranded copper conductor, PVC Type-A insulate d, galvanized steel wire / strip armoured, flame retardent low smoke (FRLS) extruded PVC of Type-ST1 outer sheathed. e) Generator excitation system cables - The cables shall be 3.3kV grade, heavy duty, stranded copper conductor, insulated with heat resistant PVC of Type-C, hard drawn aluminium wire armoured, flame retardant low smoke (FRLS) extruded PVC Type-ST2 outer sheathed. ii) Special properties : All the above cables shall be conforming to the relevant Indian/ IEC standard in general, with the following special properties: a) Oxygen Index of the outer sheath shall not be less than 29, when tested as per ASTM-D-2863. b) Temperature Index of the outer sheath shall not be less than 250 oC, when tested as per ASTM-D-2863. c) Halogen acid contents in outer sheat h shall not be more than 20%, when tested as per IEC-60754. d) The maximum smoke density in percent light absorption should not exceed 60% in case of PVC compound and 20% in case of fire survival cables, when tested as per ASTM-D-2843. e) Swedish chimney test as per SS-4241475 class F3 and ladder test for flammability as per IEEE-383. iii) Fire survival cables : The cable shal l be of copper conductor and comply with IEC-60331 in addition to the above requirement. Also the halogen acid contents in outer sheath shall not be more than 2% when tested and per IEC-60754 and the smoke density in percent light absorpti on shall not exceed 20% when tested as per ASTM-D-2843. Cables required for the following systems shall be Fire survival type : a) DC emergency lube oil pumps b) DC seal oil pump c) DC emergency lighting cables for main building. d) Batteries",
+  "chunk_index": 436,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

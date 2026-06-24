@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0671",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 700,
+  "text": "loads carried from the floors to the columns shall include 100 percent of the roof live load. In addition to the roof live load, the columns must carry floor live load. If the floor live load is 500 kg/m 2 or less, no reduction in live loads carried from the floors to the columns is allowed. If the floor live load is greater than 500 kg/m 2, reduction in live loads carried from the floors to the columns shall be considered as per clause 3.2 of IS-875 (P art-2) for design. However, reduction in live load from all floors to be carried by the member under cons ideration shall not exceed 20% irrespective of the codal provisions. vi) Impact loads Impact loads shall be added to other loads for components supporting reciprocating or rotating machines, elevators, hoists, cranes, or other equipment creating dynamic forces. The following impact loads shall be used, unless analysis indicates higher or lower values:- a) Elevators -- 100 % of lifted load. b) Hoists and cranes: \u2022 Vertical -- 25 % of the maximum static wheel load. \u2022 Horizontal-lateral -- 20 % of the sum of the lifted load plus the weight of the hoisting component. \u2022 Horizontal-longitudinal -- 10 % of the total moving load. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 7 (Civil Works) 7 - 24 c) Railroads and roadways -- 20 % of the wheel or crawler loads. d) Rotating and reciprocating -- 50 % of the machine weight equipment e) Hangers supporting floors -- 33 % of the sum of the dead load and platforms and reduced live load. f) Steel members supporting boiler drum hangers -- 100 percent.. vii) Pipe hanger loads a) Pipe hanger loads for the major piping systems, such as the main steam, reheat steam, feed water and extraction systems, shall be specifically determined and located. Piping expansion and dynamic loads including thrust loads at bends shall be consid ered on an individual basis for their effect on the structural systems. Loads imposed on perimeter beams around pipe chase areas shall also be considered on an individual basis. b) Piping loads to account for miscella neous piping systems shall initially be estimated as uniform loads per unit floor area based on the expected density and size of piping being supported in a specific floor area. These loads",
+  "chunk_index": 671,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

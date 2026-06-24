@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0803",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 832,
+  "text": "following: a) Smooth uninterrupted movement of valve. b) Closing and opening time. c) Current drawn by actuator. d) Operation of tripping switch and position indicator. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 46 xiii) After assembly, one valve of each size with respective actuator shall be shop operated over the full range of movement in both the directions, with the body subjected to the full hydrostatic pressure conditions, to demonstrate that the unit is in working order without any leakage through the joints and torque switches/clutches, limit switches are operating satisfactorily. During the test, hand wheel operation, opening andclosing time and current drawn shall also be checked. The test shall be conducted for three consecutive cycles with valve shaft both in vertical and horizontal planes. 8.4.3 Metallic expansion bellows i) Hydraulic pressure test shall be carri ed out on each pipe and expansion bellow. ii) Longitudinal butt weld on bellow shall be subject to MPE or DPT before forming and after forming. iii) All welds shall be subject to 100% MPE or DPT. Butt welds shall be subject to 100% RT. iv) All the bellows subjected to vacuum service shall be vacuum tested. v) The bellows shall be subjected to movement test to establish suitability to perform satisfactorily in site conditions. Du ring this test, spring rate shall also be measured. vi) Life cycle test, meridional yield rupture test and squirm test to be carried out on a prototype/ expansion bellow. as per Sec. D clause 3.2 of standards of Expansion Joint Manufacturer Association (EJMA). 8.4.4 Hangers and Supports i) All raw materials used shall have co-related mill test certificate meeting mandatory checks of material specification. ii) Completed springs shall be tested for saggi ng test and load versus deflection test. For diameter more than 25mm, MPE shall also be carried out. iii) Butt welds of thickness 32mm and above shall be tested for UT, and for butt welds of thickness less than 32mm MPE shall be done. Fillet welds shall be tested for MPE. iv) Dampers with viscous fluids shall be checked for viscosity of liquid used, damping resistance of the damper, stiffness of the damper etc. v) Turn-buckle, pipe clamps and hangers of thickness greater than 25mm shall be checked by MPE or DPT on bent portions. vi) One hanger of each",
+  "chunk_index": 803,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0253",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 260,
+  "text": "minimum requirements shall be as per Table 136.4 of ANSI B 31.1 for non-IBR piping and as per Regulation 360 of IBR or table 136.4 of ANSI B 31.1, whichever is more stri ngent, for piping under purview of IBR. 4.1.8 Valves and Specialties i) For all globe and check valves, the direc tion of flow shall be clearly stamped on the body of the valve. ii) All globe valves shall be capable of being closed against the design pressure. iii) Where globe valve has been specified for regulation purpose, the disc shall be tapered plug type and suitable for controlling throughout its lift. iv) All gate and globe valves shall have bonnet-back seating arrangement to facilitate easy replacement of packing with the valves in service. v) All gate, globe and check valves sh all be designed for reconditioning seating surfaces and replacement of stem and disc without removing the valve body from the line. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -5 vi) Manual gear operators shall be prov ided to open/close the valve against the maximum differential pressure across the va lve such that the effort required to operate the valve does not exceed 25 kgf. vii) All valves of 50 mm NB and below with rising stem shall have visual indication through plastic stem covers. However, valves of 65 mm NB & above with rising stem visual indication either through plas tic stem covers or through metallic stem covers shall be provided. All gate, and globe valves of size 50 mm and below in vacuum service shall have extra deep gl and packing without requiring water gland sealing. All gate and globe valves of size 65 mm Nb and above in vacuum services shall have adequately deep gland packing an d shall be equipped with lantern rings to admit pressurized water for gland sealing. viii) Where floors and extension spindle arra ngements is required for valves, the height of floor stand shall be about one meter from the floor/platform. The floor stand shall be sturdy construction with column, nut plate and hand wheel made of the cast iron conforming to material ASTM-A-126 Grade B. ix) Integral bypass valves (a) The requirement of integral bypass valves shall be worked out, as per process requirement, during detailed engineering.",
+  "chunk_index": 253,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

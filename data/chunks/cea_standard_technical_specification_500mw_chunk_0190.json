@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0190",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 194,
+  "text": "HP heaters out of service (one string and both strings) under rated steam conditions at design condenser pressure and 3% make-up and maximum output. v) HP heaters out of service (one string and both strings) under rated steam conditions at condenser pressure 89mm Hg (abs) 5 with 3 % make-up and maximum output. w) 100% TMCR output under sliding pressure conditions at design condenser pressure with zero percent make-up a nd 3% make-up with 0% throttle reserve. x) 80% TMCR output under sliding pressure conditions at design condenser pressure with zero percent make up and 3% make-up with 0% throttle reserve. y) 60% TMCR output under sliding pressure conditions at design condenser pressure with zero percent make-up a nd 3% make-up with 0% throttle reserve. z) 50% TMCR output under sliding pressure conditions at design condenser pressure with zero percent make-up a nd 3% make-up with 0% throttle Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 15 reserve. z1) 30% TMCR output under sliding pressure conditions at design condenser pressure with zero percent make-up and 3% make-up with 0% throttle reserve. z2) HP and LP bypass operation unde r rated steam conditions with 60% BMCR flow. z3) HP and LP bypass operation under rated steam conditions with bypass valves open to full capacity and turbine on house load operation. z4) 65% TMCR output under rated steam condition. z5) BMCR output under rated steam condition. z6) 60% TMCR output with one pass of condenser(s) in isolated condition Note : \u0083 Heat balance diagrams listed at a) to d), f), k), p) and u) above shall be furnished along with the bid. The other heat balances shall be furnished during detailed engineering. \u0083 Heat balance diagrams for 3% mak e up shall depict how 3% loss is affected from the power cycle. \u0083 Heat balance diagrams for guarantee conditions shall depict SH and RH desuperheating water flows as applicable. \u0083 Heat balance diagrams for HP- LP bypass operation at item z3) shall be corresponding to no steam extraction (for heaters and BFP turbine) except for deaerator pegging. \u0083 Any additional heat balances deemed necessary by the purchaser shall be furnished. All the heat balances sh all show turbine output, mechanical and electrical losses in turbine and ge nerator and input to shaft driven auxiliaries, if any.",
+  "chunk_index": 190,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

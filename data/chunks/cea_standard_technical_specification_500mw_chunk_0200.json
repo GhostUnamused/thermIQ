@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0200",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 205,
+  "text": "minimum to receive the drains and safety valve connections from various equipments and systems. i) Unit flash tank ii) Turbine drain flash tank (left) iii) Turbine drain flash tank (right) iv) HP drain flash tank v) LP drain flash tank Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 26 3.7.3 The arrangement for connection of various drains to the flash tanks shall be as under: i) The drains from MS piping and HP bypass piping including warm up line shall be connected to unit flash tank. ii) The turbine integral and power cycle dr ains shall be connected to turbine flash tanks. The left side drains shall be connect ed to left side flash tank and right side drains to the right side flash tank. iii) The drains from CRH, HRH, LP bypass piping including warm-up line, extractions to HP heaters, CRH and auxiliary steam to BFP turbine and deaerator (high pressure side) and drain, vent an d safety valve connections on HP heaters shall be led to the HP flash tank. The dr ains of extractions to LP heaters, IP extractions to BFP turbine, BFP turbine integral system, CRH to BFP turbine and deaerator (low pressure side), auxiliary st eam header, drain, vent and safety valve connections of LP heaters and drain coolers, deaerator overflow and CEP discharge vent shall be led to the LP flash tank. iv) The drains led to HP drain flash tank, LP drain flash tank and turbine drain flash tanks shall be recovered by connecting drains and vents of these vessels to the condenser. The vents of unit flash tank sha ll be open to atmosphere and drains of these tanks shall be led as waste to the plant drain/ channel. The above scheme of drain connections is indicative only. The bidder may provide alternative scheme/ arrangement for connection of drains to different flash tanks as per his standard practice which shall be subject to approval of the purchaser. 3.7.4 Drains shall be tapped off from main line through a drip pot with provision for removal of entrapped dirt. Each drain shall be provided with one locked open manual valve followed by one motor/ pneumatic operated l eak proof angle valve on downstream side to be used for draining and warming-up the pipes as applicable. For sections having",
+  "chunk_index": 200,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

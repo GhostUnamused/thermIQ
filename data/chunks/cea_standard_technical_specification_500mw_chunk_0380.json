@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0380",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 396,
+  "text": "Graded insulated LV : Uniform xv) System fault level 400kV system : 40/ 50kA3 for 1 second xvi) HV neutral earthing Solidly earthed through a CT with copper bar suitably with bolted isolating link. xvii) HV terminal details Out door type oil filled condenser bushing insulators with test taps. Terminal connectors suitable for ACSR conductor. xviii) HV neutral terminal details Ou tdoor type porcelain bushing with all accessories 2 To be indicated by purchaser as applicable 3 Fault level to be decided as per system requirement Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 39 xix) LV terminal details Outdoor type top cover mounted porcelain- bushing suitable for isolated phase bus duct connections. xx) Phase arrangement on HV side R, Y, B sequence (from left while viewing from switchyard and towards the power house). 5.4.3.2 Station Transformers 1) Two (2) nos. station transformers of minimum 63/31.5/31.5 MVA capacity for 500MW (or ....MVA for \u2026MW) 4 units shall be provided. 2) The HV side and neutral bushings shall be provided with bushing type current transformers (CTs) . 3) Impedance values of the Station Transf ormers shall be 9.5 on 40MVA base (with 50%MDBFP). However, the impedance valu es shall be chosen to ensure the short circuit current to 40kA on the 11kV side including motor contribution under worst loading condition and largest motor motor driven boiler feed pump (MDBFP) starting requirements. 4) Salient features of the station transformer i) Service Outdoor ii) No. of phases Three (3) phase bank iii) Voltage HV : 400kV LV : 11kV iv) Frequency 50Hz v) Type 3 Phase, 3 winding (with two secondary windings of equal voltage and MVA rating) vi) Winding connection HV : Star (with neutral solidly earthed) LV : Delta (Non-effectively earthed)/ Star (Non-effectively earthed) vii) Vector Group YNd11 d11 or YN y0 y0 viii) Type of cooling ONAF (100% rating)/ONAN (60% rating) ix) Maximum permissible temperature rise over an ambient of 50 oC In top oil : 500C In winding : 550C x) Cooling equipments 2x50% coolin g radiator banks (suitable no. of working fans and one no. stand-by fan and 2x100% oil pumps) xi) Type of tap changer On Load Tap changer (OLTC) 4 To be indicated by purchaser as applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package",
+  "chunk_index": 380,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

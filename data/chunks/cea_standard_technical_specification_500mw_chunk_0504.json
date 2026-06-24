@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0504",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 526,
+  "text": "the following minimum features : a) Display unit for : - All the operating values like field DC voltages and currents - Spark rate - Semi pulse current limit - Voltage low limit Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 169 - Charge ratio - All other adjustable parameters and limits b) Keys for operator interface and potentiometers local control and adjustments. c) Serial communication with protocol for communicating to EPMS. d) Local/ Remote selection. e) Spark counter. f) Alarms as mentioned below - TR set oil level low. - TR set temperature high. - AC current high. - Low DC voltage. - High DC voltage. - Back corona. - Management command failure. - TR set buchholz / PRV trip - TR set buchholz alarm iii) Rapper Controller (RPC) Each stream of ESP shall be provided with a separate, microprocessor based Rapper Controller (RPC). However, any other proven standard design of rapper controller integral to TR set controller is also acceptable. It shall have proven noise immunity and shall be suitable for ESP application. It shall control the sequence and frequency of operation of the rapping mechanisms of collecting and discharge electrodes of the different fi elds of the precipitator. The unit shall control and survey the operation of rappers in the ESP. It shall start and stop the rappers as programmed and shall give an alarm if a rapper fails. It shall be possible to start or stop manually each rapper, without interfering with the other rappers from the controller. The operation st atus of each rapper shall be indicated with LEDs on the rapper controller panel. It shall be possible to change the three timings (viz. start time, repetition time and run time), intensity (if applicable) a nd frequency of rapping independently for each rapper, without need for opening the panel or any alternation in programme. The range of rapping frequency available shall be upto 24 hrs. Additionally, the rapper controller shall have at least 50 no. pre-programme sequences of rapping stored in its memory so that the operato r can select any of them according to his judgment or the controller itself can c hoose them based on feedback from boiler load. In case one separate rapper controller is provided for each stream, one standby working rapper controller shall be provided so that",
+  "chunk_index": 504,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

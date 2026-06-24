@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0027",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 35,
+  "text": "steam generator with necessary automatic oil temperature control system to cool the return oil from the steam generators to the temperature of HFO in the storage tank with necessary cooling water piping and pr ovide all necessary valves, control valves and fittings, etc. xiii) Adequate local and equipment mounted instrument and devices with adequate signaling and connects/c onnections required for pressure, temperature and other controls for s upervision and interlocking with all associated auxiliary during purging, shut down and of sensing device to remain unaffected by oil fill dirt or by ambient conditions where it will be installed. xiv) Trip valves on common fuel oil line to each boiler and nozzle valves for each individual burner alongwith all accessories such air filter, regulators, limit switches, control valves, and conn ecting fittings to make the system complete. xv) Recirculation valve of heavy duty t ype to work with the furnace safeguard and supervisory system (FSSS). xvi) All other piping valves and accessories as necessary. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 10 xvii) Facilities shall be provided for flushing of complete heavy fuel oil cleaning, transportation, recirculati on and firing system (piping, pumps, heaters, filter, valves, etc.) using li ght diesel oil during long shut down of unit(s). Contractor\u2019s scope shall incl ude all piping, valves, fittings, pumps hoses etc. needed for this purpose. The facility shall cover flushing of heavy fuel oil system of each unit independently, as well as flushing of common systems. xviii) Complete insulation and cladding of heavy fuel oil piping drain/flash tanks, steam and condensate piping and accessories with outer finish. xix) Supply of one (1) no. flow meter of oval wheel type including all its accessories. xx) Two (2) nos. sump pumps with motors alongwith steam jacketing/ electrically traces. xxi) All local instrumentation (gauges, switches, transmitters etc.) and associated control devices for HFO system. xxii) Control system B) Light Diesel Oil (LDO) System A LDO preparation and firing system shall be provided having a firing capacity equivalent to 7.5% BMCR heat input re quirements of two (2) steam generators. The LDO burners (preferably same burners as for HFO firing) of required capacity shall be installed at the lowest oil elevation. The system shall include three nos. (2W+1S) of pressurizing pumps, piping, valves including control valves, strainers, burners, flow meter with control",
+  "chunk_index": 27,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

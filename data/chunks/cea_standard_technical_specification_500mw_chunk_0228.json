@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0228",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 235,
+  "text": "antigalling drum bush properties d) Balancing drum : Stainless steel e) Pump shaft : 13% chromium steel forging. f) Shaft sleeves : High alloy chromium or chromium nickel alloy steel. B) Booster pumps a) Shaft, shaft sleeves : 13% chromium steel forging and wearing rings b) Casing : Cast steel xxviii) Applicable Code The pumps shall be designed as per latest edition of Hydraulic Institute Standards (HIS), USA. 3.11.3 Other Requirements i) Availability/ reliability The pumps shall be designed for the high est practicable degree of availability and reliability under all conditions of opera tion such as operation on turning gear during startup, maximum and minimum te mperature of feed water encountered during operation, abnormal pressure decay in deaerator, sudden generator load throw off, frequency variations (47.5 Hz to 51.5 Hz), HP-LP bypass operation. ii) Warm up arrangement The pump shall be capable of starting from any conditions without having any external warm up facility. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 56 iii) Parallel operation Response and performance characteristics of MDBFP and TDBFP shall be such that while operating in parallel the difference in flow handled by them shall not be more than 5% of flow through any one pump. iv) Emergency lubrication of MDBFP Provision shall be made for pressure lubrication (if necessary) of MDBFP at the time of coasting down of the motor driven boiler feed pump in the event of AC power failure. v) Maximum flow handling If bidder foresees any possibility of the feed pump operating at flow beyond its maximum flow handling capability due to low system resistance, bidder shall make necessary arrangements to protect the pump from such high flow condition without any necessity of reducing the plant load. vi) Cartridge concept The inner pump elements comprising shaft, impellers, stage casings shall be capable of being removed and replaced as a unit without disturbing feed piping in not more than 12 hours and shall be dem onstrated by bidder. Suction, discharge and interstage bleed connections should not require to be broken to dismantle the pump. vii) Handling arrangement TDBFPs and MDBFP shall be accessible to turbine hall EOT crane for their erection and maintenance. In case MDBFP and TDBFPs are not accessible by turbine hall EOT crane, separate adequa te handling facilities shall be provided for",
+  "chunk_index": 228,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

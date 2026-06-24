@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0776",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 804,
+  "text": "dimensions. 8.3.1.3.2 Complete rotors i) Axial & radial run-outs and surface finish checks shall be carried out before and after blading and after overspeed tests. Run out examination shall be carried out at blade shrouds also. ii) Check shall be carried out for clearance between rotor groove and blade at the root. iii) Rotors shall be dynamically balanced at rated speed. iv) An overspeed test shall be carried out during which the rotor shall withstand an overspeed of 120% for five continuous minutes or 125% for two continuous minutes. If bidder\u2019s practice is different from that stated above, then the same shall be furnished for purchaser\u2019s approval. During overspeed test, vibration measurement and analysis shall also be carried out. v) After blading and again after overspeed t esting, rotor stages with blades over 225 mm of active length are to be subject to standing vibration tests to determine natural frequencies in various vibration modes to ensure that the ranges are outside operating frequencies. vi) In case impulse stage and or blade discs are fitted on the rotor, fit up between such disc and rotor shall be checked up before and after overspeed test. vii) Lock blade lift after the overspeed test shall be checked and record for same shall be maintained. 8.3.1.4 Stator and rotor blades and shroud bands i) Fully representative test pieces shall be provided to enable mechanical properties of the material to be determined. In case of blades machined from bar stock, mechanical tests shall be carried out on the hardest and softest specimens of each heat treatment batch. Hardness test will be carried out on 100% basis. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 18 ii) Tests shall be carried out on the materials to establish its mechanical properties, chemical composition and micro structure. iii) Each bar stock for machining blades and forging shall be subjected to 100% ultrasonic examination. iv) When erosion shielded, the erosion shield and blade joint shall be radiographed. v) Dye penetrant test shall be made on the erosion shield and blade joint in manufacture prior to fitting to the wheel and after overspeed tests. vi) Magnetic particle examination or dy e penetrant test (when MPE is not applicable) shall be carried out on finish machined blade profile, roots and shrouds. vii) All moving blades of",
+  "chunk_index": 776,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

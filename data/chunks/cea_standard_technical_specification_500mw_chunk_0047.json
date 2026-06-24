@@ -1,0 +1,18 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0047",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 55,
+  "text": "instrument enclosures/ racks with transmitters mounted therein f) Local gauge boards/ racks for main tu rbine, BFPs and BFP drive turbines g) Actuators for valves iv) Other SG and TG related C&I systems/equipment: a) Flame monitoring system b) Coal feeders control and instrumentation c) Electromatic safety valves d) Furnace temperature probes e) Acoustic pyrometer f) Mill and air heater fire protection system g) Furnace and flame viewing system Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 30 h) Electronic remote drum level monitoring system i) Plant performance analysis, diagnosis and optimisation (PADO) software v) The BOP (C&I) part comprising of: a) DDCMIS consisting of: \u2022 Analog control functions, other than those covered in SG-C&I and TG- C&I, like coordinated master control, furnace draft control, SH/RH steam temperature control, FW flow control, heaters/ deaerator/ condenser level control, auxiliary PRDS pressure & temperature control etc. \u2022 Binary control functions pertaining to main plant auxiliaries like FD/ ID/ PA fans, APH, BFP etc., generator auxiliary systems and electrical breakers etc. b) Suitable communication link/ gate ways for monitoring various systems such as coal handling plant, CW system, water treatment plant etc. c) Steam and water analysis system (SWAS) d) Transmitters, sensing elements as well as secondary instruments including vibration monitoring systems and flue gas analysis systems e) Control panel/ desks, local instrument enclosures/ rack f) Maintenance and calibration equipment g) Actuators for valves dampers vi) Miscellaneous items such as: a) Electric power supply system b) Process connection piping and erection hardware c) Instrumentation cables including special cables. 1.2.6 Civil Works 1.2.6.1 The scope of Civil Works for main plan t package shall include but not limited to the following: i) Preparation of design and cons truction drawings/documents ii) Civil and structural works including supply of all materials (inclusive of loading, unloading), fabrication, execution of work, testing etc. for all buildings, equipment and facilities in main plant area. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 1 (General) 1 - 31 iii) Excavation in soil and rock (if any), dewatering, dressing to required profile, sheet piling or shorting/strutting, backfilling around completed structures and plinth filling, disposal of surplus earth and rock iv) Foundations including piling, if required v) Concreting including reinforcement and formwork vi) Steel structure, fabrication and erection of all structural",
+  "chunk_index": 47,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

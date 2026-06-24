@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0514",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 536,
+  "text": "& (b) above), over and above implemented capacity. Each of the corresponding communication controller shall also have same spare capacity as that of controller. e) The data communication system (inc luding main system bus and other bus system) shall have the capacity to hand le the additions mentioned in clause nos. (a) to (d) above. This will be in a ddition to 50% spare capacity specified under this clause. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 9 f) Twenty (20) percent spare rela ys of each type and rating, mounted and wired in relays cabinets. All contacts of relays shall be terminated in terminal blocks of relay cabinets. In each of the relay cabinets 20% spare terminal blocks shall be provided so that additi onal relays can be mounted and wired. g) The spare capacity as specified above shall be uniformly distributed throughout all cubicles. The system design shall ensure that above mentioned additions shall not require any additi onal controller/ processor/ peripheral drivers in the system delivered at site. Further, these additions shall not deteriorate the system response time/ duty cycle, etc. from those stipulated under this specification. ix) Remote Input Modules and Cubicles It is envisaged to use remote input modules and racks / cubicles at the following locations in the plant to the extended I/O bus, to minimize cabling. The exact areas where remote I/O modules are provided shall be decided during detailed engineering. However some of the areas where such remote I/O can be provided are listed below: a) Boiler area (for metal temperature etc.) b) Near transformer yard for various inputs related to transformers. c) SWAS room. d) Switchgear room It is mandatory to provide a small ro om or enclosure for above which will be properly air conditioned through window a/c so that environment similar to control equipment room is met. However, the modules used for the above application shall be designed in such a way to withstand the harsh environment expected to be enc ountered in respective plant areas. 6.2.2 System Description The DDCMIS shall work in full integration and conjunction with field equipment/drives like pumps, motors, valves, actuators, dampers, hydraulic control systems (e.g. for HP&LP bypass etc.) and field instruments to be provided by the bidder. The DDCMIS hardware (controllers, modules/cards etc.) shall",
+  "chunk_index": 514,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

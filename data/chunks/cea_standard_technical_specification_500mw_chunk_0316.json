@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0316",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser",
+    "Cooling Tower"
+  ],
+  "section": "",
+  "page_number": 324,
+  "text": "relative humidity of 50%\u00b1 5%. The rooms/areas which are not permanently manned like equipment control rooms shall be maintained at 220C \u00b1 10C) and relative humidity of 50% \u00b1 5%. 4.9.2.3 Number of fresh air changes per hour shall be minimum 1.5 or minimum 0.45 m3/min per person (16 cfm) whichever is higher. 4.9.2.4 Lighting load shall be minimum 25 W/m2 or actual whichever is higher. 4.9.2.5 The occupancy for general/ office ar ea shall be minimum one (1) person per 3 m2 and for conference room the same shall be one (1) person per 1.5 m2. In the control rooms, control, equipment rooms etc., the occupancy shall be minimum one (1) person per 20 m2. 4.9.2.6 Margins for calculating plant capacity: i) 12.5%, 10% & 10% margins on sensibl e heat, latent heat & overall heat respectively shall be considered wh ile calculating the plant capacity. ii) For winter load calculations, 50% of the equipment load as available in the room shall be considered. 4.9.2.7 All the equipments of air conditioning system shall be designed for continuous duty. 4.9.2.8 The supply and return air ducts shall be provided with automatic motor-operated fire dampers at locations where ducts pass through floors/ceiling slabs for isolation/ maintenance/ fire-protection purpose. The operation of these automatic dampers shall be interlocked with the fire alarm system and shall also be possible to operate manually from the remote control panel. Required electrical contacts shall be provided in control panel of A/C plant for further wiring up to fire alarm panels. 4.9.2.9 Smoke detectors shall be provide d in the supply and return air ducts. 4.9.2.10 Motor operated valves shall be provided as per system requirement for chilling machines, pumps, cooling towers in order to facilitate remote operation of entire air- conditioning plant and to select standby unit. 4.9.2.11 For maintenance of compressors/chilling units, pumps, AHUs (air handling units) etc. chain pulley block of suitable capacity and/ or suitable structure shall be provided in the AC plant rooms and AHU rooms. 4.9.2.12 For service building, air handling units shall be provided for each floor. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 4 (Piping, Valves, Thermal Insulat ion and Miscellaneous Systems/ Equipment) 4 -69 4.9.2.13 Design chilled water flow shall not be less than 0.7 m3/h per TR air-conditioning load and design condenser cooling water flow shall not",
+  "chunk_index": 316,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

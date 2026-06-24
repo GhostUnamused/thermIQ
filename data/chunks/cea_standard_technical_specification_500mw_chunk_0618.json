@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0618",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 643,
+  "text": "operation at 70 deg. C, except for high temperature resistant teflon insulated cables which shall be suitable for continuous operation at 205 deg. C. The cables shall be suitable for laying in wet or dry locations in trays, conduits, ducts, trenches and under ground buried installations. 6.10.2.9 The thermocouple extension cables shall be of single/multi pair, twisted & shielded, PVC insulated, FRLS PVC sheat hed and compatible for the type of thermocouples employed. The material of conductor shall be as per ANSI MC-96.1. 6.10.2.10 All cables near high temperature zone like burner front devices, metal temperature thermo-couples on main stea m & turbine casing etc. shall be high temp cables, which shall be term inated at a junction box in normal temperature zone. Thermocouple extension cables a nd copper conductor cables for high temperature applications shall be with insulation of individual conductor and outer sheath of extruded FEP (i.e., Teflon) as per VDE 0207 Part 6 and ASTMD 2116. The thickness of insulation shall be 0.5 mm nominal (i.e., 0.4 mm minimum). These cables shall be single/ multipair, twisted & shielded. 6.10.2.11 Cable parameters such as mutual capacitance between conductors, conductor resistance, insulation resistance, characteristic impedance, cross talk and attenuation figures at 20 deg. C (\u00b1 3 deg. C) for various types of cables as applicable shall be as specified under table 10.1. 6.10.2.12 Identification of the cores & pairs shall be done with suitable colour coding & band marking as well as by numbering of cores/pairs as per VDE: 0815. The details of colour coding etc. shall be as approved by Purchaser during detailed stage. Also refer table 10.2 for description of various type of cables. 6.10.2.13 The bidder shall furnish all docum entary evidence including cross-sectional drawings, test certificates to substantiate the suitability of cables offered for different applications. The bidder shall also clearly bring out the application wise details for each type of cable offered. 6.10.2.14 All prefabricated cables shall have 10% spare cores which will not be connected to pin connectors. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 116 TABLE- 6.10.1: CABLE PARAMETERS Conductor Size 0.5 sq.mm Parameter/Type Type E,F Type-G, I Type A,B&C (a) Mutual capac- 120 nF/Km. 100 nF/Km. 120 nF/Km. 200nF/ Km. itance at 0.8 kHz (max.) (b) Conductor 73.4 ohm/ 73.4 ohm/ 73.4",
+  "chunk_index": 618,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

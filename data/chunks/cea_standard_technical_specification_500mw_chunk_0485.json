@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0485",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 505,
+  "text": "Measurement Range : 3 \u00b5A to 30A Resolu. : 10 pA Accu. : \u00b175 ppm + 10 digits Resistance Measurement : 30 meg ohm to 1 G ohms Resolu. : 10 n Ohm Accu. : \u00b1200 ppm + 6 digits Frequency Measurement : 1 Hz to 100 K Hz Resolu. : 1Hz Accu. : \u00b110 ppm + 1 digit AC Voltage Measurement : 3m V to 3 KV Resolution : 100 nV Accuracy : \u00b10.05% + 40 digits AC Current Measurement : 3 Micro Amp to 30A Resolution : 100 pA Accuracy : \u00b10.1% + 80 digits Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 148 h) Capacitance Measurement : 0-300 Microfarad Resolution : 1pF Accuracy : \u00b10.2% + 20 digits Special Features : Self Test, Diode/ Zener Test, Maximum/ Minimum functions, continuity testing AC/ DC coupled facilit y count down and sample beep on long filter periods. xiv) Portable Digital Frequency Meter Rugged, high accuracy portable freque ncy meter/calibrator in a dust- tight, water resistant case. Having LCD display complete with test leads, carrying case, 9V battery and instruction manual. One (1) a) b) c) d) e) f) g) h) Ranges : 0-100 KHZ / 0-1000 Hz Resolution : 1 KHZ / 0.1 Hz Accuracy : \u00b10.1% FS \u00b11 LSD Step Size : 10% of range Scroll Size : 0.1% of range Input : 1V to 100V p-p Output : 5V p-p Square Wave Maxm. load : 5 mA xv) Digital Sound Level Meter Condenser type microphone, frequ ency and time weighting functions, AC and DC outputs s upplied with 9V battery and calibration screw driver. One (1) xvi) Digital Tachometer Non-contact photo electric optical type. Having features such as reading hold, memory recall and low battery indication. One (1) a) Range : 10-100,000 RPM b) Resolution : 0.1 RPM to 1 RPM c) Accuracy : \u00b10.1% \u00b11 digit to \u00b10.15% \u00b11 digit d) Display : 5 digit LCD e) Optical Range : Upto minimum 300 mm Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 149 xvii) Cable Fault Locator Working on pulse reflection (echo) technique. Capable of discriminating between inter-core and core to earth fault with facility to detect high resistance faults (>10 ohms) complete with surge generator, acoustic receiver, input filters,",
+  "chunk_index": 485,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

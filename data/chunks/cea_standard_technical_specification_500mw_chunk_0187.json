@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0187",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine"
+  ],
+  "section": "",
+  "page_number": 191,
+  "text": "Fixed blades First stage of HP and IP turbines X 22 Cr Mo V 121 Other stages HP and IP turbines X 20 Cr Mo 13 First stage of LP turbine X 20 Cr 13 Other stages of LP turbine X 20 Cr Mo 13 v) Casing joint bolts HP cylinder and IP cylinder 21 Cr Mo V 57 LP cylinder 24 Cr Mo 5 vi) IP and LP crossover/ cross around piping R St 37-2 N vii) Turbine steam admission valves Valve body GS-17 Cr Mo V 511 Valve spindle X 22 Cr Mo V 121 Valve seat Stellited 21CrMoVNi47 3.1.8 Maintenance Requirements i) Wet steam washing : Each turb ine shall be suitable for wet steam washing. Necessary stub connections on turbine/ piping shall be provided for future connection to wet steam washing system. Recommended washing procedures shall be furnished by the bidder. ii) Forced cooling of turbine : Nece ssary equipment shall be provided for forced cooling of turbine during emergency Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 12 condition for quick access. 3.1.9 Performance Requirements 3.1.9.1 i) The steam TG set apart from being cap able of operation on base load, shall also be suitable for two shift operation and cy clic load variations as the unit is expected to operate in automatic load-f requency control system. For catering to two shift and cyclic operation, turbine shall have following design features: a) Low thickness and weight of components b) Uniformity and symmetry of section c) Small rotor diameters d) Small size horizontal flanges for casings e) Thinner casing outer shells ii) Bidder shall provide adequate temperature measurement and other instrumentation etc. for adequately guidi ng the operator to regulate loading of unit to keep the thermal stresses and fatigue levels within safe limit. iii) TG set shall be capable of operating on constant as well as variable pressure mode. Necessary facilities shall be provided for switching over to variable pressure mode of operation from constant pressure operation and vice versa from unit control board. iv) During sliding pressure mode, throttle pressure shall slide from 100% to 40% of rated pressure corresponding to 30% load. v) Adjustable throttling reserve from 0 to 20% shall be provided. vi) TG set shall be capable of operating continuously with HP heaters out of",
+  "chunk_index": 187,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

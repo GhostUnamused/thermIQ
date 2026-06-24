@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0271",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 278,
+  "text": "Miscellaneous Systems/ Equipment) 4 -22 4.3 EQUIPMENT COOLING WATER (ECW) SYSTEM 4.3.1 General Closed circuit type ECW system shall be pr ovided with demineralised (DM) water in the primary circuit and water tapped off from CW system upstream of condenser in the secondary circuit. ECW system shall be pr ovided unit-wise and shall cater to cooling water requirements of TG and its auxiliari es as well as Steam Generator auxiliaries. Primary cooling circuits for auxiliaries of TG and SG packages shall be independent. The secondary cooling water circuit shall, howeve r, be common for both the primary cooling systems. 4.3.2 System Design i) For primary circuit of TG auxiliaries of each unit, a set of demineralised cooling water (DMCW) pumps of 3 X 50% capacity shall discharge the cooling water through 3 X 50% capacity plate heat excha ngers (PHE). For SG auxiliaries of each unit, 2x100% capacity DMCW pumps and 2x1 00 % capacity plate heat exchangers shall be provided. ii) The outlet header from plate heat exchange rs shall be suitably branched off to supply the cooling water to the various a uxiliary coolers. Outlet from the auxiliary coolers shall be connected back into a co mmon return header and led back to the suction of DMCW pumps to complete the closed loop primary cooling circuit. iii) For both the primary cooling circuits of each unit, an overhead tank of minimum effective capacity of 10 m 3 shall be provided with level control facility. The effective capacity of the tank shall correspond to 60% of the tank height. Outlet of this tank shall be connected to the closed circuit return headers of TG and SG auxiliaries cooling circuits to serve the following: a) The expansion of closed cycle water due to temperature fluctuations and to control other transients. b) For adequate Net Positive Suc tion Head (NPSH) for DMCW pumps. c) For normal make-up to closed loop cycles. d) Emergency water supply to critical coolers in case of power failure. iv) The pH of DM water in the closed l oops shall be continuously monitored and controlled at around 9.5. The control sha ll be achieved by dosing sodium hydroxide in DM water overhead tank and primary side pipings for TG and SG auxiliaries. The NaOH solution shall be prepared in an ove rhead tank of adequate capacity, located above the elevation of ECW make up tank, and",
+  "chunk_index": 271,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

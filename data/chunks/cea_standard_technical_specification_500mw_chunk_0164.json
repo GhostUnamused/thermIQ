@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0164",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 171,
+  "text": "2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 69 2.2.14 Auxiliary Steam Pressure Reducing and Desuperheating Stations (PRDS) 2.2.14.1 General To meet the continuous and startup auxiliary steam requirements, two numbers auxiliary pressure reducing and desuperheating stations (PRDS), one taking tap off from main steam line (high capacity PRDS) and other taking ta p off from cold reheat line (low capacity PRDS) shall be provided per unit. A high temp erature unit header with steam parameters as 16 kg/cm 2 (abs) and 310 0C shall be provided and shall draw steam from above two PRDS stations. A low temperature unit header with steam parameters as 16 kg/cm 2 (abs) and 2100C shall also be provided and shall draw the steam from high temperature unit header through a desuperheater. The auxiliary st eam systems of the two units shall be interconnected. A branch connection alongwith is olating valve(s) and a blanking flange(s) shall also provided for interconnection with the future units on both high and low temperature headers. If steam for the steam generator unit auxiliari es is required at pressure/ temperature other than that of the auxiliary steam headers, suitable arrangements shall be made by the Contractor in design of the steam generator to meet such requirements. 2.2.14.2 High capacity PRDS shall supply steam for following : i) Startup requirement of the unit ii) Continuous and intermittent requirement of the unit. iii) Startup requirement of other unit. iv) As standby to low capacity PRDS station. 2.2.14.3 Low capacity PRDS shall supply steam for normal requirements of its own unit. 2.2.14.4 The sizing of high capacity and low capacity PRDS shall be subject to purchaser's approval. Stub connections alongwith isolating valves shall be provided on low temperature header to meet the auxiliary steam requirement of other systems which are not in contractor\u2019s scope such as fuel oil system. Further, adequate number of spare connections shall also be provided on each header for purchaser\u2019s use. 2.2.14.5 Sharing of load requirement between hi gh temperature header to low temperature header shall be done in case low capacity PRDS is unable to meet auxiliary steam requirement on its own. 2.2.14.6 Low capacity PRDS shall be capable of supplying continuous requirement of auxiliary steam to the unit. The change over of cont rol from high capacity PRDS to low capacity PRDS and vice versa shall be automatic with manual",
+  "chunk_index": 164,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

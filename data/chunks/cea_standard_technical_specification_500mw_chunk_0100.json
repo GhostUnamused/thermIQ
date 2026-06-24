@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0100",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 107,
+  "text": "fuel oils i) Analysis of heavy furnace oil 1. Specification : Furnace oil conforming to IS:1593, heavy grade 2. Average gross calorific value : 10,000 kca1/kg 3. Flash point : 66 OC minimum (PMCE) 4. Pour point : 20OC maximum 5. Kinematic viscosity at 50 OC : 370 centistokes 6. Specific heat : 0.5 kcal/kg/ OC (average) 7. Ash, % by weight : 0.1 maximum 8. Sediment, % by weight : 0.25 maximum . 9. Sulphur, % by weight : 4.5 maximum 10. Water content % by volume : 1.0 11. Acidity : Nil 12. Specific gravity : 0.95 to 0.96 average ii) Analysis of heavy petroleum stock (HPS) 1. Acidity inorganic : Nil 2. Ash, % by weight : 0.1 maximum 3. Flash point : 66 OC minimum 4. Kinematic viscosity in cst at 50 OC : 500 cst at 100OC : 50 cst 5. Pour point : 72 OC (maximum) 6. Sediment, % by weight : 0.25 (maximum) 7. Sulphur, % by weight : 4.5 (maximum) 8. water content, % by volume : 1.0 (maximum) 9. Calorific value : About 10,000 kcal/kg Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 6 iii) Analysis for low sulphur heavy stock (LSHS) fuel oil 1. Flash point : 750C minimum 2. Pour point : 570C maximum 3. Total sulphur (% by weight) : 1% 4. Gross calorific value : 10700 kcal/kg 5. Sediment (% weight) : 0.05% (typical) 6. Water content (% volume) : 1% max. 7. Viscosity (maximum): Temperature ( OC) CST Redwood No. 1 3 8 - - 5 0 4 0 1 6 6 6 0 2 6 1 1 2 70 20 150 maximum 8 0 1 3 . 5 6 3 90 10.5 53 99 8.5 47.5 100 - 49.0 110 - - 8. Specific gravity : 0.865 minimum 9. Ash content : 0.05% (by weight) 10. Specific heat : 0.65 kcal/kg/ oC iv) Analysis for light diesel oil (LDO) : As per IS:1460 (latest) The design and construction of the steam generator shall be such as not to call for any other liquid or gaseous fuel than that mentioned above for purpose of operation of the steam generator at low load including initia l ignition. High energy arc (HEI) igniters shall be used for ignition of HFO/HPS/LSHS",
+  "chunk_index": 100,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

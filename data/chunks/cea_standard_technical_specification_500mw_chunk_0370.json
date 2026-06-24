@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0370",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 385,
+  "text": "generally include, but not be limited to, the following : - Suitable twin resistance temperature detectors for measuring hot and cold air temperature of exciter with necessary provisions for protection tripping/ interlocks. - Dial type thermometers for measuring the inlet and outlet temperature of water to the air coolers. - Pressure gauges at the inlet and outlet of water to air coolers. - Instruments and devices for the measurement of rotor winding temperature. - Stroboscope or suitable alternative devi ce for detection of faulty rotating diode element. - Suitable arrangement for exciter field suppression. A pair of auxiliary slip rings shall be pr ovided to give access to the rotor circuit allowing an earth fault detector circuit to be connected. For all alarms in the system, contact sh all be taken from the pressure switches temperature switches etc. provided at suitable points. The system shall be provided with transmitters for the indicators/ recorders. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 28 5.3 GENERATOR ISOLATED PHASE BUS DUCTS (IPBD) AND NEUTRAL GROUNDING EQUIPMENT Generator isolated phase bus duct between ge nerator terminals to generator transformer and tap-off to unit auxiliary tr ansformers shall be provided. 5.3.1 Codes and standards The design, manufacture, erection, testing and performance of IPBD shall comply with the latest edition including amend ments of the following standards. Standard Description IS:2062 Steel for General Purpose Specification IS:1367 Hot dip galvanized coatings on fasteners IS:2099 Bushings for altern ating voltage above 1000V IS:13947Part 1 Low voltage switchgear and Control gear. IS:2544 Porcelain post insulator for voltages above 1000V IS:2633 Methods of testing uniformity of coating on zinc coated articles IS:2705 Current transformers IS:3070 Part III Lightning Arresters IS:3151 Earthing Transformers IS:3156 Voltage Transformers IS:4759 Hot dip zinc coating on struct ural steel and allied products IS:5082 Wrought aluminum and aluminum alloy for electrical purposes. IS:8084 Interconnecting busbars for AC voltages above 1 kV upto and including 36 kV. IS:9431 Specification for indoor post in sulators of organic material for systems with nominal voltages greater than 1000 volts upto and including 300 kV. IEEE:32 Neutral Grounding Devices IEC:60726 Dry type power transformers C37.20a, 37, 20b, ANSIC37.20 C37.20c, (IEEE-27) Switchgear assemblies including metal enclosed bus ANSI C37.24 Effect of solar radiation on outdoor metal enclosed switchgear ANSI,C 37.23 (IEEE-298) Calculating losses in isolated Phase Bus. BS:3816 Cast",
+  "chunk_index": 370,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

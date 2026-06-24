@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0222",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 227,
+  "text": "in welded construction. vi) Hardened 400 series stainless steel impingement plates shall be provided for flashed drain inlet from HP heaters, BFP recirculation, boiler start-up drains etc. vii) All water spray valves, splash plates, trays, vent condenser and other elements in contact with undeaerated water or non-condensable gases shall be of stainless steel 304. viii) Deaerator safety valves of adequate relieving capacity shall be made of 13% Cr. stainless steel disc and spindle. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 48 ix) Deaerator shall be designed for efficient steam distribution and deaeration of condensate under all operating conditions including VWO, 3% make up, HP-LP bypass, one string/both strings of HP heater out of service. x) The deaerator shall be of floating pressure type with pegging pressure of 3.5 ata during warm and hot startup, HP-LP byp ass operation, major load rejection, turbine trip and low loads when extracti on steam pressure is less than 3.5 ata. During cold startup the deaerator pressure shall be maintained at 1.5 ata with steam from auxiliary steam header. Deaerator pressure shall vary with load when it gets steam from turbine extraction. Design pressure and temperature shall not be less than extraction steam/CRH pressure or worst operating condition with sufficient margins above the same. xi) Sources for heating: a) Extraction steam from turbine IP-LP cross over pipe (normal operation) b) Steam from CRH (upto 60% loads) c) Steam from auxiliary steam header (Initial heating and low loads) xii) Maximum temperature difference between effluent and saturation temperature of in coming steam shall be 0.56 0C at all load conditions. xiii) Free carbon dioxide as measured by APH method shall be non-traceable at all loads. xiv) Corrosion allowance of 3.2 mm sha ll be considered for shell thickness. xv) Sparger pipe and nozzle shall be provided for feed water heating. xvi) Vent orifice shall be sized for capacity equal to 0.5% of rated flow to the deaerator. xvii) Deaerator shall be sized for handl ing all incoming condensate from LP heaters and drips from HP heaters. xviii) Access platforms and ladders alongwith hand rails shall be provided on deaerator and storage tank. xix) Manholes of minimum 450 mm diameter shall be provided on deaerator and storage tank for access to and removal of internals including trays. Standard Technical Specification for",
+  "chunk_index": 222,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

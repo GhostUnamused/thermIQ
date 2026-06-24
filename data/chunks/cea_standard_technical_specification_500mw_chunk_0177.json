@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0177",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 179,
+  "text": "to allow entry to all sections of the precipitators for maintenance and access. The size of these doors shall not be less than 600 mm dia if circular or not less than 450 mm x 600 mm if rectangular. They shall be provided with safety chain and grounding strap. Doors shall be capable of being pad locked. Design shall be such as to eliminate air in leakage through the doors. All doors providing access to high voltage parts shall have warning signs permanently attached and marked \"Danger High Voltage\". Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 78 vii) The precipitator shall be guided, anc hored or supported by lubricated plates/roller bearings at such locations as may be re quired to limit precipitator, ductwork or expansion joint forces or movement. Each casing shall be restrained to grow in a radial direction from the anchor point. In case lubricated plates are used these shall be covered under all conditions of prec ipitator movements by 1.6 mm thick type 306 stainless steel plates. viii) The casing shall be gas tight. In order to prevent distortion, the structural design shall take care of unequal expansion. 2.2.16.14 Pent house covering ESPs shall be provided with weatherproof-p ent house. The pent house shall be covered continuously with corrugated GI sheet (min imum 1 mm thick) or metapoly sheet as per proven practice of the bidder. 2.2.16.15 Thermal insulation and cladding shall be pr ovided conforming to requirement stipulated in the Section- 4 of this specification. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 3 (Steam Turbine and Auxiliaries) 3 - 1 STANDARD TECHNICAL SPECIFICATIO N FOR MAIN PLANT PACKAGE SECTION- 3 (STEAM TURBINE AND AUXILIARIES) 3.1 STEAM TURBINE 3.1.1 Equipment Sizing Criteria 3.1.1.1 Steam turbine rating The steam turbine unit shall conform to the following design and duty conditions: i) Output under turbine maximum continuous rating (TMCR) (guaranteed output load) at generator terminals : 500MW (or above)* ii) Turbine throttle steam pressure : 170 kg/cm 2 (abs) iii) Turbine throttle main steam temp. : 537 0C iv) Reheat steam temp. at turbine inlet : 565 0C v) Variations in rated steam temperature : As per IEC 45 and pressure vi) Pressure drop in reheat circuit i.e. be tween",
+  "chunk_index": 177,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

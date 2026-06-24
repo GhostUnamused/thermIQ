@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0770",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 797,
+  "text": "during string test. 8.2.6 Coal Mills, Pulverised Coal Piping and Burners i) Raw material for shaft, coupling, gear s and pinions, top and bottom races and other rotating components shall be subjected to UT. MPE or DPT shall be carried out to check surface soundness. ii) Wear-resistant parts shall be subjected to UT or RT to check soundness after suitable heat treatment. Check for chemical composition and hardness shall be carried out. For ceramic materials check for various properties including hardness, density, wear rate and composition shall be carried out. iii) Butt welds in the body casing and separator of the mill shall be tested by RT and MPE. All other welds shall be test ed by MPE or DPT for acceptance. iv) All gearboxes shall be run tested for ad equate duration to check rise in oil temperature, noise level and vibration. Ch eck for leak tightness of gear case also shall be performed. v) Fabricated pipe welds shall be examined by MPE. vi) Ceramic/basalt lined piping and bends etc. shall be checked for proper layout. vii) Weldments on burner components shall be checked with suitable NDT. The burner assembles shall be tested for operation at shop. viii) All rotating components of fans shall be dynamically balanced. 8.2.7 Coal Feeders i) All welds in the casing and pulley fabrication shall be checked with MPE. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 11 ii) Type tests including degree of protecti on and routine tests shall be done as per relevant Indian Standards or equi valent International Standards. iii) All major items like plates for casings, h ead pulley, tail pulley, pulley shaft and major castings shall be procured with respective material test certificates. iv) Explosion proof test at 50 psi as per NFPA code shall be done as type test. Leak tightness test shall be done on individual feeder casing. Endurance test for load cell shall be carried out. v) Test for weighing accuracy, calibration a nd repeatability shall be carried out at various speeds by coal flow on one feeder. vi) Calibration check shall be carried out on all feeder cabinet and assemblies prior to dispatch. 8.2.8 Boiler structure, ducts, hoppers, dampers etc. i) Only those materials which have been identified against mill sheet or test certificates shall be used for construction. Structural",
+  "chunk_index": 770,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

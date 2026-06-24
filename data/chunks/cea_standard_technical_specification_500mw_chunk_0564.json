@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0564",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler"
+  ],
+  "section": "",
+  "page_number": 580,
+  "text": "The monitoring system shall meet the requirements as indicated below: i) Each end of the drum shall ha ve independent pressure vessels with adequate no. of electrodes covering the entire range for indication for each end of drum. Further, independent and separate pressure vessels shall also be provided for each end of drum/vessels along with electrodes to provide validation for low low trip setting. ii) The sensing electrodes shall be placed in equal pitch. The maximum distance (gap) between two electrode shall be 50 mm and the electrodes shall be arranged in such a way that the last and the first electrode shall not be at any alarm or trip level. In any case, the number of electrodes shall not be less than 16 for indication and 8 for validation. iii) Both indication and validation sy stems shall be supplied with double isolation valves in water, steam, drain and vent lines with mechanical key interlock system, that is, the total number of key interlocks shall be 4 (four) nos. per boiler. The provision of key interlock system shall ensure a fool proof safety feature and the details of the same shall be brought out clearly in the offer. iv) The detector unit (if not located locally), logic units, 2x100% redundant power supply units/packs (to be located in control equipment room) shall be housed in separate and independent cubicles for pressure vessel on each side of the drum. The detector units, logic units etc. shall be independent for each pressure vessel. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 53 v) Indication shall be provided at field for both indication and validation system. Remote indication is to be provided for indication system at the unit control panel and firing floor. vi) Each cubicle shall be provi ded with 2x100% redundant power supply pack converters to be fed from two feeders of 24V DC or 240V AC UPS system. These two power supplies shall be intern ally fused and failure of one power supply shall not affect the performance of the system. Self monitoring facility to detect and alarm the loss of power supply shall be provided. vii) The pressure vessel shall be cons tructed in such a way that density level error between drum and pressure vessel shall not be more than 25",
+  "chunk_index": 564,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

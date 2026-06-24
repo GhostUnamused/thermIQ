@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0148",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 155,
+  "text": "nozzle valve shall be of single coil heavy duty constr uction having class \u2018H\u2019 insulation. c) The closing time of trip and nozzle valve shall be less than one (1) second. The valves shall close when de-energised /failure of air supply. d) The operating voltage shall be as under: \u2022 Trip valve solenoid : 24 volts DC \u2022 Nozzle valves solenoid : 110 volts AC viii) Oil burners and burner components Description Heavy fuel oil LDO firing system firing system a) Type of burner Steam atomised (steam Air atomised (air to be tapped off from tapped off from auxiliary steam the compressed system) air system) b) Burner cooling Steam or air Air Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 54 c) Burner tip material Resistant to corrosion Resistant to corrosion (Tips to be fully leak tight) due to fuel oils contai- due to oil containing ning sodium, vanadium sodium, vanadium, sulp- sulphur, chloride etc. hur, chloride etc. d) Minimum guaranteed ------------ 8000 hours --------------- life of burner tips, before needing any maintenance/ replacements. e) Hardness of atomiser Minimum vickers Minimum vickers (hardness to be retained hardness number hardness number of 400 even at 400 0C) of 400 f) Type of oil ignitor High energy arc High energy arc ignitors ignitors ix) Piping shall conform to following codes: Piping Code a) Steam and condensate piping IS: 1239 (heavy duty) or ASTM 106 below 20 kg/cm 2 pressure Gr. B or approved equivalent. b) Fuel oil piping : API-5L Gr. B or ASTM-106 Gr. B in the unloading area. : IS:1978 or approved equivalent from discharge of pressurising pump to the boiler. Piping, fittings shall be of carbon steel butt welded connection conforming to ASTM A-234 or approved equivalent. A ll flanges, where provided, shall conform to IS :6392 or approved equivalent. x) Valves shall conform to following: Parameter Requirement a) Type of valves (for oil services) Plug type, leak proof, self lubricating b) Material of valves on oil lines: \u2022 On pump suction side Cast iron \u2022 On pump discharge side Cast steel c) Material of valves on steam Cast steel and condensate lines Instrument root valves on heavy oil lines shall be of 25 NB size, flanged OS and Y type with body rating in ASA as per process conditions. Standard",
+  "chunk_index": 148,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

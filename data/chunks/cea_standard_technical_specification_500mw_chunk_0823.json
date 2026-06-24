@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0823",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 857,
+  "text": "hubs/ blades Y Y G e n e r a t o r a s s e m b l y Y Rectifier wheel Y Permanent magnet Y Y E x c i t e r a s s e m b l y Y Y=Test applicable, Y1= at rated speed only Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 71 8.6.1.4 Process check for rotor and assembly of generator / exciter (Table 3/4) Tests/ Checks Items/ Components/ Process Insulation Resistance PI at 5 kV Radial run out/ alignment Impedence measurement/ Repetitive Surge Oscillograph Dynamic balancing ISO 5393, 5406, 2372, 1940 including Air run test Over speed test (120%) for 2 minute Functional test Axial run out, seal ring holder Metallography examination Torque on joint bolts Fitting and locking of balancing weights Brazer and brazing procedure Rotor forging and slip ring shaft Y Rotor end retaining ring and cover, locking ring and slip ring forgings, diode wheel Rotor winding copper rotor wedges, damper wedges, CC-bolts and D-leads Y Rotor slot boxes/ insulating material Coil manufacture Y R o t o r w i n d i n g Y Winding connection studs and assembly Y Complete rotor Y Y Y Y Y Y Y Test on completed rotor at various speed upto rated speed Y Test on completed rotor before and after over-speed Y Y Y Fan hubs/ blades Y Generator assembly Y Y Y Y Y Y Y Y Rectifier wheel Y Y Y Y Permanent magnet Exciter assembly Y Y Y Y Y=Test applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 72 8.6.1.4 Process check for rotor and assembly of generator/ exciter (Table 4/4) ( additional checks for exciter) Tests/ Checks Item/ Components/ Process As per IEC-146 As per IEC-76 Pole parallelism and polarity Mechanical chemical and Magnetic properties Functional check Insulation resistance IEEE/ANSI-C37.18 As per specification Dimensional and visual Fuse diode and filter Circuit Y Y PMG and exciter stator Y Y Y Banding wire Y Exciter field Breaker, field discharge resistor Y Bearing, exciter armature field, axis coil RTD Y Voltage Regulator Y Y = Test applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8",
+  "chunk_index": 823,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

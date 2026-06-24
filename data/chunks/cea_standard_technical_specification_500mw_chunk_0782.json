@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0782",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 810,
+  "text": "jacking oil piping. f) Alignment check shall be made for bearing in bearing pedestal. 8.3.2.2 Cross around pipes i) Weld edge preparation of shop and s ite welds shall be checked by 100% MPE. ii) All butt welds shall be subjected to 100% RT. iii) 100% MPE shall be carried out on all welds. iv) Check for dimensions and visual inspection shall be carried out on finished pipes. 8.3.2.3 Lubricating oil, ja cking oil and control oil systems i) Pumps a) Main oil pump shaft shall be subjected to ultrasonic examination. Butt welds shall be subjected to RT or UT. b) Pump impeller shall be subjected to suitable NDT method like MPE or DPT for surface defect examination. Impeller of main oil pumps shall also be subjected to an overspeed test at 120% of rated speed for 5 minutes. c) Pump casing shall be subjected to hy draulic pressure test at 2 times the working pressure or 1.5 times the pump s hut off head whichever is higher. d) Rotor assemblies shall be dynamically balanced. e) All pumps shall be performance tested at the manufacturer\u2019s works. Test shall include check for vibration and noise levels also. ii) Coolers and lubricating oil tanks a) All raw materials used shall have co-related mill test certificate meeting mandatory and supplementary checks of material specification. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 24 b) Material for tube plates shall be ultr asonically tested. Drilled tube plates shall be checked for ovality of ho les, ligaments, surface finish etc. c) Dished ends shall be subjected to 100% MPE and RT or UT on welded joints. Knuckle portion shall be checked by MPE for surface defects and thinning shall be checked by UT. d) Butt welds and full penetration welds shall be checked by suitable RT or UT. Fillet welds shall be checked by MPE or DPT. e) Tubes shall be tested as per the relevant codes or standards. f) Before tubes expansion in the tube sh eets, the mockup test for expansions shall be carried out, in case not done earlier. Torque setting of expander shall be based on mock up tests. Joints shall be checked for tube thinning. g) Completed assemblies shall be pressure tested. The twin oil coolers shall be tested on both tube side and shell",
+  "chunk_index": 782,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

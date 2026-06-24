@@ -1,0 +1,16 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0816",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 846,
+  "text": "the shop test. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 60 8.4.12.3 Blowers and exhausters i) Tests shall be carried out on the materials of the rotary blowers to establish their properties, and chemical compositions. ii) 100% DPT or MPE shall be carried out for the rotor and machined surfaces of casing and impellers. iii) Rotors shall be dynamically balanced. iv) Assembly fit up check, and dimensi onal check shall be carried out for the completed blower assembly. v) The blower casing shall be subject to hydraulic test at 1.5 times the shut off pressure or 2 times the working pressure whichever is higher. vi) Performance test including noise and vi bration tests shall be carried out as per relevant standards and codes. 8.4.12.4 Filters and strainers i) Tests shall be carried out on the materials on various components to establish their mechanical properties and chemical composition. ii) In case of fabricated construction, the welds shall be examined for surface defects by 100% DPT. iii) The body shall be subject to hydraulic test at 1.5 times the design pressure. iv) Pressure drop, flow and particle size tests shall be carried out for the filter assembly. 8.4.12.5 Tanks and vessels i) Tests shall be carried out on the materials on various components to establish their mechanical properties and chemical composition. ii) UT shall be carried out on plate material used for fabrication of tanks and vesels. iii) Hydraulic test for pressurised vessels and water fill test for atmospheric tanks shall be carried out as per relevant standards/ codes. iv) Butt welds and full penetration welds shall be checked by suitable RT or UT. Fillet welds shall be checked by MPE or DPT. 8.4.12.6 Lube oil system/ hydraulic power pack Lube oil system/ hydraulic power pack shall be tested for performance. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 61 8.5 FIELD ERECTION CHECKS AND TESTS The QA requirements for raw materials, in -process tests and NDTs indicated for shop manufacture shall be applicable for site fabrication/erection of the respective item. 8.5.1 Hydraulic Test of Pressure Parts On completion of erection of pressure parts of each steam generator, the unit with its fittings and mountings in pos ition shall be subjected",
+  "chunk_index": 816,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

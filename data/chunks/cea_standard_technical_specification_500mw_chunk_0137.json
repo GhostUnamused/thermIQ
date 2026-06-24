@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0137",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 145,
+  "text": "length downstream of the bend. d) The burner inlet elbow and the pipe piece after the elbow. e) Pulverised coal pipe from mill to classi fier (in case of separate classifier). The ceramic material shall have alumina content of not less than 90%. The ceramic lining shall be minimum 15 mm thickness a nd shall provide guaranteed life of 25000 hrs. iv) Purge air connections shall be provide d after the mill discharge valve to clean pulverised coal pipes of any deposits etc. v) Provisions shall be made at suitable lo cations on pulverized coal piping for sampling the pulverized coal. Suitable sampling equipment shall also be provided. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 44 2.2.6 Coal Burners 2.2.6.1 Burners design i) Turn down ratio of coal firing system shall be 2:1 (minimum). ii) The coal burner design shall ensure a stead y log mean density of coal air mixture distribution as it enters the combustion zone , without allowing the coal dust to settle down. iii) The burner design shall minimise erosion. iv) The burner shall be designed to ensure smooth variation in the fuel flow without affecting the air to fuel ratio. v) The air to fuel ratio around the burner sha ll be optimized to ensure low emission of NO x. Total NO x emission (fuel as well as thermal NO x) shall not exceed 260 gm/giga joule of heat input to the boiler. vi) Burners shall be provided with centralised automatic control with flame scanner and safety protection. 2.2.6.2 Burners construction i) Each coal burner shall be served by one separate coal pipe and shall be provided with one knife edge type gate valve at burner in let. The valve shall be power operated and hooked up to burner management system. ii) Compartmented wind box shall be provided for supply of secondary air for combustion. iii) The material and construction of burner shall withstand radiation from the furnace, and shall not be damaged when not in use. iv) The parts subjected to high temperature which cannot be protected by other means shall be made of alloy steel. Further, bur ners parts subject to abrasion that may require replacement at frequent intervals shall be easily removable. v) Burner design shall ensure freedom from deposits and distortion under",
+  "chunk_index": 137,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

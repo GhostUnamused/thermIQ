@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0382",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 399,
+  "text": "Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 41 xvi) Short circuit capability To with -stand rated short\u2013circuit at its terminals for a time duration considering the actual duty to which the transformer is subjected depending upon the generator\u2019s initial loading and other design parameters under AVR/ manual mode of operation. Calculations for the above duty shall be carried out and the values could be 3 to 5 seconds instead of 2 seconds indicated in I.S. 3) Neutral Bushing Current Transformer i) Rated Transformation ratio Standard transformation ratio based on \u2018UAT rating / 1A \u2018 ii) No. of identical cores 2 iii) Accuracy PS iv) Short time current, dynamic rating etc Same as 415V Switchgear v) Purpose Protection 5.4.4 Design requirements i) Loading Capability Continuous operation at rated MVA on an y tap with voltage variation of \u00b110% corresponding to the voltage of the tap and in accordance with IS:6600 shall be possible. All the transformers shall operate at full load for at least ten minutes without exceeding the calculated winding hot spot temperature of 140 0C in the event of complete failure of pow er supply to cooling equipment. ii) Flux density The flux density of transformers shall not exceed 1.9Wb/m 2 at any tap position with \u00b110% voltage variation from voltage corresponding to the tap. Transformer shall also withstand following over flux ing conditions on combined voltage and frequency fluctuations: a) 110% for continuous rating. b) 125% for at least one minute. c) 140% for at least five seconds. The over- fluxing characteristics upto 170% shall be furnished. 5.4.5 Noise Leve l The noise level of transformer shall not ex ceed the values specified in NEMA TR-1. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 42 5.4.6 Insulation Level The insulation level for the transformer wi ndings and bushings shall be as follows: Winding Bushing Highest system voltage Rated power frequency withstand voltage Rated switching Impulse withstand voltage Rated lightning impulse withstand voltage Rated power frequency withstand voltage Rated switching Impulse withstand voltage Rated lightling impulse withstand voltage (kV) (kVrms) (kVp) (kVp ) (kVrms) (kVp) (kVp) 3.6 10 - 40 10 - 40 12 28 - 75 28 - 75 24 50 - 125 50 - 170 245 395 - 950 460 - 1050 4207 - 1050 1300 630",
+  "chunk_index": 382,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

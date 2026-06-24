@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0832",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 872,
+  "text": "8 (Quality Assurance Plan) 8 - 85 iii) Special tests for Generator Transf ormer, Station Transformer and Unit Auxiliary Transformer The following special tests shall be conducted on each rating of transformer a) Power taken by cooling equipment b) No load harmonic measurement c) Noise level measurement as per NEMA TR-1 d) Zero sequence impedance measurement 8.6.3.3 Details of Vacuum test on transformer tank Each transformer tank shall be subjected to the specified vacuum. The tank designed for full vacuum shall be tested at an internal pressure of 3.33 kN/ m2 absolute (25 torr) for one hour. The permanent deflection of the plat e after the vacuum has been released shall not exceed the values specified below: Horizontal length of Flat Plate Permanent deflection (mm) (mm) Upto and including 750 5.0 751 to 1250 6.5 1251 to 1750 8.0 1751 to 2000 9.5 2001 to 2250 11.0 2251 to 2500 12.0 2501 to 3000 16.0 above 3000 19.0 8.6.3.4 Details of Pressure test on transformer tank Transformer tank of each size shall be subject ed to a pressure corresponding to twice the normal head of oil or to the normal pressure plus 35 kN/ m 2, whichever is lower, measured at the base of the tank and maintai ned for one hour. The permanent deflection of the plates after the excess pressure has been released shall not exceed the figure specified above for vacuum test. 8.6.3.5 Site tests The following minimum tests/ checks shall be conducted at site. Any other tests/ checks as per the manufacturer\u2019s recommendation shall also be carried out a) Colour of silicagel in silicagel breather Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 86 b) Oil level in the breather housing, co nservator tanks, cooling system, condenser- bushing etc. c) Bushing for conformity of connection to the lines etc. and tan delta test for bushing d) Operation of protection devices and alarms: - Buchholz relay - Excessive winding temperature - Excessive oil temperature - Low oil flow - Low oil level indication e) Resistance of all windings on all steps of the tap changer. Insulation resistance of the following: - Control wiring - Cooling system motor and control - Main windings - Tap changer motor and control - Tank and turret mounted CTs - Core and clamp: - Core to earth",
+  "chunk_index": 832,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

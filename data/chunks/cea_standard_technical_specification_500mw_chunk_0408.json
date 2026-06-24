@@ -1,0 +1,14 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0408",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 428,
+  "text": "be of Vacuum/ Sulphur hexa flouride (SF 6) type. They shall comprise of three separate, identical single pole interrupting units, operated through a common shaft by a sturdy operating mechanism. Surge arrestor shall be provided for each motor/ transformer feeder. ii) Circuit breaker shall be restrike free, stored energy operated and trip free type. Motor wound closing spring charging shall only be acceptable. An anti-pumping relay shall be provided for each breaker, even if it has built-in mechanical anti-pumping features. iii) Plug and socket isolating Contacts for main power circuit shall be silver plated, of self aligning type, of robus t design and capable of withstanding the specified short circuit currents. They shall preferably be shrouded with an insulating material. Plug and socket contacts for auxiliary circuits shall also be silver plated, sturdy and of self aligning type having a high degree of reliability. Thickness of silver plating shall not be less than 10 microns. iv) In case of SF 6 gas type circuit breaker, necessary pressure/ density monitoring switch along with the contact for remote indication shall be provided. v) Supervision relays provided for trip coil monitoring. vi) Castle key interlocks shall be provided to prevent opening of cable compartment door when breaker is closed and bus bar compartment when any of the incomers to bus are closed. vii) Testing of circuit breaker shall be possible in isolated position by keeping the control plug connected. viii) In a switchgear if there are more than one possible feed (including bus coupler) then lockout relay (86) contact of incoming breakers shall be connected in series in closing circ uit of each of incoming breakers. ix) Automatic change-over shall be pr ovided for bus sections with suitable synchronizing check facility. The ch ange-over shall be blocked in case of fault on the bus section. Dead Bus change-over afte r voltage collapse shall also be provided as back-up. x) Core balance CTs shall be provide d for outgoing motor and transformer feeders having CT ratios greater than 50/1A. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section-5 (Electrical Works) 5 - 71 c) Protections i) Incomer, bus-coupler and outgoing f eeders except motor and transformer feeders : a) Time graded over-current protection b) Under voltage protection for bus to trip motors under sustained under voltage conditions c) Earth fault relays shall be provided for selective",
+  "chunk_index": 408,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

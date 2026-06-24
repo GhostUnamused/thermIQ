@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0808",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "BFP"
+  ],
+  "section": "",
+  "page_number": 838,
+  "text": "Primary side and secondary side pumps i) Tests shall be carried out on the materials on various components to establish their mechanical properties and chemical composition. Further, heat treatment shall be carried out for materials of shaft and rotor. ii) 100% UT shall be carried out on pump shaft. iii) 10% RT shall be carried out for butt welds on fabricated components of thickness more than 10 mm. iv) 100% MPE shall be carried out on pump shaft. v) 100% DPT shall be carried out on welds on casing, suction bell, shaft, impeller and fabricated components. vi) Hydraulic test shall be carried out on casing and pressure containing fabricated parts at 1.5 times the pump shut off pressure or 2 times the working pressure whichever is higher. vii) Individual impellers and co mpleted rotor assembly shall be subject to dynamic balancing test. Rotor assembly shall be subject to run out test also. viii) Visual check and dimensional measurement shall be carried out for all the components and completely assembled pump. ix) Final tests a) Performance testing shall be carried out as per Hydraulic Institute Standards (HIS) on each pump to determine its characteristic curve at design speed and to ensure complia nce with design requirements. b) Vibration on all pumps shall be meas ured in transverse, horizontal and vertical direction at all measuring points. c) Noise level on each pump shall be measured at a distance of 1.5 m above floor level in elevation and 1 m horizontally from the nearest surface of the equipment as per HIS. d) NPSH(R) test shall be carried out on one pump at pump flows of 25%, 50%, 80%, 100% and 125% of design flow at design speed. In case, NPSH (R) test has already been carried out by the contractor for the offered frame of a pump, the test shall not be repeated and certificates of test carried out earlier shall be furnished for review of the purchaser. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 52 e) Complete strip down of one pump shall be done after completion of all the tests on it. The strip down shall check for the condition of bearings and problems such as internal rubbing, excessive wear. 8.4.7.2 Plate heat exchangers i) The material used for cover plates, heat exchange plates and",
+  "chunk_index": 808,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

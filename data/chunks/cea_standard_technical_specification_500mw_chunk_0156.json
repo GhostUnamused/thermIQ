@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0156",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 163,
+  "text": "per the optimal requirements of control systems to achieve stable, steady and smooth automatic control of the plant and processes under all operating conditions. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section- 2 (Steam Generator and Auxiliaries) 2 - 62 xi) There shall not be any backlash, play etc. with linkage mechanism, actuator and final control element. xii) Thermal expansion of ducting shall not produce stress in louvers, linkage arrangement etc. xiii) Outlet dampers of seal air fans, scanner air fans and emergency dampers of scanner air shall be pneumatically operated, suitable for remote manual operation. xiv) All pneumatically operated interlocked dampers actuators shall be provided with solenoid valves. xv) Guillotine dampers: All guillotine dampers shall be located in horizontal duct to avoid fly ash build up when in closed position and shall be of t op entry type. The damper sealing efficiency shall be minimum 99.3% on flow without seal air and it shall be 100% with seal air. xvi) Multi louver dampers: a) The damper shall be of heavy duty c onstruction and shall ope rate without bind or fluttering under operating conditions. b) The damper louver shaft shall be rigidly constructed to prevent bending and shall be suitably insulated to protect from over heating. . c) The spindles shall be adequately sized and bearings suitably insulated to protect over heating. d) The shaft bearings shall be mounted outside the damper box channel and arranged for convenient inspection. e) Stuffing boxes shall be provided on all damper blade shafts. f) The shaft shall be horizontal wherever possible. g) For preventing hot air or gases from escaping around damper shaft, double gland type stuffing boxes with graphite impregnated packing material shall be provided on all damper blade shafts. h) The dampers in flue gas paths shall be so located that the build up of grit behind the damper blades is reduced to a minimum. i) The damper sealing efficiency shall be minimum 99.30% on flow without seal air and it shall be 100% with seal air. xvii) Diverter dampers/ flap dampers (if provided) a) Dampers shall be single flap/double fl ap construction with flexible duplex seals mounted on the flap itself. The seals shall have minimum life of 3 years. The seal material shall be high nickel allo y equivalent or better than hastealloy C- 276 (ASTM B575,",
+  "chunk_index": 156,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

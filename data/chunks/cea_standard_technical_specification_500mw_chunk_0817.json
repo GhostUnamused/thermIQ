@@ -1,0 +1,18 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0817",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "BFP",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 848,
+  "text": "materials, in -process tests and NDTs indicated for shop manufacture shall be applicable for site fabrication/erection of the respective item. 8.5.1 Hydraulic Test of Pressure Parts On completion of erection of pressure parts of each steam generator, the unit with its fittings and mountings in pos ition shall be subjected to hydraulic test pressure in accordance with requirement of Indian Boiler Regulations. Water used for hydraulic test shall be made alkaline by addition of suitable chemical. After the test, all parts shall be drained and suitably preserved. 8.5.2 Turbine Assembly Bidder shall clearly indicate the extent of assembly to be carried out at site for steam turbine and BFP drive turbine(s). Accordingl y, bidder shall submit elaborate erection and assembly inspection programme of turbines for purchaser\u2019s approval. 8.5.3 Condenser Assembly i) If the condenser sections calls for site assembly, care shall be taken in assembly of sections and correctness of alignment and fit up shall be checked. Site welding shall be carried out as per the procedure approved by the purchaser. ii) All weld seams shall be subjected to magnetic particle examination. At least 10% of butt welds shall be subjected to radiographic examination. iii) All welds between condenser neck and LP turbine shall be subjected to 100% radiographic and magnetic particle examination. iv) Condenser tubes shall be visually exam ined for dents, mechanical damages or any other defects prior to insertion. Both tube ends shall be thoroughly cleaned to a length of 100mm to remove oil, grease etc. and shall be checked for freedom from burrs prior to insertion. v) Tube expansion shall be carried out by electronic automatic torque control expanding unit, which shall be calibrate d before use. Tube wall thinning and length of expansion shall be controlled and recorded. vi) Hydrostatic testing of condenser steam space shall be carried out after connecting all the pipes with the condenser along with condenser vacuum systems by filling the steam space with water upto the tip of the last stages of blades of LP cylinder. vii) Condenser water boxes shall be tested hydr aulically at a minimum test pressure of 1.5 times the design pressure. Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 62 8.5.4 General i) All rotating equipments shall be checked for their direction of rotation and free movement after placing on",
+  "chunk_index": 817,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

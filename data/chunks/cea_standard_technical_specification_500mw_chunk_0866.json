@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0866",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Turbine",
+    "Generator"
+  ],
+  "section": "",
+  "page_number": 923,
+  "text": "or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 136 8.6.14.4 Type test (Category-II) All DG sets and accessories supplied shall be of type tested quality. Type test reports for the following sha ll be submitted for purchaser\u2019s approval : a) Measurement of resistance and air gap b) Phase sequence test c) Regulation test d) Measurement of open circuit and short circuit characteristics e) Efficiency test f) Temperature rise test g) Momentary overload test h) Overspeed test i) High Voltage test j) Insulation resistance test (both before and after high voltage test) k) Noise level as per IS:12065 l) Vibration as per IS:12075 8.6.14.3 Final assembly Tests/ Checks Items/ Components Material test Dimension WPS, PQR, Welding NDT, DP or MPI, UT Check completeness Hydraulic, Leak, Pressure test Functional test All Routine test as per Specification /IS No load test for one hour of the DG set assembly Clearances and alignment Base frame Y Y Y Y Y Fuel tank Y Y Y Y Y Y Battery (IS:1691) Y B a t t e r y c h a r g e r Y Control panel Y Assembled DG set Y Y Y Y Y Y =Test applicable Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 137 m) Determination of deviation of voltage waveform from sinusoidal n) Degree of protection test on control panel for IP-52 8.6.14.5 Site Tests The following minimum tests/ checks shall be conducted at site. Any other tests/ checks as per the manufacturer\u2019s recommendation shall also be carried out a) Visual Test b) Electrical Tests i) Calibration of instruments, relays etc. ii) Primary and secondary injections tests of protective devices. iii) Function, interlock test of control panel iv) Insulation resistance measurement of power and control circuits. c) Mechanical Tests i) Trial run of engine ii) Governor testing iii) Overspeed trip test iv) Load pick up and load rejection tests v) Load test and temperature rise measurement of engine and alternator Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package Section- 8 (Quality Assurance Plan) 8 - 138 8.6.15 Electro Static Precipitator (ESP) \u2013 Electrical 8.6.15.1 General Tests/ Checks Items/ Components Visual Make, Type, Rating etc. Final Inspection as per IS/ IEC /BS Remarks TR Set Y Y Refer table for TR ESP",
+  "chunk_index": 866,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

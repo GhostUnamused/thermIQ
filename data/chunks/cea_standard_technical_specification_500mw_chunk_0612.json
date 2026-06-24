@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0612",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 636,
+  "text": "1/2 inch to 2 inch. vii) Purge Air Connection for Air and Flue Gas Applications a) The continuous purging with instrument air shall be done, for all air and flue gas measurements excepting instrument air and service air instruments, at the process source connection end. Nec essary arrangements required for continuous purging shall be provided inside all the air and flue gas enclosures. b) For intermittent purging with service air, necessary arrangements inside all the air and flue gas enclosures shall be provided. The SS three way valve provided in the SS tubing shall be used for isolating the transmitter and connecting the service air quick disconnect line. 6.9.4 Installation and Routing 6.9.4.1 Instrument Piping System i) For steam and liquid measurements, the impulse pipe should preferably slope downwards from source connection to in strument and instrument shall be installed below the source point. If due to any reason instrument is installed Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 109 above the source point, the impulse pipe should slope upwards continuously and a 'pigtail' should be provided at the instrument to assure a water seal for temperature protection. For vacuum measurements instrument shall be installed above source point and im pulse pipe should slope upwards. ii) Impulse piping for air and flue gas shall slope upwards and instrument shall be installed above source point. If th is requirement cannot be met special venting or drain provision shall be provided with vent and drain lines alongwith isolation valves and other accessories including drain pipes. This drain is to be connected to plant drain through open funnel also. iii) All impulse piping shall be insta lled to permit free movement due to thermal expansion. Wherever required expansi on loops shall be provided. Expansion joints shall be provided wherever required especially for impulse piping coming in the furnace area. iv) Special accessories such as c ondensing pots/ reservoirs shall be provided and installed wherever required. In any case condensing pots sha ll be provided for all level measurements in steam and water services, all flow measurement in steam services and flow measurements in water services above 120 oC. For drum level measurement required bala ncing chamber shall be provided. v) Colour coding of all impulse pipes shall be done by the bidder in line",
+  "chunk_index": 612,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

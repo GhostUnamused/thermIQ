@@ -1,0 +1,17 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0003",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Turbine",
+    "Generator",
+    "Condenser"
+  ],
+  "section": "",
+  "page_number": 5,
+  "text": "1- 52 1.6.5 Performance guarantee/ acceptance test 1- 61 1.7 Spare Parts 1- 70 1.7.1 Mandatory spares 1- 70 1.7.2 Recommended spares 1- 70 1.7.3 Start up and commissioning spares 1- 71 1.7.4 General 1- 71 1.8 Testing, Inspection and Quality Assurance Plan 1- 73:76 Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package iiClause No. Description Page No. Section- 2 : Steam Generator and Auxiliaries 2.1 Design/ Sizing Criteria 2- 1 2.1.1 Type of steam generator 2- 1 2.1.2 Contractor\u2019s responsibilities 2- 1 2.1.3 Unit operation range 2- 1 2.1.4 Codes and standards 2- 1 2.1.5 Steam generator rating 2- 2 2.1.6 Fuels 2- 3 2.1.7 Cooling water 2- 6 2.1.8 Ambient air 2- 6 2.1.9 Limiting parameters for steam generator design 2- 7 2.1.10 Minimum load without oil support for flame stabilization 2- 7 2.1.11 Loading/ unloading pattern and adoptability for sudden load changes/ load throw off 2- 7 2.1.12 Operation without HP heaters in service 2- 8 2.1.13 Operation with/ without turbine HP-LP bypass system 2- 8 2.1.14 Mode of steam generation ope ration and rate of loading 2- 8 2.1.15 Provision for future installation of FGD system 2- 9 2.1.16 Furnace 2- 9 2.1.17 Pressure parts 2- 10 2.1.18 Superheaters and reheaters 2- 11 2.1.19 Economiser 2- 12 2.1.20 Air pre-heaters 2- 12 2.1.21 Steam coil air preheaters (SCAPH) 2- 13 2.1.22 Auxiliary steam PRDS 2- 13 2.1.23 Coal firing system 2- 14 2.1.24 Fuel oil preparation and firing system 2- 17 2.1.25 Draft plant 2- 18 2.1.26 Flue gas ducts and air ducts 2- 20 2.1.27 Electrostatic precipitator design data 2- 21 2.2 Technical Requirements 2- 24 2.2.1 Steam generator enclosure 2- 24 2.2.2 Super heaters and reheaters 2- 30 2.2.3 Economiser 2- 33 2.2.4 Air heaters and steam coil air preheaters 2- 35 2.2.5 Coal preparation and firing system 2- 38 2.2.6 Coal burners 2- 44 2.2.7 Primary air fans 2- 45 2.2.8 Balance draft system 2- 47 2.2.9 Fuel oil system 2- 50 2.2.10 Duct work and dampers 2- 57 2.2.11 Steam generator integral piping, valves, fittings and mountings 2- 64 2.2.12 Soot blowing system 2- 66 Standard Technical Specification for Sub- critical Thermal Power Project - 2x(500MW or above) Main Plant Package iiiClause No. Description Page No. 2.2.13 Blow down tanks (BDTs) 2- 68 2.2.14 Auxiliary steam pressure re ducing and desuperheater stations (PRDS) 2-",
+  "chunk_index": 3,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}

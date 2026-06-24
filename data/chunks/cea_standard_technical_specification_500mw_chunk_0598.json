@@ -1,0 +1,15 @@
+{
+  "chunk_id": "cea_standard_technical_specification_500mw_chunk_0598",
+  "source_doc": "CEA Standard Technical Specification 500MW",
+  "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/standard_tech_spec.pdf",
+  "doc_type": "regulatory",
+  "equipment_tags": [
+    "Boiler",
+    "Cooling Tower"
+  ],
+  "section": "",
+  "page_number": 623,
+  "text": "required miniaturised control switch es, electrical meters for achieving the control of station electrical system (circuit breaker etc.) shall be provided in the UCP of different units as applicable. The exact number & location of these shall be as finalised during detailed engineering state. 6.6.3 Cabinets, Enclosures, Panels i) Smoke detectors shall be provided inside the system cabinets. ii) The cabinets, panels shall be provided with eye bolts for lifting. iii) Feeder failure/ healthy indicati on shall be provided in each cabinet and remote indication shall be hooked up to DDCMIS/ annunciation and suitably grouped. iv) The dimensions and load of all panels, cabinets and enclosures shall be clearly brought out during detailed engineering. v) Sheet steel thickness for local panels , system cabinets shall not be less than 1.6 mm unless otherwise specified. vi) All panels, enclosures, system cabinets, marshalling cabinets shall be provided with a minimum of 20% spare terminations and system cabinets shall be provided with spare space for 20% additional modules fully wired with connectors etc. in excess of the total requirement of the system design when the cabinets are delivered. The spare space capacity shall be distributed evenly throughout the cabinets. Standard Technical Specification fo r Sub- critical Thermal Powe r Project - 2x(500MW or above) Main Plant Package Section 6 (Control and Instrumentation Works) 6 - 96 6.6.4 Local Instrument Enclosure and Racks i) Transmitters and switches, devices, etc. mounted in the field shall be suitably grouped together and mounted in local in struments enclosures in case of open areas of the plant like boiler area, etc. and in local instrument racks in case of covered areas like A-B bay. These local instrument enclosures and racks shall be furnished as per the actual requirements finalised during detailed engineering stage. The exact grouping of instruments in a particular instrument enclosure/instrument rack shall be as finalised during detailed engineering stage subject to the purchaser's approval. ii) The local instrument enclosures shall be constructed of 1.6 mm sheet plate and shall be of modular construction with one or more modules and two end assemblies bolted together to form an enclosure. Vibration dampeners shall be installed for supporting each enclosur e. The internal layout shall be such that the impulse piping/ blowdown lines are accessible from back doors of the enclosure and the transmitters etc. are accessible from front side for easy maintenance. Gaskets shall be used between",
+  "chunk_index": 598,
+  "ingested_at": "2026-06-24T15:45:33.901314Z"
+}
