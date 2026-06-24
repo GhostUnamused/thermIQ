@@ -13,3 +13,5 @@ node_modules/
 .netlify/
 .venv/
 venv/
+.tmp_fbkey
+.tmp_fbkey_payload.json
