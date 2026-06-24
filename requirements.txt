@@ -1,0 +1,6 @@
+qdrant-client
+firebase-admin
+google-generativeai
+requests
+pandas
+openpyxl

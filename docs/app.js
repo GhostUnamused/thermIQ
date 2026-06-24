@@ -1,0 +1,1 @@
+// thermIQ frontend entry point
