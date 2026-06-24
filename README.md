@@ -5,7 +5,7 @@ gaps as ₹ crore operational risk.
 
 ## Architecture
 - Frontend: GitHub Pages (docs/)
-- Backend: Netlify Functions (Python)
+- Backend: Netlify Functions (JavaScript)
 - Vector DB: Qdrant Cloud
 - Embeddings: Jina AI (jina-embeddings-v3)
 - Generation: Gemini 2.5 Flash
