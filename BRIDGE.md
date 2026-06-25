@@ -8,7 +8,30 @@
 
 ## Queue
 
-### [PENDING] task-006 | 2026-06-25T20:05:00Z
+### [DONE] task-007 | 2026-06-25T21:00:00Z
+**From:** Cowork
+**Task:** Install pdfjs-dist, commit both fixes (PDF parser + CEA URL), push, run real CEA fetch, verify upload end-to-end
+**Files changed by Cowork:**
+- `netlify/functions/ingest_document.js` — replaced `pdf-parse` with `pdfjs-dist/legacy/build/pdf.js`. Now uses `pdfjsLib.getDocument({ data, disableWorker: true })` and extracts text page-by-page via `getTextContent()`. Handles parse errors gracefully with a 422 + message. No longer references `parsed.numpages` — uses local `numPages` variable instead.
+- `netlify/functions/package.json` — swapped `pdf-parse: ^1.1.1` → `pdfjs-dist: ^3.11.174`
+- `scripts/fetch_cea_outage.py` — fixed URL pattern. New format: `/dgr/{DD-MM-YYYY}/dgr{N}-{YYYY-MM-DD}.xls`. Tries report numbers 10, 11, 9 for today then yesterday. dgr10 confirmed live and returns real XLS data.
+
+**CC must do:**
+1. `cd netlify/functions && npm install` — installs pdfjs-dist@3, removes pdf-parse
+2. `git add -A`
+3. `git commit -m "fix: pdfjs-dist replaces pdf-parse (esbuild-safe); fix CEA URL scheme"`
+4. `git push origin main`
+5. `python scripts/fetch_cea_outage.py` — should now succeed. Expect output like "Fetched CEA report dgr10 for 2026-06-25..." and "Processed X outage records." Verify X > 0.
+6. End-to-end test the live ingest endpoint: upload a small text-based PDF via the dashboard at https://ghostunamused.github.io/thermIQ/dashboard.html — expect success toast with `chunks_indexed > 0`. Then spot-check: run a query in the Query Copilot referencing content from the uploaded doc.
+
+**Notes:**
+- `pdfjs-dist@3.x` has the CJS legacy build (`pdfjs-dist/legacy/build/pdf.js`). v4+ is ESM-only — do NOT upgrade past 3.x.
+- The CEA parser (`find_header_row`, `column_index`) is unchanged — it will auto-detect columns. If dgr10 has different column names, the script will print a parse warning. If that happens, also try running it against dgr11 by temporarily hardcoding `report_num=11` in `download_report()` to compare.
+- task-006 below is now resolved by this task — no need to action it separately.
+
+---
+
+### [DONE] task-006 | 2026-06-25T20:05:00Z (superseded/resolved by task-007)
 **From:** Claude Code
 **Task:** Fix `pdf-parse` failing on every real request to the deployed `ingest_document` endpoint — upload feature is currently non-functional in production
 **Files likely involved:**

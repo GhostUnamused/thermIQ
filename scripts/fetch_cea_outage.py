@@ -56,26 +56,37 @@ def map_failure_category(reason):
     return "unclassified"
 
 
-def build_url(date):
+def build_url(date, report_num):
+    """New URL format (as of 2026):
+    /public-reports/cea/daily/dgr/{DD-MM-YYYY}/dgr{N}-{YYYY-MM-DD}.xls
+    Report 10 = Daily Maintenance Report (Coal, Lignite & Nuclear)
+    Report 11 = Daily Maintenance Report (Thermal & others)
+    """
+    date_folder = date.strftime("%d-%m-%Y")
+    date_file = date.strftime("%Y-%m-%d")
     return (
         f"https://npp.gov.in/public-reports/cea/daily/dgr/"
-        f"{date.strftime('%Y')}/{date.strftime('%m')}/{date.strftime('%d')}/"
-        f"dgr{date.strftime('%d%m%Y')}.xls"
+        f"{date_folder}/dgr{report_num}-{date_file}.xls"
     )
 
 
 def download_report():
+    # Try today and yesterday, and report numbers 10 then 11
+    # (both are Daily Maintenance Reports — 10 is coal/lignite/nuclear, 11 is thermal)
     for days_back in (0, 1):
         date = datetime.utcnow() - timedelta(days=days_back)
-        url = build_url(date)
-        try:
-            response = requests.get(url, timeout=30)
-            if response.status_code == 200 and len(response.content) > 0:
-                print(f"Fetched CEA report for {date.date()} from {url}")
-                return response.content
-        except requests.RequestException as e:
-            print(f"Failed to fetch {url}: {e}")
-    raise RuntimeError("Could not fetch CEA outage report for today or yesterday.")
+        for report_num in (10, 11, 9):
+            url = build_url(date, report_num)
+            try:
+                response = requests.get(url, timeout=30)
+                if response.status_code == 200 and len(response.content) > 1000:
+                    print(f"Fetched CEA report dgr{report_num} for {date.date()} from {url}")
+                    return response.content
+                else:
+                    print(f"  Skip {url} — status {response.status_code} / size {len(response.content)}")
+            except requests.RequestException as e:
+                print(f"  Failed {url}: {e}")
+    raise RuntimeError("Could not fetch CEA outage report. Check URL pattern at npp.gov.in/dgrReports")
 
 
 def find_header_row(sheet):

@@ -9,7 +9,9 @@
  * Size limit: enforced at 8 MB base64 (~6 MB PDF). For larger docs, use local script.
  */
 
-const pdfParse = require('pdf-parse');
+const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.js');
+// Disable worker — not available in Node/serverless environments
+pdfjsLib.GlobalWorkerOptions.workerSrc = '';
 const { QdrantClient } = require('@qdrant/js-client-rest');
 const { initializeApp, getApps, getApp, cert } = require('firebase-admin/app');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
@@ -136,10 +138,30 @@ exports.handler = async (event) => {
       };
     }
 
-    // 1 — Decode and parse PDF
+    // 1 — Decode and parse PDF using pdfjs-dist (legacy CJS build, esbuild-safe)
     const pdfBuffer = Buffer.from(pdf_base64, 'base64');
-    const parsed = await pdfParse(pdfBuffer);
-    const text = parsed.text || '';
+    let text = '';
+    let numPages = 0;
+    try {
+      const data = new Uint8Array(pdfBuffer);
+      const loadingTask = pdfjsLib.getDocument({ data, disableWorker: true });
+      const pdf = await loadingTask.promise;
+      numPages = pdf.numPages;
+      const pageTexts = [];
+      for (let pageNum = 1; pageNum <= numPages; pageNum++) {
+        const page = await pdf.getPage(pageNum);
+        const content = await page.getTextContent();
+        const pageText = content.items.map(item => item.str || '').join(' ');
+        if (pageText.trim().length > 20) pageTexts.push(pageText);
+      }
+      text = pageTexts.join('\n');
+    } catch (pdfErr) {
+      return {
+        statusCode: 422,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({ error: `PDF parse failed: ${pdfErr.message}. File may be corrupted, encrypted, or image-based.` }),
+      };
+    }
     if (text.trim().length < 100) {
       return {
         statusCode: 422,
@@ -214,7 +236,7 @@ exports.handler = async (event) => {
         doc_name,
         doc_type,
         chunks_indexed: chunks.length,
-        pages_parsed:   parsed.numpages,
+        pages_parsed:   numPages,
         ingested_at:    ingestedAt,
       }),
     };
