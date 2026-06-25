@@ -8,6 +8,84 @@
 
 ## Queue
 
+### [DONE] task-008 | 2026-06-25T00:00:00Z
+**From:** Cowork
+**Task:** Commit script fixes, download 5 documents, ingest all into Qdrant, re-run CEA outage fetch with corrected formula
+**Files changed by Cowork:**
+- `scripts/fetch_cea_outage.py` — fixed revenue formula: added ×1000 MW→kW conversion. Was dividing by 1e7 without converting MW to kWh first (~1000× undercount). Now: `mw_lost × 1000 × hours × ₹4.5 / 1e7`
+- `scripts/seed_cea_outages.py` — same revenue formula fix applied (both the per-record calc and the summary total)
+- `scripts/ingest_documents.py` — added optional 5th CLI arg `client` (default `""`). Added `"client"` field to Qdrant payload. Layer 1 standard docs pass no client arg; NTPC docs pass `"ntpc"`. Also updated usage message.
+
+**CC must do:**
+
+1. Commit all three script changes:
+```
+git add scripts/fetch_cea_outage.py scripts/seed_cea_outages.py scripts/ingest_documents.py
+git commit -m "fix: revenue formula MW→kWh unit correction; add client field to ingestion"
+git push origin main
+```
+
+2. Download the 5 documents to `data/raw/` (use wget or curl with -L for redirects):
+```
+wget -L -O "data/raw/cea_rm_le_report_2023.pdf" "https://cea.nic.in/wp-content/uploads/news_live/2023/08/Final_Report_on_various_aspects_of_RM_and_LE.pdf"
+
+wget -L -O "data/raw/cea_om_practices_review.pdf" "https://cea.nic.in/wp-content/uploads/2020/04/4.pdf"
+
+wget -L -O "data/raw/cea_rm_guidelines.pdf" "https://cea.nic.in/old/reports/others/thermal/trm/R_ampGuideline.pdf"
+
+wget -L -O "data/raw/ntpc_kahalgaon_tariff_2019_24.pdf" "https://ntpc.co.in/sites/default/files/inline-files/Kahalgaon-II-Tariff-Petition-2019-24.pdf"
+
+wget -L -O "data/raw/ntpc_lara_tariff_2019_24.pdf" "https://ntpc.co.in/sites/default/files/inline-files/Lara-Tariff-Petition-19-24_.pdf"
+```
+If any wget fails with a 403, try adding `--user-agent="Mozilla/5.0"`. If a PDF still won't download, skip it and note which one failed.
+
+3. Run ingestion for each downloaded PDF (run from project root, .env must be loaded):
+```
+python scripts/ingest_documents.py "data/raw/cea_rm_le_report_2023.pdf" "regulatory" "CEA R&M Life Extension Report 2023" "https://cea.nic.in/wp-content/uploads/news_live/2023/08/Final_Report_on_various_aspects_of_RM_and_LE.pdf"
+
+python scripts/ingest_documents.py "data/raw/cea_om_practices_review.pdf" "operational" "CEA Review of O&M Practices Thermal Power" "https://cea.nic.in/wp-content/uploads/2020/04/4.pdf"
+
+python scripts/ingest_documents.py "data/raw/cea_rm_guidelines.pdf" "regulatory" "CEA R&M Guidelines" "https://cea.nic.in/old/reports/others/thermal/trm/R_ampGuideline.pdf"
+
+python scripts/ingest_documents.py "data/raw/ntpc_kahalgaon_tariff_2019_24.pdf" "plant_specific" "NTPC Kahalgaon II Tariff Petition 2019-24" "https://ntpc.co.in/sites/default/files/inline-files/Kahalgaon-II-Tariff-Petition-2019-24.pdf" "ntpc"
+
+python scripts/ingest_documents.py "data/raw/ntpc_lara_tariff_2019_24.pdf" "plant_specific" "NTPC Lara Tariff Petition 2019-24" "https://ntpc.co.in/sites/default/files/inline-files/Lara-Tariff-Petition-19-24_.pdf" "ntpc"
+```
+Each should print "Ingestion Summary" at the end with chunks created > 0. Note the chunk counts per doc.
+
+4. Re-run the CEA outage fetch to replace old data with correctly-calculated revenue figures:
+```
+python scripts/fetch_cea_outage.py
+```
+Should print "Processed X outage records." Verify the revenue figures now look reasonable (e.g. 500 MW × 72 hrs × ₹4.5/kWh × 1000 ÷ 1e7 = ₹16.2 cr per unit, not ₹0.016 cr).
+
+5. Note and report back: chunk count for each doc, whether any PDF downloads failed, total Qdrant collection size after ingestion, and the CEA outage total revenue figure.
+
+**Notes:**
+- `.env` must have JINA_API_KEY, QDRANT_URL, QDRANT_API_KEY, FIREBASE_PROJECT_ID, FIREBASE_PRIVATE_KEY, FIREBASE_CLIENT_EMAIL
+- The ingestion script also writes fallback JSON files to `data/chunks/` — these will accumulate. That's expected.
+- If a PDF is scanned/image-only, the script will extract very little text (pages will mostly be skipped by the `< 50 char` filter) — flag this if it happens so Cowork can find an alternative source.
+- NTPC tariff petitions are text-based PDFs, should parse fine.
+
+**CC summary:** Committed and pushed the 3 script fixes (`bff631f`). All 5 PDFs downloaded successfully to `data/raw/` (curl with `--retry 3` after one transient TLS reset on the first attempt; no actual download failures).
+
+While ingesting, found and fixed a real bug introduced by the new 5th-arg `client` parameter: `doc_client = sys.argv[5]` was getting clobbered a few lines later by `client = QdrantClient(...)` — same variable name, same function scope. Every chunk's `"client"` payload field would have silently stored an unserializable `QdrantClient` object instead of `"ntpc"`/`""`, which is exactly what crashed the very first ingestion attempt (`TypeError: Object of type QdrantClient is not JSON serializable`). Renamed the CLI-arg variable to `doc_client` throughout. Committed and pushed (`4a31245`).
+
+Also had to install missing deps into `.venv` that weren't previously present there: `pypdf`, `qdrant-client`, `firebase-admin`, `python-dotenv`, `requests`, `xlrd`, `openpyxl`.
+
+**Ingestion results (chunk counts):**
+| Document | Pages extracted | Chunks created |
+|---|---|---|
+| CEA R&M Life Extension Report 2023 | 42 | 36 |
+| CEA Review of O&M Practices Thermal Power | 67 | 57 |
+| CEA R&M Guidelines | 17 | 15 |
+| NTPC Kahalgaon II Tariff Petition 2019-24 | 0 of 76 | 0 — **scanned/image-only PDF**, verified via direct `pypdf` page-by-page extraction (every sampled page returns empty string) |
+| NTPC Lara Tariff Petition 2019-24 | 0 of 205 | 0 — **scanned/image-only PDF**, same verification |
+
+Total new chunks indexed into `thermiq_chunks`: **108** (36+57+15). Both NTPC tariff petitions need an alternative source (e.g. an OCR'd version, or a different filing) if plant-specific client content is wanted in the knowledge base — flagging for Cowork per the task's own note about this failure mode.
+
+**CEA outage fetch (corrected formula):** Ran `scripts/fetch_cea_outage.py`. Live dgr10/dgr11/dgr9 for today (2026-06-25) all 404'd; fell back to yesterday (2026-06-24) dgr10, which succeeded. **Processed 59 outage records, total MW lost 17223.0, total revenue impact ₹531.97 crore** — roughly 1000x the pre-fix figure (₹0.53 cr from task-007), confirming the MW→kWh unit fix is working correctly and the number is now in a plausible range for this domain.
+
 ### [DONE] task-007 | 2026-06-25T21:00:00Z
 **From:** Cowork
 **Task:** Install pdfjs-dist, commit both fixes (PDF parser + CEA URL), push, run real CEA fetch, verify upload end-to-end
