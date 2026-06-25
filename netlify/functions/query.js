@@ -19,6 +19,47 @@ const SYSTEM_INSTRUCTION =
   'where available. Keep every answer under 250 words. Use bullet points ' +
   'or numbered steps for procedures. Do not repeat the question.';
 
+// OpenRouter fallback — used when Gemini is throttling (429 / RESOURCE_EXHAUSTED)
+// Model: openai/gpt-oss-120b — free 120B MoE, top-ranked on Finance/Academia/Legal domains
+const OPENROUTER_MODEL = 'openai/gpt-oss-120b:free';
+const OPENROUTER_URL   = 'https://openrouter.ai/api/v1/chat/completions';
+
+function isThrottleError(err) {
+  const msg = (err.message || '').toLowerCase();
+  return (
+    msg.includes('429') ||
+    msg.includes('quota') ||
+    msg.includes('resource_exhausted') ||
+    msg.includes('rate limit') ||
+    msg.includes('too many requests')
+  );
+}
+
+async function generateWithOpenRouter(prompt) {
+  const response = await fetch(OPENROUTER_URL, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      'Content-Type': 'application/json',
+      'HTTP-Referer': 'https://thermiq-674.netlify.app',
+      'X-Title': 'ThermIQ',
+    },
+    body: JSON.stringify({
+      model: OPENROUTER_MODEL,
+      messages: [
+        { role: 'system', content: SYSTEM_INSTRUCTION },
+        { role: 'user',   content: prompt },
+      ],
+    }),
+  });
+  if (!response.ok) {
+    const errText = await response.text();
+    throw new Error(`OpenRouter error ${response.status}: ${errText}`);
+  }
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
+
 async function embedQuery(query) {
   const response = await fetch('https://api.jina.ai/v1/embeddings', {
     method: 'POST',
@@ -101,16 +142,28 @@ exports.handler = async (event) => {
     });
     const contextText = contextParts.join('\n\n');
 
-    // Step 4 — generate with Gemini
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({
-      model: 'gemini-2.5-flash',
-      systemInstruction: SYSTEM_INSTRUCTION,
-    });
-    const result = await model.generateContent(
-      `Question: ${query}\n\nSource Documents:\n${contextText}`
-    );
-    const answer = result.response.text();
+    // Step 4 — generate (Gemini primary, OpenRouter fallback on throttle)
+    const llmPrompt = `Question: ${query}\n\nSource Documents:\n${contextText}`;
+    let answer;
+    let model_used = 'gemini-2.5-flash';
+
+    try {
+      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+      const model = genAI.getGenerativeModel({
+        model: 'gemini-2.5-flash',
+        systemInstruction: SYSTEM_INSTRUCTION,
+      });
+      const result = await model.generateContent(llmPrompt);
+      answer = result.response.text();
+    } catch (geminiErr) {
+      if (isThrottleError(geminiErr) && process.env.OPENROUTER_API_KEY) {
+        // Gemini is throttling — fall back to OpenRouter (claude-3-5-haiku)
+        model_used = OPENROUTER_MODEL;
+        answer = await generateWithOpenRouter(llmPrompt);
+      } else {
+        throw geminiErr; // not a throttle error, re-throw
+      }
+    }
 
     return {
       statusCode: 200,
@@ -119,6 +172,7 @@ exports.handler = async (event) => {
         answer,
         sources,
         chunks_retrieved: results.length,
+        model_used,
       }),
     };
   } catch (e) {

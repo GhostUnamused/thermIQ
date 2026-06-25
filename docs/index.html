@@ -14,7 +14,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
 </head>
-<body>
+<body class="chat-page">
   <header class="site-header">
     <div class="header-inner">
       <div class="logo">⚡ ThermIQ</div>
@@ -22,57 +22,35 @@
         <a href="index.html" class="active">Query Copilot</a>
         <a href="dashboard.html">Risk Dashboard</a>
       </nav>
+      <button id="new-chat-btn" class="btn-ghost">+ New Chat</button>
     </div>
-    <p class="subtitle">Industrial Knowledge Intelligence for Thermal Power Plants</p>
   </header>
 
-  <main class="container">
-    <section class="query-card card">
-      <textarea
-        id="query-input"
-        placeholder="Ask anything about boiler procedures, turbine specifications, maintenance schedules, CEA compliance requirements..."
-        rows="4"
-      ></textarea>
-      <button id="ask-button" class="btn-primary">Ask ThermIQ →</button>
+  <main class="chat-main">
+    <div id="chat-messages" class="chat-messages">
+      <!-- Rendered by app.js — empty state shows chips -->
+    </div>
 
-      <div class="chip-row">
-        <button class="chip" data-query="What are the mandatory spares for a 500MW boiler per CEA spec?">
-          What are the mandatory spares for a 500MW boiler per CEA spec?
-        </button>
-        <button class="chip" data-query="Super heater tube failure emergency procedure">
-          Super heater tube failure emergency procedure
-        </button>
-        <button class="chip" data-query="BFP seal replacement steps">
-          BFP seal replacement steps
-        </button>
-        <button class="chip" data-query="Turbine vibration trip thresholds">
-          Turbine vibration trip thresholds
-        </button>
+    <div class="chat-input-area">
+      <div id="suggestion-chips" class="chip-row">
+        <button class="chip" data-query="What are the mandatory spares for a 500MW boiler per CEA spec?">Mandatory boiler spares</button>
+        <button class="chip" data-query="Super heater tube failure emergency procedure">Superheater failure procedure</button>
+        <button class="chip" data-query="BFP seal replacement steps">BFP seal replacement</button>
+        <button class="chip" data-query="Turbine vibration trip thresholds">Turbine vibration limits</button>
       </div>
-    </section>
-
-    <section id="loading-state" class="loading-state hidden">
-      <div class="spinner"></div>
-      <p>Searching knowledge base...</p>
-    </section>
-
-    <section id="error-state" class="error-card card hidden"></section>
-
-    <section id="answer-section" class="hidden">
-      <div class="card answer-card">
-        <h2>Answer</h2>
-        <p id="answer-text"></p>
+      <div class="input-row">
+        <textarea
+          id="chat-input"
+          placeholder="Ask about boiler procedures, turbine specs, CEA compliance... (Ctrl+Enter to send)"
+          rows="1"
+        ></textarea>
+        <button id="send-btn" class="btn-send" title="Send (Ctrl+Enter)">&#8594;</button>
       </div>
-
-      <div class="sources-section">
-        <h3>Sources</h3>
-        <div id="sources-list" class="sources-list"></div>
-      </div>
-    </section>
+    </div>
   </main>
 
   <footer class="site-footer">
-    ThermIQ v0.1 | Powered by Qdrant + Gemini | Data: CEA Public Sources
+    ThermIQ v0.1 | Qdrant + Gemini | Data: CEA Public Sources
   </footer>
 
   <script src="app.js"></script>
