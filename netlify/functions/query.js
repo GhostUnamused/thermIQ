@@ -16,7 +16,8 @@ const SYSTEM_INSTRUCTION =
   "ThermIQ knowledge base.' Always cite sources by number " +
   "(e.g., 'According to Source 1...'). Be precise and technical — " +
   'include specific values, thresholds, part numbers, and procedures ' +
-  'where available.';
+  'where available. Keep every answer under 250 words. Use bullet points ' +
+  'or numbered steps for procedures. Do not repeat the question.';
 
 async function embedQuery(query) {
   const response = await fetch('https://api.jina.ai/v1/embeddings', {

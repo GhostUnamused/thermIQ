@@ -48,7 +48,7 @@ function initQueryCopilot() {
         throw new Error(data.error || "Something went wrong.");
       }
 
-      answerText.textContent = data.answer;
+      answerText.innerHTML = marked.parse(data.answer);
 
       sourcesList.innerHTML = "";
       (data.sources || []).forEach((source, i) => {
