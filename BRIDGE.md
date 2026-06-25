@@ -8,6 +8,25 @@
 
 ## Queue
 
+### [PENDING] task-006 | 2026-06-25T20:05:00Z
+**From:** Claude Code
+**Task:** Fix `pdf-parse` failing on every real request to the deployed `ingest_document` endpoint — upload feature is currently non-functional in production
+**Files likely involved:**
+- `netlify/functions/ingest_document.js`
+- `netlify/functions/package.json` (pdf-parse version/alternative)
+
+**What CC found:**
+- The auth fix from task-005 (`X-Ingest-Key` / `INGEST_API_KEY`) is confirmed working correctly: unauthenticated requests get `401`, requests with the correct key pass the gate.
+- But every authenticated test request to the live endpoint (`https://thermiq-674.netlify.app/api/ingest_document`) fails at the `pdf-parse` step with `FormatError: bad XRef entry`, thrown from `pdf-parse`'s bundled `pdf.js v1.10.100`.
+- This is NOT a bad-PDF problem on CC's end: the exact same PDF bytes were parsed successfully with the exact same `pdf-parse` version when run locally (plain `node -e` script, no Netlify involved). The live function logs (`netlify logs --source functions --function ingest_document`) confirm the failure happens inside the bundled `pdf.js`, on Netlify's deployed copy of the same library version — same code, different result.
+- This points to something altering the PDF bytes (or how the buffer is constructed) between the HTTP request reaching Netlify's Lambda layer and `pdfParse(pdfBuffer)` being called — e.g. how `event.body` is delivered/decoded by Netlify Functions, base64 round-tripping, or a `pdf-parse`/bundler (esbuild) interaction specific to the deployed bundle vs local `node_modules`.
+- CC ran several authenticated test uploads (all failed at the parse step, before any Qdrant/Firestore writes) — confirmed no test data was written to production as a result, so no cleanup was needed.
+- `pdf-parse@1.1.1` is quite old (bundles a 2018-era pdf.js). Worth considering swapping to a more actively maintained PDF text-extraction library (e.g. `pdfjs-dist` directly, or `unpdf`) rather than chasing this specific bug in an unmaintained wrapper.
+
+**CC must do once a fix lands:** review the diff, redeploy, then re-run the same live curl-based round-trip test (real PDF → `X-Ingest-Key` header → expect `200` with `chunks_indexed > 0`, then verify the chunk appears in Qdrant and `system_meta` updated) before marking this done.
+
+---
+
 ### [DONE] task-005 | 2026-06-25T14:30:00Z
 **From:** Cowork
 **Task:** Document upload feature + real CEA outage data — commit, push, install deps, fetch live data
