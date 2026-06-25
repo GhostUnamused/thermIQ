@@ -1,13 +1,15 @@
 # watch_bridge.ps1
-# Watches BRIDGE.md for changes made by Cowork and auto-invokes Claude Code.
+# Watches BRIDGE.md for changes made by Cowork and alerts you to switch to Claude Code.
+# Works with Claude Code inside the Claude desktop app (no CLI install needed).
 #
 # USAGE:
 #   1. Open a PowerShell terminal in the project folder
 #   2. Run: .\scripts\watch_bridge.ps1
-#   3. Leave it running in the background while you work in Cowork
+#   3. Leave it running while you work in Cowork
 #
-# Every time Cowork saves a new task to BRIDGE.md, this script will
-# automatically call Claude Code to read and implement the PENDING tasks.
+# When Cowork writes a new task to BRIDGE.md, the terminal will beep and
+# show a prompt to switch to Claude Code in the desktop app.
+# Tell CC: "Check BRIDGE.md for pending tasks."
 
 $projectDir = Split-Path -Parent $PSScriptRoot
 $bridgeFile  = Join-Path $projectDir "BRIDGE.md"
@@ -40,18 +42,15 @@ while ($true) {
         $timestamp = $now.ToString("HH:mm:ss")
         Write-Host "[$timestamp] BRIDGE.md updated by Cowork - invoking Claude Code..." -ForegroundColor Yellow
 
-        # Move into the project directory so CC has the right context
-        Push-Location $projectDir
-
-        # Call Claude Code non-interactively with the bridge instruction
-        # --dangerously-skip-permissions lets it run without prompts
-        $prompt = "Read BRIDGE.md. Find every task marked [PENDING]. Implement each one in order. After completing each task, update its status in BRIDGE.md to [DONE] with a one-line summary of what you did, or [FAILED: reason] if it could not be completed. Then git add, commit, and push if any files were changed."
-
-        claude --dangerously-skip-permissions $prompt
-
-        Pop-Location
-
-        Write-Host "[$timestamp] Claude Code finished. Watching for next update..." -ForegroundColor Green
+        # Alert the user to switch to Claude Code in the desktop app
+        # (Claude Code CLI is not required — this works with CC inside the desktop app)
+        [console]::beep(800, 200)
+        [console]::beep(800, 200)
+        Write-Host ""
+        Write-Host "  *** ACTION NEEDED ***" -ForegroundColor White -BackgroundColor DarkMagenta
+        Write-Host "  Switch to Claude Code in the Claude desktop app." -ForegroundColor Cyan
+        Write-Host "  Tell it: 'Check BRIDGE.md for pending tasks.'" -ForegroundColor Cyan
+        Write-Host "  (CC will read BRIDGE.md, implement the task, and push to GitHub.)" -ForegroundColor Gray
         Write-Host ""
     }
 }
