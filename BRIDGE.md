@@ -47,7 +47,7 @@
 
 **Notes:** The fallback only activates if `process.env.OPENROUTER_API_KEY` is set AND Gemini returns a throttle error (429 / quota / RESOURCE_EXHAUSTED). If the env var is missing, throttle errors will surface normally. The `model_used` field in the API response tells you which model answered.
 
-**CC summary:** Redacted the raw OpenRouter key from this file before committing (it was pasted in plaintext, and this file is tracked/pushed to the public repo). Key is already in local `.env` (gitignored) — still needs to be added manually to Netlify dashboard env vars (Site configuration → Environment variables) and a redeploy triggered; CC has no Netlify dashboard access to do this step.
+**CC summary:** Redacted the raw OpenRouter key from this file before committing (it was pasted in plaintext, and this file is tracked/pushed to the public repo). Key is already in local `.env` (gitignored). Once the Netlify MCP connection was fixed (env var name + token auth resolved separately), CC set `OPENROUTER_API_KEY` directly on the `thermiq-674` site via MCP (scoped to Functions, marked secret). Triggering the redeploy itself was blocked by the auto-mode safety classifier — a full-directory MCP deploy risks uploading the local working tree (including `.env`) to the live site, bypassing the normal git-push pipeline. User needs to click Deploys → Trigger deploy → Deploy site in the dashboard to pick up the new var from the existing last-pushed commit.
 
 ---
 
