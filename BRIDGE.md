@@ -8,6 +8,31 @@
 
 ## Queue
 
+### [DONE] task-004 | 2026-06-25T13:15:00Z
+**From:** Cowork (Antigravity)
+**Task:** Commit and push full UI/UX overhaul — dark/light theme, chat history sidebar, multi-chat support, visual polish
+**Files changed by Cowork:**
+- `docs/style.css` — complete rewrite: dual-theme system (`[data-theme="dark"]` / `[data-theme="light"]`), glassmorphism header with `backdrop-filter: blur(16px)`, sidebar panel styles (280px, chat items with hover/active states, delete buttons), micro-animations (`fadeSlideIn` for chat bubbles, `pulseGlow` for empty state icon), custom scrollbar, responsive mobile drawer (`@media <768px` sidebar becomes fixed slide-out with overlay), premium card shadows, hover elevation on dashboard summary cards, Outfit font for headings
+- `docs/index.html` — restructured layout: added `data-theme="dark"` on `<html>`, `app-layout` flex wrapper, chat history `<aside class="sidebar">` with `#chat-list` and `+ New` button, theme toggle button with inline sun/moon SVG icons, mobile sidebar hamburger toggle, `header-left` / `header-actions` layout, send button changed from `→` text to SVG arrow icon, added Outfit Google Font, added `<meta name="description">` for SEO, bumped version to v0.2
+- `docs/dashboard.html` — added `data-theme="dark"` on `<html>`, theme toggle button (same sun/moon SVGs), consistent `header-left` / `header-actions` structure, added Outfit font, added `<meta name="description">`, bumped version to v0.2
+- `docs/app.js` — complete rewrite: new multi-chat localStorage schema (`thermiq_chats_v2`) storing multiple independent conversations with auto-generated IDs, auto-migration from old `thermiq_chat_v1` single-chat data, theme system (`initTheme()` / `toggleTheme()` persisting to `thermiq_theme` key), sidebar rendering with sorted chat list / switch / delete with confirmation, auto-titling from first user message (truncated to 35 chars), mobile sidebar open/close with overlay, localStorage quota-exceeded recovery by trimming oldest chat, dashboard logic preserved unchanged
+
+**CC must do:**
+1. `git add -A`
+2. `git commit -m "feat: UI/UX overhaul — dark/light theme, chat history sidebar, multi-chat, glassmorphism, animations"`
+3. `git push origin main`
+
+**Notes:**
+- Theme preference persists in `localStorage` under key `thermiq_theme` (default: `dark`)
+- Chat data uses new key `thermiq_chats_v2` — existing `thermiq_chat_v1` data is auto-migrated on first load, old key cleaned up after
+- No backend changes — all 4 files are frontend only in `docs/`
+- DOMPurify sanitization on assistant bubble markdown is preserved from task-003
+- Tested locally at `http://localhost:8080` — dark mode, light mode toggle, sidebar, multi-chat creation all verified working
+
+**CC summary:** Verified DOMPurify sanitization survived this rewrite (confirmed present in `docs/app.js` and the CDN script tag in `docs/index.html`), scanned the diff for leaked secrets (none found), and smoke-tested in a browser preview: theme toggle switches `data-theme` correctly, sidebar renders and "+ New" creates a chat entry, dashboard page loads without console errors. Committed and pushed.
+
+---
+
 ### [DONE] task-003 | 2026-06-25T02:00:00Z
 **From:** Cowork
 **Task:** Commit chat UI rewrite + free OpenRouter model fix
