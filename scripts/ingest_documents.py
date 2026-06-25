@@ -169,7 +169,7 @@ def main():
         sys.exit(1)
 
     pdf_path, doc_type, source_doc_name, source_url = sys.argv[1:5]
-    client = sys.argv[5] if len(sys.argv) > 5 else ""
+    doc_client = sys.argv[5] if len(sys.argv) > 5 else ""
     doc_slug = source_doc_name.lower().replace(" ", "_")
 
     start_time = time.time()
@@ -217,7 +217,7 @@ def main():
             "source_doc": source_doc_name,
             "source_url": source_url,
             "doc_type": doc_type,
-            "client": client,  # "" for standard/regulatory docs; "ntpc" etc. for plant-specific
+            "client": doc_client,  # "" for standard/regulatory docs; "ntpc" etc. for plant-specific
             "equipment_tags": chunk["equipment_tags"],
             "section": "",
             "page_number": chunk["page_number"],
