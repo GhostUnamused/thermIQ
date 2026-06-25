@@ -92,7 +92,8 @@ def main():
     for station, unit, capacity_mw, mw_lost, days_ago, outage_hours, reason in SAMPLE_OUTAGES:
         date_out = now - timedelta(days=days_ago)
         expected_return = date_out + timedelta(hours=outage_hours)
-        revenue_lost = round((mw_lost * outage_hours * REVENUE_RATE) / 10_000_000, 2)
+        # MW × 1000 = kW; kW × hours = kWh; kWh × ₹/kWh = ₹; ÷ 1e7 = ₹ crore
+        revenue_lost = round((mw_lost * 1000 * outage_hours * REVENUE_RATE) / 10_000_000, 2)
 
         date_out_str = date_out.strftime("%Y-%m-%d")
         doc_id = f"{station}_{unit}_{date_out_str}".replace(" ", "_").replace("/", "-")
@@ -119,7 +120,7 @@ def main():
 
     total_mw = sum(r[3] for r in SAMPLE_OUTAGES)
     total_rev = sum(
-        round((r[3] * r[5] * REVENUE_RATE) / 10_000_000, 2)
+        round((r[3] * 1000 * r[5] * REVENUE_RATE) / 10_000_000, 2)
         for r in SAMPLE_OUTAGES
     )
     print(f"\nSeeded {written} records | Total MW lost: {total_mw} | Total revenue impact: ₹{total_rev:.2f} Cr")

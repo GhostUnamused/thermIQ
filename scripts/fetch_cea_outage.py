@@ -221,7 +221,8 @@ def main():
         equipment_tag = map_equipment_tag(record["reason"])
         failure_category = map_failure_category(record["reason"])
         outage_hours = compute_outage_hours(record["date_out"], record["expected_return"])
-        revenue_lost_est_cr = (record["mw_lost"] * outage_hours * REVENUE_RATE_PER_KWH) / 10000000
+        # MW × 1000 = kW; kW × hours = kWh; kWh × ₹/kWh = ₹; ÷ 1e7 = ₹ crore
+        revenue_lost_est_cr = (record["mw_lost"] * 1000 * outage_hours * REVENUE_RATE_PER_KWH) / 10000000
 
         date_out_str = to_date_string(record["date_out"])
         doc_id = (
