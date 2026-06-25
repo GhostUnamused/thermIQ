@@ -41,6 +41,8 @@ Live CEA fetch (`scripts/fetch_cea_outage.py`) failed — `npp.gov.in`'s report 
 
 **Follow-up needed:** the real npp.gov.in URL scheme needs to be re-discovered (current pattern is stale) before the daily GitHub Actions cron (`cea-ingest.yml`) will produce real data instead of erroring.
 
+**Correction (post-task verification):** Tested the live `/api/ingest_document` endpoint end-to-end and got persistent 401s even with the correct `X-Ingest-Key`. Root cause: the Netlify MCP's `manage-env-vars` tool reported "Environment variable upserted" for both `INGEST_API_KEY` and the earlier `OPENROUTER_API_KEY` (task-002), but neither actually persisted — `netlify env:list` showed neither var existed at all. Re-set both for real via `netlify-cli env:import` (reading from a temp file, not a literal CLI arg, to avoid exposing the secret in shell history/process list). Netlify Functions snapshot env vars at deploy time, not per-request, so every deploy since task-002 has been running without `OPENROUTER_API_KEY` baked in — the OpenRouter fallback was never actually live despite being reported as such. Triggering a fresh deploy now via git push to bake in the now-correctly-set vars; will re-verify both the ingest auth and OpenRouter fallback afterward. **Lesson: the Netlify MCP's env-var write tool cannot be trusted on success alone — must verify via `env:list` or a live functional test, not just the tool's return message.**
+
 ### [DONE] task-004 | 2026-06-25T13:15:00Z
 **From:** Cowork (Antigravity)
 **Task:** Commit and push full UI/UX overhaul — dark/light theme, chat history sidebar, multi-chat support, visual polish
