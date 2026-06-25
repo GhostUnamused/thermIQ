@@ -4,6 +4,7 @@
 .env
 .env.local
 data/raw/
+data/chunks/
 __pycache__/
 *.pyc
 *.pyo

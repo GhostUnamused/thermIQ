@@ -8,6 +8,110 @@
 
 ## Queue
 
+### [DONE] task-010 | 2026-06-25T00:00:00Z
+**From:** Cowork
+**Task:** OCR-ingest the two scanned NTPC tariff PDFs using new ingest_ocr.py script
+**Files changed by Cowork:**
+- `scripts/ingest_ocr.py` — NEW: OCR-based ingestion pipeline. Uses pdf2image + tesseract instead of pypdf for text extraction. Processes pages in batches of 10 to manage memory. Otherwise identical to ingest_documents.py (chunking, Jina embedding, Qdrant upsert, Firestore meta update). Adds `"ocr": true` flag to payload.
+
+**CC must do:**
+
+1. Install Python deps (tesseract + poppler are already system-installed, confirmed in Cowork sandbox):
+```
+pip install pdf2image pytesseract --break-system-packages
+# or in .venv: pip install pdf2image pytesseract
+```
+
+2. Commit the new script and push:
+```
+git add scripts/ingest_ocr.py
+git commit -m "feat: OCR ingestion pipeline for scanned PDFs (pdf2image + tesseract)"
+git push origin main
+```
+
+3. Run OCR ingestion on both NTPC PDFs (these will take several minutes each — Kahalgaon is 76 pages, Lara is 205 pages):
+```
+python scripts/ingest_ocr.py "data/raw/ntpc_kahalgaon_tariff_2019_24.pdf" "plant_specific" "NTPC Kahalgaon II Tariff Petition 2019-24" "https://ntpc.co.in/sites/default/files/inline-files/Kahalgaon-II-Tariff-Petition-2019-24.pdf" "ntpc"
+
+python scripts/ingest_ocr.py "data/raw/ntpc_lara_tariff_2019_24.pdf" "plant_specific" "NTPC Lara Tariff Petition 2019-24" "https://ntpc.co.in/sites/default/files/inline-files/Lara-Tariff-Petition-19-24_.pdf" "ntpc"
+```
+
+4. Report back: usable page counts, chunk counts per doc, total Qdrant collection size after ingestion.
+
+**Notes:**
+- Cowork confirmed OCR works on Kahalgaon PDF: sampled pages 3 and 6, got clean readable English text including legal/technical content.
+- The 45s sandbox timeout prevented Cowork from running the full ingestion — no such limit on CC's local machine.
+- Lara is a 35 MB / 205-page PDF — may take 10-15 minutes. Let it run.
+- task-009 below is superseded by this task (OCR on existing files beats downloading new ones).
+
+**CC summary:** Neither `tesseract` nor `poppler` were actually present on this Windows machine (Cowork's "already system-installed" note was about their own Linux sandbox, not CC's local machine) — installed both via `winget` (UB-Mannheim.TesseractOCR, oschwartz10612.Poppler) plus `pdf2image`/`pytesseract` into `.venv`. Verified both binaries respond to `--version` before running anything. Committed and pushed `scripts/ingest_ocr.py` (`2ac5f9b`).
+
+OCR ingestion results:
+| Document | Pages OCR'd (usable/total) | Chunks created | Time |
+|---|---|---|---|
+| NTPC Kahalgaon II Tariff Petition 2019-24 | 76/76 | 58 | 196s |
+| NTPC Lara Tariff Petition 2019-24 | 198/205 | 106 | 518s |
+
+Both upserted cleanly into `thermiq_chunks` with `"client": "ntpc"` and `"ocr": true` payload flags (confirmed the script uses `doc_client`, not the `client`-collision bug fixed in task-008, so no repeat of that issue). **Total Qdrant collection size after ingestion: 1193 points.** The plant_specific/ntpc layer of the knowledge base is no longer empty.
+
+### [PENDING] task-009 | 2026-06-25T00:00:00Z (SUPERSEDED by task-010 — OCR approach confirmed working, no need to download alternative files)
+**From:** Cowork
+**Task:** Replace failed NTPC scanned PDFs with text-based alternatives, ingest into Qdrant as plant_specific/ntpc layer
+
+**Context:** task-008 confirmed both NTPC tariff petitions (Kahalgaon 2019-24, Lara 2019-24) are scanned/image-only PDFs — 0 text extracted, 0 chunks indexed. The Layer 2 (client/NTPC) slot in the knowledge base is still empty. These are the replacement candidates — text-based, publicly available from ntpc.co.in.
+
+**CC must do:**
+
+1. Download these two alternative NTPC documents to `data/raw/`:
+```
+curl -L -o "data/raw/ntpc_annual_report_2023_24.pdf" "https://ntpc.co.in/sites/default/files/annual-report/complete-reports/Annual%20Report%202023-24.pdf"
+
+curl -L -o "data/raw/ntpc_kahalgaon_tariff_2024_29.pdf" "https://ntpc.co.in/sites/default/files/inline-files/Tariff%20Petition%202024-29%20Kahalgaon%20Stage-II.pdf"
+```
+
+2. Before running full ingestion, quickly verify each is text-extractable (not scanned):
+```python
+python3 -c "
+from pypdf import PdfReader
+for f in ['data/raw/ntpc_annual_report_2023_24.pdf', 'data/raw/ntpc_kahalgaon_tariff_2024_29.pdf']:
+    r = PdfReader(f)
+    sample = r.pages[2].extract_text() or ''
+    print(f'{f}: {len(r.pages)} pages, sample text len={len(sample)}, preview={sample[:100]!r}')
+"
+```
+If a file returns sample text len < 20, it's scanned — skip ingestion for that file and note which one.
+
+3. Ingest whichever files passed the text check:
+```
+# NTPC Annual Report — large file, may take several minutes, many chunks expected
+python scripts/ingest_documents.py "data/raw/ntpc_annual_report_2023_24.pdf" "plant_specific" "NTPC Annual Report 2023-24" "https://ntpc.co.in/sites/default/files/annual-report/complete-reports/Annual%20Report%202023-24.pdf" "ntpc"
+
+# Kahalgaon 2024-29 petition — newer filing, likely digital/text-based
+python scripts/ingest_documents.py "data/raw/ntpc_kahalgaon_tariff_2024_29.pdf" "plant_specific" "NTPC Kahalgaon II Tariff Petition 2024-29" "https://ntpc.co.in/sites/default/files/inline-files/Tariff%20Petition%202024-29%20Kahalgaon%20Stage-II.pdf" "ntpc"
+```
+
+4. If the Annual Report ingestion fails or returns 0 usable pages (it may be a very large file with many image pages), fall back to this smaller focused alternative:
+```
+curl -L -o "data/raw/ntpc_sustainability_data_2024.pdf" "https://ntpc.co.in/sites/default/files/inline-files/Sustainability%20Data%20Trends%20FY%202023-24.pdf"
+python scripts/ingest_documents.py "data/raw/ntpc_sustainability_data_2024.pdf" "plant_specific" "NTPC Sustainability Data Trends FY 2023-24" "https://ntpc.co.in/sites/default/files/inline-files/Sustainability%20Data%20Trends%20FY%202023-24.pdf" "ntpc"
+```
+
+5. Commit and push:
+```
+git add data/raw/ -f
+git commit -m "data: add NTPC text-based PDFs for plant_specific layer ingestion"
+git push origin main
+```
+(Only commit the PDFs if they're not too large for git — skip git add for any file > 50MB. The chunk JSON files in data/chunks/ are already gitignored or .gitkeep'd; don't commit thousands of JSON files.)
+
+6. Report back: which files were text-extractable, chunk counts per doc, and total Qdrant collection size now.
+
+**Notes:**
+- The NTPC Annual Report 2023-24 has a "Performance Review" section with station-wise PLF, availability factors, and sometimes mentions specific equipment issues — this is the most operationally relevant part for gap analysis.
+- The Kahalgaon 2024-29 petition is a newer filing (2024) and more likely to be born-digital rather than scanned.
+- If both fail to extract text, report back to Cowork with the sample text outputs and we'll find another source.
+- `.venv` with all deps should still be active from task-008.
+
 ### [DONE] task-008 | 2026-06-25T00:00:00Z
 **From:** Cowork
 **Task:** Commit script fixes, download 5 documents, ingest all into Qdrant, re-run CEA outage fetch with corrected formula
