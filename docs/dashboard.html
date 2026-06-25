@@ -115,6 +115,53 @@
     </section>
 
     <p class="last-updated" id="last-updated"></p>
+
+    <!-- Document Upload -->
+    <section class="card table-card upload-section">
+      <h2>Ingest New Document</h2>
+      <p class="upload-description">
+        Upload a PDF to add it to the ThermIQ knowledge base. Text is extracted, chunked, and embedded into Qdrant automatically.
+        Max ~6 MB. For larger files, use <code>scripts/ingest_documents.py</code>.
+      </p>
+      <div class="upload-form">
+        <div class="upload-row">
+          <label class="upload-label">
+            Document Name
+            <input type="text" id="upload-doc-name" class="upload-input" placeholder="e.g. CEA R&M Guideline 2023" />
+          </label>
+          <label class="upload-label">
+            Document Type
+            <select id="upload-doc-type" class="upload-input upload-select">
+              <option value="guideline">Guideline / Standard</option>
+              <option value="sop">SOP / Procedure</option>
+              <option value="technical_spec">Technical Specification</option>
+              <option value="tariff_petition">Tariff Petition</option>
+              <option value="manual">Manual / Handbook</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="upload-label">
+            Source URL <span class="optional">(optional)</span>
+            <input type="url" id="upload-source-url" class="upload-input" placeholder="https://..." />
+          </label>
+        </div>
+        <div class="upload-drop-zone" id="upload-drop-zone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="upload-icon">
+            <path d="M12 16V4m0 0L8 8m4-4 4 4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round"/>
+          </svg>
+          <p class="drop-text">Drop PDF here or <label for="upload-file-input" class="drop-link">browse</label></p>
+          <p class="drop-hint" id="upload-file-name">No file selected · PDF only · max ~6 MB</p>
+          <input type="file" id="upload-file-input" accept=".pdf" style="display:none" />
+        </div>
+        <div class="upload-actions">
+          <button id="upload-submit-btn" class="btn-upload" disabled>
+            <span id="upload-btn-text">Ingest Document</span>
+          </button>
+        </div>
+        <div id="upload-status" class="upload-status hidden"></div>
+      </div>
+    </section>
   </main>
 
   <footer class="site-footer">

@@ -6,6 +6,11 @@ const BACKEND = window.location.hostname.includes('github.io')
   ? 'https://thermiq-674.netlify.app'
   : '';
 
+// Shared secret for the document-ingest endpoint. Lives in client JS by necessity
+// (no server-side auth layer in this architecture) — deters opportunistic bots
+// probing the function URL, not a defense against a targeted attacker.
+const INGEST_KEY = 'd15f9ec8fb50af9f6cfe2fdce1dac181538c5495b81302fd';
+
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
 function escapeHtml(str) {
@@ -535,7 +540,144 @@ async function initDashboard() {
   if (lastUpdated) lastUpdated.textContent = `Last updated: ${new Date().toLocaleString()}`;
 }
 
+// ─── Document Upload (dashboard.html) ────────────────────────────────────────
+
+function initUpload() {
+  const dropZone   = document.getElementById('upload-drop-zone');
+  if (!dropZone) return;
+
+  const fileInput  = document.getElementById('upload-file-input');
+  const docName    = document.getElementById('upload-doc-name');
+  const docType    = document.getElementById('upload-doc-type');
+  const sourceUrl  = document.getElementById('upload-source-url');
+  const submitBtn  = document.getElementById('upload-submit-btn');
+  const btnText    = document.getElementById('upload-btn-text');
+  const statusEl   = document.getElementById('upload-status');
+  const fileLabel  = document.getElementById('upload-file-name');
+
+  const MAX_BYTES = 6 * 1024 * 1024; // 6 MB
+  let selectedFile = null;
+
+  function setStatus(msg, type = 'info') {
+    statusEl.className = `upload-status upload-status--${type}`;
+    statusEl.textContent = msg;
+    statusEl.classList.remove('hidden');
+  }
+
+  function clearStatus() {
+    statusEl.className = 'upload-status hidden';
+    statusEl.textContent = '';
+  }
+
+  function updateSubmitState() {
+    const ready = selectedFile && docName.value.trim();
+    submitBtn.disabled = !ready;
+  }
+
+  function handleFile(file) {
+    if (!file) return;
+    if (!file.name.toLowerCase().endsWith('.pdf')) {
+      setStatus('Only PDF files are supported.', 'error');
+      return;
+    }
+    if (file.size > MAX_BYTES) {
+      setStatus(`File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Max ~6 MB.`, 'error');
+      return;
+    }
+    clearStatus();
+    selectedFile = file;
+    fileLabel.textContent = `${file.name} · ${(file.size / 1024).toFixed(0)} KB`;
+    dropZone.classList.add('has-file');
+    // Auto-fill doc name if empty
+    if (!docName.value.trim()) {
+      docName.value = file.name.replace(/\.pdf$/i, '').replace(/[_-]/g, ' ');
+    }
+    updateSubmitState();
+  }
+
+  // Drag & drop
+  dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+  dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('drag-over');
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  });
+
+  // Click to browse
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files[0]) handleFile(fileInput.files[0]);
+  });
+
+  // Doc name required
+  docName.addEventListener('input', updateSubmitState);
+
+  // Submit
+  submitBtn.addEventListener('click', async () => {
+    if (!selectedFile || !docName.value.trim()) return;
+
+    submitBtn.disabled = true;
+    btnText.textContent = 'Reading PDF…';
+    clearStatus();
+
+    try {
+      // Read file as base64
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const dataUrl = reader.result;
+          resolve(dataUrl.split(',')[1]); // strip "data:application/pdf;base64,"
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(selectedFile);
+      });
+
+      btnText.textContent = 'Chunking & embedding…';
+      setStatus('Embedding chunks via Jina AI — this can take up to 20 seconds…', 'info');
+
+      const res = await fetch(`${BACKEND}/api/ingest_document`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+        body: JSON.stringify({
+          pdf_base64: base64,
+          doc_name:   docName.value.trim(),
+          doc_type:   docType.value,
+          source_url: sourceUrl.value.trim(),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        throw new Error(data.error || `Server error ${res.status}`);
+      }
+
+      setStatus(
+        `✓ Ingested "${data.doc_name}" — ${data.chunks_indexed} chunks indexed from ${data.pages_parsed} pages.`,
+        'success'
+      );
+
+      // Reset form
+      selectedFile = null;
+      fileInput.value = '';
+      docName.value = '';
+      sourceUrl.value = '';
+      fileLabel.textContent = 'No file selected · PDF only · max ~6 MB';
+      dropZone.classList.remove('has-file');
+      btnText.textContent = 'Ingest Document';
+      submitBtn.disabled = true;
+
+    } catch (err) {
+      setStatus(`Error: ${err.message}`, 'error');
+      btnText.textContent = 'Ingest Document';
+      submitBtn.disabled = false;
+    }
+  });
+}
+
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
 
 initQueryCopilot();
 initDashboard();
+initUpload();

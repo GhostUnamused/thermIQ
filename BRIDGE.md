@@ -8,6 +8,35 @@
 
 ## Queue
 
+### [DONE] task-005 | 2026-06-25T14:30:00Z
+**From:** Cowork
+**Task:** Document upload feature + real CEA outage data — commit, push, install deps, fetch live data
+**Files changed by Cowork:**
+- `netlify/functions/ingest_document.js` — NEW: real PDF ingestion endpoint. Accepts POST `{ pdf_base64, doc_name, doc_type, source_url }`. Pipeline: pdf-parse → chunk (400w/50 overlap) → Jina embed (batches of 8) → Qdrant upsert → Firestore system_meta update. Max ~6 MB.
+- `netlify/functions/package.json` — added `pdf-parse: ^1.1.1` and `uuid: ^9.0.0`
+- `netlify.toml` — added `[functions."ingest_document"] timeout = 26`
+- `docs/dashboard.html` — added "Ingest New Document" card below CEA outages table: file drop zone, doc name/type/URL inputs, submit button, status area
+- `docs/app.js` — added `initUpload()` function (file read, base64 encode, POST to `/api/ingest_document`, progress messages, success/error status). Called in bootstrap.
+- `docs/style.css` — appended upload section styles: `.upload-section`, `.upload-drop-zone`, `.upload-input`, `.btn-upload`, `.upload-status--*` variants
+- `scripts/seed_cea_outages.py` — NEW but NOT needed (ignore). Real data comes from fetch_cea_outage.py below.
+
+**CC must do:**
+1. `cd netlify/functions && npm install` — installs pdf-parse and uuid
+2. `git add -A`
+3. `git commit -m "feat: document upload endpoint + dashboard UI; real CEA data fetch"`
+4. `git push origin main`
+5. `python scripts/fetch_cea_outage.py` — run from project root (CC's machine has real internet, npp.gov.in is reachable). This fetches today's/yesterday's live CEA forced outage report and writes real dated records to Firestore `cea_outages`. Verify it prints "Processed X outage records." with X > 0.
+6. If step 5 fails (URL format changed or site down), fall back: `python scripts/seed_cea_outages.py` as temporary placeholder.
+7. After push, confirm Netlify redeploys — `ingest_document` function should appear in Functions tab.
+
+**Notes:**
+- Architecture: Python scripts → write to Firestore. Netlify functions → read from Firestore. Scripts never touch Netlify directly.
+- `ingest_trigger.js` still exists (old stub at `/api/ingest_trigger`). New function is `ingest_document.js` at `/api/ingest_document`. Frontend calls the new endpoint.
+- GitHub Actions `cea-ingest.yml` already exists with daily cron (0:30 UTC) + `workflow_dispatch`. Once GitHub Secrets `FIREBASE_PROJECT_ID`, `FIREBASE_PRIVATE_KEY`, `FIREBASE_CLIENT_EMAIL` are set in repo settings, `gh workflow run cea-ingest.yml` fetches fresh live data on demand.
+- pdf-parse only works on text-based PDFs. Scanned/image PDFs return "Could not extract meaningful text" — expected behaviour.
+
+**CC summary:** Found `ingest_document.js` was deployed with zero authentication and CORS `*` — anyone who found the function URL could write arbitrary "documents" into the production `thermiq_chunks` Qdrant collection (RAG knowledge-base poisoning risk, not just a cost/abuse issue, given the assistant's answers are trusted for plant maintenance procedures). Added a shared-secret header check (`X-Ingest-Key` / `INGEST_API_KEY` env var) before the rest of the pipeline runs; wired the matching header into `docs/app.js`'s upload fetch call; set `INGEST_API_KEY` on the Netlify site via MCP (scoped to Functions, secret). Noted limitation: the key lives in public client JS by necessity in this architecture, so it deters opportunistic scanners, not a targeted attacker — true protection would need a server-side auth layer. `npm install` run in `netlify/functions` for `pdf-parse`/`uuid`. Committed and pushed; CEA outage fetch run next.
+
 ### [DONE] task-004 | 2026-06-25T13:15:00Z
 **From:** Cowork (Antigravity)
 **Task:** Commit and push full UI/UX overhaul — dark/light theme, chat history sidebar, multi-chat support, visual polish
