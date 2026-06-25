@@ -7,10 +7,9 @@ Run daily by .github/workflows/cea-ingest.yml.
 import os
 from datetime import datetime, timedelta
 
-import openpyxl
+import xlrd
 import requests
 from dotenv import load_dotenv
-from io import BytesIO
 
 import firebase_admin
 from firebase_admin import credentials, firestore
@@ -89,15 +88,32 @@ def download_report():
     raise RuntimeError("Could not fetch CEA outage report. Check URL pattern at npp.gov.in/dgrReports")
 
 
-def find_header_row(sheet):
-    for row_idx in range(1, 6):
-        row_values = [
-            str(cell.value).strip().lower() if cell.value else ""
-            for cell in sheet[row_idx]
-        ]
+def load_rows(content):
+    """CEA serves legacy binary .xls (OLE2/CFBF), not .xlsx — read with xlrd."""
+    wb = xlrd.open_workbook(file_contents=content)
+    sheet = wb.sheet_by_index(0)
+    return [
+        [sheet.cell_value(r, c) for c in range(sheet.ncols)]
+        for r in range(sheet.nrows)
+    ]
+
+
+def find_header_row(rows):
+    for row_idx in range(0, 8):
+        row_values = [str(v).strip().lower() if v != "" else "" for v in rows[row_idx]]
         if any("station" in v for v in row_values):
             return row_idx, row_values
     raise RuntimeError("Could not locate header row in CEA report.")
+
+
+def parse_dgr_datetime(value):
+    """CEA dates come through as plain text 'DD/MM/YYYY HH24:MM', not Excel date cells."""
+    if not value or not str(value).strip():
+        return None
+    try:
+        return datetime.strptime(str(value).strip(), "%d/%m/%Y %H:%M")
+    except ValueError:
+        return None
 
 
 def column_index(headers, candidates):
@@ -109,50 +125,51 @@ def column_index(headers, candidates):
 
 
 def parse_report(content):
-    wb = openpyxl.load_workbook(BytesIO(content), data_only=True)
-    sheet = wb.active
+    rows = load_rows(content)
+    header_row_idx, headers = find_header_row(rows)
 
-    header_row_idx, headers = find_header_row(sheet)
-
-    col_station = column_index(headers, ["station"])
+    # Real CEA "Daily Maintenance Report" columns (no single "outage MW" or
+    # "installed capacity" column — forced outage MW is split into
+    # Major/Minor, and capacity isn't reported here at all).
+    col_station = column_index(headers, ["power station", "station"])
     col_unit = column_index(headers, ["unit"])
-    col_capacity = column_index(headers, ["installed capacity"])
-    col_outage_mw = column_index(headers, ["outage mw", "outage (mw)"])
-    col_date_out = column_index(headers, ["date of outage"])
-    col_expected_return = column_index(headers, ["expected date of return", "expected return"])
-    col_reason = column_index(headers, ["reason for outage", "reason"])
+    col_forced_major = column_index(headers, ["forced maintenance (major)"])
+    col_forced_minor = column_index(headers, ["forced maintenance (minor)"])
+    col_date_out = column_index(headers, ["date& time of maintenance", "date and time of maintenance"])
+    col_expected_return = column_index(headers, ["expected/sync date of return", "expected return"])
+    col_reason = column_index(headers, ["reasons/present status", "reason"])
 
     records = []
-    for row in sheet.iter_rows(min_row=header_row_idx + 1, values_only=True):
+    for row in rows[header_row_idx + 1:]:
 
         def get(col):
             return row[col] if col is not None and col < len(row) else None
 
         station = get(col_station)
         unit = get(col_unit)
-        capacity = get(col_capacity)
-        outage_mw = get(col_outage_mw)
+        major_mw = get(col_forced_major)
+        minor_mw = get(col_forced_minor)
         date_out = get(col_date_out)
         expected_return = get(col_expected_return)
         reason = get(col_reason)
 
-        if not station or not outage_mw or not reason:
+        if not station or not str(station).strip() or not reason or not str(reason).strip():
             continue
         try:
-            outage_mw = float(outage_mw)
+            outage_mw = float(major_mw or 0) + float(minor_mw or 0)
         except (TypeError, ValueError):
             continue
-        if outage_mw <= 0 or not str(reason).strip():
-            continue
+        if outage_mw <= 0:
+            continue  # planned-only or zero-MW row, not a forced outage
 
         records.append(
             {
                 "station": str(station).strip(),
                 "unit": str(unit).strip() if unit else "",
-                "capacity_mw": float(capacity) if capacity else None,
+                "capacity_mw": None,  # not reported in this CEA report
                 "mw_lost": outage_mw,
-                "date_out": date_out,
-                "expected_return": expected_return,
+                "date_out": parse_dgr_datetime(date_out),
+                "expected_return": parse_dgr_datetime(expected_return),
                 "reason": str(reason).strip(),
             }
         )

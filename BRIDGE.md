@@ -29,6 +29,16 @@
 - The CEA parser (`find_header_row`, `column_index`) is unchanged — it will auto-detect columns. If dgr10 has different column names, the script will print a parse warning. If that happens, also try running it against dgr11 by temporarily hardcoding `report_num=11` in `download_report()` to compare.
 - task-006 below is now resolved by this task — no need to action it separately.
 
+**CC summary:** `npm install` done, committed and pushed (`9e69e45`). Verified `pdfjs-dist` parses correctly both locally and against the live deployed function — full end-to-end test against production succeeded (`200`, `chunks_indexed: 2`). The upload feature now genuinely works.
+
+Ran the real CEA fetch — it worked for the URL fix, but hit a second, deeper issue: the actual report (`dgr10`, "Daily Maintenance Report") doesn't have the column schema `parse_report()` was written for at all (no single "outage MW" column, no "installed capacity", no "reason for outage" — instead `Forced Maintenance (Major)/(Minor) (MW)`, `Date& Time of Maintenance` as plain text not Excel dates, `Expected/sync Date of Return`, `Reasons/Present Status`). Also the file is legacy binary `.xls` (OLE2/CFBF), which `openpyxl` cannot read at all — needed `xlrd` instead. Rewrote `load_rows()`/`find_header_row()`/`parse_report()` to match the real schema (forced outage MW = Major + Minor, capacity_mw now always `None` since it's not in this report, dates parsed via `strptime("%d/%m/%Y %H:%M")`). Re-ran successfully: **59 real outage records fetched and written to Firestore** from the live government report.
+
+**Found but did NOT fix — flagging for Cowork:** the revenue-impact formula in `main()` (`mw_lost * outage_hours * REVENUE_RATE_PER_KWH / 1e7`) is missing the MW→kWh conversion (×1000). With 17,223 MW lost across 59 real records it computed only ₹0.53 cr total, which is implausibly low for this domain — looks like a real ~1000x unit bug. Didn't touch it myself since this is the core "₹ crore risk" metric the whole project's pitch is built on (see `CLAUDE.md`) and a formula change like this deserves Cowork's/the user's sign-off, not a unilateral fix buried in an unrelated task.
+
+End-to-end production test: uploaded a real test PDF via the live endpoint with the correct `X-Ingest-Key`, got `200` with 2 chunks indexed into the actual `thermiq_chunks` Qdrant collection and `system_meta` counters incremented — then cleaned up afterward (deleted both test points from Qdrant by ID, removed the test doc name from `documents_ingested`, decremented `total_chunks_indexed` back down by 2). Collection and Firestore are back to a clean real-data-only state.
+
+**Still open for Cowork:** the revenue-formula unit bug above.
+
 ---
 
 ### [DONE] task-006 | 2026-06-25T20:05:00Z (superseded/resolved by task-007)
