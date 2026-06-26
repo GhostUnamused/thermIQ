@@ -86,9 +86,13 @@
     <section class="card table-card">
       <div class="docs-list-header">
         <h2>Knowledge Gap Analysis</h2>
-        <button id="recompute-btn" class="btn-recompute" title="Re-run gap detection against client corpus">
-          ⟳ Recompute Gaps
-        </button>
+        <div class="plant-selector-wrap">
+          <label for="plant-selector">Assessing plant:</label>
+          <select id="plant-selector" class="plant-selector"></select>
+          <button id="recompute-btn" class="btn-recompute" title="Re-run gap detection against client corpus">
+            ⟳ Recompute Gaps
+          </button>
+        </div>
       </div>
       <div id="recompute-status" style="display:none;font-size:0.82rem;color:var(--orange);margin-bottom:0.75rem;padding:0.5rem 0.75rem;background:rgba(246,173,85,0.08);border-radius:6px;"></div>
       <table class="data-table" id="gaps-table">

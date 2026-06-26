@@ -282,6 +282,7 @@ module.exports = async (req, res) => {
 
   const body = req.body || {};
   const clientName = (body.client_name || '').trim().toLowerCase() || null;
+  const cnKey = clientName || 'all_clients';
   const triggeredBy = body.triggered_by || 'manual';
 
   try {
@@ -357,6 +358,7 @@ module.exports = async (req, res) => {
         // ── Audit trail ─────────────────────────────────────────────────────
         // A judge can trace every number: requirement → client score → threshold → formula
         benchmark_requirement: expected.query,
+        client_name:           cnKey,
         client_name_assessed:  clientName || 'all_clients',
         best_match_score:      Math.round(bestClientScore * 1000) / 1000,
         avg_match_score:       Math.round(avgClientScore * 1000) / 1000,
@@ -381,17 +383,21 @@ module.exports = async (req, res) => {
     // Sort by risk score descending
     results.sort((a, b) => b.risk_score_cr - a.risk_score_cr);
 
-    // Write to Firestore (clear then rewrite)
+    // Write to Firestore — namespaced per client. Clear only THIS client's previous
+    // records (plus any legacy global docs that have no client_name), then rewrite.
     const batch = db.batch();
     const riskRef = db.collection('risk_scores');
 
-    // Clear old records
     const existing = await riskRef.get();
-    existing.docs.forEach((d) => batch.delete(d.ref));
+    existing.docs.forEach((d) => {
+      const data = d.data();
+      if (data.client_name === cnKey || data.client_name === undefined) {
+        batch.delete(d.ref);
+      }
+    });
 
-    // Write new records
     results.forEach((r) => {
-      batch.set(riskRef.doc(r.gap_id), r);
+      batch.set(riskRef.doc(`${cnKey}__${r.gap_id}`), r);
     });
     await batch.commit();
 

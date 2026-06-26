@@ -12,6 +12,35 @@ const BACKEND = window.location.hostname.includes('github.io')
 // probing the function URL, not a defense against a targeted attacker.
 const INGEST_KEY = 'd15f9ec8fb50af9f6cfe2fdce1dac181538c5495b81302fd';
 
+// ─── Active plant namespace ─────────────────────────────────────────────────────
+// No auth in the demo — one client at a time, stored locally.
+const ACTIVE_CLIENT_KEY = 'thermiq_active_client';
+function getActiveClient() {
+  return (localStorage.getItem(ACTIVE_CLIENT_KEY) || 'ntpc').trim().toLowerCase();
+}
+function setActiveClient(name) {
+  localStorage.setItem(ACTIVE_CLIENT_KEY, (name || 'ntpc').trim().toLowerCase());
+}
+async function initPlantSelector() {
+  const sel = document.getElementById('plant-selector');
+  if (!sel) return;
+  const active = getActiveClient();
+  const names = new Set([active]);
+  try {
+    const r = await fetch(`${BACKEND}/api/list_documents`);
+    const d = await r.json();
+    (d.documents || []).forEach((doc) => {
+      if (doc.source_type === 'client' && (doc.client_name || doc.client)) {
+        names.add((doc.client_name || doc.client).toLowerCase());
+      }
+    });
+  } catch (_) { /* selector still works with just the active client */ }
+  sel.innerHTML = [...names].sort().map(
+    (n) => `<option value="${n}"${n === active ? ' selected' : ''}>${n}</option>`
+  ).join('');
+  sel.addEventListener('change', () => { setActiveClient(sel.value); window.location.reload(); });
+}
+
 // ─── Utilities ────────────────────────────────────────────────────────────────
 
 function escapeHtml(str) {
@@ -499,6 +528,8 @@ async function initDashboard() {
   const outagesBody = document.getElementById('outages-table-body');
   if (!outagesBody) return;
 
+  initPlantSelector();
+
   const lastUpdated = document.getElementById('last-updated');
 
   // ── Fetch Gap Analysis ──
@@ -510,7 +541,7 @@ async function initDashboard() {
 
   if (gapsBody) {
     try {
-      const gapRes = await fetch(`${BACKEND}/api/gap_analysis`);
+      const gapRes = await fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(getActiveClient())}`);
       const gapData = await gapRes.json();
       const gaps = gapData.gaps || [];
 
@@ -641,7 +672,7 @@ async function initDashboard() {
         const res  = await fetch(`${BACKEND}/api/recompute_gaps`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
-          body: JSON.stringify({ triggered_by: 'manual_dashboard' }),
+          body: JSON.stringify({ triggered_by: 'manual_dashboard', client_name: getActiveClient() }),
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
@@ -680,6 +711,10 @@ function initUpload() {
 
   const MAX_BYTES = 6 * 1024 * 1024; // 6 MB
   let selectedFile = null;
+
+  // Default the plant name to the active client, and populate the selector.
+  if (clientNameEl && !clientNameEl.value) clientNameEl.value = getActiveClient();
+  initPlantSelector();
 
   // ── Source type radio helpers ─────────────────────────────────────────────
   function getSourceType() {
@@ -975,6 +1010,22 @@ async function deleteDocument(docId, docName) {
   }
 }
 
+async function clearPlant() {
+  const cn = getActiveClient();
+  if (!confirm(`Delete ALL documents and gap scores for plant "${cn}"?\n\nRemoves its Qdrant chunks, document records, and risk scores. Benchmarks untouched. Cannot be undone.`)) return;
+  try {
+    const res = await fetch(`${BACKEND}/api/clear_client`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+      body: JSON.stringify({ client_name: cn }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
+    alert(`Cleared "${cn}": ${data.documents_removed} docs, ${data.chunks_removed} chunks, ${data.risk_scores_removed} risk scores removed.`);
+    window.location.reload();
+  } catch (err) { alert(`Failed to clear plant: ${err.message}`); }
+}
+
 function initDocumentsPage() {
   // New page uses benchmark-docs-body / client-docs-body
   if (!document.getElementById('benchmark-docs-body') && !document.getElementById('client-docs-body')) return;
@@ -983,6 +1034,9 @@ function initDocumentsPage() {
 
   const refreshBtn = document.getElementById('docs-refresh-btn');
   if (refreshBtn) refreshBtn.addEventListener('click', loadDocuments);
+
+  const clearBtn = document.getElementById('clear-plant-btn');
+  if (clearBtn) clearBtn.addEventListener('click', clearPlant);
 
   // Delete button delegation — only client docs have delete buttons
   document.addEventListener('click', (e) => {

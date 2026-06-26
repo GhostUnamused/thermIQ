@@ -183,6 +183,11 @@
           <span class="source-badge source-badge--client">Being Assessed</span>
         </h2>
       </div>
+      <div class="plant-selector-wrap">
+        <label for="plant-selector">Active plant:</label>
+        <select id="plant-selector" class="plant-selector"></select>
+        <button id="clear-plant-btn" class="btn-clear-plant" title="Delete ALL documents and gap scores for the active plant">🧹 Clear this plant…</button>
+      </div>
       <p class="explainer" style="margin-bottom: 1rem;">
         Plant-specific operational documents. Gaps are measured against these.
         Deleting a document triggers gap recomputation (~60 seconds).
