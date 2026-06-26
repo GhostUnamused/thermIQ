@@ -8,7 +8,7 @@
 
 ## Queue
 
-### [PENDING] task-015 | 2026-06-26T18:00:00Z
+### [DONE] task-015 | 2026-06-26T18:00:00Z
 **From:** Cowork
 **Task:** Full rework — benchmark-vs-client RAG pipeline (Tasks 1–5). Commit all Cowork file changes, patch existing data, recompute gaps, verify live site.
 
@@ -94,6 +94,25 @@ git push origin main
 - Benchmark source changes are admin-only and NOT auto-triggered for recompute — this is a deliberate scope decision for the demo. Document it if a judge asks.
 - The NTPC tariff petitions are the only client documents currently. They contain financial/regulatory data, not operational SOPs — so MOST topics will show as "gap" (low client coverage). This is honest and is the point: the gap report shows what the plant hasn't documented (or what we don't have in the system). The demo narrative is: "If this plant had uploaded their SOPs and maintenance procedures, the gaps would close."
 - Do NOT delete the old `detect_gaps.py` — it's now the v2.0 version and is the authoritative gap computation tool.
+
+**CC summary:** Code-reviewed the full diff via a subagent before touching anything (auth gates on `delete_document`/`ingest_document`/`recompute_gaps` all intact, no new XSS vectors in `documents.html`/`app.js`'s escaped rendering, `detect_gaps.py`'s client-only filter logic verified correct). Hit a stale-looking `.git/index.lock` from a *second, concurrently-running* git process (another Codex/Cowork session active in this same repo, mid-`git add` on unrelated files: `.codex/`, `AGENTS.md`, `CURRENT_STATUS.md`) — paused and got explicit user confirmation before clearing the lock rather than assuming it was abandoned. Staged and committed only the task-015 files (`e808dac`), leaving that other session's untracked files and the bulk `data/chunks/*.json` diffs alone.
+
+Ran `patch_source_type.py` — 6 Firestore docs patched exactly as predicted (4 benchmark, 2 client) and all 1189 Qdrant points patched, split 1025 benchmark / 164 client (matches the task's own expected counts exactly).
+
+**Critical bug found and fixed:** the first `detect_gaps.py` run "succeeded" (exit 0) but every one of its 18 Qdrant filtered searches actually failed with `400 Bad Request: Index required but not found for "source_type"` — Qdrant Cloud requires an explicit payload index before a field can be used in any filter, and none existed for `source_type`/`client_name`. The script's retry/fallback logic swallowed this into `client_score=0.000` and wrote **18 fake "GAP" records (₹1347.2 Cr) to production Firestore** that looked like real measurements but were actually just every query erroring out. This same missing index meant the **live `/api/query` RAG endpoint had been broken since the `e808dac` deploy** — it filters on the identical fields for the benchmark/client split. Created both keyword payload indexes live on `thermiq_chunks` (`source_type`, `client_name`), verified the filtered count query now works (1025/164, matches), and re-ran `detect_gaps.py` for real: **18/18 gaps, ₹908.6 Cr total risk exposure**, client scores 0.21–0.39 (all below the 0.45 gap threshold) — consistent with the task's own prediction that the NTPC tariff petitions (financial/regulatory filings, not SOPs) wouldn't cover most operational topics.
+
+To stop this from recurring on the next full DB rebuild (it already happened once, in task-013), patched the two index-creation calls into every place that creates the collection from scratch: `scripts/ingest_documents.py`, `scripts/ingest_ocr.py`, and `scripts/wipe_and_reset.py` (uncommitted ops script, fixed in place for next use).
+
+**Live verification (step 5), all passed:**
+- `/api/list_documents` → 200, every doc has `source_type`/`client_name`
+- `documents.html` → "Benchmark Sources" (locked) / "Client Plant Sources" sections both present
+- `dashboard.html` → methodology banner + "Recompute Gaps" button present
+- `/api/query` "Does the Lara plant document a BFP seal replacement procedure?" → correctly hit the confidence floor (best score 0.343 < 0.50) and returned the honest "Limited coverage" message — no fabrication
+- `/api/query` "What ramp rate does the CEA spec require for cold boiler startup?" → answered citing `[Benchmark: CEA Standard Technical Specification 500MW]` correctly
+
+**Found, not fixed (flagging for Cowork):** the live "Recompute Gaps" button (`POST /api/recompute_gaps`) 500s with a Jina `429 Concurrency limit exceeded (2/2)` — it fires ~18 Jina embedding calls in parallel but Jina's free tier caps concurrency at 2. This is a different failure mode than the timeout the task notes anticipated, but the same conclusion holds: `detect_gaps.py` (sequential, already proven above) is the reliable path; the live button needs its embedding calls batched/throttled to ~2 concurrent before it'll work standalone. Did not fix since it's a scope expansion beyond what this task asked for — happy to take it as a follow-up task.
+
+Did not live-test the unauthenticated/benchmark-delete paths on `/api/delete_document` (auto-mode classifier correctly blocked a destructive call against a real doc id without explicit per-call authorization) — relied on the pre-commit code review confirming the 401/403 gates are intact instead.
 
 ### [DONE] task-014 | 2026-06-26T13:00:00Z
 **From:** Cowork

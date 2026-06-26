@@ -213,6 +213,11 @@ def main():
             collection_name=COLLECTION_NAME,
             vectors_config=VectorParams(size=1024, distance=Distance.COSINE),
         )
+        # Qdrant Cloud requires an explicit payload index before a field can be used
+        # in a filter — without these, every source_type/client_name filtered query
+        # (gap detection, query.js benchmark/client split) fails with a 400.
+        client.create_payload_index(COLLECTION_NAME, field_name="source_type", field_schema="keyword")
+        client.create_payload_index(COLLECTION_NAME, field_name="client_name", field_schema="keyword")
 
     print("Building points and saving chunk fallback files ...")
     os.makedirs("data/chunks", exist_ok=True)

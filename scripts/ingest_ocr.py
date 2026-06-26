@@ -219,6 +219,8 @@ def main():
             collection_name=COLLECTION_NAME,
             vectors_config=VectorParams(size=1024, distance=Distance.COSINE),
         )
+        qdrant.create_payload_index(COLLECTION_NAME, field_name="source_type", field_schema="keyword")
+        qdrant.create_payload_index(COLLECTION_NAME, field_name="client_name", field_schema="keyword")
 
     print("Building Qdrant points...")
     os.makedirs("data/chunks", exist_ok=True)
