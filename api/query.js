@@ -123,6 +123,69 @@ async function embedQuery(query) {
   return data.data[0].embedding;
 }
 
+// ─── Gap intent detection ─────────────────────────────────────────────────────
+// If the query is about knowledge gaps, risk scores, or costs, we pull the
+// risk_scores Firestore data and inject it directly — the Qdrant corpus won't
+// contain this information, so semantic search alone will always fail.
+const GAP_INTENT_KEYWORDS = [
+  'gap', 'gaps', 'knowledge gap',
+  'risk', 'risk score', 'at risk', 'exposure',
+  'cost', 'costing', 'crore', '₹', 'cr ',
+  'missing', 'not documented', 'undocumented',
+  'calculated', 'calculation', 'formula',
+  'coverage', 'covered', 'uncovered',
+  'explain the gap', 'what is missing',
+];
+
+function isGapQuery(query) {
+  const q = query.toLowerCase();
+  return GAP_INTENT_KEYWORDS.some(kw => q.includes(kw));
+}
+
+async function fetchGapData(db) {
+  try {
+    const snapshot = await db
+      .collection('risk_scores')
+      .orderBy('risk_score_cr', 'desc')
+      .limit(20)
+      .get();
+    return snapshot.docs.map(d => ({ gap_id: d.id, ...d.data() }));
+  } catch (e) {
+    console.error('[query] fetchGapData error:', e.message);
+    return [];
+  }
+}
+
+function buildGapContext(gaps) {
+  if (!gaps || gaps.length === 0) return null;
+
+  const total = gaps.reduce((s, g) => s + (g.risk_score_cr || 0), 0);
+  const lines = gaps.map((g, i) => {
+    const topic       = g.topic || g.gap_id;
+    const crit        = g.criticality_score ?? '?';
+    const consq       = g.consequence_cr ?? '?';
+    const expo        = g.exposure_score ?? '?';
+    const score       = g.risk_score_cr != null ? g.risk_score_cr.toFixed(1) : '?';
+    const clientScore = g.client_score   != null ? (g.client_score * 100).toFixed(0) + '%' : '?';
+    const method      = g.consequence_method || 'derived';
+    return (
+      `${i + 1}. **${topic}**\n` +
+      `   • Client doc coverage: ${clientScore}\n` +
+      `   • Criticality: ${crit}/5 | Consequence: ₹${consq} Cr | Exposure: ${expo}\n` +
+      `   • Risk score = ${crit} × ₹${consq} Cr × ${expo} = **₹${score} Cr** (consequence method: ${method})`
+    );
+  });
+
+  return (
+    `[Gap Analysis: ThermIQ Risk Registry — ${gaps.length} gaps, total ₹${total.toFixed(1)} Cr]\n\n` +
+    `Formula: risk_score_cr = criticality_score × consequence_cr × exposure_score\n` +
+    `  • criticality_score (1–5): how operationally critical this knowledge area is\n` +
+    `  • consequence_cr (₹ Crore): estimated financial impact of a failure in this area\n` +
+    `  • exposure_score (0–1): inverse of client doc coverage (0 = fully covered, 1 = total gap)\n\n` +
+    lines.join('\n\n')
+  );
+}
+
 // ─── Fetch relevant outage records ────────────────────────────────────────────
 // Brings CEA outage data into the RAG context for equipment/failure queries.
 // We fetch the 5 most recent outages and filter by keyword relevance.
@@ -184,7 +247,9 @@ module.exports = async (req, res) => {
 
     if (!query) return res.status(400).json({ error: "Missing or empty 'query' field." });
 
-    // ── Step 1: Embed query ──────────────────────────────────────────────────
+    // ── Step 1: Embed query + init DB ────────────────────────────────────────
+    const gapIntent = isGapQuery(query);
+
     const [embedding, db] = await Promise.all([
       embedQuery(query),
       Promise.resolve(getFirestore(getFirebaseApp())),
@@ -221,18 +286,22 @@ module.exports = async (req, res) => {
       }),
     ]);
 
-    // ── Step 3: Confidence floor ─────────────────────────────────────────────
+    // ── Step 3: Confidence floor (with gap-data bypass) ─────────────────────
     const allHits = [...benchmarkHits, ...clientHits].sort((a, b) => b.score - a.score);
     const bestScore = allHits.length > 0 ? allHits[0].score : 0;
 
-    if (bestScore < RETRIEVAL_CONFIDENCE_FLOOR) {
-      // Not enough signal — be honest about it rather than generating a weak answer
+    // If gap intent detected, fetch gap data now (in parallel with the confidence check)
+    const gapDataRaw = gapIntent ? await fetchGapData(db) : [];
+    const gapContext = buildGapContext(gapDataRaw);
+
+    // Only trigger confidence floor if we ALSO have no gap data to fall back on
+    if (bestScore < RETRIEVAL_CONFIDENCE_FLOOR && !gapContext) {
       const weakSources = allHits.slice(0, 3).map((h, i) => ({
-        doc:    h.payload?.source_doc || `Source ${i + 1}`,
+        doc:     h.payload?.source_doc || `Source ${i + 1}`,
         section: h.payload?.section || '',
-        score:  Math.round(h.score * 1000) / 1000,
+        score:   Math.round(h.score * 1000) / 1000,
         source_type: h.payload?.source_type || 'unknown',
-        url:    h.payload?.source_url || '',
+        url:     h.payload?.source_url || '',
       }));
       return res.status(200).json({
         answer: `**Limited coverage in the ThermIQ knowledge base.**\n\nThe best match found for your query scored ${Math.round(bestScore * 100)}% confidence, which is below the threshold for a reliable answer (50%).\n\nThis likely means:\n- The specific procedure or topic you're asking about is not in the current client plant documents\n- The available documents cover this equipment type in a general/design context rather than operationally\n\nConsider uploading the plant's SOPs, inspection procedures, or maintenance manuals as client documents to improve coverage on this topic.`,
@@ -303,6 +372,18 @@ module.exports = async (req, res) => {
       });
     }
 
+    // Inject gap/risk registry data when the query is about gaps or costs
+    if (gapContext) {
+      contextParts.unshift(gapContext);   // put gap data first — it's the primary answer
+      sources.unshift({
+        doc: 'ThermIQ Risk Registry',
+        section: `${gapDataRaw.length} knowledge gaps`,
+        score: null,
+        source_type: 'gap_registry',
+        label: '[Gap Analysis: ThermIQ Risk Registry]',
+      });
+    }
+
     const contextText = contextParts.join('\n\n---\n\n');
     const llmPrompt = `Question: ${query}\n\nSources:\n${contextText}`;
 
@@ -330,6 +411,7 @@ module.exports = async (req, res) => {
       chunks_retrieved: allHits.length,
       best_score: Math.round(bestScore * 1000) / 1000,
       outage_records_used: relevantOutages.length,
+      gap_records_used: gapDataRaw.length,
       model_used,
     });
 
