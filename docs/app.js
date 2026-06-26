@@ -468,20 +468,80 @@ function initQueryCopilot() {
 
 // ─── Risk Dashboard (dashboard.html) ──────────────────────────────────────────
 
+const COVERAGE_LABELS = {
+  gap:     { text: '🔴 Gap',     cls: 'coverage-gap' },
+  partial: { text: '⚠️ Partial', cls: 'coverage-partial' },
+  covered: { text: '✅ Covered', cls: 'coverage-covered' },
+};
+
+const GAP_TYPE_LABELS = {
+  missing_sop: 'Missing SOP',
+  missing_inspection_procedure: 'Missing Inspection',
+  missing_reference: 'Missing Reference',
+};
+
 function riskBadgeClass(riskScoreCr) {
-  if (riskScoreCr > 300) return 'critical';
-  if (riskScoreCr >= 100) return 'high';
+  if (riskScoreCr > 100) return 'critical';
+  if (riskScoreCr >= 30) return 'high';
   return 'low';
 }
 
 async function initDashboard() {
-  // Gap analysis section is locked in the UI — skip that fetch entirely.
-  // Only fetch live CEA outage data.
   const outagesBody = document.getElementById('outages-table-body');
   if (!outagesBody) return;
 
   const lastUpdated = document.getElementById('last-updated');
 
+  // ── Fetch Gap Analysis ──
+  const gapsBody       = document.getElementById('gaps-table-body');
+  const totalRiskEl    = document.getElementById('total-risk');
+  const criticalEl     = document.getElementById('critical-gaps-count');
+  const coveredEl      = document.getElementById('covered-count');
+  const gapsCountEl    = document.getElementById('gaps-count');
+
+  if (gapsBody) {
+    try {
+      const gapRes = await fetch(`${BACKEND}/api/gap_analysis`);
+      const gapData = await gapRes.json();
+      const gaps = gapData.gaps || [];
+
+      if (gaps.length === 0) {
+        gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">No gap analysis data. Run the gap scanner first.</td></tr>`;
+      } else {
+        const totalRisk = gaps.reduce((sum, g) => sum + (g.risk_score_cr || 0), 0);
+        const criticalCount = gaps.filter(g => g.coverage_status === 'gap').length;
+        const coveredCount = gaps.filter(g => g.coverage_status === 'covered').length;
+        const partialCount = gaps.filter(g => g.coverage_status === 'partial').length;
+
+        if (totalRiskEl)  totalRiskEl.textContent  = `₹${Math.round(totalRisk)} Cr`;
+        if (criticalEl)   criticalEl.textContent    = criticalCount;
+        if (coveredEl)    coveredEl.textContent      = coveredCount;
+        if (gapsCountEl)  gapsCountEl.textContent    = `${criticalCount + partialCount}`;
+
+        gapsBody.innerHTML = gaps.map((g, i) => {
+          const covInfo = COVERAGE_LABELS[g.coverage_status] || COVERAGE_LABELS.gap;
+          const badge = riskBadgeClass(g.risk_score_cr);
+          const typeLabel = GAP_TYPE_LABELS[g.gap_type] || escapeHtml(g.gap_type || '—');
+          return `
+            <tr class="gap-row gap-row--${g.coverage_status}">
+              <td>${i + 1}</td>
+              <td>${escapeHtml(g.equipment_tag || '—')}</td>
+              <td class="gap-desc-cell">
+                <div class="gap-desc">${escapeHtml(g.description || '—')}</div>
+                <div class="gap-meta">${typeLabel} · Criticality ${g.criticality_score || '—'}/10 · Match ${Math.round((g.best_match_score || 0) * 100)}%</div>
+              </td>
+              <td><span class="coverage-badge ${covInfo.cls}">${covInfo.text}</span></td>
+              <td>${g.linked_outages || 0}</td>
+              <td><span class="risk-badge risk-${badge}">₹${(g.risk_score_cr || 0).toFixed(1)}</span></td>
+            </tr>`;
+        }).join('');
+      }
+    } catch (err) {
+      if (gapsBody) gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">Failed to load gap analysis: ${escapeHtml(err.message)}</td></tr>`;
+    }
+  }
+
+  // ── Fetch CEA Outages ──
   try {
     const response = await fetch(`${BACKEND}/api/cea_outage`);
     const data = await response.json();

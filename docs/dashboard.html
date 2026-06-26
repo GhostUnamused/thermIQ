@@ -51,67 +51,52 @@
       Knowledge gaps quantified as ₹ crore operational risk · Criticality × Consequence × Exposure
     </p>
 
-    <!-- ── Gap Analysis — LOCKED until dynamic gap scanner is built ── -->
-    <div class="locked-wrapper">
-      <div class="locked-overlay">
-        <div class="locked-overlay-content">
-          <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
-          <h3 class="locked-title">Gap Analysis — Under Development</h3>
-          <p class="locked-desc">Dynamic knowledge gap scoring requires the gap scanner module.<br>
-            Upload your plant documents in the <a href="documents.html" class="locked-link">Documents</a> tab first.</p>
-        </div>
+    <!-- ── Gap Analysis — Live Data ── -->
+    <!-- Summary cards -->
+    <section class="summary-cards">
+      <div class="summary-card">
+        <div class="summary-label">Total Risk Exposure</div>
+        <div class="summary-value orange" id="total-risk">—</div>
       </div>
+      <div class="summary-card">
+        <div class="summary-label">Critical Gaps (&gt; ₹100 Cr)</div>
+        <div class="summary-value red" id="critical-gaps-count">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Covered Areas</div>
+        <div class="summary-value green" id="covered-count">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Knowledge Gaps Detected</div>
+        <div class="summary-value" id="gaps-count">—</div>
+      </div>
+    </section>
 
-      <!-- Summary cards (blurred placeholder) -->
-      <section class="summary-cards locked-content">
-        <div class="summary-card">
-          <div class="summary-label">Total Risk Exposure</div>
-          <div class="summary-value orange">—</div>
-        </div>
-        <div class="summary-card">
-          <div class="summary-label">Critical Gaps (&gt; ₹300 cr)</div>
-          <div class="summary-value red">—</div>
-        </div>
-        <div class="summary-card">
-          <div class="summary-label">High Gaps (₹100–300 cr)</div>
-          <div class="summary-value amber">—</div>
-        </div>
-        <div class="summary-card">
-          <div class="summary-label">Knowledge Gaps Detected</div>
-          <div class="summary-value">—</div>
-        </div>
-      </section>
-
-      <!-- Gaps table (blurred placeholder) -->
-      <section class="card table-card locked-content">
-        <h2>Knowledge Gaps</h2>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Equipment</th>
-              <th>Gap Description</th>
-              <th>Gap Type</th>
-              <th>Outages Linked</th>
-              <th>Risk Score (₹ Cr)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td colspan="6" class="skeleton-row">—</td></tr>
-          </tbody>
-        </table>
-        <p class="explainer">
-          Risk Score = Criticality (1–10) × Annual Consequence (₹ Cr) × Exposure (0–1)<br />
-          Consequence derived from: Forced Outage Hours × Plant MW × ₹4.5/kWh (IEX floor)<br />
-          Exposure = probability equipment knowledge gap leads to unplanned outage<br />
-          Data sources: CEA Daily Outage Reports, IEX Market Clearing Prices
-        </p>
-      </section>
-    </div>
-    <!-- ── End locked section ── -->
+    <!-- Gaps table -->
+    <section class="card table-card">
+      <h2>Knowledge Gap Analysis</h2>
+      <table class="data-table" id="gaps-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Equipment</th>
+            <th>Gap Description</th>
+            <th>Coverage</th>
+            <th>Outages Linked</th>
+            <th>Risk Score (₹ Cr)</th>
+          </tr>
+        </thead>
+        <tbody id="gaps-table-body">
+          <tr><td colspan="6" class="skeleton-row">Loading gap analysis...</td></tr>
+        </tbody>
+      </table>
+      <p class="explainer">
+        Risk Score = Criticality (1–10) × Annual Consequence (₹ Cr) × Exposure (0–1)<br />
+        Consequence derived from: Forced Outage Hours × Plant MW × ₹4.5/kWh (IEX floor)<br />
+        Exposure = 1 − best vector similarity score (how poorly the corpus covers this area)<br />
+        Data sources: CEA Daily Outage Reports, ThermIQ Qdrant knowledge base scan
+      </p>
+    </section>
 
     <!-- CEA Outages — live data, always visible -->
     <section class="card table-card">

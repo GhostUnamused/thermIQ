@@ -16,7 +16,7 @@ const SYSTEM_INSTRUCTION =
   "ThermIQ knowledge base.' Always cite sources by number " +
   "(e.g., 'According to Source 1...'). Be precise and technical — " +
   'include specific values, thresholds, part numbers, and procedures ' +
-  'where available. Keep every answer under 250 words. Use bullet points ' +
+  'where available. Keep every answer under 400 words. Use bullet points ' +
   'or numbered steps for procedures. Do not repeat the question.';
 
 // OpenRouter fallback — llama-3.3-70b-instruct:free is consistently available
