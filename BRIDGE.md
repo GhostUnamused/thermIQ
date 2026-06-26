@@ -8,6 +8,106 @@
 
 ## Queue
 
+### [IN_PROGRESS] task-014 | 2026-06-26T13:00:00Z
+**From:** Cowork
+**Task:** Commit Vercel migration files, push to GitHub, then guide user to set up Vercel free account and update BACKEND URL once URL is known.
+
+**Files changed by Cowork (already written to disk — DO NOT re-edit):**
+- `api/_cors.js` — NEW: shared CORS helper for all Vercel functions
+- `api/query.js` — NEW: Vercel-format version of netlify/functions/query.js (identical logic, Netlify handler wrapper → Vercel req/res)
+- `api/gap_analysis.js` — NEW: Vercel-format version
+- `api/cea_outage.js` — NEW: Vercel-format version
+- `api/list_documents.js` — NEW: Vercel-format version
+- `api/delete_document.js` — NEW: Vercel-format version
+- `api/ingest_document.js` — NEW: Vercel-format version (includes `module.exports.config` to raise body size limit to 10 MB for base64 PDFs)
+- `api/ingest_trigger.js` — NEW: stub endpoint
+- `vercel.json` — NEW: sets 1024 MB memory + 60s timeout for all api/*.js functions; adds global CORS headers
+- `package.json` — NEW: root-level package.json with all 5 dependencies (Vercel reads this to install packages before building functions)
+
+**Why Vercel instead of Netlify:** Netlify free tier exhausted its 300 build-minutes/month. Every deploy is silently skipped with "account credit usage exceeded". Vercel Hobby plan is free forever with NO build-minute concept — deploys go through its own CI with no credit limit.
+
+**CC must do:**
+
+1. Commit and push everything:
+```
+git add api/ vercel.json package.json
+git commit -m "feat: add Vercel backend — free alternative to blocked Netlify"
+git push origin main
+```
+
+2. After pushing, tell the user these exact steps to set up Vercel:
+
+---
+**USER STEPS (paste this to the user):**
+
+a. Go to https://vercel.com → click "Sign Up" → choose "Continue with GitHub" (use the same GitHub account that owns thermIQ)
+
+b. Click "Add New Project" → import the `GhostUnamused/thermIQ` repository
+
+c. On the configure page:
+   - Framework Preset: **Other** (not Next.js, not Create React App)
+   - Root Directory: leave as `/` (repo root)
+   - Build Command: **leave blank** (we don't build anything)
+   - Output Directory: **leave blank**
+   - Install Command: `npm install` (default, fine)
+
+d. Click "Environment Variables" and add ALL of these:
+   ```
+   GEMINI_API_KEY         = (from .env file)
+   JINA_API_KEY           = (from .env file)
+   QDRANT_URL             = (from .env file)
+   QDRANT_API_KEY         = (from .env file)
+   FIREBASE_PROJECT_ID    = (from .env file)
+   FIREBASE_PRIVATE_KEY   = (from .env file — include the full -----BEGIN PRIVATE KEY----- block)
+   FIREBASE_CLIENT_EMAIL  = (from .env file)
+   OPENROUTER_API_KEY     = (from .env file)
+   INGEST_API_KEY         = d15f9ec8fb50af9f6cfe2fdce1dac181538c5495b81302fd
+   ```
+
+e. Click "Deploy". Wait ~1 minute.
+
+f. Once deployed, copy the URL Vercel gives you (looks like `https://thermiq.vercel.app` or `https://thermiq-abc123.vercel.app`)
+
+g. Tell Cowork: "Vercel URL is https://YOUR-URL-HERE.vercel.app"
+
+---
+
+3. Once user gives you the Vercel URL, update `docs/app.js`:
+
+Find this line:
+```javascript
+const BACKEND = window.location.hostname.includes('github.io') ? 'https://thermiq-674.netlify.app' : '';
+```
+
+Replace with:
+```javascript
+// Netlify (billing blocked as of 2026-06-26): 'https://thermiq-674.netlify.app'
+const BACKEND = window.location.hostname.includes('github.io') ? 'https://REPLACE_WITH_ACTUAL_VERCEL_URL' : '';
+```
+(substitute `REPLACE_WITH_ACTUAL_VERCEL_URL` with the real URL)
+
+Then also update the `HTTP-Referer` inside `api/query.js` if needed (it already points to the GitHub Pages URL, which is correct).
+
+4. Commit and push the app.js change:
+```
+git add docs/app.js
+git commit -m "config: point frontend to Vercel backend"
+git push origin main
+```
+
+5. Verify:
+   - Open `https://ghostunamused.github.io/thermIQ` → ask a question → confirm it gets an answer (backend is live on Vercel)
+   - Open `https://YOUR-VERCEL-URL.vercel.app/api/gap_analysis` → should return JSON with gaps array
+   - If any function returns 500 with "Cannot find module", check that all env vars were set correctly in Vercel dashboard
+
+**Notes:**
+- The `netlify/` folder is kept as-is for reference and as a fallback if Netlify billing resets.
+- The `netlify.toml` file is harmless — Vercel ignores it.
+- Vercel functions live at `/api/endpoint-name` (no .js extension) — this matches the existing frontend API call pattern exactly, so no other URL changes needed besides the BACKEND hostname.
+- Vercel free (Hobby) has: unlimited deployments, 100 GB-hrs function execution/month, 60s max duration per invocation, 100 GB bandwidth. More than enough for a hackathon demo.
+
+---
+
 ### [FAILED: blocked by Netlify account credit exhaustion] task-013 | 2026-06-26T11:45:00Z
 **From:** Claude Code
 **Task:** Database rebuild (wipe + reingest) and diagnose why thermiq-674.netlify.app wasn't showing the dashboard-unlock changes that were already live on GitHub Pages

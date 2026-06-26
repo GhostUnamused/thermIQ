@@ -1,0 +1,13 @@
+{
+  "name": "thermiq",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ThermIQ — Industrial Knowledge Intelligence for thermal power plants",
+  "dependencies": {
+    "@google/generative-ai": "^0.15.0",
+    "@qdrant/js-client-rest": "^1.9.0",
+    "firebase-admin": "^12.0.0",
+    "pdfjs-dist": "^3.11.174",
+    "uuid": "^9.0.0"
+  }
+}
