@@ -8,6 +8,64 @@
 
 ## Queue
 
+### [DONE] task-019 (Phase 1 only) | 2026-06-27T00:00:00Z
+**From:** Cowork
+**Task:** Phase 1 — deploy benchmark lockdown (security fix). Plus Phase 2 spec for client namespacing (implement only if instructed; Phase 1 is the priority).
+
+**Context / why:** The `INGEST_KEY` is hardcoded in `docs/app.js` (line ~13) and visible in page source to anyone with the link. So today anyone could upload a poisoned "benchmark" doc and silently change the gap baseline for every plant. Benchmark *deletion* was already blocked server-side, but *upload* was not. Fix: benchmarks can no longer be uploaded from the browser at all — they're seeded only via the local script.
+
+**Files already changed by Cowork (DO NOT re-edit, just verify + deploy):**
+- `docs/documents.html` — removed the "Benchmark Source" radio; upload form is now client-only (hidden `source_type=client` input). Added explanatory copy.
+- `api/ingest_document.js` — added a 403 guard: `source_type==='benchmark'` is rejected unless header `x-allow-benchmark` equals `INGEST_API_KEY`. (Local benchmark seeding via `scripts/ingest_documents.py` is unaffected — it writes to Qdrant directly, never hits this endpoint.)
+
+**CC must do (Phase 1):**
+1. **Confirm which backend dir is actually deployed.** There are two copies: `api/*.js` (Vercel-style) and `netlify/functions/*.js`. The live `/api/...` routes suggest `api/` is live. Whichever one is deployed, ensure the benchmark-upload guard from `api/ingest_document.js` is present there too. If `netlify/functions/ingest_document.js` is the live one (or both deploy), port the same 403 guard into it so there's no unguarded path. Keep the two in sync.
+2. Sanity check: `docs/app.js` `getSourceType()` still works with the hidden input (it uses `:checked`, so it falls back to `'client'` — correct). No app.js change expected, but confirm the upload flow still posts `source_type: 'client'`.
+3. Commit + push:
+```bash
+git add -A
+git commit -m "security: lock down benchmark uploads — web endpoint is client-only, benchmarks seeded locally only"
+git push origin main
+```
+4. After Netlify/Pages redeploy, verify the guard live:
+```bash
+curl -s -X POST https://thermiq-674.netlify.app/api/ingest_document \
+  -H "Content-Type: application/json" -H "X-Ingest-Key: <the public key from app.js>" \
+  -d '{"pdf_base64":"x","doc_name":"poison","source_type":"benchmark"}' | head
+# Expect: HTTP 403 with the "Benchmark sources cannot be uploaded" error.
+```
+Also load `documents.html` and confirm the Benchmark radio is gone and uploads still work as client docs.
+
+**CC must do (Phase 2 — client namespacing — ONLY if user says go):**
+Goal: each plant is isolated by `client_name` so NTPC doesn't contaminate test plants, and there's a one-click per-client wipe. The schema already supports this (`source_type`, `client_name` on every chunk; `recompute_gaps.js` already filters by `client_name`).
+- **Frontend:** add an "Assessing: [plant] ▾ / + New plant" selector (store active `client_name` in `localStorage`). Pass it to query, recompute, and the dashboard read so only the selected plant's docs/gaps show. Default to `ntpc` so the existing demo still works.
+- **`api/gap_analysis.js`:** accept a `client_name` query param and return only that client's `risk_scores`. Requires `recompute_gaps.js` to write risk_scores keyed/tagged by `client_name` (today it writes one global set — change it to namespace by client).
+- **New `api/clear_client.js`:** POST `{ client_name }`, auth via `X-Ingest-Key`. Deletes all Qdrant points where `client_name == X`, all `documents` rows for that client, and that client's `risk_scores`. This is the "I don't want NTPC sitting there" / "reset my test plant" button. Wire a button into `documents.html`.
+- Mirror any new endpoint into whichever backend dir is live.
+
+**Notes:**
+- Phase 1 is self-contained and safe — do it first and push. Phase 2 is larger and changes the gap-score storage model (global → per-client); don't start it until the user confirms, since it touches the dashboard the demo depends on.
+- `scripts/ingest_documents.py` is still the only way to add/replace benchmarks — that's intentional.
+
+**CC summary (Phase 1 — DONE; Phase 2 NOT started, awaiting user "go"):**
+Verified both of Cowork's edits before touching anything: `docs/documents.html` (benchmark radio gone, hidden `source_type=client` input at line 88, explainer copy added) and `api/ingest_document.js` (403 benchmark guard at lines 152–156). `docs/app.js` needs no change — `getSourceType()` finds no `:checked` input (a hidden input isn't `:checked`) and falls back to `'client'`, and the upload POST sends `source_type: sourceType` = `'client'`. Confirmed.
+
+**Which backend is live:** Vercel (`therm-iq.vercel.app`) — it's what `docs/app.js` `BACKEND` points to and what tasks 014–018 verified against. Cowork's guard is in the Vercel `api/ingest_document.js`, so the live path was covered. **Netlify is the catch:** `netlify/functions/ingest_document.js` was still the pre-task-015 version (no `source_type` field at all, no benchmark guard). Per the task ("port the same 403 guard … keep the two in sync"), I ported into it: `source_type` required + validation, the benchmark 403 guard (incl. `x-allow-benchmark` bypass header + CORS allow-list), `client_name` requirement, and `source_type`/`client_name` tagging on the Qdrant payload + Firestore doc record so its data model matches Vercel. Both files pass `node --check`.
+
+**Commit/push:** Committed only the 3 security files (`f63529f`) — deliberately did NOT `git add -A`. The working tree has 900+ unrelated `data/chunks/*.json` modifications (re-extracted text + new `ingested_at` timestamps from the task-013 DB rebuild, never committed) plus other sessions' untracked files (`.codex/`, `AGENTS.md`, `CURRENT_STATUS.md`, one-off `scripts/*.py`). Bundling 900 data files into a "security" commit would bury the change — left them for the user to handle separately. (See flag below.)
+
+**Live verification (Vercel, after deploy propagated):**
+- benchmark upload, no bypass header → **403** "Benchmark sources cannot be uploaded through this endpoint." ✓
+- benchmark upload **with** `X-Allow-Benchmark: <key>` → passes the guard (proceeds to PDF parse) ✓
+- client upload without `client_name` → **400** "Field 'client_name' is required…" ✓
+- `documents.html` on both GitHub Pages and Vercel → hidden `source_type=client` input present, no `type="radio"` ✓
+
+**⚠️ Flag for Cowork/user — residual live hole the code fix can NOT close:** the dead Netlify endpoint `https://thermiq-674.netlify.app/api/ingest_document` is **still reachable and still serving the OLD unguarded code** — a benchmark POST there returns 422 (tries to parse the PDF) instead of 403, i.e. it still accepts benchmark uploads using the public key, writing to the *same* Qdrant + Firestore. My edit to `netlify/functions/ingest_document.js` does not fix this because Netlify won't redeploy (build-credit exhausted since task-013). The frontend no longer points at Netlify, but an attacker reading `app.js` source would find both the public key and the commented Netlify URL. To actually close it: (a) restore Netlify build credits + redeploy (then my ported guard goes live), or (b) take the Netlify site/deploy down, or (c) rotate `INGEST_API_KEY`. Recommend (b) since Netlify is dead weight anyway — needs explicit user authorization (destructive/external), so I did not do it.
+
+- Did NOT attempt a full browser PDF upload (would pollute the live DB and there's no browser tool here) — confirmed the client path is reachable/validated via the 400 test and the form/JS source instead.
+
+---
+
 ### [DONE] task-018 | 2026-06-26T23:30:00Z
 **From:** Cowork
 **Task:** Download and ingest 3 additional public NTPC documents as client corpus, then rerun gap scanner — covers 7+ of the 19 gap topics and makes scores more realistic
