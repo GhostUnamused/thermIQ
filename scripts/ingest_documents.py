@@ -123,19 +123,26 @@ def extract_equipment_tags(text):
 
 
 def embed_batch(texts):
-    response = requests.post(
-        "https://api.jina.ai/v1/embeddings",
-        headers={
-            "Authorization": f"Bearer {JINA_API_KEY}",
-            "Content-Type": "application/json",
-        },
-        json={
-            "model": "jina-embeddings-v3",
-            "input": texts,
-            "task": "retrieval.passage",
-        },
-    )
-    response.raise_for_status()
+    for attempt in range(6):
+        response = requests.post(
+            "https://api.jina.ai/v1/embeddings",
+            headers={
+                "Authorization": f"Bearer {JINA_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": "jina-embeddings-v3",
+                "input": texts,
+                "task": "retrieval.passage",
+            },
+        )
+        if response.status_code == 429 and attempt < 5:
+            wait = 2 ** (attempt + 2)
+            print(f"  Jina 429 rate limit, retrying in {wait}s ...")
+            time.sleep(wait)
+            continue
+        response.raise_for_status()
+        break
     data = response.json()["data"]
     return [item["embedding"] for item in data]
 
@@ -197,7 +204,7 @@ def main():
         time.sleep(1)
 
     print("Connecting to Qdrant ...")
-    client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+    client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY, timeout=120)
 
     existing_collections = [c.name for c in client.get_collections().collections]
     if COLLECTION_NAME not in existing_collections:
@@ -232,10 +239,10 @@ def main():
         with open(f"data/chunks/{chunk['chunk_id']}.json", "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2)
 
-    print("Upserting to Qdrant in batches of 50 ...")
+    print("Upserting to Qdrant in batches of 20 ...")
     upsert_count = 0
-    for i in range(0, len(points), 50):
-        batch = points[i : i + 50]
+    for i in range(0, len(points), 20):
+        batch = points[i : i + 20]
         client.upsert(collection_name=COLLECTION_NAME, points=batch)
         upsert_count += len(batch)
         print(f"  Upserted {upsert_count}/{len(points)} points.")

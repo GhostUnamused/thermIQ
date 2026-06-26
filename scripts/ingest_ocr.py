@@ -25,6 +25,18 @@ import requests
 from dotenv import load_dotenv
 from pdf2image import convert_from_path
 import pytesseract
+import platform
+import glob
+_POPPLER_PATH = None
+if platform.system() == "Windows":
+    _tess_path = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+    if os.path.exists(_tess_path):
+        pytesseract.pytesseract.tesseract_cmd = _tess_path
+    _poppler_candidates = glob.glob(
+        os.path.expandvars(r"%LOCALAPPDATA%\Microsoft\WinGet\Packages\oschwartz10612.Poppler_*\poppler-*\Library\bin")
+    )
+    if _poppler_candidates:
+        _POPPLER_PATH = _poppler_candidates[0]
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, PointStruct, VectorParams
 import firebase_admin
@@ -78,6 +90,7 @@ def extract_pages_ocr(pdf_path):
             dpi=OCR_DPI,
             first_page=batch_start,
             last_page=batch_end,
+            poppler_path=_POPPLER_PATH,
         )
         for i, image in enumerate(images):
             page_num = batch_start + i
@@ -197,7 +210,7 @@ def main():
         time.sleep(1)
 
     print("Connecting to Qdrant...")
-    qdrant = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY)
+    qdrant = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY, timeout=120)
 
     existing = [c.name for c in qdrant.get_collections().collections]
     if COLLECTION_NAME not in existing:
@@ -230,10 +243,10 @@ def main():
         with open(f"data/chunks/{chunk['chunk_id']}.json", "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2)
 
-    print("Upserting to Qdrant in batches of 50...")
+    print("Upserting to Qdrant in batches of 20...")
     upsert_count = 0
-    for i in range(0, len(points), 50):
-        batch = points[i: i + 50]
+    for i in range(0, len(points), 20):
+        batch = points[i: i + 20]
         qdrant.upsert(collection_name=COLLECTION_NAME, points=batch)
         upsert_count += len(batch)
         print(f"  Upserted {upsert_count}/{len(points)} points.")
