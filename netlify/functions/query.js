@@ -19,10 +19,11 @@ const SYSTEM_INSTRUCTION =
   'where available. Keep every answer under 250 words. Use bullet points ' +
   'or numbered steps for procedures. Do not repeat the question.';
 
-// OpenRouter fallback — used when Gemini is throttling (429 / RESOURCE_EXHAUSTED)
-// Model: openai/gpt-oss-120b — free 120B MoE, top-ranked on Finance/Academia/Legal domains
-const OPENROUTER_MODEL = 'openai/gpt-oss-120b:free';
+// OpenRouter fallback — llama-3.3-70b-instruct:free is consistently available
+const OPENROUTER_MODEL = 'meta-llama/llama-3.3-70b-instruct:free';
 const OPENROUTER_URL   = 'https://openrouter.ai/api/v1/chat/completions';
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 function isThrottleError(err) {
   const msg = (err.message || '').toLowerCase();
@@ -35,7 +36,20 @@ function isThrottleError(err) {
   );
 }
 
+async function generateWithGemini(prompt, modelName) {
+  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  const model = genAI.getGenerativeModel({
+    model: modelName,
+    systemInstruction: SYSTEM_INSTRUCTION,
+  });
+  const result = await model.generateContent(prompt);
+  return result.response.text();
+}
+
 async function generateWithOpenRouter(prompt) {
+  if (!process.env.OPENROUTER_API_KEY) {
+    throw new Error('OpenRouter API key not configured');
+  }
   const response = await fetch(OPENROUTER_URL, {
     method: 'POST',
     headers: {
@@ -88,6 +102,9 @@ exports.handler = async (event) => {
   try {
     const body = JSON.parse(event.body || '{}');
     const query = (body.query || '').trim();
+    // client filter: lowercase, e.g. "ntpc". Empty string = no filter (all docs).
+    const client = (body.client || '').trim().toLowerCase();
+
     if (!query) {
       return {
         statusCode: 400,
@@ -99,16 +116,30 @@ exports.handler = async (event) => {
     // Step 1 — embed the query
     const embedding = await embedQuery(query);
 
-    // Step 2 — search Qdrant
-    const client = new QdrantClient({
+    // Step 2 — search Qdrant (with optional client filter)
+    const qdrantClient = new QdrantClient({
       url: process.env.QDRANT_URL,
       apiKey: process.env.QDRANT_API_KEY,
     });
-    const results = await client.search('thermiq_chunks', {
+
+    const searchParams = {
       vector: embedding,
       limit: 5,
       with_payload: true,
-    });
+    };
+
+    // When a client is specified, include both that client's docs AND generic
+    // regulatory/standard docs (client == '') — so standards always apply.
+    if (client) {
+      searchParams.filter = {
+        should: [
+          { key: 'client', match: { value: client } },
+          { key: 'client', match: { value: '' } },
+        ],
+      };
+    }
+
+    const results = await qdrantClient.search('thermiq_chunks', searchParams);
 
     if (!results || results.length === 0) {
       return {
@@ -141,27 +172,25 @@ exports.handler = async (event) => {
       });
     });
     const contextText = contextParts.join('\n\n');
-
-    // Step 4 — generate (Gemini primary, OpenRouter fallback on throttle)
     const llmPrompt = `Question: ${query}\n\nSource Documents:\n${contextText}`;
+
+    // Step 4 — generate with three-level fallback:
+    //   gemini-2.5-flash → (throttled, wait 2s) → gemini-2.0-flash → OpenRouter
     let answer;
     let model_used = 'gemini-2.5-flash';
 
     try {
-      const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({
-        model: 'gemini-2.5-flash',
-        systemInstruction: SYSTEM_INSTRUCTION,
-      });
-      const result = await model.generateContent(llmPrompt);
-      answer = result.response.text();
-    } catch (geminiErr) {
-      if (isThrottleError(geminiErr) && process.env.OPENROUTER_API_KEY) {
-        // Gemini is throttling — fall back to OpenRouter (claude-3-5-haiku)
+      answer = await generateWithGemini(llmPrompt, 'gemini-2.5-flash');
+    } catch (err1) {
+      if (!isThrottleError(err1)) throw err1;
+      await sleep(2000);
+      try {
+        model_used = 'gemini-2.0-flash';
+        answer = await generateWithGemini(llmPrompt, 'gemini-2.0-flash');
+      } catch (err2) {
+        if (!isThrottleError(err2)) throw err2;
         model_used = OPENROUTER_MODEL;
         answer = await generateWithOpenRouter(llmPrompt);
-      } else {
-        throw geminiErr; // not a throttle error, re-throw
       }
     }
 

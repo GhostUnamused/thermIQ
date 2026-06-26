@@ -422,10 +422,12 @@ function initQueryCopilot() {
     const typing = addTypingIndicator();
 
     try {
+      const clientSelect = document.getElementById('client-select');
+      const client = clientSelect ? clientSelect.value : '';
       const res = await fetch(`${BACKEND}/api/query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ query, client }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
@@ -473,42 +475,12 @@ function riskBadgeClass(riskScoreCr) {
 }
 
 async function initDashboard() {
-  const gapsBody = document.getElementById('gaps-table-body');
-  if (!gapsBody) return;
+  // Gap analysis section is locked in the UI — skip that fetch entirely.
+  // Only fetch live CEA outage data.
+  const outagesBody = document.getElementById('outages-table-body');
+  if (!outagesBody) return;
 
-  const outagesBody       = document.getElementById('outages-table-body');
-  const totalRiskValue    = document.getElementById('total-risk-value');
-  const criticalGapsValue = document.getElementById('critical-gaps-value');
-  const highGapsValue     = document.getElementById('high-gaps-value');
-  const gapCountValue     = document.getElementById('gap-count-value');
-  const lastUpdated       = document.getElementById('last-updated');
-
-  try {
-    const response = await fetch(`${BACKEND}/api/gap_analysis`);
-    const data = await response.json();
-    const gaps = data.gaps || [];
-
-    totalRiskValue.textContent    = `₹${Math.round(data.total_risk_cr || 0)} cr`;
-    gapCountValue.textContent     = data.gap_count || gaps.length;
-    criticalGapsValue.textContent = gaps.filter(g => g.risk_score_cr > 300).length;
-    highGapsValue.textContent     = gaps.filter(g => g.risk_score_cr >= 100 && g.risk_score_cr <= 300).length;
-
-    gapsBody.innerHTML = '';
-    gaps.forEach((gap, i) => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${i + 1}</td>
-        <td>${escapeHtml(gap.equipment)}</td>
-        <td>${escapeHtml(gap.gap_description)}</td>
-        <td>${escapeHtml(gap.gap_type)}</td>
-        <td>${escapeHtml(gap.supporting_outage_count)}</td>
-        <td><span class="risk-badge ${riskBadgeClass(gap.risk_score_cr)}">₹${gap.risk_score_cr}</span></td>
-      `;
-      gapsBody.appendChild(row);
-    });
-  } catch (err) {
-    gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">Failed to load gaps: ${escapeHtml(err.message)}</td></tr>`;
-  }
+  const lastUpdated = document.getElementById('last-updated');
 
   try {
     const response = await fetch(`${BACKEND}/api/cea_outage`);
@@ -548,6 +520,7 @@ function initUpload() {
 
   const fileInput  = document.getElementById('upload-file-input');
   const docName    = document.getElementById('upload-doc-name');
+  const docClient  = document.getElementById('upload-client');
   const docType    = document.getElementById('upload-doc-type');
   const sourceUrl  = document.getElementById('upload-source-url');
   const submitBtn  = document.getElementById('upload-submit-btn');
@@ -570,7 +543,7 @@ function initUpload() {
   }
 
   function updateSubmitState() {
-    const ready = selectedFile && docName.value.trim();
+    const ready = selectedFile && docName.value.trim() && (docClient ? docClient.value.trim() : true);
     submitBtn.disabled = !ready;
   }
 
@@ -610,8 +583,9 @@ function initUpload() {
     if (fileInput.files[0]) handleFile(fileInput.files[0]);
   });
 
-  // Doc name required
+  // Doc name + client required
   docName.addEventListener('input', updateSubmitState);
+  if (docClient) docClient.addEventListener('input', updateSubmitState);
 
   // Submit
   submitBtn.addEventListener('click', async () => {
@@ -644,6 +618,7 @@ function initUpload() {
           doc_name:   docName.value.trim(),
           doc_type:   docType.value,
           source_url: sourceUrl.value.trim(),
+          client:     docClient ? docClient.value.trim() : '',
         }),
       });
 
@@ -662,11 +637,14 @@ function initUpload() {
       selectedFile = null;
       fileInput.value = '';
       docName.value = '';
+      if (docClient) docClient.value = '';
       sourceUrl.value = '';
       fileLabel.textContent = 'No file selected · PDF only · max ~6 MB';
       dropZone.classList.remove('has-file');
       btnText.textContent = 'Ingest Document';
       submitBtn.disabled = true;
+      // Refresh the documents list
+      setTimeout(loadDocuments, 1500);
 
     } catch (err) {
       setStatus(`Error: ${err.message}`, 'error');
@@ -676,8 +654,81 @@ function initUpload() {
   });
 }
 
+// ─── Documents Page ───────────────────────────────────────────────────────────
+
+const DOC_TYPE_LABELS = {
+  guideline:      'Guideline / Standard',
+  sop:            'SOP / Procedure',
+  technical_spec: 'Technical Spec',
+  tariff_petition:'Tariff Petition',
+  manual:         'Manual',
+  regulatory:     'Regulatory',
+  operational:    'Operational',
+  plant_specific: 'Plant-Specific',
+  other:          'Other',
+};
+
+function formatDate(iso) {
+  if (!iso) return '—';
+  try {
+    return new Date(iso).toLocaleDateString('en-IN', {
+      day: 'numeric', month: 'short', year: 'numeric',
+    });
+  } catch { return iso; }
+}
+
+async function loadDocuments() {
+  const tbody = document.getElementById('docs-table-body');
+  if (!tbody) return;
+
+  tbody.innerHTML = `<tr><td colspan="7" class="skeleton-row">Loading…</td></tr>`;
+
+  try {
+    const res  = await fetch(`${BACKEND}/api/list_documents`);
+    const data = await res.json();
+    const docs = data.documents || [];
+
+    if (!docs.length) {
+      tbody.innerHTML = `<tr><td colspan="7" class="skeleton-row">No documents ingested yet. Upload one below.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = docs.map(d => {
+      const clientBadge = d.client
+        ? `<span class="client-badge">${escapeHtml(d.client.toUpperCase())}</span>`
+        : `<span class="client-badge client-badge--generic">Generic</span>`;
+      const typeLabel = DOC_TYPE_LABELS[d.doc_type] || escapeHtml(d.doc_type || '—');
+      const sourceLink = d.source_url
+        ? `<a href="${escapeHtml(d.source_url)}" target="_blank" rel="noopener" class="doc-source-link">↗</a>`
+        : '—';
+      return `
+        <tr>
+          <td class="doc-name-cell">${escapeHtml(d.doc_name || '—')}</td>
+          <td>${clientBadge}</td>
+          <td>${typeLabel}</td>
+          <td>${d.chunks_indexed ?? '—'}</td>
+          <td>${d.pages_parsed ?? '—'}</td>
+          <td>${formatDate(d.ingested_at)}</td>
+          <td>${sourceLink}</td>
+        </tr>`;
+    }).join('');
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="7" class="skeleton-row">Failed to load: ${escapeHtml(err.message)}</td></tr>`;
+  }
+}
+
+function initDocumentsPage() {
+  if (!document.getElementById('docs-table-body')) return;
+
+  loadDocuments();
+
+  const refreshBtn = document.getElementById('docs-refresh-btn');
+  if (refreshBtn) refreshBtn.addEventListener('click', loadDocuments);
+}
+
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
 
 initQueryCopilot();
 initDashboard();
 initUpload();
+initDocumentsPage();

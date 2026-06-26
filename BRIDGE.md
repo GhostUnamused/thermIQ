@@ -8,6 +8,108 @@
 
 ## Queue
 
+### [IN_PROGRESS] task-011 | 2026-06-26T00:00:00Z
+**From:** Cowork
+**Task:** Commit all frontend/backend changes, seed Firestore `documents` collection for pre-ingested docs, clear seeded risk_scores
+
+**Files changed by Cowork:**
+- `docs/dashboard.html` — gap analysis section locked with overlay, upload section removed, Documents nav link added
+- `docs/documents.html` — NEW: documents management page with upload form (incl. client field) + documents list
+- `docs/index.html` — Documents nav link added, client selector dropdown added above chat input
+- `docs/app.js` — query submit now sends `client` param; initDashboard no longer fetches gap_analysis; initUpload sends client field + refreshes list after upload; new `initDocumentsPage()`/`loadDocuments()` functions added
+- `docs/style.css` — appended: locked-section overlay styles, client-select bar styles, documents page styles
+- `netlify/functions/query.js` — client filter for Qdrant (client-specific + generic docs); three-level throttle fallback: gemini-2.5-flash → wait 2s → gemini-2.0-flash → OpenRouter (switched model to `meta-llama/llama-3.3-70b-instruct:free`)
+- `netlify/functions/ingest_document.js` — accepts `client` param; stores in Qdrant payload; writes record to Firestore `documents` collection
+- `netlify/functions/list_documents.js` — NEW: reads Firestore `documents` collection, returns list for Documents page
+
+**CC must do:**
+
+1. Commit and push all changes:
+```
+git add -A
+git commit -m "feat: Documents tab, client scoping, lock gap dashboard, fix throttle fallback"
+git push origin main
+```
+
+2. Clear the seeded `risk_scores` from Firestore (they're all hardcoded placeholder data that would be misleading). Run this Python script from project root with `.venv` active:
+```python
+# Run inline or save as scripts/clear_seed_data.py and run it
+import os
+from dotenv import load_dotenv
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+load_dotenv()
+try:
+    app = firebase_admin.get_app("thermiq_clear")
+except ValueError:
+    cred = credentials.Certificate({
+        "type": "service_account",
+        "project_id": os.environ["FIREBASE_PROJECT_ID"],
+        "private_key": os.environ["FIREBASE_PRIVATE_KEY"].replace("\\n", "\n"),
+        "client_email": os.environ["FIREBASE_CLIENT_EMAIL"],
+        "token_uri": "https://oauth2.googleapis.com/token",
+    })
+    app = firebase_admin.initialize_app(cred, name="thermiq_clear")
+
+db = firestore.client(app=app)
+# Delete all risk_scores (seeded placeholder data)
+for doc in db.collection("risk_scores").stream():
+    doc.reference.delete()
+    print(f"Deleted risk_scores/{doc.id}")
+print("Done — risk_scores collection cleared.")
+```
+
+3. Seed the Firestore `documents` collection with records for the 6 docs already in Qdrant (ingested via local scripts). Run this Python script:
+```python
+# Save as scripts/seed_documents_collection.py and run it
+import os
+from datetime import datetime
+from dotenv import load_dotenv
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+load_dotenv()
+try:
+    app = firebase_admin.get_app("thermiq_seed_docs")
+except ValueError:
+    cred = credentials.Certificate({
+        "type": "service_account",
+        "project_id": os.environ["FIREBASE_PROJECT_ID"],
+        "private_key": os.environ["FIREBASE_PRIVATE_KEY"].replace("\\n", "\n"),
+        "client_email": os.environ["FIREBASE_CLIENT_EMAIL"],
+        "token_uri": "https://oauth2.googleapis.com/token",
+    })
+    app = firebase_admin.initialize_app(cred, name="thermiq_seed_docs")
+
+db = firestore.client(app=app)
+
+docs = [
+    {"doc_name": "CEA Standard Technical Specification 500MW", "doc_type": "technical_spec", "client": "", "source_url": "https://cea.nic.in", "chunks_indexed": 921, "pages_parsed": None, "ingested_at": "2026-06-24T00:00:00Z"},
+    {"doc_name": "CEA R&M Life Extension Report 2023",          "doc_type": "regulatory",     "client": "", "source_url": "https://cea.nic.in/wp-content/uploads/news_live/2023/08/Final_Report_on_various_aspects_of_RM_and_LE.pdf", "chunks_indexed": 36, "pages_parsed": 42, "ingested_at": "2026-06-25T00:00:00Z"},
+    {"doc_name": "CEA Review of O&M Practices Thermal Power",   "doc_type": "operational",    "client": "", "source_url": "https://cea.nic.in/wp-content/uploads/2020/04/4.pdf", "chunks_indexed": 57, "pages_parsed": 67, "ingested_at": "2026-06-25T00:00:00Z"},
+    {"doc_name": "CEA R&M Guidelines",                         "doc_type": "regulatory",     "client": "", "source_url": "https://cea.nic.in/old/reports/others/thermal/trm/R_ampGuideline.pdf", "chunks_indexed": 15, "pages_parsed": 17, "ingested_at": "2026-06-25T00:00:00Z"},
+    {"doc_name": "NTPC Kahalgaon II Tariff Petition 2019-24",  "doc_type": "tariff_petition","client": "ntpc", "source_url": "https://ntpc.co.in/sites/default/files/inline-files/Kahalgaon-II-Tariff-Petition-2019-24.pdf", "chunks_indexed": 58, "pages_parsed": 76, "ingested_at": "2026-06-25T00:00:00Z"},
+    {"doc_name": "NTPC Lara Tariff Petition 2019-24",          "doc_type": "tariff_petition","client": "ntpc", "source_url": "https://ntpc.co.in/sites/default/files/inline-files/Lara-Tariff-Petition-19-24_.pdf", "chunks_indexed": 106, "pages_parsed": 198, "ingested_at": "2026-06-25T00:00:00Z"},
+]
+
+for i, d in enumerate(docs):
+    doc_id = f"seed_{i:03d}_{d['client'] or 'generic'}"
+    db.collection("documents").document(doc_id).set(d)
+    print(f"Seeded documents/{doc_id}: {d['doc_name']}")
+print("Done.")
+```
+
+4. Verify the Documents page shows all 6 docs by opening https://ghostunamused.github.io/thermIQ/documents.html after deploy.
+
+5. Verify the Risk Dashboard gap section shows the lock overlay (not the old seeded numbers) at https://ghostunamused.github.io/thermIQ/dashboard.html.
+
+**Notes:**
+- `list_documents.js` is a new Netlify function — Netlify will auto-deploy it from `netlify/functions/`. No `netlify.toml` timeout change needed (simple Firestore read, well under 10s).
+- The `documents` Firestore collection is new — no need to create it manually, Firestore creates collections on first write.
+- OpenRouter model changed from `openai/gpt-oss-120b:free` to `meta-llama/llama-3.3-70b-instruct:free` — more reliable free tier. The `OPENROUTER_API_KEY` env var is still used; no change needed there.
+- Do NOT commit `scripts/clear_seed_data.py` or `scripts/seed_documents_collection.py` — run them once locally and discard (or commit to scripts/ if you prefer to keep them for reference, but they're one-time ops).
+
 ### [DONE] task-010 | 2026-06-25T00:00:00Z
 **From:** Cowork
 **Task:** OCR-ingest the two scanned NTPC tariff PDFs using new ingest_ocr.py script

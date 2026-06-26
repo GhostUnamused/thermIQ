@@ -22,6 +22,7 @@
       <nav class="nav-links">
         <a href="index.html">Query Copilot</a>
         <a href="dashboard.html" class="active">Risk Dashboard</a>
+        <a href="documents.html">Documents</a>
       </nav>
       <div class="header-actions">
         <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
@@ -50,50 +51,69 @@
       Knowledge gaps quantified as ₹ crore operational risk · Criticality × Consequence × Exposure
     </p>
 
-    <section class="summary-cards" id="summary-cards">
-      <div class="summary-card">
-        <div class="summary-label">Total Risk Exposure</div>
-        <div class="summary-value orange" id="total-risk-value">—</div>
+    <!-- ── Gap Analysis — LOCKED until dynamic gap scanner is built ── -->
+    <div class="locked-wrapper">
+      <div class="locked-overlay">
+        <div class="locked-overlay-content">
+          <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <h3 class="locked-title">Gap Analysis — Under Development</h3>
+          <p class="locked-desc">Dynamic knowledge gap scoring requires the gap scanner module.<br>
+            Upload your plant documents in the <a href="documents.html" class="locked-link">Documents</a> tab first.</p>
+        </div>
       </div>
-      <div class="summary-card">
-        <div class="summary-label">Critical Gaps (&gt; ₹300 cr)</div>
-        <div class="summary-value red" id="critical-gaps-value">—</div>
-      </div>
-      <div class="summary-card">
-        <div class="summary-label">High Gaps (₹100–300 cr)</div>
-        <div class="summary-value amber" id="high-gaps-value">—</div>
-      </div>
-      <div class="summary-card">
-        <div class="summary-label">Knowledge Gaps Detected</div>
-        <div class="summary-value" id="gap-count-value">—</div>
-      </div>
-    </section>
 
-    <section class="card table-card">
-      <h2>Knowledge Gaps</h2>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Equipment</th>
-            <th>Gap Description</th>
-            <th>Gap Type</th>
-            <th>Outages Linked</th>
-            <th>Risk Score (₹ Cr)</th>
-          </tr>
-        </thead>
-        <tbody id="gaps-table-body">
-          <tr><td colspan="6" class="skeleton-row">Loading gaps...</td></tr>
-        </tbody>
-      </table>
-      <p class="explainer">
-        Risk Score = Criticality (1-10) × Annual Consequence (₹ Cr) × Exposure (0-1)<br />
-        Consequence derived from: Forced Outage Hours × Plant MW × ₹4.5/kWh (IEX floor)<br />
-        Exposure = probability equipment knowledge gap leads to unplanned outage<br />
-        Data sources: CEA Daily Outage Reports, IEX Market Clearing Prices
-      </p>
-    </section>
+      <!-- Summary cards (blurred placeholder) -->
+      <section class="summary-cards locked-content">
+        <div class="summary-card">
+          <div class="summary-label">Total Risk Exposure</div>
+          <div class="summary-value orange">—</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">Critical Gaps (&gt; ₹300 cr)</div>
+          <div class="summary-value red">—</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">High Gaps (₹100–300 cr)</div>
+          <div class="summary-value amber">—</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-label">Knowledge Gaps Detected</div>
+          <div class="summary-value">—</div>
+        </div>
+      </section>
 
+      <!-- Gaps table (blurred placeholder) -->
+      <section class="card table-card locked-content">
+        <h2>Knowledge Gaps</h2>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Equipment</th>
+              <th>Gap Description</th>
+              <th>Gap Type</th>
+              <th>Outages Linked</th>
+              <th>Risk Score (₹ Cr)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="6" class="skeleton-row">—</td></tr>
+          </tbody>
+        </table>
+        <p class="explainer">
+          Risk Score = Criticality (1–10) × Annual Consequence (₹ Cr) × Exposure (0–1)<br />
+          Consequence derived from: Forced Outage Hours × Plant MW × ₹4.5/kWh (IEX floor)<br />
+          Exposure = probability equipment knowledge gap leads to unplanned outage<br />
+          Data sources: CEA Daily Outage Reports, IEX Market Clearing Prices
+        </p>
+      </section>
+    </div>
+    <!-- ── End locked section ── -->
+
+    <!-- CEA Outages — live data, always visible -->
     <section class="card table-card">
       <h2>Recent Forced Outages — Live CEA Data</h2>
       <table class="data-table">
@@ -115,57 +135,10 @@
     </section>
 
     <p class="last-updated" id="last-updated"></p>
-
-    <!-- Document Upload -->
-    <section class="card table-card upload-section">
-      <h2>Ingest New Document</h2>
-      <p class="upload-description">
-        Upload a PDF to add it to the ThermIQ knowledge base. Text is extracted, chunked, and embedded into Qdrant automatically.
-        Max ~6 MB. For larger files, use <code>scripts/ingest_documents.py</code>.
-      </p>
-      <div class="upload-form">
-        <div class="upload-row">
-          <label class="upload-label">
-            Document Name
-            <input type="text" id="upload-doc-name" class="upload-input" placeholder="e.g. CEA R&M Guideline 2023" />
-          </label>
-          <label class="upload-label">
-            Document Type
-            <select id="upload-doc-type" class="upload-input upload-select">
-              <option value="guideline">Guideline / Standard</option>
-              <option value="sop">SOP / Procedure</option>
-              <option value="technical_spec">Technical Specification</option>
-              <option value="tariff_petition">Tariff Petition</option>
-              <option value="manual">Manual / Handbook</option>
-              <option value="other">Other</option>
-            </select>
-          </label>
-          <label class="upload-label">
-            Source URL <span class="optional">(optional)</span>
-            <input type="url" id="upload-source-url" class="upload-input" placeholder="https://..." />
-          </label>
-        </div>
-        <div class="upload-drop-zone" id="upload-drop-zone">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="upload-icon">
-            <path d="M12 16V4m0 0L8 8m4-4 4 4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round"/>
-          </svg>
-          <p class="drop-text">Drop PDF here or <label for="upload-file-input" class="drop-link">browse</label></p>
-          <p class="drop-hint" id="upload-file-name">No file selected · PDF only · max ~6 MB</p>
-          <input type="file" id="upload-file-input" accept=".pdf" style="display:none" />
-        </div>
-        <div class="upload-actions">
-          <button id="upload-submit-btn" class="btn-upload" disabled>
-            <span id="upload-btn-text">Ingest Document</span>
-          </button>
-        </div>
-        <div id="upload-status" class="upload-status hidden"></div>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
-    ThermIQ v0.2 | Powered by Qdrant + Gemini | Data: CEA Public Sources
+    ThermIQ v0.3 | Powered by Qdrant + Gemini | Data: CEA Public Sources
   </footer>
 
   <script src="app.js"></script>

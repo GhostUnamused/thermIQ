@@ -121,7 +121,8 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body || '{}');
-    const { pdf_base64, doc_name, doc_type = 'manual', source_url = '' } = body;
+    const { pdf_base64, doc_name, doc_type = 'manual', source_url = '', client = '' } = body;
+    const docClient = client.trim().toLowerCase();
 
     if (!pdf_base64 || !doc_name) {
       return {
@@ -203,6 +204,7 @@ exports.handler = async (event) => {
         source_doc:    doc_name,
         source_url,
         doc_type,
+        client:        docClient,
         equipment_tags: chunk.equipment_tags,
         section:       '',
         page_number:   null,
@@ -217,16 +219,27 @@ exports.handler = async (event) => {
       await qdrant.upsert(COLLECTION_NAME, { points: points.slice(i, i + 50) });
     }
 
-    // 5 — Update Firestore system_meta
+    // 5 — Update Firestore: system_meta counter + documents collection record
     const db = getFirestore(getFirebaseApp());
     await db.collection('system_meta').doc('config').set(
       {
-        documents_ingested:  FieldValue.arrayUnion(doc_name),
+        documents_ingested:   FieldValue.arrayUnion(doc_name),
         total_chunks_indexed: FieldValue.increment(chunks.length),
-        last_ingestion_at:   ingestedAt,
+        last_ingestion_at:    ingestedAt,
       },
       { merge: true }
     );
+    // Write a proper document record so the Documents page can list it
+    const docId = `${docClient || 'generic'}_${docClient ? '' : ''}${Date.now()}`;
+    await db.collection('documents').doc(docId).set({
+      doc_name,
+      doc_type,
+      client:         docClient,
+      source_url,
+      chunks_indexed: chunks.length,
+      pages_parsed:   numPages,
+      ingested_at:    ingestedAt,
+    });
 
     return {
       statusCode: 200,
