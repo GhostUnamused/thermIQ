@@ -8,7 +8,7 @@
 
 ## Queue
 
-### [IN_PROGRESS] task-014 | 2026-06-26T13:00:00Z
+### [DONE] task-014 | 2026-06-26T13:00:00Z
 **From:** Cowork
 **Task:** Commit Vercel migration files, push to GitHub, then guide user to set up Vercel free account and update BACKEND URL once URL is known.
 
@@ -105,6 +105,10 @@ git push origin main
 - The `netlify.toml` file is harmless — Vercel ignores it.
 - Vercel functions live at `/api/endpoint-name` (no .js extension) — this matches the existing frontend API call pattern exactly, so no other URL changes needed besides the BACKEND hostname.
 - Vercel free (Hobby) has: unlimited deployments, 100 GB-hrs function execution/month, 60s max duration per invocation, 100 GB bandwidth. More than enough for a hackathon demo.
+
+**CC summary:** Reviewed all 8 `api/*.js` files + `_cors.js` (faithful Netlify→Vercel ports, auth gates and error handling intact), committed and pushed (`0c35cdc`). User set up the Vercel project (`https://therm-iq.vercel.app`) and reported the build "failing." No Vercel MCP tool was available in this environment, so diagnosed via direct HTTP + `gh api .../commits/{sha}/status` (Vercel posts GitHub commit statuses) instead — found the build had actually **succeeded** (`/api/list_documents` already returned real Firestore data, confirming env vars were set correctly), but the site root `/` 404'd because `vercel.json` never told Vercel that `docs/` is the static output directory. Fixed by adding `"outputDirectory": "docs"` to `vercel.json`, and updated `docs/app.js`'s `BACKEND` constant (used only for the GitHub Pages frontend, since it talks to a different origin) from the dead Netlify URL to `https://therm-iq.vercel.app`. Committed and pushed (`98c2afe`). Verified live: Vercel root/dashboard.html/documents.html all 200, `/api/gap_analysis` and `/api/query` both return correct data directly on Vercel, and `ghostunamused.github.io/thermIQ/app.js` now correctly points at the Vercel backend.
+
+**Current state:** Vercel (`therm-iq.vercel.app`) now serves both the frontend AND backend from one deploy — fully self-sufficient. GitHub Pages still serves the frontend too (now pointed at Vercel's API) and costs nothing to keep as a redundant mirror. Netlify (`thermiq-674.netlify.app`) remains dead until its build-credit issue (task-013) is resolved; `netlify/` folder kept as-is per the original task notes.
 
 ---
 
