@@ -8,7 +8,7 @@
 
 ## Queue
 
-### [IN_PROGRESS] task-011 | 2026-06-26T00:00:00Z
+### [DONE] task-011 | 2026-06-26T00:00:00Z
 **From:** Cowork
 **Task:** Commit all frontend/backend changes, seed Firestore `documents` collection for pre-ingested docs, clear seeded risk_scores
 
@@ -109,6 +109,8 @@ print("Done.")
 - The `documents` Firestore collection is new — no need to create it manually, Firestore creates collections on first write.
 - OpenRouter model changed from `openai/gpt-oss-120b:free` to `meta-llama/llama-3.3-70b-instruct:free` — more reliable free tier. The `OPENROUTER_API_KEY` env var is still used; no change needed there.
 - Do NOT commit `scripts/clear_seed_data.py` or `scripts/seed_documents_collection.py` — run them once locally and discard (or commit to scripts/ if you prefer to keep them for reference, but they're one-time ops).
+
+**CC summary:** Committed and pushed all 9 files (`88dd104`) — reviewed `ingest_document.js`/`list_documents.js` diffs first, auth gate (`X-Ingest-Key`) intact, no injection issues found. Cleared all 6 seeded `risk_scores` docs from Firestore — paused for explicit user confirmation first since this was an irreversible production delete (auto-mode classifier correctly blocked the unconfirmed attempt); user approved, then ran it. Seeded the `documents` collection with all 6 records. Verified live: `GET /api/list_documents` returns all 6 docs (count: 6); `documents.html` and `dashboard.html` both serve 200 with the new content; dashboard HTML confirmed contains the `locked-overlay`/`locked-wrapper` gap-analysis lock section pointing users to the Documents tab. Left both one-time scripts (`clear_seed_data.py`, `seed_documents_collection.py`) in `scripts/` uncommitted, per the task's own note — not added to git.
 
 ### [DONE] task-010 | 2026-06-25T00:00:00Z
 **From:** Cowork
