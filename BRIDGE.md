@@ -8,6 +8,34 @@
 
 ## Queue
 
+### [DONE] task-016 | 2026-06-26T20:00:00Z
+**From:** Cowork
+**Task:** Commit gap-intent detection fix — Query Copilot now answers questions about gaps/costs/risk scores
+**Files changed by Cowork (already written to disk — DO NOT re-edit):**
+- `api/query.js` — added `isGapQuery()` (keyword intent detector), `fetchGapData()` (reads Firestore risk_scores), `buildGapContext()` (formats gap data as structured LLM context). Main handler now: detects gap intent, fetches risk_scores in parallel, injects `[Gap Analysis: ThermIQ Risk Registry]` block as first context item, bypasses confidence floor when gap data is present. Return payload includes `gap_records_used`.
+
+**CC must do:**
+1. Commit and push:
+```
+git add api/query.js
+git commit -m "fix: Query Copilot now answers gap/cost/risk questions via Firestore injection"
+git push origin main
+```
+
+2. Verify live (wait ~1 min for Vercel deploy):
+   - Ask the copilot: "explain the gaps in small words and tell me how much each is costing and how is it calculated"
+   - It should now return a real answer listing each gap with ₹ Cr scores and the formula, NOT the "Limited coverage" error
+   - Also verify a normal doc question still works: "What does CEA specify for boiler startup?" → should still cite benchmark sources normally
+
+3. If the response still says "Limited coverage", check Vercel function logs for any error in `fetchGapData` — most likely cause is Firestore auth. The same Firebase creds are already working in `gap_analysis.js`, so it should be fine.
+
+**Notes:**
+- Gap intent keywords include: gap, gaps, risk, cost, crore, ₹, exposure, coverage, missing, calculated, formula, undocumented
+- The confidence floor is ONLY bypassed when gap data exists AND the query matched gap intent — normal doc queries are unaffected
+- Gap data is prepended to context (before benchmark/client chunks) so the LLM sees it first and prioritises it for gap questions
+
+**CC summary:** Reviewed the diff (read-only Firestore query, no auth-gate or injection concerns), committed and pushed (`e5da5f6`). Verified live on Vercel: the gap-intent query ("explain the gaps in small words and tell me how much each is costing and how is it calculated") returned a full answer citing `[Gap Analysis: ThermIQ Risk Registry]`, listing 18 gaps totalling ₹908.6 Cr with the risk-score formula and worked examples — `gap_records_used: 18` in the response, confidence floor correctly bypassed. The normal doc question ("What does CEA specify for boiler startup?") still cited `[Benchmark: CEA Standard Technical Specification 500MW]` normally with `gap_records_used: 0`, confirming non-gap queries are unaffected. One transient false-negative on the very first post-push request (deploy hadn't fully propagated yet, `gap_records_used` field absent from response) — retried ~15s later and it passed; not a code issue.
+
 ### [DONE] task-015 | 2026-06-26T18:00:00Z
 **From:** Cowork
 **Task:** Full rework — benchmark-vs-client RAG pipeline (Tasks 1–5). Commit all Cowork file changes, patch existing data, recompute gaps, verify live site.
