@@ -8,7 +8,41 @@
 
 ## Queue
 
-### [IN_PROGRESS] task-012 | 2026-06-26T00:00:00Z
+### [FAILED: blocked by Netlify account credit exhaustion] task-013 | 2026-06-26T11:45:00Z
+**From:** Claude Code
+**Task:** Database rebuild (wipe + reingest) and diagnose why thermiq-674.netlify.app wasn't showing the dashboard-unlock changes that were already live on GitHub Pages
+
+**Context:** User asked to (1) clear the Qdrant/Firestore knowledge base and reingest the CEA docs (separately from task-012, requested directly mid-session), then (2) diagnose why `https://thermiq-674.netlify.app/` wasn't showing the gap-detection-engine/dashboard-unlock changes from commit `155d79a` (made by another AI coder directly to `main`, outside the bridge protocol) even though `https://ghostunamused.github.io/thermIQ/` had them.
+
+**What CC did:**
+1. Confirmed scope with user (multiple confirmation rounds, since auto-mode classifier correctly blocked the first unscoped destructive attempt), then wiped: all 1209 points in Qdrant `thermiq_chunks`, all 6 Firestore `documents` records, all 18 `risk_scores` records, reset `system_meta/config`.
+2. Reingested all 6 source documents from `data/raw/`:
+   | Document | Chunks |
+   |---|---|
+   | CEA Standard Technical Specification 500MW | 917 |
+   | NTPC Lara Tariff Petition 2019-24 (OCR) | 106 |
+   | NTPC Kahalgaon II Tariff Petition 2019-24 (OCR) | 58 |
+   | CEA Review of O&M Practices Thermal Power | 57 |
+   | CEA R&M Life Extension Report 2023 | 36 |
+   | CEA R&M Guidelines | 15 |
+
+   Total: **1189 chunks**. Along the way fixed real bugs in `scripts/ingest_documents.py` and `scripts/ingest_ocr.py` (committed `e304176`, pushed): Qdrant client timeout too short for this network's ~10s latency (caused scroll/upsert failures), a duplicate-point bug in `ingest_ocr.py` (loop stepped by 20 but sliced by 50, would've double-upserted), Jina API 429 retry/backoff (hit rate limit on the 917-chunk doc), and Windows-specific `tesseract.exe`/poppler path resolution (neither was on `PATH` in this shell — had to hardcode fallback paths).
+3. Ran `scripts/sync_qdrant_to_documents.py` to re-register all 6 docs in Firestore `documents` (this script already existed from task-012).
+4. Ran `scripts/detect_gaps.py` to repopulate `risk_scores` against the fresh chunk set — wrote 18 fresh gap records, **₹604.5 Cr total risk exposure** (7 covered, 10 partial, 1 hard gap). Verified live via `/api/gap_analysis`.
+5. **Diagnosed the Netlify staleness issue — root cause found:** Netlify's git-integration build hook (`.github/workflows/netlify-deploy.yml` → `NETLIFY_BUILD_HOOK` secret) has been firing successfully on every push since `b08dc3a`, but Netlify has been **silently skipping every resulting build** due to `"Skipped due to account credit usage exceeded"` (confirmed via the Netlify deploys API — `error_message` field on the deploy record). This means `thermiq-674.netlify.app` has been stuck serving the deploy from commit `4f2797a` for the last several pushes, while GitHub Pages (frontend, unaffected by Netlify billing) stayed current.
+6. Attempted a manual deploy via Netlify's API (after explicit user authorization) using a clean `git archive HEAD` export (verified no `.env` included — only `.env.example`) to bypass the stuck webhook pipeline. **This also got skipped with the same `"account credit usage exceeded"` error** — confirming this is a Netlify account/billing-level block, not a pipeline or code bug. No deploy method (git push, build hook, manual API) can get past this.
+
+**CC must do (next session, once Cowork/user resolves the Netlify billing issue):**
+- Nothing further from CC's side until the Netlify account has build credits again — check `https://app.netlify.com/projects/thermiq-674` → Site configuration → Usage, or Team → Billing, for the credit reset date or to upgrade the plan.
+- Once credits are restored, either push any trivial commit (to re-trigger the webhook) or manually trigger "Clear cache and deploy site" from the Netlify dashboard, then verify `thermiq-674.netlify.app/dashboard.html` no longer contains `locked-overlay` and that `/api/delete_document` returns 401 (not 404) for an unauthenticated POST.
+- **Backend functions are also affected** — any function code changes since `4f2797a` (`delete_document.js` new endpoint, the CORS header fix and 400-word answer limit in `query.js`/`ingest_document.js` from `155d79a`) are NOT live yet either, since Functions and static assets deploy together in the same blocked build.
+
+**Notes:**
+- The 18 `risk_scores` records that the gap-detection engine (`155d79a`, made by "another AI coder" per the user, directly on `main` outside the bridge protocol) had written were wiped as part of the requested DB rebuild — this was explicit, confirmed user scope, not an accident. They're now regenerated against the new chunk set (see step 4 above) and the numbers differ from before since the underlying corpus changed.
+- One-time helper scripts used in this task (`wipe_and_reset.py`, `sync_qdrant_to_documents.py`, `check_state.py`) are left uncommitted in `scripts/`, consistent with the existing convention for one-off ops scripts. `clear_seed_data.py` and `seed_documents_collection.py` from task-011 are also still sitting there uncommitted.
+- GitHub Pages (`ghostunamused.github.io/thermIQ`) is correctly the frontend host per `CLAUDE.md` and is unaffected by this issue — only the Netlify-hosted backend functions are blocked.
+
+### [DONE] task-012 | 2026-06-26T00:00:00Z
 **From:** Cowork
 **Task:** Commit delete functionality + scan Qdrant to register orphaned docs (pre-update ingest) in Firestore
 
@@ -118,6 +152,8 @@ print(f"\nDone. Seeded {seeded} orphaned document(s).")
 - The Qdrant `scroll` API returns `(records, next_offset)`. When `next_offset` is `None`, you've reached the end.
 - The orphaned test doc name in Qdrant may include a prefix like "6a38ce305640d" — whatever the exact `source_doc` payload value is, the script will seed it as-is so the delete button works correctly (it matches by exact `source_doc` value when deleting from Qdrant).
 - `delete_document.js` is a new Netlify function — auto-deploys with the push.
+
+**CC summary:** Reviewed the diffs (auth gate, confirm dialog, HTML escaping all intact), committed and pushed (`b08dc3a`). Ran the orphan-scan script — found and seeded exactly the one orphan Cowork flagged: `6a38ce305640d ET AI Hackathon 2026 Problem Statements` (16 chunks). Verified live via `/api/list_documents` at the time. **Note:** this orphan doc and its registration no longer exist — it was removed by the separate `155d79a` cleanup commit, and then the entire knowledge base (including this) was wiped and rebuilt under task-013 below per a direct user request. Also discovered mid-verification that Netlify deploys were silently stuck on an old commit due to account credit exhaustion — see task-013 for the full diagnosis, this is why `delete_document` appeared to flap between 404 and working during verification.
 
 ### [DONE] task-011 | 2026-06-26T00:00:00Z
 **From:** Cowork
