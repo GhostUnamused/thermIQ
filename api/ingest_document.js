@@ -142,6 +142,18 @@ module.exports = async (req, res) => {
         error: "Missing or invalid 'source_type'. Must be 'benchmark' (CEA standards/reference) or 'client' (a specific plant's documents).",
       });
     }
+
+    // Benchmark sources are the fixed CEA yardstick for every plant. They must NOT be
+    // uploadable through the public web endpoint — the INGEST_API_KEY lives in client JS,
+    // so anyone with the link could otherwise poison the assessment baseline. Benchmarks
+    // are seeded only via scripts/ingest_documents.py locally (which reads the real key
+    // from .env and is never exposed to the browser). To bypass this for legitimate local
+    // benchmark seeding, set header x-allow-benchmark to the INGEST_API_KEY.
+    if (source_type === 'benchmark' && req.headers['x-allow-benchmark'] !== process.env.INGEST_API_KEY) {
+      return res.status(403).json({
+        error: "Benchmark sources cannot be uploaded through this endpoint. They are the fixed CEA yardstick and are seeded locally via scripts/ingest_documents.py. Web uploads are limited to client plant documents.",
+      });
+    }
     if (source_type === 'client' && !client_name.trim()) {
       return res.status(400).json({
         error: "Field 'client_name' is required when source_type is 'client'. E.g. 'ntpc_lara', 'adani_raipur'.",

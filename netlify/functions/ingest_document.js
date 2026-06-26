@@ -19,7 +19,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type, X-Ingest-Key',
+  'Access-Control-Allow-Headers': 'Content-Type, X-Ingest-Key, X-Allow-Benchmark',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
   'Content-Type': 'application/json',
 };
@@ -121,7 +121,17 @@ exports.handler = async (event) => {
 
   try {
     const body = JSON.parse(event.body || '{}');
-    const { pdf_base64, doc_name, doc_type = 'manual', source_url = '', client = '' } = body;
+    const {
+      pdf_base64,
+      doc_name,
+      doc_type = 'manual',
+      source_url = '',
+      client = '',
+      // source_type: "benchmark" or "client" — REQUIRED (mirrors api/ingest_document.js)
+      source_type,
+      // client_name: required when source_type == "client" (e.g. "ntpc_lara")
+      client_name = '',
+    } = body;
     const docClient = client.trim().toLowerCase();
 
     if (!pdf_base64 || !doc_name) {
@@ -131,6 +141,44 @@ exports.handler = async (event) => {
         body: JSON.stringify({ error: 'Missing required fields: pdf_base64, doc_name' }),
       };
     }
+
+    // Validate source_type — kept in sync with api/ingest_document.js (Vercel)
+    if (!source_type || !['benchmark', 'client'].includes(source_type)) {
+      return {
+        statusCode: 400,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          error: "Missing or invalid 'source_type'. Must be 'benchmark' (CEA standards/reference) or 'client' (a specific plant's documents).",
+        }),
+      };
+    }
+
+    // Benchmark sources are the fixed CEA yardstick for every plant. They must NOT be
+    // uploadable through the public web endpoint — the INGEST_API_KEY lives in client JS,
+    // so anyone with the link could otherwise poison the assessment baseline. Benchmarks
+    // are seeded only via scripts/ingest_documents.py locally (which writes to Qdrant
+    // directly and never hits this endpoint). To bypass for legitimate local benchmark
+    // seeding, set header x-allow-benchmark to the INGEST_API_KEY.
+    const allowBenchmark = event.headers['x-allow-benchmark'] || event.headers['X-Allow-Benchmark'];
+    if (source_type === 'benchmark' && allowBenchmark !== process.env.INGEST_API_KEY) {
+      return {
+        statusCode: 403,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          error: "Benchmark sources cannot be uploaded through this endpoint. They are the fixed CEA yardstick and are seeded locally via scripts/ingest_documents.py. Web uploads are limited to client plant documents.",
+        }),
+      };
+    }
+    if (source_type === 'client' && !client_name.trim()) {
+      return {
+        statusCode: 400,
+        headers: CORS_HEADERS,
+        body: JSON.stringify({
+          error: "Field 'client_name' is required when source_type is 'client'. E.g. 'ntpc_lara', 'adani_raipur'.",
+        }),
+      };
+    }
+
     if (pdf_base64.length > MAX_BASE64_BYTES) {
       return {
         statusCode: 413,
@@ -196,6 +244,7 @@ exports.handler = async (event) => {
     });
 
     const ingestedAt = new Date().toISOString();
+    const resolvedClientName = source_type === 'client' ? client_name.trim().toLowerCase() : '';
     const points = chunks.map((chunk, i) => ({
       id:      uuidv4(),
       vector:  allEmbeddings[i],
@@ -205,6 +254,9 @@ exports.handler = async (event) => {
         source_url,
         doc_type,
         client:        docClient,
+        // source_type / client_name: kept in sync with api/ingest_document.js
+        source_type,
+        client_name:   resolvedClientName,
         equipment_tags: chunk.equipment_tags,
         section:       '',
         page_number:   null,
@@ -230,12 +282,14 @@ exports.handler = async (event) => {
       { merge: true }
     );
     // Write a proper document record so the Documents page can list it
-    const docId = `${docClient || 'generic'}_${docClient ? '' : ''}${Date.now()}`;
+    const docId = `${source_type === 'client' ? resolvedClientName : 'benchmark'}_${Date.now()}`;
     await db.collection('documents').doc(docId).set({
       doc_name,
       doc_type,
       client:         docClient,
       source_url,
+      source_type,
+      client_name:    resolvedClientName,
       chunks_indexed: chunks.length,
       pages_parsed:   numPages,
       ingested_at:    ingestedAt,

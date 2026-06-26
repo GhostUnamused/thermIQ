@@ -81,21 +81,18 @@
         Max ~6 MB per upload. For larger files use <code>scripts/ingest_documents.py</code> locally.
       </p>
 
-      <!-- Source Type selector — the critical new field -->
+      <!-- Web uploads are client plant documents only. Benchmark sources (the CEA
+           yardstick) are system-managed and seeded via scripts/ingest_documents.py
+           locally — they are intentionally NOT uploadable from the browser so the
+           assessment baseline can't be altered by anyone with the link. -->
+      <input type="hidden" name="source_type" id="source-type-client" value="client" />
       <div class="upload-source-type-row">
-        <span class="upload-source-type-label">What kind of document is this?</span>
-        <div class="upload-source-type-options">
-          <label class="source-type-option" id="source-type-client-label">
-            <input type="radio" name="source_type" value="client" id="source-type-client" checked />
-            <span class="source-type-pill source-type-pill--client">🏭 Client Plant Source</span>
-            <span class="source-type-desc">A specific plant's own documents (SOPs, procedures, inspection records)</span>
-          </label>
-          <label class="source-type-option" id="source-type-benchmark-label">
-            <input type="radio" name="source_type" value="benchmark" id="source-type-benchmark" />
-            <span class="source-type-pill source-type-pill--benchmark">📐 Benchmark Source</span>
-            <span class="source-type-desc">CEA standards or regulatory guidelines (yardstick — not plant-specific)</span>
-          </label>
-        </div>
+        <span class="upload-source-type-label">📄 Uploading a Client Plant Source</span>
+        <p class="upload-source-type-desc">
+          This adds a specific plant's own document (SOP, manual, inspection record) to the
+          corpus being assessed. Benchmark sources — the CEA yardstick — are system-managed
+          and cannot be uploaded here.
+        </p>
       </div>
 
       <div class="upload-form">
