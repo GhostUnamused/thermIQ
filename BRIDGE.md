@@ -8,6 +8,117 @@
 
 ## Queue
 
+### [IN_PROGRESS] task-012 | 2026-06-26T00:00:00Z
+**From:** Cowork
+**Task:** Commit delete functionality + scan Qdrant to register orphaned docs (pre-update ingest) in Firestore
+
+**Files changed by Cowork:**
+- `netlify/functions/delete_document.js` — NEW: POST `/api/delete_document`. Reads Firestore `documents/{doc_id}` for `doc_name`, deletes Qdrant points by `source_doc` filter, deletes Firestore record, decrements `system_meta/config.total_chunks_indexed`. Requires `X-Ingest-Key`.
+- `docs/documents.html` — added empty `<th>` for new Actions column (8 columns total)
+- `docs/app.js` — each table row now has a trash-icon delete button with `data-doc-id` / `data-doc-name`; `deleteDocument()` async function calls `/api/delete_document`, removes row optimistically; `initDocumentsPage()` wires click delegation on `#docs-table`; colspan references updated to 8
+- `docs/style.css` — appended `.btn-delete-doc` styles (ghost button, red hover)
+
+**CC must do:**
+
+1. Commit and push:
+```
+git add -A
+git commit -m "feat: delete document endpoint + UI; fix orphaned doc registration"
+git push origin main
+```
+
+2. Scan Qdrant for source_doc values not yet in the Firestore `documents` collection, and seed records for any orphans. Run this script:
+```python
+# scripts/sync_qdrant_to_documents.py
+import os, time
+from dotenv import load_dotenv
+from qdrant_client import QdrantClient
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+load_dotenv()
+
+try:
+    app = firebase_admin.get_app("thermiq_sync")
+except ValueError:
+    cred = credentials.Certificate({
+        "type": "service_account",
+        "project_id": os.environ["FIREBASE_PROJECT_ID"],
+        "private_key": os.environ["FIREBASE_PRIVATE_KEY"].replace("\\n", "\n"),
+        "client_email": os.environ["FIREBASE_CLIENT_EMAIL"],
+        "token_uri": "https://oauth2.googleapis.com/token",
+    })
+    app = firebase_admin.initialize_app(cred, name="thermiq_sync")
+
+db = firestore.client(app=app)
+qdrant = QdrantClient(url=os.environ["QDRANT_URL"], api_key=os.environ["QDRANT_API_KEY"])
+
+# Scroll through ALL Qdrant points to collect unique source_doc values
+print("Scrolling Qdrant collection...")
+source_docs = {}   # doc_name -> {"client": str, "doc_type": str, "source_url": str, "count": int, "ingested_at": str}
+offset = None
+while True:
+    result, next_offset = qdrant.scroll(
+        collection_name="thermiq_chunks",
+        limit=250,
+        offset=offset,
+        with_payload=True,
+        with_vectors=False,
+    )
+    for point in result:
+        p = point.payload or {}
+        name = p.get("source_doc", "")
+        if not name:
+            continue
+        if name not in source_docs:
+            source_docs[name] = {
+                "client":     p.get("client", ""),
+                "doc_type":   p.get("doc_type", "other"),
+                "source_url": p.get("source_url", ""),
+                "count":      0,
+                "ingested_at": p.get("ingested_at", ""),
+            }
+        source_docs[name]["count"] += 1
+    if next_offset is None:
+        break
+    offset = next_offset
+
+print(f"Found {len(source_docs)} unique source_doc values in Qdrant")
+
+# Get doc names already registered in Firestore
+existing = {d.to_dict().get("doc_name") for d in db.collection("documents").stream()}
+print(f"Already in Firestore documents collection: {len(existing)}")
+
+# Seed records for any orphans
+seeded = 0
+for name, meta in source_docs.items():
+    if name in existing:
+        print(f"  SKIP (exists): {name}")
+        continue
+    doc_id = f"orphan_{int(time.time() * 1000)}_{seeded}"
+    db.collection("documents").document(doc_id).set({
+        "doc_name":       name,
+        "doc_type":       meta["doc_type"] or "other",
+        "client":         meta["client"],
+        "source_url":     meta["source_url"],
+        "chunks_indexed": meta["count"],
+        "pages_parsed":   None,
+        "ingested_at":    meta["ingested_at"] or "2026-06-26T00:00:00Z",
+    })
+    print(f"  SEEDED: {name} ({meta['count']} chunks, client={meta['client'] or 'generic'})")
+    seeded += 1
+
+print(f"\nDone. Seeded {seeded} orphaned document(s).")
+```
+
+3. After the script runs, verify the test doc (ET AI Hackathon 2026 Problem Statements, or whatever its exact `source_doc` name is) now appears on the Documents page. Report back the full list of orphans found and seeded.
+
+**Notes:**
+- The `qdrant-client` Python package should already be in `.venv` from previous ingestion tasks.
+- The Qdrant `scroll` API returns `(records, next_offset)`. When `next_offset` is `None`, you've reached the end.
+- The orphaned test doc name in Qdrant may include a prefix like "6a38ce305640d" — whatever the exact `source_doc` payload value is, the script will seed it as-is so the delete button works correctly (it matches by exact `source_doc` value when deleting from Qdrant).
+- `delete_document.js` is a new Netlify function — auto-deploys with the push.
+
 ### [DONE] task-011 | 2026-06-26T00:00:00Z
 **From:** Cowork
 **Task:** Commit all frontend/backend changes, seed Firestore `documents` collection for pre-ingested docs, clear seeded risk_scores

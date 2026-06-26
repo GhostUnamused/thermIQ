@@ -689,7 +689,7 @@ async function loadDocuments() {
     const docs = data.documents || [];
 
     if (!docs.length) {
-      tbody.innerHTML = `<tr><td colspan="7" class="skeleton-row">No documents ingested yet. Upload one below.</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No documents ingested yet. Upload one below.</td></tr>`;
       return;
     }
 
@@ -710,10 +710,52 @@ async function loadDocuments() {
           <td>${d.pages_parsed ?? '—'}</td>
           <td>${formatDate(d.ingested_at)}</td>
           <td>${sourceLink}</td>
+          <td>
+            <button class="btn-delete-doc" data-doc-id="${escapeHtml(d.id)}" data-doc-name="${escapeHtml(d.doc_name || '')}" title="Delete document">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </td>
         </tr>`;
     }).join('');
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="7" class="skeleton-row">Failed to load: ${escapeHtml(err.message)}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" class="skeleton-row">Failed to load: ${escapeHtml(err.message)}</td></tr>`;
+  }
+}
+
+async function deleteDocument(docId, docName) {
+  if (!confirm(`Delete "${docName}"?\n\nThis will permanently remove all ${docName} chunks from the knowledge base. This cannot be undone.`)) return;
+
+  const tbody = document.getElementById('docs-table-body');
+  // Mark the row as deleting
+  const btn = document.querySelector(`[data-doc-id="${CSS.escape(docId)}"]`);
+  if (btn) {
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+  }
+
+  try {
+    const res = await fetch(`${BACKEND}/api/delete_document`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+      body: JSON.stringify({ doc_id: docId }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
+
+    // Remove the row immediately for snappy UX, then reload
+    const row = btn ? btn.closest('tr') : null;
+    if (row) row.remove();
+
+    // Check if table is now empty
+    if (tbody && tbody.querySelectorAll('tr').length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No documents ingested yet.</td></tr>`;
+    }
+  } catch (err) {
+    alert(`Failed to delete: ${err.message}`);
+    if (btn) { btn.disabled = false; btn.style.opacity = ''; }
   }
 }
 
@@ -724,6 +766,18 @@ function initDocumentsPage() {
 
   const refreshBtn = document.getElementById('docs-refresh-btn');
   if (refreshBtn) refreshBtn.addEventListener('click', loadDocuments);
+
+  // Delete button delegation
+  const table = document.getElementById('docs-table');
+  if (table) {
+    table.addEventListener('click', (e) => {
+      const btn = e.target.closest('.btn-delete-doc');
+      if (!btn) return;
+      const docId   = btn.dataset.docId;
+      const docName = btn.dataset.docName;
+      if (docId) deleteDocument(docId, docName);
+    });
+  }
 }
 
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
