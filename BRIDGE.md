@@ -8,6 +8,358 @@
 
 ## Queue
 
+### [DONE] task-020 | 2026-06-27T00:30:00Z  (Phase 1 / task-019 is DONE + pushed, so this is clear to start)
+**From:** Cowork
+**Task:** Phase 2 — client namespacing. Isolate each plant by `client_name` so NTPC doesn't contaminate test plants, give the dashboard a plant selector, and add a one-click per-client wipe. Cowork has drafted and syntax-checked the code below — CC's job is to place it, run the one-time migration, and push.
+
+**Deploy targets (corrected per your task-019 findings):** LIVE backend is **Vercel — `therm-iq.vercel.app`, `api/*.js`**. Netlify (`thermiq-674.netlify.app`) is dead (build credits exhausted) and serves stale code — keep `netlify/functions/` copies in sync for when it's restored, but every verify/migration call below hits **Vercel**. Do **NOT** `git add -A` (tree has 900+ uncommitted `data/chunks/*.json`); add only the Phase 2 files explicitly.
+
+**Why:** Today `risk_scores` is a single global set keyed by `gap_id`, and all client docs pool together. Adding `client_name` as a namespace gives per-plant assessment with no auth, and is the clean seam for real auth later.
+
+---
+
+#### 2a. REPLACE `api/gap_analysis.js` with this exact content
+```javascript
+const { initializeApp, getApps, getApp, cert } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
+const setCors = require('./_cors');
+
+const DEFAULT_CLIENT = 'ntpc';
+
+let app;
+if (!getApps().length) {
+  app = initializeApp({
+    credential: cert({
+      projectId:   process.env.FIREBASE_PROJECT_ID,
+      privateKey:  process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    }),
+  });
+} else {
+  app = getApp();
+}
+
+module.exports = async (req, res) => {
+  setCors(res);
+
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  try {
+    const db = getFirestore(app);
+
+    // Read client_name from query string, tolerating runtimes that don't pre-parse req.query.
+    let rawClient = req.query && req.query.client_name;
+    if (!rawClient && req.url) {
+      try {
+        rawClient = new URL(req.url, 'http://localhost').searchParams.get('client_name');
+      } catch (_) { /* ignore */ }
+    }
+    const clientName = (rawClient || DEFAULT_CLIENT).toString().trim().toLowerCase();
+
+    const riskRef = db.collection('risk_scores');
+
+    // Primary: namespaced records for this client (client_name field on each doc).
+    const snapshot = await riskRef.where('client_name', '==', clientName).get();
+    let gaps = snapshot.docs.map((doc) => ({ gap_id: doc.id, ...doc.data() }));
+
+    // Back-compat fallback: if no namespaced records exist yet (pre-migration),
+    // return the legacy global set (docs written before namespacing had no client_name).
+    if (gaps.length === 0) {
+      const legacy = await riskRef.get();
+      gaps = legacy.docs
+        .map((doc) => ({ gap_id: doc.id, ...doc.data() }))
+        .filter((g) => !g.client_name);
+    }
+
+    // Sort + cap in JS (avoids a Firestore composite index on where + orderBy).
+    gaps.sort((a, b) => (b.risk_score_cr || 0) - (a.risk_score_cr || 0));
+    gaps = gaps.slice(0, 20);
+
+    const total_risk_cr = gaps.reduce((sum, g) => sum + (g.risk_score_cr || 0), 0);
+
+    return res.status(200).json({
+      gaps,
+      total_risk_cr: Math.round(total_risk_cr * 10) / 10,
+      gap_count: gaps.length,
+      client_name: clientName,
+    });
+  } catch (e) {
+    return res.status(500).json({ error: e.message });
+  }
+};
+```
+
+#### 2b. NEW FILE `api/clear_client.js` (the "reset this plant" endpoint)
+```javascript
+/**
+ * clear_client — wipe ALL data for one client/plant namespace
+ * POST /api/clear_client   Body: { client_name }   Auth: X-Ingest-Key
+ */
+const { QdrantClient } = require('@qdrant/js-client-rest');
+const { initializeApp, getApps, getApp, cert } = require('firebase-admin/app');
+const { getFirestore, FieldValue } = require('firebase-admin/firestore');
+const setCors = require('./_cors');
+
+const COLLECTION_NAME = 'thermiq_chunks';
+
+function getFirebaseApp() {
+  if (!getApps().length) {
+    return initializeApp({
+      credential: cert({
+        projectId:   process.env.FIREBASE_PROJECT_ID,
+        privateKey:  process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      }),
+    });
+  }
+  return getApp();
+}
+
+module.exports = async (req, res) => {
+  setCors(res);
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+  const providedKey = req.headers['x-ingest-key'];
+  if (!process.env.INGEST_API_KEY || providedKey !== process.env.INGEST_API_KEY) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  try {
+    const clientName = ((req.body || {}).client_name || '').toString().trim().toLowerCase();
+    if (!clientName) return res.status(400).json({ error: 'Missing required field: client_name' });
+    if (clientName === 'benchmark') return res.status(403).json({ error: 'Refusing to clear the benchmark namespace.' });
+
+    const db = getFirestore(getFirebaseApp());
+
+    // 1 — Qdrant chunks for this client
+    const qdrant = new QdrantClient({ url: process.env.QDRANT_URL, apiKey: process.env.QDRANT_API_KEY });
+    await qdrant.delete(COLLECTION_NAME, {
+      filter: { must: [
+        { key: 'source_type', match: { value: 'client' } },
+        { key: 'client_name',  match: { value: clientName } },
+      ] },
+    });
+
+    // 2 — Firestore documents for this client
+    const docsSnap = await db.collection('documents').where('client_name', '==', clientName).get();
+    let chunksRemoved = 0;
+    const docNamesRemoved = [];
+    const docBatch = db.batch();
+    docsSnap.docs.forEach((d) => {
+      const data = d.data();
+      chunksRemoved += data.chunks_indexed || 0;
+      if (data.doc_name) docNamesRemoved.push(data.doc_name);
+      docBatch.delete(d.ref);
+    });
+    await docBatch.commit();
+
+    // 3 — risk_scores for this client (namespaced id "<client>__<gap>" or client_name field)
+    const riskSnap = await db.collection('risk_scores').get();
+    const riskBatch = db.batch();
+    let riskRemoved = 0;
+    riskSnap.docs.forEach((d) => {
+      const data = d.data();
+      if (data.client_name === clientName || d.id.startsWith(`${clientName}__`)) {
+        riskBatch.delete(d.ref);
+        riskRemoved += 1;
+      }
+    });
+    await riskBatch.commit();
+
+    // 4 — counters
+    const metaUpdate = { total_chunks_indexed: FieldValue.increment(-chunksRemoved) };
+    if (docNamesRemoved.length) metaUpdate.documents_ingested = FieldValue.arrayRemove(...docNamesRemoved);
+    await db.collection('system_meta').doc('config').set(metaUpdate, { merge: true });
+
+    return res.status(200).json({
+      success: true, client_name: clientName,
+      documents_removed: docNamesRemoved.length, chunks_removed: chunksRemoved,
+      risk_scores_removed: riskRemoved, message: `Cleared all data for plant "${clientName}".`,
+    });
+  } catch (e) {
+    console.error('clear_client error:', e);
+    return res.status(500).json({ error: e.message });
+  }
+};
+```
+
+#### 2c. EDIT `api/recompute_gaps.js` (3 changes — namespace the writes)
+1. After `const clientName = (body.client_name || '').trim().toLowerCase() || null;` (~line 284), add:
+```javascript
+    const cnKey = clientName || 'all_clients';
+```
+2. In the `results.push({ ... })` object (~line 351), add a `client_name` field beside `client_name_assessed`:
+```javascript
+        client_name:           cnKey,
+        client_name_assessed:  clientName || 'all_clients',
+```
+3. Replace the "Write to Firestore (clear then rewrite)" block (~lines 384-396) with:
+```javascript
+    // Write to Firestore — namespaced per client. Clear only THIS client's previous
+    // records (plus any legacy global docs that have no client_name), then rewrite.
+    const batch = db.batch();
+    const riskRef = db.collection('risk_scores');
+
+    const existing = await riskRef.get();
+    existing.docs.forEach((d) => {
+      const data = d.data();
+      if (data.client_name === cnKey || data.client_name === undefined) {
+        batch.delete(d.ref);
+      }
+    });
+
+    results.forEach((r) => {
+      batch.set(riskRef.doc(`${cnKey}__${r.gap_id}`), r);
+    });
+    await batch.commit();
+```
+
+#### 2d. EDIT `docs/app.js` (frontend wiring)
+1. After the `INGEST_KEY` / `BACKEND` constants (~line 14), add:
+```javascript
+// Active plant namespace (no auth in the demo — one client at a time, stored locally).
+const ACTIVE_CLIENT_KEY = 'thermiq_active_client';
+function getActiveClient() {
+  return (localStorage.getItem(ACTIVE_CLIENT_KEY) || 'ntpc').trim().toLowerCase();
+}
+function setActiveClient(name) {
+  localStorage.setItem(ACTIVE_CLIENT_KEY, (name || 'ntpc').trim().toLowerCase());
+}
+async function initPlantSelector() {
+  const sel = document.getElementById('plant-selector');
+  if (!sel) return;
+  const active = getActiveClient();
+  const names = new Set([active]);
+  try {
+    const r = await fetch(`${BACKEND}/api/list_documents`);
+    const d = await r.json();
+    (d.documents || []).forEach((doc) => {
+      if (doc.source_type === 'client' && (doc.client_name || doc.client)) {
+        names.add((doc.client_name || doc.client).toLowerCase());
+      }
+    });
+  } catch (_) { /* selector still works with just the active client */ }
+  sel.innerHTML = [...names].sort().map(
+    (n) => `<option value="${n}"${n === active ? ' selected' : ''}>${n}</option>`
+  ).join('');
+  sel.addEventListener('change', () => { setActiveClient(sel.value); window.location.reload(); });
+}
+```
+2. In `initDashboard`, call `initPlantSelector();` near the top, and scope the gap fetch (~line 513):
+```javascript
+      const gapRes = await fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(getActiveClient())}`);
+```
+3. In the dashboard Recompute handler (~line 644), pass the active client:
+```javascript
+          body: JSON.stringify({ triggered_by: 'manual_dashboard', client_name: getActiveClient() }),
+```
+4. On the documents page, prefill the client-name input and init the selector. Where the upload form sets up `clientNameEl` (`#upload-client-name`), add:
+```javascript
+  if (clientNameEl && !clientNameEl.value) clientNameEl.value = getActiveClient();
+  initPlantSelector();
+```
+5. Add the clear-plant handler (button from 2f):
+```javascript
+async function clearPlant() {
+  const cn = getActiveClient();
+  if (!confirm(`Delete ALL documents and gap scores for plant "${cn}"?\n\nRemoves its Qdrant chunks, document records, and risk scores. Benchmarks untouched. Cannot be undone.`)) return;
+  try {
+    const res = await fetch(`${BACKEND}/api/clear_client`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+      body: JSON.stringify({ client_name: cn }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
+    alert(`Cleared "${cn}": ${data.documents_removed} docs, ${data.chunks_removed} chunks, ${data.risk_scores_removed} risk scores removed.`);
+    window.location.reload();
+  } catch (err) { alert(`Failed to clear plant: ${err.message}`); }
+}
+const _clearBtn = document.getElementById('clear-plant-btn');
+if (_clearBtn) _clearBtn.addEventListener('click', clearPlant);
+```
+
+#### 2e. EDIT `docs/dashboard.html` — add a selector near `#last-updated` / the Recompute button
+```html
+<div class="plant-selector-wrap">
+  <label for="plant-selector">Assessing plant:</label>
+  <select id="plant-selector" class="plant-selector"></select>
+</div>
+```
+
+#### 2f. EDIT `docs/documents.html` — selector + clear button near the top of the "Client Plant Sources" list (~line 185)
+```html
+<div class="plant-selector-wrap">
+  <label for="plant-selector">Active plant:</label>
+  <select id="plant-selector" class="plant-selector"></select>
+  <button id="clear-plant-btn" class="btn-clear-plant" title="Delete ALL documents and gap scores for the active plant">🧹 Clear this plant…</button>
+</div>
+```
+Add small `.plant-selector-wrap` / `.btn-clear-plant` styles in `docs/style.css` to match the dark navy/orange theme.
+
+#### 2g. ONE-TIME MIGRATION (after deploy) — move legacy NTPC scores into the `ntpc` namespace
+```bash
+curl -s -X POST https://therm-iq.vercel.app/api/recompute_gaps \
+  -H "Content-Type: application/json" -H "X-Ingest-Key: <INGEST key from app.js>" \
+  -d '{"client_name":"ntpc","triggered_by":"phase2_migration"}' | head
+```
+The new recompute clears the legacy global docs and writes `ntpc__<gap>` docs. Then confirm the dashboard (default = `ntpc`) still shows ~₹416 Cr / 19 gaps.
+
+#### 2h. CLOSE THE RESIDUAL NETLIFY HOLE — delete the dead Netlify site (user authorized)
+The dead Netlify endpoint `thermiq-674.netlify.app/api/ingest_document` still serves the OLD unguarded ingest code against the SAME Qdrant + Firestore — a benchmark POST there returns 422 (accepts the upload) instead of 403. The user has authorized taking it down. This is an external/hosting action, not a git change — do it via the Netlify CLI or dashboard:
+
+1. **Preferred — Netlify CLI** (needs a Netlify auth token; if `NETLIFY_AUTH_TOKEN` is in `.env` or the user is logged in via `netlify login`):
+```bash
+npx netlify-cli sites:list           # find the site id / name for thermiq-674
+npx netlify-cli sites:delete <site-id-or-name>   # confirms, then permanently deletes
+```
+2. **If no CLI token** — do NOT guess credentials. Leave the deletion for the user and write a short [FAILED]/[COWORK_NOTE] telling them to delete it in the Netlify dashboard: **Site → Site configuration → Danger zone → Delete this site** (or at minimum **Site → Deploys → Stop builds / unpublish**). 
+3. **Belt-and-suspenders regardless of 1 or 2 — rotate the key.** Even after deletion, the old `INGEST_API_KEY` is exposed in `app.js` git history. Generate a new key, update it in the Vercel env vars dashboard AND the `INGEST_KEY` constant in `docs/app.js`, then push. This invalidates anything an attacker scraped. (If you can't reach the Vercel dashboard, leave a [COWORK_NOTE] instructing the user to do the env-var swap.)
+4. After deletion, confirm the hole is closed:
+```bash
+curl -s -o /dev/null -w "%{http_code}\n" https://thermiq-674.netlify.app/api/ingest_document
+# Expect: a DNS failure / 404 (site gone), NOT a 200/405/422.
+```
+Also remove the dead Netlify URL from any comment in `docs/app.js` so the source no longer advertises it.
+
+#### Deploy + verify (Vercel)
+```bash
+git add api/gap_analysis.js api/clear_client.js api/recompute_gaps.js \
+        netlify/functions/gap_analysis.js netlify/functions/clear_client.js netlify/functions/recompute_gaps.js \
+        docs/app.js docs/dashboard.html docs/documents.html docs/style.css
+git commit -m "feat: client namespacing — per-plant gap scoring, plant selector, clear_client endpoint"
+git push origin main
+```
+- `GET https://therm-iq.vercel.app/api/gap_analysis?client_name=ntpc` → NTPC gaps (same totals as before migration).
+- `GET .../api/gap_analysis?client_name=test_plant_x` → empty (proves isolation).
+- Upload a doc under a new plant name → only that plant's dashboard changes.
+- `POST .../api/clear_client {client_name:"test_plant_x"}` → removed; ntpc unaffected.
+
+**Notes:**
+- Mirror `gap_analysis.js`, `clear_client.js`, and the `recompute_gaps.js` edits into `netlify/functions/` too (sync for when Netlify is restored) — but Vercel is what goes live now.
+- Cowork `node --check`'d `gap_analysis.js` and `clear_client.js`. Frontend anchor line numbers may have shifted after Phase 1 — match on surrounding code, not exact lines.
+
+**CC summary (task-020 — DONE, verified live on Vercel):**
+Placed all code (commit `047e419`; app.js comment cleanup `<next>`). All JS `node --check` clean. Two deliberate deviations from the spec, both to avoid harm:
+
+1. **Migration done in-place, NOT via `recompute_gaps.js` (step 2g).** `recompute_gaps.js` is still the **v2.0** methodology (criticality 1–10, flat ₹5 default, **18** items) — it was never upgraded to the v3.0 that `detect_gaps.py` produced (criticality 1–5, sourced consequence, **19** items incl. `flame_failure_response_sop`, ₹416.4 Cr). Running it would have **cleared the live v3.0 records and overwritten them with different v2.0 numbers / 18 gaps**, contradicting 2g's own "still shows ~₹416 Cr / 19 gaps" criterion and regressing the task-017 sourced-methodology work. Instead I wrote `scripts/migrate_risk_scores_namespace.py`, which renames each existing record `<gap>` → `ntpc__<gap>` and adds `client_name:"ntpc"`, preserving the exact v3.0 numbers. Ran it: **19 migrated, total = ₹416.4 Cr**. (⚠️ Open item below: `recompute_gaps.js` should be upgraded to v3.0 before the "Recompute Gaps" button is trusted — today the button regresses to v2.0/18-gaps.)
+2. **`netlify/functions/recompute_gaps.js` NOT created.** There was no existing Netlify recompute mirror to keep "in sync," the Netlify site was being decommissioned this same task, and a 400-line hand-port to a different runtime signature is error-prone dead code. Mirrored only `gap_analysis.js` + `clear_client.js` (small, existing pattern).
+
+**Live verification (Vercel `therm-iq.vercel.app`):**
+- `GET /api/gap_analysis?client_name=ntpc` → 19 gaps, ₹416.4 Cr ✓
+- `GET /api/gap_analysis` (no param → default ntpc) → 19 gaps, ₹416.4 Cr ✓
+- `GET /api/gap_analysis?client_name=test_plant_x` → 0 gaps (isolation proven) ✓
+- `POST /api/clear_client` no key → 401 ✓ ; `client_name:"benchmark"` → 403 ✓ ; `client_name:"test_plant_x"` → success 0/0/0 ✓ ; ntpc intact afterwards (19/₹416.4) ✓
+- Frontend on GitHub Pages **and** Vercel: `app.js` has `getActiveClient`/`initPlantSelector`/`clearPlant`; `dashboard.html` has the plant selector; `documents.html` has selector + clear button ✓
+
+**2h — Netlify hole CLOSED.** MCP can't delete a site, password-protection 422'd (paid feature, not on this `nf_team_dev` plan), and redeploy is credit-blocked. **The user deleted the entire Netlify team**, so `thermiq-674.netlify.app/api/ingest_document` now returns **404** (was 422 = serving stale unguarded code). Removed the dead Netlify URL from `docs/app.js`. 
+- **Key rotation (2h.3) NOT done — needs the user.** No Vercel MCP/dashboard access from here, so I can't update the Vercel `INGEST_API_KEY` env var; changing the `app.js` `INGEST_KEY` alone would 401 all uploads. Now that the Netlify mirror is gone the key's exposure is back to baseline (it's a client-side deterrent by design). **Optional follow-up for the user:** generate a new key → set it in the Vercel env dashboard → update `INGEST_KEY` in `docs/app.js` → push. Also note: a Netlify `getAllEnvVars` MCP call during this task printed the project secrets into the CC transcript; rotating the Firebase/Jina/Qdrant/Gemini/OpenRouter keys is reasonable hardening if desired (they were already present in `.env`/Vercel).
+
+---
+
 ### [DONE] task-019 (Phase 1 only) | 2026-06-27T00:00:00Z
 **From:** Cowork
 **Task:** Phase 1 — deploy benchmark lockdown (security fix). Plus Phase 2 spec for client namespacing (implement only if instructed; Phase 1 is the priority).

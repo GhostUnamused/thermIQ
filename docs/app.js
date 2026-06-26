@@ -2,7 +2,7 @@
 // v0.2: Multi-chat, dark/light theme, sidebar history
 
 // ─── Config ───────────────────────────────────────────────────────────────────
-// Netlify (billing blocked as of 2026-06-26): 'https://thermiq-674.netlify.app'
+// Backend is Vercel. (The old Netlify mirror was decommissioned on 2026-06-27.)
 const BACKEND = window.location.hostname.includes('github.io')
   ? 'https://therm-iq.vercel.app'
   : '';
