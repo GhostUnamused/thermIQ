@@ -2,8 +2,9 @@
 // v0.2: Multi-chat, dark/light theme, sidebar history
 
 // ─── Config ───────────────────────────────────────────────────────────────────
+// Netlify (billing blocked as of 2026-06-26): 'https://thermiq-674.netlify.app'
 const BACKEND = window.location.hostname.includes('github.io')
-  ? 'https://thermiq-674.netlify.app'
+  ? 'https://therm-iq.vercel.app'
   : '';
 
 // Shared secret for the document-ingest endpoint. Lives in client JS by necessity
