@@ -8,6 +8,93 @@
 
 ## Queue
 
+### [PENDING] task-015 | 2026-06-26T18:00:00Z
+**From:** Cowork
+**Task:** Full rework — benchmark-vs-client RAG pipeline (Tasks 1–5). Commit all Cowork file changes, patch existing data, recompute gaps, verify live site.
+
+**What this rework does (plain English):**
+- Adds `source_type` ("benchmark" or "client") to every document and Qdrant chunk, so the system knows which documents are the CEA yardstick and which are a plant being assessed
+- Rewrites gap detection to search only CLIENT documents when measuring coverage — previously it was measuring against the CEA benchmark corpus itself, which is a category error
+- Rewrites the Query Copilot to label every cited source as [Benchmark] or [Client], add a confidence floor (honest "limited coverage" when no good match), and inject CEA outage data into answers about equipment failures
+- Rebuilds the Documents page into two locked sections: Benchmark (locked, can't delete) and Client (deletable, triggers recompute)
+- Adds an auto-recompute trigger: ingest or delete a client doc → gap scores update in ~60 seconds
+
+**Files changed by Cowork (already written to disk — DO NOT re-edit unless specified):**
+- `api/ingest_document.js` — requires `source_type` + `client_name` fields; writes both to Qdrant payload and Firestore; triggers recompute_gaps after client ingest
+- `api/delete_document.js` — blocks deletion of benchmark docs (403); triggers recompute_gaps after client deletion
+- `api/recompute_gaps.js` — NEW: JavaScript gap detection endpoint (client-only Qdrant filter, parallel embeddings, audit trail per gap, writes to Firestore risk_scores)
+- `api/query.js` — confidence floor 0.50, parallel benchmark+client retrieval with source labels, CEA outage context injection, updated system prompt
+- `docs/documents.html` — two sections (Benchmark locked / Client deletable), source_type upload selector
+- `docs/app.js` — updated initUpload, loadDocuments (two tables), deleteDocument, initDocumentsPage, gap table now shows consequence_method labels
+- `docs/style.css` — new styles: source badges, doc-split-explainer cards, source-type radio picker, lock icon, consequence labels, recompute button
+- `docs/dashboard.html` — methodology banner, Recompute Gaps button
+- `scripts/patch_source_type.py` — NEW: one-time migration script
+- `scripts/detect_gaps.py` — v2.0: now filters to client-only Qdrant, uses COVERAGE_THRESHOLDS config dict, stores full audit trail
+
+**CC must do (in this exact order):**
+
+1. **Commit all Cowork changes:**
+```
+git add -A
+git commit -m "feat: benchmark-vs-client RAG rework — source_type tagging, client-filtered gap detection, confidence floor, labelled retrieval, UI split"
+git push origin main
+```
+
+2. **Install new Python deps needed by patch script** (if not already in .venv):
+```
+pip install qdrant-client --break-system-packages
+# or if using .venv: .venv\Scripts\pip install qdrant-client
+```
+
+3. **Run the one-time data migration** — patches `source_type` onto existing Firestore docs and ALL existing Qdrant chunks. This is non-destructive (just adds a field):
+```
+python scripts/patch_source_type.py
+```
+Expected output: 6 Firestore docs patched (4 benchmark, 2 client), ~1189 Qdrant points patched. If it times out partway through, it's safe to re-run — it's idempotent.
+
+4. **Recompute gaps against the freshly-tagged client corpus:**
+```
+python scripts/detect_gaps.py
+```
+This now runs with `source_type="client"` filter — scores will be different from before (and likely lower) because it's measuring only the 164 NTPC tariff petition chunks, not the 1029 CEA benchmark chunks. That's correct and honest. Note the new total risk figure.
+
+5. **Verify live site** — wait ~1 min after step 1 push for Vercel to deploy:
+   - `GET https://therm-iq.vercel.app/api/list_documents` → each doc should have `source_type` field
+   - Open `https://ghostunamused.github.io/thermIQ/documents.html` → should show two sections: "Benchmark Sources" (locked) and "Client Plant Sources" (with delete buttons)
+   - Open `https://ghostunamused.github.io/thermIQ/dashboard.html` → methodology banner visible, Recompute Gaps button present, gaps table shows `client_score` and consequence method label (derived/assumed)
+   - Ask the copilot: "Does the Lara plant document a BFP seal replacement procedure?" → answer should either cite `[Client: NTPC plant]` chunks OR say limited coverage. Must NOT confidently fabricate a procedure.
+   - Ask the copilot: "What ramp rate does the CEA spec require for cold boiler startup?" → answer should cite `[Benchmark: CEA Standard Technical Specification]`
+
+6. **Quick sanity-check: verify client-only filter works in Qdrant** — run this Python snippet:
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.models import Filter, FieldCondition, MatchValue
+import os; from dotenv import load_dotenv; load_dotenv()
+q = QdrantClient(url=os.environ["QDRANT_URL"], api_key=os.environ["QDRANT_API_KEY"])
+# Count benchmark points
+bm = q.count("thermiq_chunks", count_filter=Filter(must=[FieldCondition(key="source_type", match=MatchValue(value="benchmark"))]))
+cl = q.count("thermiq_chunks", count_filter=Filter(must=[FieldCondition(key="source_type", match=MatchValue(value="client"))]))
+print(f"benchmark: {bm.count}, client: {cl.count}, total should be ~1189")
+```
+Expected: ~1025 benchmark, ~164 client. If either count is 0, the patch script didn't complete — re-run it.
+
+7. **If any function returns 500 in step 5** — check Vercel function logs. Most likely causes:
+   - `firebase-admin` init error: check FIREBASE_PRIVATE_KEY env var on Vercel (must include the full `-----BEGIN PRIVATE KEY-----` block with real newlines, not `\n` as a literal string — use the escaped version that was working before)
+   - Missing `@qdrant/js-client-rest` in Qdrant calls within recompute_gaps.js — if so, check package.json has `"@qdrant/js-client-rest": "^1.9.0"` or higher
+
+8. **After verification, commit a final note:**
+```
+git commit --allow-empty -m "chore: task-015 verified live — benchmark-vs-client split working"
+git push origin main
+```
+
+**Notes:**
+- `recompute_gaps.js` runs ~18 Jina embeddings + 18 Qdrant filtered searches in parallel. Total time ~15–25 seconds. Vercel timeout is set to 60s in the config. If it times out on the live endpoint, the Python script (`detect_gaps.py`) is the reliable fallback — run it manually and note that the button "Recompute Gaps" can be re-tried.
+- The gap scores from `detect_gaps.py` (step 4) and `recompute_gaps.js` (via the button) should be very similar but not identical — the Python version uses `query_points` with Qdrant's new API, the JS version uses the `search` method with `filter`. Both filter to `source_type="client"` so the delta methodology is the same.
+- Benchmark source changes are admin-only and NOT auto-triggered for recompute — this is a deliberate scope decision for the demo. Document it if a judge asks.
+- The NTPC tariff petitions are the only client documents currently. They contain financial/regulatory data, not operational SOPs — so MOST topics will show as "gap" (low client coverage). This is honest and is the point: the gap report shows what the plant hasn't documented (or what we don't have in the system). The demo narrative is: "If this plant had uploaded their SOPs and maintenance procedures, the gaps would close."
+- Do NOT delete the old `detect_gaps.py` — it's now the v2.0 version and is the authoritative gap computation tool.
+
 ### [DONE] task-014 | 2026-06-26T13:00:00Z
 **From:** Cowork
 **Task:** Commit Vercel migration files, push to GitHub, then guide user to set up Vercel free account and update BACKEND URL once URL is known.

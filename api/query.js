@@ -1,19 +1,45 @@
+/**
+ * query.js — ThermIQ RAG endpoint
+ * POST /api/query
+ * Body: { query: string, client?: string }
+ *
+ * Pipeline:
+ *   1. Embed query via Jina v3
+ *   2. Search Qdrant — retrieve from BOTH benchmark and client docs, labelled separately
+ *   3. Fetch relevant CEA outage records from Firestore (for equipment-related queries)
+ *   4. Confidence floor: if best score < 0.50, answer honestly states limited coverage
+ *   5. Generate with Gemini (with OpenRouter fallback), using a prompt that:
+ *      - Cites every claim to a labelled source [Benchmark: ...] or [Client: ...]
+ *      - Refuses to invent procedures not in the retrieved text
+ *      - Distinguishes "CEA standard requires X" from "this plant documents Y"
+ */
+
 const { QdrantClient } = require('@qdrant/js-client-rest');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const { initializeApp, getApps, getApp, cert } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
 const setCors = require('./_cors');
 
-const SYSTEM_INSTRUCTION =
-  'You are ThermIQ, an expert AI assistant for thermal power plant ' +
-  'engineers and maintenance teams in India. Answer ONLY from the ' +
-  'provided source documents. If the answer is not in the sources, ' +
-  "say clearly: 'This information is not available in the current " +
-  "ThermIQ knowledge base.' Always cite sources by number " +
-  "(e.g., 'According to Source 1...'). Be precise and technical — " +
-  'include specific values, thresholds, part numbers, and procedures ' +
-  'where available. Keep every answer under 400 words. Use bullet points ' +
-  'or numbered steps for procedures. Do not repeat the question.';
+// ─── Confidence floor ─────────────────────────────────────────────────────────
+// If the best match score is below this threshold, we say the corpus has limited
+// coverage rather than generating a potentially fabricated answer.
+const RETRIEVAL_CONFIDENCE_FLOOR = 0.50;
 
-// OpenRouter fallback — llama-3.3-70b-instruct:free is consistently available
+// ─── System instruction ───────────────────────────────────────────────────────
+// Instructs the model to: label every source as Benchmark or Client,
+// refuse to fabricate, distinguish standard requirements from plant practice.
+const SYSTEM_INSTRUCTION = `You are ThermIQ, an AI knowledge assistant for thermal power plant engineers and maintenance teams in India.
+
+CRITICAL RULES — follow these exactly:
+1. Answer ONLY from the provided sources. Do not invent procedures, specifications, or values that are not in the source text.
+2. Every factual claim must be cited using the exact label provided: [Benchmark: doc name] or [Client: doc name] or [Outage data].
+3. Distinguish carefully between: "The CEA standard requires..." (from a Benchmark source) vs "This plant's documents show..." (from a Client source). These are different things.
+4. If a question asks about the plant's actual practice but only Benchmark sources cover the topic, say: "The CEA standard specifies X, but no plant-specific documentation was found in the client corpus covering this procedure."
+5. If sources are weak or off-topic, say so explicitly: "The available documents have limited coverage of this topic."
+6. Be precise and technical — include specific values, thresholds, part numbers, and procedures where the source text contains them.
+7. Keep answers under 450 words. Use numbered steps for procedures. Do not repeat the question.`;
+
+// ─── OpenRouter fallback ──────────────────────────────────────────────────────
 const OPENROUTER_MODEL = 'meta-llama/llama-3.3-70b-instruct:free';
 const OPENROUTER_URL   = 'https://openrouter.ai/api/v1/chat/completions';
 
@@ -30,6 +56,21 @@ function isThrottleError(err) {
   );
 }
 
+// ─── Firebase Init ────────────────────────────────────────────────────────────
+function getFirebaseApp() {
+  if (!getApps().length) {
+    return initializeApp({
+      credential: cert({
+        projectId:   process.env.FIREBASE_PROJECT_ID,
+        privateKey:  process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      }),
+    });
+  }
+  return getApp();
+}
+
+// ─── Generators ───────────────────────────────────────────────────────────────
 async function generateWithGemini(prompt, modelName) {
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   const model = genAI.getGenerativeModel({
@@ -41,9 +82,7 @@ async function generateWithGemini(prompt, modelName) {
 }
 
 async function generateWithOpenRouter(prompt) {
-  if (!process.env.OPENROUTER_API_KEY) {
-    throw new Error('OpenRouter API key not configured');
-  }
+  if (!process.env.OPENROUTER_API_KEY) throw new Error('OpenRouter API key not configured');
   const response = await fetch(OPENROUTER_URL, {
     method: 'POST',
     headers: {
@@ -60,14 +99,12 @@ async function generateWithOpenRouter(prompt) {
       ],
     }),
   });
-  if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`OpenRouter error ${response.status}: ${errText}`);
-  }
+  if (!response.ok) throw new Error(`OpenRouter error ${response.status}: ${await response.text()}`);
   const data = await response.json();
   return data.choices[0].message.content;
 }
 
+// ─── Embed query ──────────────────────────────────────────────────────────────
 async function embedQuery(query) {
   const response = await fetch('https://api.jina.ai/v1/embeddings', {
     method: 'POST',
@@ -81,88 +118,197 @@ async function embedQuery(query) {
       task: 'retrieval.query',
     }),
   });
-  if (!response.ok) {
-    throw new Error(`Jina embeddings request failed: ${response.status}`);
-  }
+  if (!response.ok) throw new Error(`Jina embeddings failed: ${response.status}`);
   const data = await response.json();
   return data.data[0].embedding;
 }
 
+// ─── Fetch relevant outage records ────────────────────────────────────────────
+// Brings CEA outage data into the RAG context for equipment/failure queries.
+// We fetch the 5 most recent outages and filter by keyword relevance.
+const OUTAGE_EQUIPMENT_KEYWORDS = {
+  Boiler:          ['boiler', 'furnace', 'superheater', 'super heater', 'economiser', 'air preheater', 'waterwall', 'burner'],
+  Turbine:         ['turbine', 'blade', 'governor', 'rotor', 'vibration', 'bearing'],
+  Generator:       ['generator', 'stator', 'exciter', 'avr', 'alternator', 'winding'],
+  BFP:             ['boiler feed pump', 'bfp', 'feed pump', 'seal water', 'impeller'],
+  Condenser:       ['condenser', 'vacuum', 'hotwell', 'ejector', 'tube leak'],
+  'Cooling Tower': ['cooling tower', 'fill', 'drift eliminator'],
+};
+
+async function fetchRelevantOutages(db, query) {
+  const queryLower = query.toLowerCase();
+  const relevantTags = Object.entries(OUTAGE_EQUIPMENT_KEYWORDS)
+    .filter(([, kws]) => kws.some(kw => queryLower.includes(kw)))
+    .map(([tag]) => tag);
+
+  if (relevantTags.length === 0) return [];
+
+  try {
+    let snapshot;
+    if (relevantTags.length === 1) {
+      // Single tag — can use equality filter
+      snapshot = await db.collection('cea_outages')
+        .where('equipment_tag', '==', relevantTags[0])
+        .orderBy('date_out', 'desc')
+        .limit(5)
+        .get();
+    } else {
+      // Multiple tags — fetch recent and filter client-side
+      snapshot = await db.collection('cea_outages')
+        .orderBy('date_out', 'desc')
+        .limit(30)
+        .get();
+    }
+
+    const outages = snapshot.docs
+      .map(d => d.data())
+      .filter(o => relevantTags.includes(o.equipment_tag))
+      .slice(0, 5);
+
+    return outages;
+  } catch (e) {
+    console.error('[query] fetchRelevantOutages error:', e.message);
+    return [];
+  }
+}
+
+// ─── Main handler ─────────────────────────────────────────────────────────────
 module.exports = async (req, res) => {
   setCors(res);
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
     const body = req.body || {};
-    const query = (body.query || '').trim();
+    const query  = (body.query || '').trim();
     const client = (body.client || '').trim().toLowerCase();
 
-    if (!query) {
-      return res.status(400).json({ error: "Missing or empty 'query' field." });
-    }
+    if (!query) return res.status(400).json({ error: "Missing or empty 'query' field." });
 
-    // Step 1 — embed the query
-    const embedding = await embedQuery(query);
+    // ── Step 1: Embed query ──────────────────────────────────────────────────
+    const [embedding, db] = await Promise.all([
+      embedQuery(query),
+      Promise.resolve(getFirestore(getFirebaseApp())),
+    ]);
 
-    // Step 2 — search Qdrant (with optional client filter)
+    // ── Step 2: Search Qdrant — retrieve from BOTH source types ─────────────
     const qdrantClient = new QdrantClient({
-      url: process.env.QDRANT_URL,
+      url:    process.env.QDRANT_URL,
       apiKey: process.env.QDRANT_API_KEY,
     });
 
-    const searchParams = {
-      vector: embedding,
-      limit: 5,
-      with_payload: true,
+    // Build base filter — optionally narrow by client
+    const buildFilter = (sourceType) => {
+      const must = [{ key: 'source_type', match: { value: sourceType } }];
+      if (client && sourceType === 'client') {
+        must.push({ key: 'client_name', match: { value: client } });
+      }
+      return { must };
     };
 
-    if (client) {
-      searchParams.filter = {
-        should: [
-          { key: 'client', match: { value: client } },
-          { key: 'client', match: { value: '' } },
-        ],
-      };
-    }
+    // Run benchmark + client searches in parallel for speed
+    const [benchmarkHits, clientHits] = await Promise.all([
+      qdrantClient.search('thermiq_chunks', {
+        vector: embedding,
+        filter: buildFilter('benchmark'),
+        limit: 4,
+        with_payload: true,
+      }),
+      qdrantClient.search('thermiq_chunks', {
+        vector: embedding,
+        filter: buildFilter('client'),
+        limit: 4,
+        with_payload: true,
+      }),
+    ]);
 
-    const results = await qdrantClient.search('thermiq_chunks', searchParams);
+    // ── Step 3: Confidence floor ─────────────────────────────────────────────
+    const allHits = [...benchmarkHits, ...clientHits].sort((a, b) => b.score - a.score);
+    const bestScore = allHits.length > 0 ? allHits[0].score : 0;
 
-    if (!results || results.length === 0) {
+    if (bestScore < RETRIEVAL_CONFIDENCE_FLOOR) {
+      // Not enough signal — be honest about it rather than generating a weak answer
+      const weakSources = allHits.slice(0, 3).map((h, i) => ({
+        doc:    h.payload?.source_doc || `Source ${i + 1}`,
+        section: h.payload?.section || '',
+        score:  Math.round(h.score * 1000) / 1000,
+        source_type: h.payload?.source_type || 'unknown',
+        url:    h.payload?.source_url || '',
+      }));
       return res.status(200).json({
-        answer: 'No relevant documents found in the ThermIQ knowledge base for this query.',
-        sources: [],
-        chunks_retrieved: 0,
+        answer: `**Limited coverage in the ThermIQ knowledge base.**\n\nThe best match found for your query scored ${Math.round(bestScore * 100)}% confidence, which is below the threshold for a reliable answer (50%).\n\nThis likely means:\n- The specific procedure or topic you're asking about is not in the current client plant documents\n- The available documents cover this equipment type in a general/design context rather than operationally\n\nConsider uploading the plant's SOPs, inspection procedures, or maintenance manuals as client documents to improve coverage on this topic.`,
+        sources: weakSources,
+        chunks_retrieved: allHits.length,
+        confidence_floor_triggered: true,
+        best_score: Math.round(bestScore * 1000) / 1000,
       });
     }
 
-    // Step 3 — build context string and sources list
+    // ── Step 4: Fetch relevant outage records ────────────────────────────────
+    const relevantOutages = await fetchRelevantOutages(db, query);
+
+    // ── Step 5: Build context — label each chunk as Benchmark or Client ──────
     const contextParts = [];
     const sources = [];
-    results.forEach((result, i) => {
+
+    // Benchmark chunks first — provide the "what the standard says" context
+    benchmarkHits.forEach((result, i) => {
       const payload = result.payload || {};
-      const sourceDoc = payload.source_doc || '';
-      const section = payload.section || '';
-      const text = payload.text || '';
-      contextParts.push(`[SOURCE ${i + 1}] ${sourceDoc} — ${section}:\n${text}`);
+      const label = `[Benchmark: ${payload.source_doc || 'CEA Standard'}]`;
+      contextParts.push(`${label} — ${payload.section || 'General'}:\n${payload.text || ''}`);
       sources.push({
-        doc: sourceDoc,
-        section,
-        page: payload.page_number,
-        score: Math.round(result.score * 1000) / 1000,
-        url: payload.source_url || '',
+        doc:         payload.source_doc || '',
+        section:     payload.section || '',
+        page:        payload.page_number,
+        score:       Math.round(result.score * 1000) / 1000,
+        url:         payload.source_url || '',
+        source_type: 'benchmark',
+        label,
       });
     });
-    const contextText = contextParts.join('\n\n');
-    const llmPrompt = `Question: ${query}\n\nSource Documents:\n${contextText}`;
 
-    // Step 4 — generate with three-level fallback:
-    //   gemini-2.5-flash → (throttled, wait 2s) → gemini-2.0-flash → OpenRouter
+    // Client chunks — what this plant's documents actually contain
+    clientHits.forEach((result, i) => {
+      const payload = result.payload || {};
+      const clientLabel = payload.client_name
+        ? `${payload.client_name.toUpperCase()} plant`
+        : 'Client plant';
+      const label = `[Client: ${clientLabel} — ${payload.source_doc || 'plant document'}]`;
+      contextParts.push(`${label} — ${payload.section || 'General'}:\n${payload.text || ''}`);
+      sources.push({
+        doc:         payload.source_doc || '',
+        section:     payload.section || '',
+        page:        payload.page_number,
+        score:       Math.round(result.score * 1000) / 1000,
+        url:         payload.source_url || '',
+        source_type: 'client',
+        client_name: payload.client_name || '',
+        label,
+      });
+    });
+
+    // Outage records as additional context
+    if (relevantOutages.length > 0) {
+      const outageContext = relevantOutages.map(o =>
+        `Station: ${o.station}, Unit: ${o.unit}, Equipment: ${o.equipment_tag}, ` +
+        `Reason: ${o.failure_reason_raw}, MW Lost: ${o.mw_lost}, ` +
+        `Revenue Impact: ₹${o.revenue_lost_est_cr} Cr, Date: ${o.date_out}`
+      ).join('\n');
+      contextParts.push(`[Outage data: CEA forced outage records]\n${outageContext}`);
+      sources.push({
+        doc: 'CEA Forced Outage Records',
+        section: `${relevantOutages.length} relevant outages`,
+        score: null,
+        source_type: 'outage_data',
+        label: '[Outage data: CEA forced outage records]',
+      });
+    }
+
+    const contextText = contextParts.join('\n\n---\n\n');
+    const llmPrompt = `Question: ${query}\n\nSources:\n${contextText}`;
+
+    // ── Step 6: Generate answer ───────────────────────────────────────────────
     let answer;
     let model_used = 'gemini-2.5-flash';
-
     try {
       answer = await generateWithGemini(llmPrompt, 'gemini-2.5-flash');
     } catch (err1) {
@@ -181,9 +327,12 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       answer,
       sources,
-      chunks_retrieved: results.length,
+      chunks_retrieved: allHits.length,
+      best_score: Math.round(bestScore * 1000) / 1000,
+      outage_records_used: relevantOutages.length,
       model_used,
     });
+
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }

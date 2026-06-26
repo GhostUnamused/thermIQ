@@ -56,7 +56,15 @@ module.exports = async (req, res) => {
       return res.status(404).json({ error: `Document '${doc_id}' not found in documents collection` });
     }
 
-    const { doc_name, chunks_indexed = 0 } = docSnap.data();
+    const { doc_name, chunks_indexed = 0, source_type } = docSnap.data();
+
+    // Benchmark documents are the fixed yardstick — not user-deletable.
+    // Deleting them would silently change the assessment baseline for every plant.
+    if (source_type === 'benchmark') {
+      return res.status(403).json({
+        error: `Cannot delete benchmark document "${doc_name}". Benchmark sources (CEA standards and guidelines) are the fixed yardstick for all gap assessments. If you need to update a benchmark, contact the system administrator.`,
+      });
+    }
 
     // 1 — Delete all Qdrant points for this document
     const qdrant = new QdrantClient({
@@ -82,11 +90,25 @@ module.exports = async (req, res) => {
       { merge: true }
     );
 
+    // Trigger gap recomputation asynchronously (fire-and-forget).
+    // We do NOT await this — it can take 30–60s and we don't want to block the delete response.
+    // The dashboard will reflect updated gaps within ~60 seconds.
+    const recomputeUrl = `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers['host']}/api/recompute_gaps`;
+    fetch(recomputeUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-ingest-key': process.env.INGEST_API_KEY,
+      },
+      body: JSON.stringify({ triggered_by: 'delete', doc_id }),
+    }).catch((err) => console.error('[delete_document] recompute_gaps trigger failed:', err.message));
+
     return res.status(200).json({
       success:        true,
       doc_id,
       doc_name,
       chunks_removed: chunks_indexed,
+      message:        'Document deleted. Gap analysis will recompute in ~60 seconds.',
     });
   } catch (e) {
     console.error('delete_document error:', e);

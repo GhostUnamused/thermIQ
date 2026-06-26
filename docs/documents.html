@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ThermIQ — Documents</title>
-  <meta name="description" content="ThermIQ Documents — upload and manage PDFs in the knowledge base. Each document is chunked, embedded, and stored per company." />
+  <meta name="description" content="ThermIQ Documents — manage the benchmark yardstick and client plant corpus." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -48,36 +48,76 @@
   <main class="container">
     <h1 class="page-title">Knowledge Base Documents</h1>
     <p class="page-subtitle">
-      Upload PDFs to the knowledge base. Documents are chunked, embedded, and scoped per company.
+      ThermIQ measures a plant's knowledge gaps by comparing what the plant has documented
+      against what the CEA standard says a plant should document.
+      The two source types below serve different roles — keep them separate.
     </p>
+
+    <!-- ── How it works explainer ── -->
+    <section class="doc-split-explainer">
+      <div class="doc-split-card doc-split-card--benchmark">
+        <div class="doc-split-icon">📐</div>
+        <div>
+          <h3>Benchmark Sources <span class="source-badge source-badge--benchmark">Yardstick</span></h3>
+          <p>CEA standards and regulatory guidelines that define what a well-run 500MW plant <em>should</em> document and maintain. These are the measuring stick — they don't change per plant.</p>
+          <p class="doc-split-note">🔒 Locked — cannot be deleted. Changes to the benchmark would change the assessment baseline for every plant.</p>
+        </div>
+      </div>
+      <div class="doc-split-card doc-split-card--client">
+        <div class="doc-split-icon">🏭</div>
+        <div>
+          <h3>Client Plant Sources <span class="source-badge source-badge--client">Being Assessed</span></h3>
+          <p>A specific plant's own operational documents (SOPs, manuals, tariff petitions, inspection records). These are what's being <em>measured</em>. Gaps = topics the benchmark requires that these documents don't cover.</p>
+          <p class="doc-split-note">✏️ Uploadable and deletable. Deleting triggers gap recomputation.</p>
+        </div>
+      </div>
+    </section>
 
     <!-- ── Upload Section ── -->
     <section class="card table-card upload-section">
       <h2>Add New Document</h2>
       <p class="upload-description">
-        Upload a PDF to ingest it into the ThermIQ knowledge base. Text is extracted, chunked into 400-word passages,
-        and embedded via Jina AI into Qdrant. Max ~6 MB per upload.
-        For larger files, use <code>scripts/ingest_documents.py</code> locally.
+        Upload a PDF. Text is chunked into 400-word passages and embedded via Jina AI into Qdrant.
+        Max ~6 MB per upload. For larger files use <code>scripts/ingest_documents.py</code> locally.
       </p>
+
+      <!-- Source Type selector — the critical new field -->
+      <div class="upload-source-type-row">
+        <span class="upload-source-type-label">What kind of document is this?</span>
+        <div class="upload-source-type-options">
+          <label class="source-type-option" id="source-type-client-label">
+            <input type="radio" name="source_type" value="client" id="source-type-client" checked />
+            <span class="source-type-pill source-type-pill--client">🏭 Client Plant Source</span>
+            <span class="source-type-desc">A specific plant's own documents (SOPs, procedures, inspection records)</span>
+          </label>
+          <label class="source-type-option" id="source-type-benchmark-label">
+            <input type="radio" name="source_type" value="benchmark" id="source-type-benchmark" />
+            <span class="source-type-pill source-type-pill--benchmark">📐 Benchmark Source</span>
+            <span class="source-type-desc">CEA standards or regulatory guidelines (yardstick — not plant-specific)</span>
+          </label>
+        </div>
+      </div>
+
       <div class="upload-form">
         <div class="upload-row upload-row-4">
           <label class="upload-label">
             Document Name <span class="required">*</span>
-            <input type="text" id="upload-doc-name" class="upload-input" placeholder="e.g. CEA R&M Guideline 2023" />
+            <input type="text" id="upload-doc-name" class="upload-input" placeholder="e.g. Lara Unit-1 Boiler SOP 2024" />
           </label>
-          <label class="upload-label">
-            Company / Client <span class="required">*</span>
-            <input type="text" id="upload-client" class="upload-input" placeholder="e.g. NTPC, Adani, Tata Power" />
-            <span class="upload-hint">Used to scope queries — type exactly as you'll search</span>
+          <!-- Client name — shown only when source_type = client -->
+          <label class="upload-label" id="upload-client-name-field">
+            Client / Plant Name <span class="required">*</span>
+            <input type="text" id="upload-client-name" class="upload-input" placeholder="e.g. ntpc_lara, adani_raipur" />
+            <span class="upload-hint">Lowercase, no spaces. Used to scope gap assessments to this plant.</span>
           </label>
           <label class="upload-label">
             Document Type
             <select id="upload-doc-type" class="upload-input upload-select">
-              <option value="guideline">Guideline / Standard</option>
               <option value="sop">SOP / Procedure</option>
+              <option value="manual">Manual / Handbook</option>
+              <option value="guideline">Guideline / Standard</option>
               <option value="technical_spec">Technical Specification</option>
               <option value="tariff_petition">Tariff Petition</option>
-              <option value="manual">Manual / Handbook</option>
               <option value="other">Other</option>
             </select>
           </label>
@@ -104,10 +144,12 @@
       </div>
     </section>
 
-    <!-- ── Documents List ── -->
+    <!-- ── Benchmark Sources (locked) ── -->
     <section class="card table-card">
       <div class="docs-list-header">
-        <h2>Ingested Documents</h2>
+        <h2>📐 Benchmark Sources
+          <span class="source-badge source-badge--benchmark">Yardstick — Locked</span>
+        </h2>
         <button id="docs-refresh-btn" class="btn-ghost btn-sm" title="Refresh list">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="23 4 23 10 17 10"></polyline>
@@ -116,11 +158,43 @@
           Refresh
         </button>
       </div>
-      <table class="data-table" id="docs-table">
+      <p class="explainer" style="margin-bottom: 1rem;">
+        CEA standards and guidelines used as the assessment yardstick. Not deletable —
+        removing a benchmark would silently change the gap assessment for every plant.
+      </p>
+      <table class="data-table" id="benchmark-docs-table">
         <thead>
           <tr>
             <th>Document Name</th>
-            <th>Company</th>
+            <th>Type</th>
+            <th>Chunks</th>
+            <th>Pages</th>
+            <th>Ingested</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="benchmark-docs-body">
+          <tr><td colspan="6" class="skeleton-row">Loading benchmarks…</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ── Client Plant Sources (deletable) ── -->
+    <section class="card table-card">
+      <div class="docs-list-header">
+        <h2>🏭 Client Plant Sources
+          <span class="source-badge source-badge--client">Being Assessed</span>
+        </h2>
+      </div>
+      <p class="explainer" style="margin-bottom: 1rem;">
+        Plant-specific operational documents. Gaps are measured against these.
+        Deleting a document triggers gap recomputation (~60 seconds).
+      </p>
+      <table class="data-table" id="client-docs-table">
+        <thead>
+          <tr>
+            <th>Document Name</th>
+            <th>Plant</th>
             <th>Type</th>
             <th>Chunks</th>
             <th>Pages</th>
@@ -129,19 +203,15 @@
             <th></th>
           </tr>
         </thead>
-        <tbody id="docs-table-body">
-          <tr><td colspan="7" class="skeleton-row">Loading documents...</td></tr>
+        <tbody id="client-docs-body">
+          <tr><td colspan="8" class="skeleton-row">Loading client documents…</td></tr>
         </tbody>
       </table>
-      <p class="explainer">
-        Documents ingested via local Python scripts (e.g. CEA standards, NTPC tariff petitions) are also listed here.
-        Queries in the Copilot can be scoped to a specific company's documents.
-      </p>
     </section>
   </main>
 
   <footer class="site-footer">
-    ThermIQ v0.3 | Powered by Qdrant + Gemini | Data: CEA Public Sources
+    ThermIQ v0.4 | Qdrant + Gemini | Benchmark: CEA Standards | Data: CEA Public Sources
   </footer>
 
   <script src="app.js"></script>

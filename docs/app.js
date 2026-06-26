@@ -520,20 +520,40 @@ async function initDashboard() {
         if (gapsCountEl)  gapsCountEl.textContent    = `${criticalCount + partialCount}`;
 
         gapsBody.innerHTML = gaps.map((g, i) => {
-          const covInfo = COVERAGE_LABELS[g.coverage_status] || COVERAGE_LABELS.gap;
-          const badge = riskBadgeClass(g.risk_score_cr);
+          const covInfo  = COVERAGE_LABELS[g.coverage_status] || COVERAGE_LABELS.gap;
+          const badge    = riskBadgeClass(g.risk_score_cr);
           const typeLabel = GAP_TYPE_LABELS[g.gap_type] || escapeHtml(g.gap_type || '—');
+
+          // Consequence method label — make assumptions visible
+          const consequenceMethod = g.consequence_method || '';
+          const conLabel = consequenceMethod.startsWith('derived')
+            ? `<span class="consequence-label consequence-label--derived" title="Derived from CEA outage data">derived</span>`
+            : `<span class="consequence-label consequence-label--assumed" title="Default assumption — no outage data for this equipment tag">assumed</span>`;
+
+          // Threshold shown so a judge can verify
+          const threshold = g.coverage_threshold_used
+            ? `≥${g.coverage_threshold_used.covered} covered / ≥${g.coverage_threshold_used.partial} partial`
+            : 'threshold n/a';
+
           return `
             <tr class="gap-row gap-row--${g.coverage_status}">
               <td>${i + 1}</td>
               <td>${escapeHtml(g.equipment_tag || '—')}</td>
               <td class="gap-desc-cell">
                 <div class="gap-desc">${escapeHtml(g.description || '—')}</div>
-                <div class="gap-meta">${typeLabel} · Criticality ${g.criticality_score || '—'}/10 · Match ${Math.round((g.best_match_score || 0) * 100)}%</div>
+                <div class="gap-meta">
+                  ${typeLabel} ·
+                  Criticality ${g.criticality_score || '—'}/10 [assumption] ·
+                  Client match ${Math.round((g.best_match_score || 0) * 100)}% ·
+                  Threshold: ${threshold}
+                </div>
               </td>
               <td><span class="coverage-badge ${covInfo.cls}">${covInfo.text}</span></td>
               <td>${g.linked_outages || 0}</td>
-              <td><span class="risk-badge risk-${badge}">₹${(g.risk_score_cr || 0).toFixed(1)}</span></td>
+              <td>
+                <span class="risk-badge risk-${badge}">₹${(g.risk_score_cr || 0).toFixed(1)}</span>
+                <div class="gap-meta" style="margin-top:0.2rem">₹${(g.consequence_cr || 0).toFixed(1)} Cr × ${(g.exposure_score || 0).toFixed(2)} exp ${conLabel}</div>
+              </td>
             </tr>`;
         }).join('');
       }
@@ -571,27 +591,84 @@ async function initDashboard() {
   }
 
   if (lastUpdated) lastUpdated.textContent = `Last updated: ${new Date().toLocaleString()}`;
+
+  // ── Recompute Gaps button ────────────────────────────────────────────────
+  const recomputeBtn    = document.getElementById('recompute-btn');
+  const recomputeStatus = document.getElementById('recompute-status');
+
+  if (recomputeBtn) {
+    recomputeBtn.addEventListener('click', async () => {
+      recomputeBtn.disabled = true;
+      recomputeBtn.textContent = '⟳ Recomputing…';
+      if (recomputeStatus) {
+        recomputeStatus.style.display = 'block';
+        recomputeStatus.textContent = 'Running gap detection against client corpus — this takes ~30 seconds…';
+      }
+      try {
+        const res  = await fetch(`${BACKEND}/api/recompute_gaps`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+          body: JSON.stringify({ triggered_by: 'manual_dashboard' }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
+        if (recomputeStatus) {
+          recomputeStatus.textContent =
+            `✓ Done — ${data.items_scanned} items scanned, ${data.gap_count} gaps detected, ` +
+            `total risk ₹${data.total_risk_cr} Cr. Refreshing…`;
+        }
+        // Reload the page after 1.5s so the table shows fresh data
+        setTimeout(() => window.location.reload(), 1500);
+      } catch (err) {
+        if (recomputeStatus) recomputeStatus.textContent = `Error: ${err.message}`;
+        recomputeBtn.disabled = false;
+        recomputeBtn.textContent = '⟳ Recompute Gaps';
+      }
+    });
+  }
 }
 
-// ─── Document Upload (dashboard.html) ────────────────────────────────────────
+// ─── Document Upload (documents.html) ────────────────────────────────────────
 
 function initUpload() {
-  const dropZone   = document.getElementById('upload-drop-zone');
+  const dropZone = document.getElementById('upload-drop-zone');
   if (!dropZone) return;
 
-  const fileInput  = document.getElementById('upload-file-input');
-  const docName    = document.getElementById('upload-doc-name');
-  const docClient  = document.getElementById('upload-client');
-  const docType    = document.getElementById('upload-doc-type');
-  const sourceUrl  = document.getElementById('upload-source-url');
-  const submitBtn  = document.getElementById('upload-submit-btn');
-  const btnText    = document.getElementById('upload-btn-text');
-  const statusEl   = document.getElementById('upload-status');
-  const fileLabel  = document.getElementById('upload-file-name');
+  const fileInput    = document.getElementById('upload-file-input');
+  const docName      = document.getElementById('upload-doc-name');
+  const clientNameEl = document.getElementById('upload-client-name');
+  const clientField  = document.getElementById('upload-client-name-field');
+  const docType      = document.getElementById('upload-doc-type');
+  const sourceUrl    = document.getElementById('upload-source-url');
+  const submitBtn    = document.getElementById('upload-submit-btn');
+  const btnText      = document.getElementById('upload-btn-text');
+  const statusEl     = document.getElementById('upload-status');
+  const fileLabel    = document.getElementById('upload-file-name');
 
   const MAX_BYTES = 6 * 1024 * 1024; // 6 MB
   let selectedFile = null;
 
+  // ── Source type radio helpers ─────────────────────────────────────────────
+  function getSourceType() {
+    const checked = document.querySelector('input[name="source_type"]:checked');
+    return checked ? checked.value : 'client';
+  }
+
+  function onSourceTypeChange() {
+    const isClient = getSourceType() === 'client';
+    if (clientField) {
+      clientField.style.display = isClient ? '' : 'none';
+    }
+    updateSubmitState();
+  }
+
+  // Wire up radio buttons
+  document.querySelectorAll('input[name="source_type"]').forEach(radio => {
+    radio.addEventListener('change', onSourceTypeChange);
+  });
+  onSourceTypeChange(); // set initial state
+
+  // ── Status helpers ────────────────────────────────────────────────────────
   function setStatus(msg, type = 'info') {
     statusEl.className = `upload-status upload-status--${type}`;
     statusEl.textContent = msg;
@@ -604,10 +681,14 @@ function initUpload() {
   }
 
   function updateSubmitState() {
-    const ready = selectedFile && docName.value.trim() && (docClient ? docClient.value.trim() : true);
+    const sourceType = getSourceType();
+    const needsClientName = sourceType === 'client';
+    const clientNameOk = !needsClientName || (clientNameEl && clientNameEl.value.trim());
+    const ready = selectedFile && docName.value.trim() && clientNameOk;
     submitBtn.disabled = !ready;
   }
 
+  // ── File handling ─────────────────────────────────────────────────────────
   function handleFile(file) {
     if (!file) return;
     if (!file.name.toLowerCase().endsWith('.pdf')) {
@@ -622,14 +703,12 @@ function initUpload() {
     selectedFile = file;
     fileLabel.textContent = `${file.name} · ${(file.size / 1024).toFixed(0)} KB`;
     dropZone.classList.add('has-file');
-    // Auto-fill doc name if empty
     if (!docName.value.trim()) {
       docName.value = file.name.replace(/\.pdf$/i, '').replace(/[_-]/g, ' ');
     }
     updateSubmitState();
   }
 
-  // Drag & drop
   dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
   dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
   dropZone.addEventListener('drop', e => {
@@ -638,59 +717,63 @@ function initUpload() {
     const file = e.dataTransfer.files[0];
     if (file) handleFile(file);
   });
-
-  // Click to browse
   fileInput.addEventListener('change', () => {
     if (fileInput.files[0]) handleFile(fileInput.files[0]);
   });
 
-  // Doc name + client required
   docName.addEventListener('input', updateSubmitState);
-  if (docClient) docClient.addEventListener('input', updateSubmitState);
+  if (clientNameEl) clientNameEl.addEventListener('input', updateSubmitState);
 
-  // Submit
+  // ── Submit ────────────────────────────────────────────────────────────────
   submitBtn.addEventListener('click', async () => {
     if (!selectedFile || !docName.value.trim()) return;
+
+    const sourceType  = getSourceType();
+    const clientName  = (clientNameEl ? clientNameEl.value.trim() : '').toLowerCase();
+
+    if (sourceType === 'client' && !clientName) {
+      setStatus('Please enter a Client / Plant Name (e.g. ntpc_lara) for client documents.', 'error');
+      return;
+    }
 
     submitBtn.disabled = true;
     btnText.textContent = 'Reading PDF…';
     clearStatus();
 
     try {
-      // Read file as base64
       const base64 = await new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => {
-          const dataUrl = reader.result;
-          resolve(dataUrl.split(',')[1]); // strip "data:application/pdf;base64,"
-        };
+        reader.onload = () => resolve(reader.result.split(',')[1]);
         reader.onerror = reject;
         reader.readAsDataURL(selectedFile);
       });
 
       btnText.textContent = 'Chunking & embedding…';
-      setStatus('Embedding chunks via Jina AI — this can take up to 20 seconds…', 'info');
+      const sourceLabel = sourceType === 'client' ? `client plant "${clientName}"` : 'benchmark';
+      setStatus(`Ingesting as ${sourceLabel} — embedding via Jina AI, up to 20 seconds…`, 'info');
 
       const res = await fetch(`${BACKEND}/api/ingest_document`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
         body: JSON.stringify({
-          pdf_base64: base64,
-          doc_name:   docName.value.trim(),
-          doc_type:   docType.value,
-          source_url: sourceUrl.value.trim(),
-          client:     docClient ? docClient.value.trim() : '',
+          pdf_base64:  base64,
+          doc_name:    docName.value.trim(),
+          doc_type:    docType.value,
+          source_url:  sourceUrl.value.trim(),
+          source_type: sourceType,
+          client_name: clientName,
+          client:      clientName, // legacy field — keep for compat
         }),
       });
 
       const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.error || `Server error ${res.status}`);
 
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || `Server error ${res.status}`);
-      }
-
+      const extra = sourceType === 'client'
+        ? ' Gap analysis recomputing — dashboard updates in ~60 seconds.'
+        : '';
       setStatus(
-        `✓ Ingested "${data.doc_name}" — ${data.chunks_indexed} chunks indexed from ${data.pages_parsed} pages.`,
+        `✓ Ingested "${data.doc_name}" — ${data.chunks_indexed} chunks from ${data.pages_parsed} pages.${extra}`,
         'success'
       );
 
@@ -698,13 +781,13 @@ function initUpload() {
       selectedFile = null;
       fileInput.value = '';
       docName.value = '';
-      if (docClient) docClient.value = '';
-      sourceUrl.value = '';
+      if (clientNameEl) clientNameEl.value = '';
+      if (sourceUrl) sourceUrl.value = '';
       fileLabel.textContent = 'No file selected · PDF only · max ~6 MB';
       dropZone.classList.remove('has-file');
       btnText.textContent = 'Ingest Document';
       submitBtn.disabled = true;
-      // Refresh the documents list
+
       setTimeout(loadDocuments, 1500);
 
     } catch (err) {
@@ -739,63 +822,101 @@ function formatDate(iso) {
 }
 
 async function loadDocuments() {
-  const tbody = document.getElementById('docs-table-body');
-  if (!tbody) return;
+  // Both bodies must exist on this page
+  const benchmarkBody = document.getElementById('benchmark-docs-body');
+  const clientBody    = document.getElementById('client-docs-body');
+  if (!benchmarkBody && !clientBody) return;
 
-  tbody.innerHTML = `<tr><td colspan="7" class="skeleton-row">Loading…</td></tr>`;
+  if (benchmarkBody) benchmarkBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">Loading…</td></tr>`;
+  if (clientBody)    clientBody.innerHTML    = `<tr><td colspan="8" class="skeleton-row">Loading…</td></tr>`;
 
   try {
     const res  = await fetch(`${BACKEND}/api/list_documents`);
     const data = await res.json();
     const docs = data.documents || [];
 
-    if (!docs.length) {
-      tbody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No documents ingested yet. Upload one below.</td></tr>`;
-      return;
+    const benchmarks = docs.filter(d => d.source_type === 'benchmark' || (!d.source_type && !d.client));
+    const clients    = docs.filter(d => d.source_type === 'client'    || (!d.source_type && d.client));
+
+    // ── Benchmark rows (no delete button) ─────────────────────────────────
+    if (benchmarkBody) {
+      if (!benchmarks.length) {
+        benchmarkBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">No benchmark documents found. Run the patch script if you just migrated.</td></tr>`;
+      } else {
+        benchmarkBody.innerHTML = benchmarks.map(d => {
+          const typeLabel  = DOC_TYPE_LABELS[d.doc_type] || escapeHtml(d.doc_type || '—');
+          const sourceLink = d.source_url
+            ? `<a href="${escapeHtml(d.source_url)}" target="_blank" rel="noopener" class="doc-source-link">↗</a>`
+            : '—';
+          return `
+            <tr class="doc-row-benchmark">
+              <td class="doc-name-cell">
+                ${escapeHtml(d.doc_name || '—')}
+                <span class="doc-lock-icon" title="Benchmark — locked">🔒</span>
+              </td>
+              <td>${typeLabel}</td>
+              <td>${d.chunks_indexed ?? '—'}</td>
+              <td>${d.pages_parsed ?? '—'}</td>
+              <td>${formatDate(d.ingested_at)}</td>
+              <td>${sourceLink}</td>
+            </tr>`;
+        }).join('');
+      }
     }
 
-    tbody.innerHTML = docs.map(d => {
-      const clientBadge = d.client
-        ? `<span class="client-badge">${escapeHtml(d.client.toUpperCase())}</span>`
-        : `<span class="client-badge client-badge--generic">Generic</span>`;
-      const typeLabel = DOC_TYPE_LABELS[d.doc_type] || escapeHtml(d.doc_type || '—');
-      const sourceLink = d.source_url
-        ? `<a href="${escapeHtml(d.source_url)}" target="_blank" rel="noopener" class="doc-source-link">↗</a>`
-        : '—';
-      return `
-        <tr>
-          <td class="doc-name-cell">${escapeHtml(d.doc_name || '—')}</td>
-          <td>${clientBadge}</td>
-          <td>${typeLabel}</td>
-          <td>${d.chunks_indexed ?? '—'}</td>
-          <td>${d.pages_parsed ?? '—'}</td>
-          <td>${formatDate(d.ingested_at)}</td>
-          <td>${sourceLink}</td>
-          <td>
-            <button class="btn-delete-doc" data-doc-id="${escapeHtml(d.id)}" data-doc-name="${escapeHtml(d.doc_name || '')}" title="Delete document">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="3 6 5 6 21 6"></polyline>
-                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-              </svg>
-            </button>
-          </td>
-        </tr>`;
-    }).join('');
+    // ── Client rows (with delete button) ──────────────────────────────────
+    if (clientBody) {
+      if (!clients.length) {
+        clientBody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No client documents yet. Upload a plant's documents above.</td></tr>`;
+      } else {
+        clientBody.innerHTML = clients.map(d => {
+          const plantName  = d.client_name || d.client || '—';
+          const typeLabel  = DOC_TYPE_LABELS[d.doc_type] || escapeHtml(d.doc_type || '—');
+          const sourceLink = d.source_url
+            ? `<a href="${escapeHtml(d.source_url)}" target="_blank" rel="noopener" class="doc-source-link">↗</a>`
+            : '—';
+          return `
+            <tr class="doc-row-client">
+              <td class="doc-name-cell">${escapeHtml(d.doc_name || '—')}</td>
+              <td><span class="client-badge">${escapeHtml(plantName.toUpperCase())}</span></td>
+              <td>${typeLabel}</td>
+              <td>${d.chunks_indexed ?? '—'}</td>
+              <td>${d.pages_parsed ?? '—'}</td>
+              <td>${formatDate(d.ingested_at)}</td>
+              <td>${sourceLink}</td>
+              <td>
+                <button class="btn-delete-doc"
+                  data-doc-id="${escapeHtml(d.id)}"
+                  data-doc-name="${escapeHtml(d.doc_name || '')}"
+                  data-source-type="client"
+                  title="Delete client document (triggers gap recompute)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
+              </td>
+            </tr>`;
+        }).join('');
+      }
+    }
+
   } catch (err) {
-    tbody.innerHTML = `<tr><td colspan="8" class="skeleton-row">Failed to load: ${escapeHtml(err.message)}</td></tr>`;
+    const msg = `Failed to load: ${escapeHtml(err.message)}`;
+    if (benchmarkBody) benchmarkBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">${msg}</td></tr>`;
+    if (clientBody)    clientBody.innerHTML    = `<tr><td colspan="8" class="skeleton-row">${msg}</td></tr>`;
   }
 }
 
 async function deleteDocument(docId, docName) {
-  if (!confirm(`Delete "${docName}"?\n\nThis will permanently remove all ${docName} chunks from the knowledge base. This cannot be undone.`)) return;
+  if (!confirm(
+    `Delete client document "${docName}"?\n\n` +
+    `This removes all chunks from the knowledge base and triggers gap recomputation.\n` +
+    `The dashboard will update within ~60 seconds. This cannot be undone.`
+  )) return;
 
-  const tbody = document.getElementById('docs-table-body');
-  // Mark the row as deleting
   const btn = document.querySelector(`[data-doc-id="${CSS.escape(docId)}"]`);
-  if (btn) {
-    btn.disabled = true;
-    btn.style.opacity = '0.4';
-  }
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.4'; }
 
   try {
     const res = await fetch(`${BACKEND}/api/delete_document`, {
@@ -806,13 +927,14 @@ async function deleteDocument(docId, docName) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
 
-    // Remove the row immediately for snappy UX, then reload
+    // Remove row immediately for snappy UX
     const row = btn ? btn.closest('tr') : null;
     if (row) row.remove();
 
-    // Check if table is now empty
-    if (tbody && tbody.querySelectorAll('tr').length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No documents ingested yet.</td></tr>`;
+    // Check if client table is empty
+    const clientBody = document.getElementById('client-docs-body');
+    if (clientBody && !clientBody.querySelector('tr:not(.skeleton-row)')) {
+      clientBody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No client documents. Upload a plant's documents above.</td></tr>`;
     }
   } catch (err) {
     alert(`Failed to delete: ${err.message}`);
@@ -821,24 +943,22 @@ async function deleteDocument(docId, docName) {
 }
 
 function initDocumentsPage() {
-  if (!document.getElementById('docs-table-body')) return;
+  // New page uses benchmark-docs-body / client-docs-body
+  if (!document.getElementById('benchmark-docs-body') && !document.getElementById('client-docs-body')) return;
 
   loadDocuments();
 
   const refreshBtn = document.getElementById('docs-refresh-btn');
   if (refreshBtn) refreshBtn.addEventListener('click', loadDocuments);
 
-  // Delete button delegation
-  const table = document.getElementById('docs-table');
-  if (table) {
-    table.addEventListener('click', (e) => {
-      const btn = e.target.closest('.btn-delete-doc');
-      if (!btn) return;
-      const docId   = btn.dataset.docId;
-      const docName = btn.dataset.docName;
-      if (docId) deleteDocument(docId, docName);
-    });
-  }
+  // Delete button delegation — only client docs have delete buttons
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-delete-doc');
+    if (!btn) return;
+    const docId   = btn.dataset.docId;
+    const docName = btn.dataset.docName;
+    if (docId) deleteDocument(docId, docName);
+  });
 }
 
 // ─── Bootstrap ────────────────────────────────────────────────────────────────

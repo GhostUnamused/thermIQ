@@ -1,30 +1,47 @@
 """
-ThermIQ Gap Detection & Risk Scoring Engine
-
-Queries the Qdrant knowledge base against a predefined checklist of expected
-procedures/knowledge areas for thermal power plants (500MW coal). For each
-expected area, measures how well the corpus covers it (via cosine similarity),
-then computes a risk score linked to real CEA outage data.
+ThermIQ Gap Detection & Risk Scoring Engine  v2.0
+===================================================
+METHODOLOGY (benchmark-vs-client delta):
+  - Benchmark sources  = CEA standards/guidelines ingested with source_type="benchmark"
+                         These define what a well-run 500MW plant SHOULD document.
+  - Client sources     = A specific plant's operational documents (source_type="client")
+                         These are what the plant ACTUALLY has documented.
+  - A gap             = A topic the benchmark checklist requires, where the CLIENT
+                         corpus has weak or no coverage. Coverage is measured against
+                         client documents ONLY — not the benchmarks.
 
 Formula:  risk_score_cr = criticality × consequence_cr × exposure
-  - criticality:  expert-assigned 1-10 per equipment/procedure type
-  - consequence:  avg revenue_lost_est_cr from matching CEA outages (real data)
-  - exposure:     1 - max_similarity_score (how much of the gap is uncovered)
+  - criticality:   Expert-assigned 1–10 per procedure/equipment type [ASSUMPTION — labelled]
+  - consequence_cr: avg revenue_lost_est_cr from CEA outage records for that equipment [DERIVED]
+                    Falls back to ₹5 Cr default if no outage data exists [ASSUMPTION — labelled]
+  - exposure:      1 - best_client_match_score (how uncovered the topic is in the client corpus)
+
+Coverage thresholds (see COVERAGE_THRESHOLDS dict below):
+  - best_client_match >= 0.62 → "covered"
+  - best_client_match >= 0.45 → "partial"
+  - best_client_match < 0.45  → "gap"
 
 Writes results to Firestore `risk_scores` collection for the dashboard.
+Each result includes full audit trail: benchmark_requirement, client_coverage_score,
+threshold_applied, consequence_method.
 
 Usage:
-  python scripts/detect_gaps.py
+  python scripts/detect_gaps.py [--client CLIENT_NAME]
+
+  --client CLIENT_NAME  Only search documents for this client (e.g. "ntpc").
+                        Default: all client documents combined.
 """
 import os
 import sys
 import time
 import json
+import argparse
 from datetime import datetime
 
 import requests
 from dotenv import load_dotenv
 from qdrant_client import QdrantClient
+from qdrant_client.models import Filter, FieldCondition, MatchValue
 import firebase_admin
 from firebase_admin import credentials, firestore
 
@@ -35,6 +52,16 @@ QDRANT_URL = os.environ.get("QDRANT_URL")
 QDRANT_API_KEY = os.environ.get("QDRANT_API_KEY")
 
 COLLECTION_NAME = "thermiq_chunks"
+
+# ─── Coverage thresholds (documented config — single source of truth) ──────────
+# These thresholds determine how a client's coverage score is interpreted.
+# They were calibrated against Jina v3 COSINE similarity for operational text.
+# Adjust here if you re-tune on a larger corpus — DO NOT change inline.
+COVERAGE_THRESHOLDS = {
+    "covered": 0.62,   # client best match >= this → topic is covered
+    "partial":  0.45,  # client best match >= this → partially covered (some relevant text exists)
+    # below "partial" → gap (client has no meaningful coverage of this topic)
+}
 
 # ─── Expected Knowledge Checklist ──────────────────────────────────────────────
 # Each entry: (procedure/knowledge area, equipment_tag, gap_type, criticality 1-10)
@@ -201,10 +228,8 @@ EXPECTED_KNOWLEDGE = [
     },
 ]
 
-# Coverage thresholds — what score means "covered" vs "gap"
-COVERAGE_GOOD = 0.55      # similarity >= this → well covered
-COVERAGE_PARTIAL = 0.40   # similarity >= this → partially covered
-# Below COVERAGE_PARTIAL → gap detected
+# Threshold aliases — use COVERAGE_THRESHOLDS dict above; these are removed.
+# (Kept as comments for diff clarity — delete in a future cleanup pass.)
 
 
 def embed_query(query_text):
@@ -225,14 +250,42 @@ def embed_query(query_text):
     return response.json()["data"][0]["embedding"]
 
 
-def search_qdrant(embedding, limit=5):
-    """Search Qdrant for the top matching chunks. Retries on timeout."""
-    client = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY, timeout=30)
+def search_qdrant_client_only(embedding, client_name=None, limit=5):
+    """Search Qdrant filtered to CLIENT documents only.
+
+    This is the key fix: gap coverage is measured against what the PLANT
+    has documented — not against the CEA benchmark documents. Searching the
+    benchmarks for coverage would be a category error: it would tell you that
+    the CEA spec mentions boiler tubes (which it does, everywhere) rather than
+    that THIS plant has a boiler tube inspection procedure.
+
+    Args:
+        embedding: Jina v3 query embedding
+        client_name: If provided, further filter to this specific client
+                     (e.g. "ntpc"). If None, searches all client docs.
+        limit: number of results to return
+    """
+    qdrant = QdrantClient(url=QDRANT_URL, api_key=QDRANT_API_KEY, timeout=30)
+
+    # Base filter: client documents only
+    must_conditions = [
+        FieldCondition(key="source_type", match=MatchValue(value="client"))
+    ]
+
+    # Optionally narrow to a specific client plant
+    if client_name:
+        must_conditions.append(
+            FieldCondition(key="client_name", match=MatchValue(value=client_name.lower()))
+        )
+
+    client_filter = Filter(must=must_conditions)
+
     for attempt in range(3):
         try:
-            response = client.query_points(
+            response = qdrant.query_points(
                 collection_name=COLLECTION_NAME,
                 query=embedding,
+                query_filter=client_filter,
                 limit=limit,
                 with_payload=True,
             )
@@ -281,90 +334,131 @@ def load_outage_stats(db):
     return stats
 
 
-def detect_gaps():
-    """Main gap detection: query Qdrant for each expected knowledge area, score coverage."""
+def detect_gaps(client_name=None):
+    """Main gap detection: benchmark checklist vs client-only Qdrant search.
+
+    Args:
+        client_name: Restrict search to this client's documents (e.g. "ntpc").
+                     If None, searches all documents tagged source_type="client".
+    """
     print("=" * 70)
-    print("ThermIQ Gap Detection & Risk Scoring Engine")
+    print("ThermIQ Gap Detection v2.0 — Benchmark-vs-Client Delta")
     print("=" * 70)
-    
+    if client_name:
+        print(f"  Assessing client: {client_name}")
+    else:
+        print(f"  Assessing: ALL client documents combined")
+    print(f"  Coverage thresholds: covered ≥{COVERAGE_THRESHOLDS['covered']}, "
+          f"partial ≥{COVERAGE_THRESHOLDS['partial']}, gap <{COVERAGE_THRESHOLDS['partial']}")
+    print()
+
     db = get_firestore_client()
-    
+
     # Load real CEA outage stats for consequence scoring
-    print("\nLoading CEA outage statistics...")
+    print("Loading CEA outage statistics...")
     outage_stats = load_outage_stats(db)
     for tag, s in sorted(outage_stats.items()):
-        print(f"  {tag}: {s['count']} outages, avg ₹{s['avg_revenue_cr']} Cr/outage, total {s['total_mw']:.0f} MW")
-    
-    print(f"\nScanning {len(EXPECTED_KNOWLEDGE)} expected knowledge areas against Qdrant...\n")
-    
+        print(f"  {tag}: {s['count']} outages, avg ₹{s['avg_revenue_cr']} Cr/outage")
+
+    print(f"\nScanning {len(EXPECTED_KNOWLEDGE)} benchmark checklist items...")
+    print(f"  Searching CLIENT documents only (source_type='client')\n")
+
     results = []
-    
+
     for i, expected in enumerate(EXPECTED_KNOWLEDGE):
         print(f"[{i+1}/{len(EXPECTED_KNOWLEDGE)}] {expected['id']}")
-        
+
         # Embed the query
         embedding = embed_query(expected["query"])
-        time.sleep(0.3)  # Rate limit courtesy
-        
-        # Search Qdrant
-        search_results = search_qdrant(embedding, limit=5)
-        
-        # Best match score
-        best_score = search_results[0].score if search_results else 0
-        avg_score = sum(r.score for r in search_results) / len(search_results) if search_results else 0
-        
-        # Coverage assessment
-        if best_score >= COVERAGE_GOOD:
+        time.sleep(0.3)  # rate limit courtesy
+
+        # Search ONLY client documents — this is the critical change vs v1
+        client_results = search_qdrant_client_only(embedding, client_name=client_name, limit=5)
+
+        # Best match score against client corpus
+        best_client_score = client_results[0].score if client_results else 0
+        avg_client_score = (
+            sum(r.score for r in client_results) / len(client_results)
+            if client_results else 0
+        )
+
+        # Coverage assessment using documented thresholds
+        if best_client_score >= COVERAGE_THRESHOLDS["covered"]:
             coverage_status = "covered"
-        elif best_score >= COVERAGE_PARTIAL:
+        elif best_client_score >= COVERAGE_THRESHOLDS["partial"]:
             coverage_status = "partial"
         else:
             coverage_status = "gap"
-        
-        # Exposure score: how exposed are we due to missing knowledge?
-        # 1.0 = completely exposed (no relevant docs), 0.0 = fully covered
-        exposure = round(max(0, 1.0 - best_score), 3)
-        
-        # Consequence from real outage data
+
+        # Exposure: how exposed are we because of missing client coverage?
+        # 1.0 = completely exposed (client has nothing on this topic)
+        # 0.0 = fully covered (client docs score >= 1.0)
+        exposure = round(max(0, 1.0 - best_client_score), 3)
+
+        # Consequence from real outage data — labelled as "derived" or "assumed"
         tag_stats = outage_stats.get(expected["equipment_tag"], {})
-        consequence_cr = tag_stats.get("avg_revenue_cr", 5.0)  # fallback to ₹5 Cr
         linked_outages = tag_stats.get("count", 0)
-        
+        if linked_outages > 0:
+            consequence_cr = tag_stats.get("avg_revenue_cr", 5.0)
+            consequence_method = "derived_from_outage_data"
+        else:
+            consequence_cr = 5.0  # ₹5 Cr default when no outage data exists
+            consequence_method = "assumed_default_5cr_no_outage_data"
+
         # Risk score: criticality × consequence × exposure
+        # Note: criticality is expert-assigned (ASSUMPTION — see EXPECTED_KNOWLEDGE above)
         risk_score_cr = round(expected["criticality"] * consequence_cr * exposure, 2)
-        
-        # Top sources
+
+        # Top client sources
         top_sources = []
-        for r in search_results[:3]:
+        for r in client_results[:3]:
             payload = r.payload or {}
             top_sources.append({
                 "doc": payload.get("source_doc", ""),
+                "client_name": payload.get("client_name", ""),
+                "source_type": payload.get("source_type", "client"),
                 "score": round(r.score, 3),
                 "chunk_preview": (payload.get("text", ""))[:120],
             })
-        
+
         result = {
             "gap_id": expected["id"],
             "description": expected["description"],
             "equipment_tag": expected["equipment_tag"],
             "gap_type": expected["gap_type"],
-            "criticality_score": expected["criticality"],
-            "best_match_score": round(best_score, 3),
-            "avg_match_score": round(avg_score, 3),
+
+            # Audit trail — every number is traceable
+            "benchmark_requirement": expected["query"],  # what CEA expects
+            "client_name_assessed": client_name or "all_clients",
+            "best_match_score": round(best_client_score, 3),  # from client docs only
+            "avg_match_score": round(avg_client_score, 3),
+            "coverage_threshold_used": COVERAGE_THRESHOLDS,  # documented config
+
             "coverage_status": coverage_status,
             "exposure_score": exposure,
+
+            # Risk formula components, each labelled
+            "criticality_score": expected["criticality"],
+            "criticality_method": "expert_assigned_assumption",  # honest label
             "consequence_cr": consequence_cr,
+            "consequence_method": consequence_method,  # "derived" or "assumed"
             "linked_outages": linked_outages,
             "risk_score_cr": risk_score_cr,
-            "top_sources": top_sources,
+
+            "top_client_sources": top_sources,
             "scanned_at": datetime.utcnow().isoformat() + "Z",
         }
-        
+
         results.append(result)
-        
+
         status_icon = {"covered": "✅", "partial": "⚠️", "gap": "🔴"}[coverage_status]
-        print(f"  {status_icon} {coverage_status.upper()} | best={best_score:.3f} | exposure={exposure:.3f} | risk=₹{risk_score_cr} Cr")
-        print(f"     Top match: {top_sources[0]['doc'][:50] if top_sources else 'none'} ({top_sources[0]['score']:.3f})" if top_sources else "     No matches")
+        print(f"  {status_icon} {coverage_status.upper()} | client_score={best_client_score:.3f} | "
+              f"exposure={exposure:.3f} | risk=₹{risk_score_cr} Cr "
+              f"[consequence={consequence_method[:7]}]")
+        if top_sources:
+            print(f"     Best client match: '{top_sources[0]['doc'][:50]}' (score={top_sources[0]['score']:.3f})")
+        else:
+            print(f"     No client documents match this topic.")
     
     # Sort by risk score descending
     results.sort(key=lambda r: r["risk_score_cr"], reverse=True)
@@ -409,9 +503,12 @@ def detect_gaps():
         status_icon = {"covered": "✅", "partial": "⚠️", "gap": "🔴"}[r["coverage_status"]]
         print(f"  {i+1}. {status_icon} ₹{r['risk_score_cr']:>8.1f} Cr | {r['equipment_tag']:<14} | {r['description'][:60]}...")
     
-    print("\nDone. Dashboard at https://ghostunamused.github.io/thermIQ/dashboard.html should now show real gap data.")
+    print("\nDone. Dashboard at https://ghostunamused.github.io/thermIQ/dashboard.html should now show updated gap data.")
     return results
 
 
 if __name__ == "__main__":
-    detect_gaps()
+    parser = argparse.ArgumentParser(description="ThermIQ Gap Detection v2.0")
+    parser.add_argument("--client", default=None, help="Filter to a specific client name (e.g. 'ntpc')")
+    args = parser.parse_args()
+    detect_gaps(client_name=args.client)

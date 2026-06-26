@@ -117,11 +117,35 @@ module.exports = async (req, res) => {
 
   try {
     const body = req.body || {};
-    const { pdf_base64, doc_name, doc_type = 'manual', source_url = '', client = '' } = body;
+    const {
+      pdf_base64,
+      doc_name,
+      doc_type = 'manual',
+      source_url = '',
+      client = '',
+      // source_type: "benchmark" or "client" — REQUIRED
+      // Benchmarks = CEA/regulatory standards that define the yardstick.
+      // Clients    = a specific plant's own operational documents being assessed.
+      source_type,
+      // client_name: required when source_type == "client" (e.g. "ntpc_lara")
+      client_name = '',
+    } = body;
     const docClient = client.trim().toLowerCase();
 
     if (!pdf_base64 || !doc_name) {
       return res.status(400).json({ error: 'Missing required fields: pdf_base64, doc_name' });
+    }
+
+    // Validate source_type — this is the critical new field
+    if (!source_type || !['benchmark', 'client'].includes(source_type)) {
+      return res.status(400).json({
+        error: "Missing or invalid 'source_type'. Must be 'benchmark' (CEA standards/reference) or 'client' (a specific plant's documents).",
+      });
+    }
+    if (source_type === 'client' && !client_name.trim()) {
+      return res.status(400).json({
+        error: "Field 'client_name' is required when source_type is 'client'. E.g. 'ntpc_lara', 'adani_raipur'.",
+      });
     }
 
     // Check size (base64 string length as proxy for byte size)
@@ -183,6 +207,7 @@ module.exports = async (req, res) => {
     });
 
     const ingestedAt = new Date().toISOString();
+    const resolvedClientName = source_type === 'client' ? client_name.trim().toLowerCase() : '';
     const points = chunks.map((chunk, i) => ({
       id:      uuidv4(),
       vector:  allEmbeddings[i],
@@ -192,6 +217,9 @@ module.exports = async (req, res) => {
         source_url,
         doc_type,
         client:         docClient,
+        // source_type / client_name: the two new fields that power gap detection filtering
+        source_type,
+        client_name:    resolvedClientName,
         equipment_tags: chunk.equipment_tags,
         section:        '',
         page_number:    null,
@@ -215,24 +243,49 @@ module.exports = async (req, res) => {
       },
       { merge: true }
     );
-    const docId = `${docClient || 'generic'}_${Date.now()}`;
+    const docId = `${source_type === 'client' ? resolvedClientName : 'benchmark'}_${Date.now()}`;
     await db.collection('documents').doc(docId).set({
       doc_name,
       doc_type,
       client:         docClient,
       source_url,
+      source_type,
+      client_name:    resolvedClientName,
       chunks_indexed: chunks.length,
       pages_parsed:   numPages,
       ingested_at:    ingestedAt,
     });
 
+    // If a client document was just ingested, trigger gap recomputation.
+    // Fire-and-forget — dashboard reflects updated gaps within ~60 seconds.
+    if (source_type === 'client') {
+      const recomputeUrl = `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers['host']}/api/recompute_gaps`;
+      fetch(recomputeUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-ingest-key': process.env.INGEST_API_KEY,
+        },
+        body: JSON.stringify({
+          client_name: resolvedClientName,
+          triggered_by: 'ingest',
+          doc_name,
+        }),
+      }).catch((err) => console.error('[ingest_document] recompute_gaps trigger failed:', err.message));
+    }
+
     return res.status(200).json({
       success:        true,
       doc_name,
       doc_type,
+      source_type,
+      client_name:    resolvedClientName,
       chunks_indexed: chunks.length,
       pages_parsed:   numPages,
       ingested_at:    ingestedAt,
+      message:        source_type === 'client'
+        ? 'Document ingested. Gap analysis will recompute in ~60 seconds.'
+        : 'Benchmark document ingested successfully.',
     });
   } catch (e) {
     console.error('ingest_document error:', e);

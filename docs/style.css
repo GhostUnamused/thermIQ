@@ -1266,6 +1266,239 @@ body.chat-page .site-footer {
   }
 }
 
+/* ── Benchmark / Client split — Documents page ──────────────────────────────*/
+
+/* Source type badges — appear in headings and table rows */
+.source-badge {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  vertical-align: middle;
+  margin-left: 0.5rem;
+}
+
+.source-badge--benchmark {
+  background: rgba(99, 179, 237, 0.12);
+  border: 1px solid rgba(99, 179, 237, 0.35);
+  color: #63b3ed;
+}
+
+.source-badge--client {
+  background: rgba(246, 173, 85, 0.12);
+  border: 1px solid rgba(246, 173, 85, 0.35);
+  color: var(--orange);
+}
+
+/* Two-column explainer cards at top of Documents page */
+.doc-split-explainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.doc-split-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card-bg);
+}
+
+.doc-split-card--benchmark {
+  border-color: rgba(99, 179, 237, 0.3);
+  background: rgba(99, 179, 237, 0.04);
+}
+
+.doc-split-card--client {
+  border-color: rgba(246, 173, 85, 0.3);
+  background: rgba(246, 173, 85, 0.04);
+}
+
+.doc-split-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+  line-height: 1;
+  padding-top: 0.1rem;
+}
+
+.doc-split-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-primary);
+}
+
+.doc-split-card p {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.5;
+}
+
+.doc-split-note {
+  font-size: 0.82rem !important;
+  color: var(--text-muted, var(--text-secondary)) !important;
+  font-style: italic;
+}
+
+/* Source type radio selector in upload form */
+.upload-source-type-row {
+  margin-bottom: 1.25rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface, rgba(255,255,255,0.03));
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.upload-source-type-label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.upload-source-type-options {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.source-type-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  flex: 1;
+  min-width: 220px;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.source-type-option:has(input:checked) {
+  border-color: var(--orange);
+  background: rgba(246, 173, 85, 0.06);
+}
+
+.source-type-option input[type="radio"] {
+  margin-top: 0.2rem;
+  accent-color: var(--orange);
+}
+
+.source-type-pill {
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+  display: block;
+}
+
+.source-type-pill--client { color: var(--orange); }
+.source-type-pill--benchmark { color: #63b3ed; }
+
+.source-type-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+/* Lock icon on benchmark rows */
+.doc-lock-icon {
+  margin-left: 0.4rem;
+  font-size: 0.8rem;
+  opacity: 0.6;
+  vertical-align: middle;
+}
+
+/* Benchmark table rows get a subtle tint */
+.doc-row-benchmark {
+  background: rgba(99, 179, 237, 0.025);
+}
+
+.doc-row-client {
+  background: rgba(246, 173, 85, 0.02);
+}
+
+/* Dashboard Recompute button */
+.btn-recompute {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: 1px solid rgba(246, 173, 85, 0.4);
+  background: rgba(246, 173, 85, 0.08);
+  color: var(--orange);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-recompute:hover {
+  background: rgba(246, 173, 85, 0.15);
+  border-color: rgba(246, 173, 85, 0.6);
+}
+
+.btn-recompute:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Source label chips on the copilot answers */
+.source-type-chip {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-right: 0.25rem;
+}
+
+.source-type-chip--benchmark {
+  background: rgba(99, 179, 237, 0.15);
+  color: #63b3ed;
+}
+
+.source-type-chip--client {
+  background: rgba(246, 173, 85, 0.15);
+  color: var(--orange);
+}
+
+.source-type-chip--outage {
+  background: rgba(239, 68, 68, 0.12);
+  color: var(--red);
+}
+
+/* Consequence method label on gap table */
+.consequence-label {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.consequence-label--derived { color: var(--green); }
+.consequence-label--assumed  { color: var(--orange); opacity: 0.8; }
+
+@media (max-width: 768px) {
+  .doc-split-explainer {
+    grid-template-columns: 1fr;
+  }
+  .upload-source-type-options {
+    flex-direction: column;
+  }
+}
+
 /* ─── Locked Section Overlay ─────────────────────────────────────────────── */
 
 .locked-wrapper {
