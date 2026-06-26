@@ -35,7 +35,13 @@ FAILURE_CATEGORY_RULES = [
     (["FEED PUMP", "BFP"], "pump_failure"),
 ]
 
-REVENUE_RATE_PER_KWH = 4.5
+# Revenue rate used to convert MW-hours lost into ₹ Crore opportunity cost.
+# Source: LBNL / Ember "Least-Cost Pathway for India's Power System" (2024)
+#   — India's existing coal fleet weighted average all-in tariff: ₹4.78/kWh.
+#   Rounded up to ₹5.00/kWh to include grid balancing / imbalance costs that
+#   a forced outage imposes on the system beyond the plant's own variable cost.
+# Previous value was ₹4.5/kWh (no source) — corrected 2026-06-26.
+REVENUE_RATE_PER_KWH = 5.0
 DEFAULT_OUTAGE_HOURS = 72
 
 

@@ -1775,6 +1775,50 @@ body.chat-page .site-footer {
   margin-top: 0.2rem;
 }
 
+/* Methodology expandable panel */
+.methodology-toggle {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-tertiary);
+  font-size: 0.68rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 0.3rem;
+  transition: color 0.15s, border-color 0.15s;
+}
+.methodology-toggle:hover {
+  color: var(--orange);
+  border-color: var(--orange);
+}
+.methodology-detail {
+  margin-top: 0.5rem;
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 2px solid var(--orange);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.70rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+.method-section {
+  margin-bottom: 0.45rem;
+}
+.method-section:last-child { margin-bottom: 0; }
+.method-label {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--orange);
+  margin-right: 0.3rem;
+  white-space: nowrap;
+}
+.criticality-sourced {
+  font-size: 0.68rem;
+  color: var(--green);
+  font-weight: 600;
+  margin-left: 0.25rem;
+}
+
 /* Gap row visual emphasis */
 .gap-row--gap {
   background: rgba(239, 68, 68, 0.03);
