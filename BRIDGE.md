@@ -8,6 +8,74 @@
 
 ## Queue
 
+### [DONE] task-017 | 2026-06-26T22:30:00Z
+**From:** Cowork
+**Task:** Commit sourced risk-methodology rewrite (detect_gaps.py v3.0) + dashboard transparency update, re-run gap scanner to populate Firestore with 19 properly-sourced risk records
+
+**Files changed by Cowork (already written to disk — DO NOT re-edit):**
+- `scripts/detect_gaps.py` — **v3.0 complete rewrite** with sourced methodology:
+  - Criticality scale changed 1-10 → 1-5 (each score tied to Vasudha Foundation/CEA outage frequency data or CERC NAPAF regulation — NOT arbitrary)
+  - Revenue rate ₹4.5 → ₹5.0/kWh (LBNL/Ember 2024 India coal fleet avg ₹4.78/kWh)
+  - Default consequence ₹5.0 → ₹6.0 Cr (sourced: 200 MW × 48 hrs × ₹5.0/kWh ÷ 1e7 ≈ ₹4.8 Cr rounded)
+  - Consequence now reads ACTUAL CEA outage records from Firestore `cea_outages` by equipment tag (not hardcoded)
+  - 19 gaps (was 18): added `flame_failure_response_sop` (criticality 5, sourced to NTPC Lara petition)
+  - Every gap now stores: `criticality_source`, `regulatory_basis`, `consequence_source`, `risk_formula`, `typical_mttr_days`
+- `scripts/fetch_cea_outage.py` — revenue rate updated to ₹5.0/kWh with citation
+- `docs/app.js` — dashboard gap table updated:
+  - Criticality label changed from "/10 [assumption]" → "/5 [sourced]" with green badge
+  - Added "▶ sources" expandable button per row — shows `criticality_source`, `regulatory_basis`, `consequence_source`, `risk_formula`
+  - Consequence label now shows count of CEA records used ("derived from N CEA records" vs "assumed default")
+  - `toggleMethodology()` function added
+- `docs/style.css` — new styles: `.methodology-toggle`, `.methodology-detail`, `.method-section`, `.method-label`, `.criticality-sourced`
+
+**CC must do (in this exact order):**
+
+1. **Commit the Cowork file changes:**
+```
+git add scripts/detect_gaps.py scripts/fetch_cea_outage.py docs/app.js docs/style.css
+git commit -m "feat: sourced risk methodology v3.0 — criticality 1-5 (CEA data), consequence from actual outage records, dashboard transparency panel"
+git push origin main
+```
+
+2. **Re-run gap detection** (uses local .env credentials — must have JINA_API_KEY, QDRANT_URL, QDRANT_API_KEY, FIREBASE_* set):
+```
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+python scripts/detect_gaps.py
+```
+Expected output:
+- "ThermIQ Gap Detection v3.0 — Sourced Methodology"
+- Should load CEA outage stats from Firestore (shows count per equipment tag)
+- Scans 19 checklist items
+- Prints summary: "Written 19 records" to Firestore risk_scores
+- All 19 items will likely show as GAP (the NTPC tariff petition corpus has no maintenance SOPs — that IS the correct finding for the demo)
+
+3. **Verify Firestore updated** — check Firestore console or query the gap_analysis endpoint:
+```
+curl https://therm-iq.vercel.app/api/gap_analysis
+```
+Confirm: `gap_count: 19`, `total_risk_cr` has changed (new criticality 1-5 + real consequence values), each gap record has `criticality_source` field.
+
+4. **Verify dashboard** at https://ghostunamused.github.io/thermIQ/dashboard.html:
+   - Risk table shows 19 rows
+   - Criticality column shows "/5 [sourced]" label (green badge)
+   - Clicking "▶ sources" on any row expands the methodology panel with citations
+
+**Notes:**
+- If `python scripts/detect_gaps.py` fails on Qdrant (payload index missing), the fix from task-015 is already in place — keyword indexes on `source_type` and `client_name` were created. If it errors, check the exact error message.
+- If CEA outage Firestore is empty (no `cea_outages` records), all 19 gaps will use the DEFAULT_CONSEQUENCE_CR = ₹6.0 Cr fallback — that is still correct behaviour (the code says "assumed_default_no_outage_data"), the dashboard will show "assumed default" labels instead of "derived from N CEA records"
+- The script clears old `risk_scores` records before writing new ones — so the old 18 records will be replaced by the new 19
+
+**CC summary:** Reviewed the full diff first (845-line rewrite of `detect_gaps.py` is mostly the sourced citation strings in `EXPECTED_KNOWLEDGE` — verified the Qdrant query is still read-only/client-filtered and the Firestore write pattern matches the existing v2.0 convention; `app.js`'s new methodology panel uses `escapeHtml()` consistently, no new XSS surface). Committed and pushed (`15edc34`).
+
+Ran `scripts/detect_gaps.py` — hit the same Windows console Unicode issue as task-005 (cp1252 can't encode ₹), worked around with `PYTHONIOENCODING=utf-8` (not a code bug, cosmetic console-only). Output: **19/19 items scored as GAP** (0 covered, 0 partial) — consistent with the task's own prediction, since the NTPC tariff petitions are financial/regulatory filings with no operational SOPs. **Total risk exposure: ₹503.9 Cr** (down from ₹908.6 Cr under the old 1-10 criticality scale + flat ₹4.5/kWh rate — lower number is expected and correct given criticality is now capped at 5 instead of 10). Cleared 18 old records, wrote 19 new ones to Firestore `risk_scores`.
+
+Verified live:
+- `GET /api/gap_analysis` → `gap_count: 19`, `total_risk_cr: 503.9`, every record has `criticality_source` field populated
+- `app.js` on GitHub Pages confirmed serving the new code (`toggleMethodology` function and `criticality-sourced` CSS class both present) — had to wait for the `pages-build-deployment` GitHub Action to finish (~4 min) before this showed up; first check was stale due to deploy lag, not a bug
+- Did not click through the dashboard UI in a live browser (no browser tool available in this session) — confirmed via direct asset/API inspection instead that the JS/API the page depends on are correctly live
+
+---
+
 ### [DONE] task-016 | 2026-06-26T20:00:00Z
 **From:** Cowork
 **Task:** Commit gap-intent detection fix — Query Copilot now answers questions about gaps/costs/risk scores
