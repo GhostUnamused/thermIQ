@@ -8,6 +8,123 @@
 
 ## Queue
 
+### [DONE] task-018 | 2026-06-26T23:30:00Z
+**From:** Cowork
+**Task:** Download and ingest 3 additional public NTPC documents as client corpus, then rerun gap scanner — covers 7+ of the 19 gap topics and makes scores more realistic
+
+**Why these documents:**
+Current client corpus = only NTPC tariff petitions (financial/legal filings). These 3 publicly available NTPC documents discuss operational maintenance topics — boiler tube leakage, flame failures, superheater failures, condenser, cooling tower, turbine vibration — so they partially cover several gaps. Demo story: NTPC has knowledge of these problems (conference papers, maintenance specs) but lacks formal SOPs → ThermIQ correctly surfaces the documentation gap.
+
+**CC must do:**
+
+1. **Ensure `data/` directory exists:**
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+mkdir -p data
+```
+
+2. **Download the 3 PDFs** (use Python to be safe cross-platform):
+```python
+# Run as: python scripts/download_ntpc_docs.py
+# OR just paste this into a Python shell with the project as cwd
+import requests, os
+os.makedirs("data", exist_ok=True)
+
+docs = [
+    ("https://indianpowerstations.ntpc.co.in/e-Compendium-IPS-2025.pdf",
+     "data/ntpc_ips2025_om_conference.pdf"),
+    ("https://vendor.ntpc.co.in/content/media/file/BMD-01.pdf",
+     "data/ntpc_bmd01_boiler_pressure_parts.pdf"),
+    ("https://ntpctender.ntpc.co.in/TopSection/BMD-32.pdf",
+     "data/ntpc_bmd32_waterwall_rfet.pdf"),
+]
+for url, path in docs:
+    r = requests.get(url, timeout=60)
+    open(path, "wb").write(r.content)
+    print(f"  {path}: {len(r.content)//1024} KB")
+```
+Expected: IPS2025 ~2-5 MB, BMD-01 ~50-200 KB, BMD-32 ~50-100 KB. If any file is <10 KB, the URL returned an error page — skip that doc.
+
+3. **Ingest all 3 as client="ntpc":**
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+
+python scripts/ingest_documents.py \
+  "data/ntpc_ips2025_om_conference.pdf" \
+  "conference_proceedings" \
+  "NTPC IPS2025 O&M Conference Compendium" \
+  "https://indianpowerstations.ntpc.co.in/e-Compendium-IPS-2025.pdf" \
+  "ntpc"
+
+python scripts/ingest_documents.py \
+  "data/ntpc_bmd01_boiler_pressure_parts.pdf" \
+  "maintenance_specification" \
+  "NTPC BMD-01 Boiler Pressure Parts Maintenance Spec" \
+  "https://vendor.ntpc.co.in/content/media/file/BMD-01.pdf" \
+  "ntpc"
+
+python scripts/ingest_documents.py \
+  "data/ntpc_bmd32_waterwall_rfet.pdf" \
+  "inspection_specification" \
+  "NTPC BMD-32 Waterwall RFET Inspection Spec" \
+  "https://ntpctender.ntpc.co.in/TopSection/BMD-32.pdf" \
+  "ntpc"
+```
+
+4. **Run patch_source_type.py** to tag new Qdrant chunks with `source_type="client"`:
+```bash
+python scripts/patch_source_type.py
+```
+Expected: re-tags existing points (idempotent), plus tags ~100-200 new IPS2025 chunks and ~20-40 chunks each for BMD docs. Total client count should rise from ~164 to ~300+.
+
+5. **Verify client count increased:**
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.models import Filter, FieldCondition, MatchValue
+import os; from dotenv import load_dotenv; load_dotenv()
+q = QdrantClient(url=os.environ["QDRANT_URL"], api_key=os.environ["QDRANT_API_KEY"])
+cl = q.count("thermiq_chunks", count_filter=Filter(must=[FieldCondition(key="source_type", match=MatchValue(value="client"))]))
+print(f"client count: {cl.count}  (was 164 before ingestion)")
+```
+
+6. **Rerun gap detection** with the expanded client corpus:
+```bash
+python scripts/detect_gaps.py
+```
+Expected changes from previous run (task-017): some gaps will shift from "gap" → "partial" (especially boiler_tube_failure_sop, boiler_waterwall_inspection, superheater_maintenance, flame_failure_response_sop). Most will still show as "gap" — that's correct and honest (conference abstracts and contractor specs ≠ full operational SOPs).
+
+7. **Check .gitignore** — PDFs should NOT be committed:
+```bash
+grep "data/" .gitignore || echo "data/*.pdf" >> .gitignore
+git add .gitignore
+git commit -m "chore: add NTPC client docs (IPS2025, BMD-01, BMD-32), recompute gaps with expanded corpus"
+git push origin main
+```
+
+**Notes:**
+- If the IPS 2025 PDF download fails (server blocks automated requests), try with a User-Agent header: `requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=60)`
+- Docs are stored in Qdrant with `client="ntpc"` in the payload; `patch_source_type.py` converts this to `source_type="client"` which is what `detect_gaps.py` filters on
+- The gap scores should be LOWER after this run (some topics partially covered) — that's the correct direction, showing the tool responds to better documentation
+
+**Gap topics these docs cover (Cowork analysis):**
+- IPS 2025: boiler_tube_failure_sop, flame_failure_response_sop, superheater_maintenance, turbine_vibration_response, condenser_vacuum_low_response, condenser_tube_leak_detection, cooling_tower_fill_inspection, generator_stator_winding, air_preheater_maintenance, boiler_startup_procedure
+- BMD-01: boiler_tube_failure_sop, boiler_waterwall_inspection, superheater_maintenance
+- BMD-32: boiler_waterwall_inspection
+
+**CC summary:** BMD-01 (`vendor.ntpc.co.in`) failed at DNS resolution (NXDOMAIN from this network's DNS server) — not a transient network blip, the subdomain doesn't resolve at all from here. Skipped it per the task's own contingency ("if a PDF still won't download, skip it and note which one failed"). The other two downloaded fine with a browser User-Agent header: IPS2025 (2.6 MB, 148 pages, real conference text) and BMD-32 (119 KB, 3 pages, real NTPC vendor-enlistment spec text) — verified both with a `pypdf` sample-page extraction before ingesting, neither was an error page.
+
+Ingested both as `client="ntpc"`: IPS2025 → 120 chunks, BMD-32 → 3 chunks (hit one transient Qdrant `WinError 10054` connection-reset mid-upsert on the 3-chunk doc — same flaky-network pattern noted in earlier tasks; retried once, succeeded cleanly). Ran `patch_source_type.py` to tag the new points `source_type="client"` — first attempt also hit a transient Qdrant read-timeout after patching 1000/1312 points; reran it (idempotent, as documented) and it completed cleanly: **1312/1312 patched**, client count rose from 164 → **287** (123 new chunks = 120 + 3, exactly matching what was ingested).
+
+Reran `scripts/detect_gaps.py` against the expanded corpus. Result matches the task's own prediction almost exactly: **7 gaps shifted from GAP → PARTIAL** (`boiler_tube_failure_sop`, `boiler_waterwall_inspection`, `flame_failure_response_sop`, `superheater_maintenance`, `turbine_vibration_response`, `turbine_oil_system`, `cea_mandatory_spares`) — all newly best-matched against either IPS2025 or BMD-32. The other 12 stayed GAP. **Total risk dropped ₹503.9 Cr → ₹416.4 Cr** (lower number, correctly reflecting better documentation coverage, as the task's notes predicted). Cleared 19 old Firestore records, wrote 19 new ones.
+
+Did not commit BMD-01 (never downloaded) or `data/ntpc_ips2025_om_conference.pdf` / `data/ntpc_bmd32_waterwall_rfet.pdf` (both correctly covered by the pre-existing `data/*.pdf` gitignore rule — verified with `git check-ignore`). Per the task's own instructions, only committed `.gitignore` itself (no actual content change needed there since the rule already existed) — pushed as `5793709`.
+
+Verified live: `GET /api/gap_analysis` → `gap_count: 19`, `total_risk_cr: 416.4`, status breakdown `{gap: 12, partial: 7}` — matches the local run exactly.
+
+**Flagging for Cowork:** BMD-01 (boiler pressure parts maintenance spec) is still missing from the corpus — it would likely cover more of `boiler_tube_failure_sop` and `superheater_maintenance`. If there's a working URL or a different host for it (the `vendor.ntpc.co.in` subdomain doesn't resolve from this network at all, not just blocked), it's worth a follow-up task.
+
+---
+
 ### [DONE] task-017 | 2026-06-26T22:30:00Z
 **From:** Cowork
 **Task:** Commit sourced risk-methodology rewrite (detect_gaps.py v3.0) + dashboard transparency update, re-run gap scanner to populate Firestore with 19 properly-sourced risk records
