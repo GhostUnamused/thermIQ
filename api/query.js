@@ -51,8 +51,8 @@ const GEMINI_MODELS = [
 // mistral-7b is the reliable last resort — smaller but almost always available.
 const OPENROUTER_MODELS = [
   'meta-llama/llama-3.3-70b-instruct:free',
-  'google/gemini-2.0-flash-exp:free',
-  'mistralai/mistral-7b-instruct:free',
+  'openai/gpt-oss-120b:free',
+  'nvidia/nemotron-nano-9b-v2:free',
 ];
 
 // ─── System prompt (full — used by Gemini with function calling) ───────────────
@@ -394,7 +394,7 @@ async function runOpenRouterFallback(query, clientName, db) {
             { role: 'system', content: FALLBACK_SYSTEM_PROMPT },  // proper system/user split
             { role: 'user',   content: userContent },
           ],
-          max_tokens:  1024,
+          max_tokens:  1500,
           temperature: 0.3,
         }),
         signal: controller.signal,
