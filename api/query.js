@@ -3,11 +3,16 @@
  * POST /api/query   Body: { query: string, client?: string }
  *
  * LLM cascade (most capable → most available):
- *   1. gemini-2.5-flash  — agentic (function calling, 4 tools)
- *   2. gemini-2.0-flash  — agentic (function calling, separate rate-limit quota)
- *   3. gemini-1.5-flash  — agentic (function calling, another separate quota)
- *   4. OpenRouter        — non-agentic fallback; tries 3 free models in sequence,
- *                          injects context directly, uses correct system/user split
+ *   1. gemini-2.5-flash      — agentic (function calling, 4 tools)
+ *   2. gemini-2.0-flash      — agentic (function calling)
+ *   3. gemini-2.0-flash-lite — agentic (function calling)
+ *   4. OpenRouter            — non-agentic fallback; tries 3 free models in sequence,
+ *                              injects context directly, uses correct system/user split
+ *
+ * NOTE: on the Gemini free tier, only gemini-2.5-flash has any daily quota (20
+ * req/day) — 2.0-flash and 2.0-flash-lite report quota limit 0 and always 429.
+ * They're kept in the cascade as fast (sub-second) no-ops; OpenRouter is the
+ * real fallback once the 2.5-flash daily quota is spent.
  *
  * Tools Gemini can call:
  *   search_knowledge_base  → Qdrant (CEA standards + NTPC plant docs)
@@ -167,6 +172,7 @@ async function embedQuery(query) {
     method: 'POST',
     headers: { Authorization: `Bearer ${process.env.JINA_API_KEY}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ model: 'jina-embeddings-v3', input: [query], task: 'retrieval.query' }),
+    signal: AbortSignal.timeout(8000),
   });
   if (!r.ok) throw new Error(`Jina embed failed: ${r.status}`);
   return (await r.json()).data[0].embedding;
@@ -176,7 +182,7 @@ async function embedQuery(query) {
 
 async function toolSearchKnowledgeBase({ query, source_type = 'both' }, clientName) {
   const embedding = await embedQuery(query);
-  const qdrant    = new QdrantClient({ url: process.env.QDRANT_URL, apiKey: process.env.QDRANT_API_KEY });
+  const qdrant    = new QdrantClient({ url: process.env.QDRANT_URL, apiKey: process.env.QDRANT_API_KEY, timeout: 8000 });
 
   const makeFilter = (srcType) => {
     const must = [{ key: 'source_type', match: { value: srcType } }];
@@ -364,7 +370,7 @@ async function runOpenRouterFallback(query, clientName, db) {
     toolGetRiskRegistry({ client_name: clientName || 'ntpc' }, db),
   ]);
 
-  const qdrant = new QdrantClient({ url: process.env.QDRANT_URL, apiKey: process.env.QDRANT_API_KEY });
+  const qdrant = new QdrantClient({ url: process.env.QDRANT_URL, apiKey: process.env.QDRANT_API_KEY, timeout: 8000 });
   const [bm, cl] = await Promise.all([
     qdrant.search('thermiq_chunks', { vector: embedding, filter: { must: [{ key: 'source_type', match: { value: 'benchmark' } }] }, limit: 3, with_payload: true }),
     qdrant.search('thermiq_chunks', { vector: embedding, filter: { must: [{ key: 'source_type', match: { value: 'client'    } }] }, limit: 3, with_payload: true }),
@@ -459,7 +465,7 @@ module.exports = async (req, res) => {
         });
       } catch (err) {
         if (!isThrottleError(err)) throw err; // real error — stop trying Gemini
-        console.warn(`[query] ${geminiModel} throttled, trying next...`);
+        console.warn(`[query] ${geminiModel} throttled (${err.message}), trying next...`);
         await new Promise(r => setTimeout(r, 300)); // brief pause before next Gemini model
       }
     }
