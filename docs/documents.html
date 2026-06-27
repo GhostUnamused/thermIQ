@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=Outfit:wght@500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="style.css" />
@@ -17,7 +17,7 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="header-left">
-        <div class="logo">⚡ ThermIQ</div>
+        <div class="logo">ThermIQ</div>
       </div>
       <nav class="nav-links">
         <a href="index.html">Query Copilot</a>
@@ -56,19 +56,19 @@
     <!-- ── How it works explainer ── -->
     <section class="doc-split-explainer">
       <div class="doc-split-card doc-split-card--benchmark">
-        <div class="doc-split-icon">📐</div>
+        <div class="doc-split-icon">01</div>
         <div>
           <h3>Benchmark Sources <span class="source-badge source-badge--benchmark">Yardstick</span></h3>
           <p>CEA standards and regulatory guidelines that define what a well-run 500MW plant <em>should</em> document and maintain. These are the measuring stick — they don't change per plant.</p>
-          <p class="doc-split-note">🔒 Locked — cannot be deleted. Changes to the benchmark would change the assessment baseline for every plant.</p>
+          <p class="doc-split-note">Locked. Changes to the benchmark would change the assessment baseline for every plant.</p>
         </div>
       </div>
       <div class="doc-split-card doc-split-card--client">
-        <div class="doc-split-icon">🏭</div>
+        <div class="doc-split-icon">02</div>
         <div>
           <h3>Client Plant Sources <span class="source-badge source-badge--client">Being Assessed</span></h3>
           <p>A specific plant's own operational documents (SOPs, manuals, tariff petitions, inspection records). These are what's being <em>measured</em>. Gaps = topics the benchmark requires that these documents don't cover.</p>
-          <p class="doc-split-note">✏️ Uploadable and deletable. Deleting triggers gap recomputation.</p>
+          <p class="doc-split-note">Uploadable and deletable. Deleting triggers gap recomputation.</p>
         </div>
       </div>
     </section>
@@ -87,7 +87,7 @@
            assessment baseline can't be altered by anyone with the link. -->
       <input type="hidden" name="source_type" id="source-type-client" value="client" />
       <div class="upload-source-type-row">
-        <span class="upload-source-type-label">📄 Uploading a Client Plant Source</span>
+        <span class="upload-source-type-label">Uploading a Client Plant Source</span>
         <p class="upload-source-type-desc">
           This adds a specific plant's own document (SOP, manual, inspection record) to the
           corpus being assessed. Benchmark sources — the CEA yardstick — are system-managed
@@ -144,7 +144,7 @@
     <!-- ── Benchmark Sources (locked) ── -->
     <section class="card table-card">
       <div class="docs-list-header">
-        <h2>📐 Benchmark Sources
+        <h2>Benchmark Sources
           <span class="source-badge source-badge--benchmark">Yardstick — Locked</span>
         </h2>
         <button id="docs-refresh-btn" class="btn-ghost btn-sm" title="Refresh list">
@@ -179,14 +179,14 @@
     <!-- ── Client Plant Sources (deletable) ── -->
     <section class="card table-card">
       <div class="docs-list-header">
-        <h2>🏭 Client Plant Sources
+        <h2>Client Plant Sources
           <span class="source-badge source-badge--client">Being Assessed</span>
         </h2>
       </div>
       <div class="plant-selector-wrap">
         <label for="plant-selector">Active plant:</label>
         <select id="plant-selector" class="plant-selector"></select>
-        <button id="clear-plant-btn" class="btn-clear-plant" title="Delete ALL documents and gap scores for the active plant">🧹 Clear this plant…</button>
+        <button id="clear-plant-btn" class="btn-clear-plant" title="Delete ALL documents and gap scores for the active plant">Clear this plant</button>
       </div>
       <p class="explainer" style="margin-bottom: 1rem;">
         Plant-specific operational documents. Gaps are measured against these.

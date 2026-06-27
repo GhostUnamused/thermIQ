@@ -212,9 +212,9 @@ function renderMessages(messages) {
   if (!messages || messages.length === 0) {
     messagesEl.innerHTML = `
       <div class="chat-empty">
-        <div class="chat-empty-icon">⚡</div>
-        <h2 class="chat-empty-title">How can I help?</h2>
-        <p class="chat-empty-text">Ask anything about thermal power plant procedures,<br>turbine specs, CEA compliance, or maintenance schedules.</p>
+        <div class="chat-empty-icon">THERMIQ</div>
+        <h2 class="chat-empty-title">Operations Knowledge Search</h2>
+        <p class="chat-empty-text">Search procedures, equipment specifications, CEA compliance, outage context, and maintenance records.</p>
       </div>`;
     if (chipsEl) chipsEl.style.display = 'flex';
     return;
@@ -264,8 +264,8 @@ function renderSidebar(store) {
   if (chatIds.length === 0) {
     listEl.innerHTML = `
       <div class="chat-list-empty">
-        <div class="chat-list-empty-icon">💬</div>
-        <div>No chats yet.<br>Start a conversation!</div>
+        <div class="chat-list-empty-icon">CHAT</div>
+        <div>No chats yet.<br>Start a conversation.</div>
       </div>`;
     return;
   }
@@ -275,7 +275,7 @@ function renderSidebar(store) {
     const isActive = id === store.activeId;
     return `
       <div class="chat-item${isActive ? ' active' : ''}" data-chat-id="${id}">
-        <div class="chat-item-icon">💬</div>
+        <div class="chat-item-icon">Q</div>
         <div class="chat-item-content">
           <div class="chat-item-title">${escapeHtml(chat.title || 'New Chat')}</div>
           <div class="chat-item-time">${formatTime(chat.updatedAt)}</div>
@@ -499,9 +499,9 @@ function initQueryCopilot() {
 // ─── Risk Dashboard (dashboard.html) ──────────────────────────────────────────
 
 const COVERAGE_LABELS = {
-  gap:     { text: '🔴 Gap',     cls: 'coverage-gap' },
-  partial: { text: '⚠️ Partial', cls: 'coverage-partial' },
-  covered: { text: '✅ Covered', cls: 'coverage-covered' },
+  gap:     { text: 'Gap',     cls: 'coverage-gap' },
+  partial: { text: 'Partial', cls: 'coverage-partial' },
+  covered: { text: 'Covered', cls: 'coverage-covered' },
 };
 
 const GAP_TYPE_LABELS = {
@@ -515,7 +515,7 @@ function toggleMethodology(id, btn) {
   if (!el) return;
   const open = el.style.display !== 'none';
   el.style.display = open ? 'none' : 'block';
-  if (btn) btn.textContent = open ? '▶ sources' : '▼ sources';
+  if (btn) btn.textContent = open ? 'Show sources' : 'Hide sources';
 }
 
 function riskBadgeClass(riskScoreCr) {
@@ -590,7 +590,7 @@ async function initDashboard() {
               ${g.risk_formula       ? `<div class="method-section"><span class="method-label">Risk formula:</span><code>${escapeHtml(g.risk_formula)}</code></div>` : ''}
             </div>` : '';
           const sourceBtn = hasSources
-            ? `<button class="methodology-toggle" onclick="toggleMethodology('${detailId}', this)">▶ sources</button>`
+            ? `<button class="methodology-toggle" onclick="toggleMethodology('${detailId}', this)">Show sources</button>`
             : '';
 
           return `
@@ -663,10 +663,10 @@ async function initDashboard() {
   if (recomputeBtn) {
     recomputeBtn.addEventListener('click', async () => {
       recomputeBtn.disabled = true;
-      recomputeBtn.textContent = '⟳ Recomputing…';
+      recomputeBtn.textContent = 'Recomputing...';
       if (recomputeStatus) {
         recomputeStatus.style.display = 'block';
-        recomputeStatus.textContent = 'Running gap detection against client corpus — this takes ~30 seconds…';
+        recomputeStatus.textContent = 'Running gap detection against client corpus. This takes about 30 seconds...';
       }
       try {
         const res  = await fetch(`${BACKEND}/api/recompute_gaps`, {
@@ -678,15 +678,15 @@ async function initDashboard() {
         if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
         if (recomputeStatus) {
           recomputeStatus.textContent =
-            `✓ Done — ${data.items_scanned} items scanned, ${data.gap_count} gaps detected, ` +
-            `total risk ₹${data.total_risk_cr} Cr. Refreshing…`;
+            `Complete: ${data.items_scanned} items scanned, ${data.gap_count} gaps detected, ` +
+            `total risk Rs ${data.total_risk_cr} Cr. Refreshing...`;
         }
         // Reload the page after 1.5s so the table shows fresh data
         setTimeout(() => window.location.reload(), 1500);
       } catch (err) {
         if (recomputeStatus) recomputeStatus.textContent = `Error: ${err.message}`;
         recomputeBtn.disabled = false;
-        recomputeBtn.textContent = '⟳ Recompute Gaps';
+        recomputeBtn.textContent = 'Recompute Gaps';
       }
     });
   }
@@ -841,7 +841,7 @@ function initUpload() {
         ? ' Gap analysis recomputing — dashboard updates in ~60 seconds.'
         : '';
       setStatus(
-        `✓ Ingested "${data.doc_name}" — ${data.chunks_indexed} chunks from ${data.pages_parsed} pages.${extra}`,
+        `Ingested "${data.doc_name}": ${data.chunks_indexed} chunks from ${data.pages_parsed} pages.${extra}`,
         'success'
       );
 
@@ -920,7 +920,7 @@ async function loadDocuments() {
             <tr class="doc-row-benchmark">
               <td class="doc-name-cell">
                 ${escapeHtml(d.doc_name || '—')}
-                <span class="doc-lock-icon" title="Benchmark — locked">🔒</span>
+                <span class="doc-lock-icon" title="Benchmark locked">Locked</span>
               </td>
               <td>${typeLabel}</td>
               <td>${d.chunks_indexed ?? '—'}</td>

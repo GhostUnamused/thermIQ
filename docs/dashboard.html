@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=Outfit:wght@500;600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
   <link rel="stylesheet" href="style.css" />
@@ -17,7 +17,7 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="header-left">
-        <div class="logo">⚡ ThermIQ</div>
+        <div class="logo">ThermIQ</div>
       </div>
       <nav class="nav-links">
         <a href="index.html">Query Copilot</a>
@@ -52,10 +52,10 @@
     </p>
 
     <!-- ── Methodology banner ── -->
-    <div class="methodology-banner" style="background:rgba(99,179,237,0.07);border:1px solid rgba(99,179,237,0.25);border-radius:10px;padding:0.9rem 1.25rem;margin-bottom:1.5rem;font-size:0.85rem;color:var(--text-secondary);line-height:1.6;">
-      <strong style="color:var(--text-primary);">How gaps are scored:</strong>
-      Each gap = a topic the <span style="color:#63b3ed">CEA benchmark</span> requires a plant to document,
-      where the <span style="color:var(--orange)">client plant's corpus</span> has weak or no coverage.
+    <div class="methodology-banner">
+      <strong>How gaps are scored:</strong>
+      Each gap = a topic the <span>CEA benchmark</span> requires a plant to document,
+      where the <span>client plant's corpus</span> has weak or no coverage.
       Coverage is measured against client documents only.
       Risk = Criticality × Consequence (from CEA outage data) × Exposure (1 − client match score).
       Assumptions are labelled.
@@ -89,12 +89,10 @@
         <div class="plant-selector-wrap">
           <label for="plant-selector">Assessing plant:</label>
           <select id="plant-selector" class="plant-selector"></select>
-          <button id="recompute-btn" class="btn-recompute" title="Re-run gap detection against client corpus">
-            ⟳ Recompute Gaps
-          </button>
+          <button id="recompute-btn" class="btn-recompute" title="Re-run gap detection against client corpus">Recompute Gaps</button>
         </div>
       </div>
-      <div id="recompute-status" style="display:none;font-size:0.82rem;color:var(--orange);margin-bottom:0.75rem;padding:0.5rem 0.75rem;background:rgba(246,173,85,0.08);border-radius:6px;"></div>
+      <div id="recompute-status" class="recompute-status"></div>
       <table class="data-table" id="gaps-table">
         <thead>
           <tr>
