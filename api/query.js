@@ -303,7 +303,9 @@ async function executeTool(fnCall, context) {
 // ─── Agentic Gemini call (shared by all three Gemini models) ──────────────────
 function isThrottleError(err) {
   const m = (err.message || '').toLowerCase();
-  return m.includes('429') || m.includes('quota') || m.includes('resource_exhausted') || m.includes('rate limit') || m.includes('too many requests');
+  return m.includes('429') || m.includes('quota') || m.includes('resource_exhausted') || m.includes('rate limit') || m.includes('too many requests')
+      || m.includes('503') || m.includes('service unavailable') || m.includes('high demand') || m.includes('overloaded')
+      || m.includes('empty answer');
 }
 
 async function runGeminiAgentic(modelName, query, clientName, db) {
@@ -335,7 +337,9 @@ async function runGeminiAgentic(modelName, query, clientName, db) {
   );
 
   const turn2  = await chat.sendMessage(responses);
-  return { answer: turn2.response.text(), toolsUsed, model: modelName };
+  const answer = turn2.response.text();
+  if (!answer.trim()) throw new Error(`${modelName} returned an empty answer after tool execution`);
+  return { answer, toolsUsed, model: modelName };
 }
 
 // ─── OpenRouter fallback (non-agentic, direct context injection) ───────────────
