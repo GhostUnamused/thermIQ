@@ -166,6 +166,20 @@ const TOOL_DEFINITIONS = [
   },
 ];
 
+// The @qdrant/js-client-rest `timeout` constructor option is a no-op in the
+// installed version (no AbortController/signal wiring in its fetcher) — so
+// Qdrant/Firestore calls have no real network timeout unless we wrap them
+// ourselves. Every call below that hits Qdrant or Firestore is wrapped with
+// this so a single slow request can't silently eat the whole 60s Vercel cap.
+const DEFAULT_TIMEOUT_MS = 8000;
+
+function withTimeout(promise, ms, label) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms)),
+  ]);
+}
+
 // ─── Embed a query via Jina ────────────────────────────────────────────────────
 async function embedQuery(query) {
   const r = await fetch('https://api.jina.ai/v1/embeddings', {
@@ -193,12 +207,12 @@ async function toolSearchKnowledgeBase({ query, source_type = 'both' }, clientNa
   let hits = [];
   if (source_type === 'both') {
     const [bm, cl] = await Promise.all([
-      qdrant.search('thermiq_chunks', { vector: embedding, filter: makeFilter('benchmark'), limit: 4, with_payload: true }),
-      qdrant.search('thermiq_chunks', { vector: embedding, filter: makeFilter('client'),    limit: 4, with_payload: true }),
+      withTimeout(qdrant.search('thermiq_chunks', { vector: embedding, filter: makeFilter('benchmark'), limit: 4, with_payload: true }), DEFAULT_TIMEOUT_MS, 'qdrant benchmark search'),
+      withTimeout(qdrant.search('thermiq_chunks', { vector: embedding, filter: makeFilter('client'),    limit: 4, with_payload: true }), DEFAULT_TIMEOUT_MS, 'qdrant client search'),
     ]);
     hits = [...bm.map(h => ({ ...h, _type: 'benchmark' })), ...cl.map(h => ({ ...h, _type: 'client' }))];
   } else {
-    const r = await qdrant.search('thermiq_chunks', { vector: embedding, filter: makeFilter(source_type), limit: 6, with_payload: true });
+    const r = await withTimeout(qdrant.search('thermiq_chunks', { vector: embedding, filter: makeFilter(source_type), limit: 6, with_payload: true }), DEFAULT_TIMEOUT_MS, 'qdrant search');
     hits = r.map(h => ({ ...h, _type: source_type }));
   }
 
@@ -218,12 +232,12 @@ async function toolSearchKnowledgeBase({ query, source_type = 'both' }, clientNa
 async function toolGetRiskRegistry({ client_name = 'ntpc' }, db) {
   try {
     const cn   = (client_name || 'ntpc').trim().toLowerCase();
-    let snap   = await db.collection('risk_scores').where('client_name', '==', cn).get();
+    let snap   = await withTimeout(db.collection('risk_scores').where('client_name', '==', cn).get(), DEFAULT_TIMEOUT_MS, 'firestore risk_scores');
     let gaps   = snap.docs.map(d => ({ gap_id: d.id, ...d.data() }));
 
     if (!gaps.length) {
       // Legacy fallback: pre-namespacing records have no client_name
-      const all = await db.collection('risk_scores').get();
+      const all = await withTimeout(db.collection('risk_scores').get(), DEFAULT_TIMEOUT_MS, 'firestore risk_scores legacy');
       gaps = all.docs.map(d => ({ gap_id: d.id, ...d.data() })).filter(g => !g.client_name);
     }
     if (!gaps.length) return `No risk registry data found for "${cn}".`;
@@ -280,7 +294,7 @@ const VALID_EQUIPMENT_TAGS = ['Boiler', 'Turbine', 'Generator', 'BFP', 'Condense
 async function toolGetOutageRecords({ equipment_tag }, db) {
   try {
     const tag = VALID_EQUIPMENT_TAGS.find(t => t.toLowerCase() === (equipment_tag || '').toLowerCase()) || equipment_tag;
-    const snap = await db.collection('cea_outages').where('equipment_tag', '==', tag).orderBy('date_out', 'desc').limit(10).get();
+    const snap = await withTimeout(db.collection('cea_outages').where('equipment_tag', '==', tag).orderBy('date_out', 'desc').limit(10).get(), DEFAULT_TIMEOUT_MS, 'firestore cea_outages');
     if (!snap.docs.length) return `No outage records for "${tag}". Valid tags: ${VALID_EQUIPMENT_TAGS.join(', ')}`;
 
     const rows    = snap.docs.map(d => {
@@ -318,13 +332,6 @@ function isThrottleError(err) {
 // models + 3 OpenRouter models must stay well under budget. Bound each Gemini
 // attempt so a slow/hung call can't eat the whole request on its own.
 const GEMINI_MODEL_TIMEOUT_MS = 10000;
-
-function withTimeout(promise, ms, label) {
-  return Promise.race([
-    promise,
-    new Promise((_, reject) => setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms)),
-  ]);
-}
 
 async function runGeminiAgentic(modelName, query, clientName, db) {
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
@@ -372,8 +379,8 @@ async function runOpenRouterFallback(query, clientName, db) {
 
   const qdrant = new QdrantClient({ url: process.env.QDRANT_URL, apiKey: process.env.QDRANT_API_KEY, timeout: 8000 });
   const [bm, cl] = await Promise.all([
-    qdrant.search('thermiq_chunks', { vector: embedding, filter: { must: [{ key: 'source_type', match: { value: 'benchmark' } }] }, limit: 3, with_payload: true }),
-    qdrant.search('thermiq_chunks', { vector: embedding, filter: { must: [{ key: 'source_type', match: { value: 'client'    } }] }, limit: 3, with_payload: true }),
+    withTimeout(qdrant.search('thermiq_chunks', { vector: embedding, filter: { must: [{ key: 'source_type', match: { value: 'benchmark' } }] }, limit: 3, with_payload: true }), DEFAULT_TIMEOUT_MS, 'qdrant benchmark search'),
+    withTimeout(qdrant.search('thermiq_chunks', { vector: embedding, filter: { must: [{ key: 'source_type', match: { value: 'client'    } }] }, limit: 3, with_payload: true }), DEFAULT_TIMEOUT_MS, 'qdrant client search'),
   ]);
 
   const docContext = [...bm, ...cl].map(h => {
