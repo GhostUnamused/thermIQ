@@ -305,7 +305,19 @@ function isThrottleError(err) {
   const m = (err.message || '').toLowerCase();
   return m.includes('429') || m.includes('quota') || m.includes('resource_exhausted') || m.includes('rate limit') || m.includes('too many requests')
       || m.includes('503') || m.includes('service unavailable') || m.includes('high demand') || m.includes('overloaded')
-      || m.includes('empty answer');
+      || m.includes('empty answer') || m.includes('timed out');
+}
+
+// Vercel's hard 60s function cap means a worst-case cascade through 3 Gemini
+// models + 3 OpenRouter models must stay well under budget. Bound each Gemini
+// attempt so a slow/hung call can't eat the whole request on its own.
+const GEMINI_MODEL_TIMEOUT_MS = 10000;
+
+function withTimeout(promise, ms, label) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms)),
+  ]);
 }
 
 async function runGeminiAgentic(modelName, query, clientName, db) {
@@ -317,7 +329,7 @@ async function runGeminiAgentic(modelName, query, clientName, db) {
   });
 
   const chat  = model.startChat({ tools: [{ functionDeclarations: TOOL_DEFINITIONS }] });
-  const turn1 = await chat.sendMessage(query);
+  const turn1 = await withTimeout(chat.sendMessage(query), GEMINI_MODEL_TIMEOUT_MS, modelName);
   const parts1 = turn1.response.candidates[0].content.parts;
   const calls  = parts1.filter(p => p.functionCall);
 
@@ -336,7 +348,7 @@ async function runGeminiAgentic(modelName, query, clientName, db) {
     })
   );
 
-  const turn2  = await chat.sendMessage(responses);
+  const turn2  = await withTimeout(chat.sendMessage(responses), GEMINI_MODEL_TIMEOUT_MS, modelName);
   const answer = turn2.response.text();
   if (!answer.trim()) throw new Error(`${modelName} returned an empty answer after tool execution`);
   return { answer, toolsUsed, model: modelName };
@@ -378,7 +390,7 @@ async function runOpenRouterFallback(query, clientName, db) {
   for (const orModel of OPENROUTER_MODELS) {
     try {
       const controller = new AbortController();
-      const timeout    = setTimeout(() => controller.abort(), 25000); // 25s per model
+      const timeout    = setTimeout(() => controller.abort(), 8000); // 8s per model — must stay under Vercel's 60s hard cap across 3 Gemini + 3 OpenRouter attempts
 
       const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method:  'POST',
@@ -448,7 +460,7 @@ module.exports = async (req, res) => {
       } catch (err) {
         if (!isThrottleError(err)) throw err; // real error — stop trying Gemini
         console.warn(`[query] ${geminiModel} throttled, trying next...`);
-        await new Promise(r => setTimeout(r, 1000)); // brief pause before next Gemini model
+        await new Promise(r => setTimeout(r, 300)); // brief pause before next Gemini model
       }
     }
 
