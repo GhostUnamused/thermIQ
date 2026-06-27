@@ -1,8 +1,11 @@
 """
-Local one-time ingestion script: PDF -> chunks -> Jina embeddings -> Qdrant.
+Local one-time ingestion script: PDF -> chunks -> Jina embeddings -> Qdrant + Firestore.
 
 Usage:
-  python scripts/ingest_documents.py <pdf_path> <doc_type> <source_doc_name> <source_url>
+  python scripts/ingest_documents.py <pdf_path> <doc_type> <source_doc_name> <source_url> [client_name]
+
+  client_name: optional. Pass the plant/client slug (e.g. "ntpc") for plant-specific docs.
+               Omit (or pass "") for benchmark/regulatory docs (CEA specs etc.).
 """
 import json
 import os
@@ -170,20 +173,24 @@ def main():
     if len(sys.argv) < 5:
         print(
             "Usage: python scripts/ingest_documents.py <pdf_path> <doc_type> "
-            "<source_doc_name> <source_url> [client]"
+            "<source_doc_name> <source_url> [client_name]"
         )
-        print("  client: optional, e.g. 'ntpc' for plant-specific docs (default: '')")
+        print("  client_name: optional, e.g. 'ntpc' for plant-specific docs (default: benchmark)")
         sys.exit(1)
 
     pdf_path, doc_type, source_doc_name, source_url = sys.argv[1:5]
-    doc_client = sys.argv[5] if len(sys.argv) > 5 else ""
+    doc_client = (sys.argv[5] if len(sys.argv) > 5 else "").strip().lower()
+    # Derive source_type from whether a client name was provided
+    source_type = "client" if doc_client else "benchmark"
+    client_name = doc_client  # "" for benchmark docs
     doc_slug = source_doc_name.lower().replace(" ", "_")
 
     start_time = time.time()
 
     print(f"Extracting text from {pdf_path} ...")
+    total_pages = len(PdfReader(pdf_path).pages)
     pages = extract_pages(pdf_path)
-    print(f"Extracted {len(pages)} usable pages.")
+    print(f"Extracted {len(pages)} usable pages out of {total_pages} total.")
 
     print("Chunking text ...")
     chunks = chunk_pages(pages, doc_slug)
@@ -229,7 +236,9 @@ def main():
             "source_doc": source_doc_name,
             "source_url": source_url,
             "doc_type": doc_type,
-            "client": doc_client,  # "" for standard/regulatory docs; "ntpc" etc. for plant-specific
+            "client": doc_client,  # "" for benchmark docs; "ntpc" etc. for plant-specific
+            "source_type": source_type,   # "benchmark" or "client" — used by gap detection filter
+            "client_name": client_name,   # "" for benchmark; plant slug for client docs
             "equipment_tags": chunk["equipment_tags"],
             "section": "",
             "page_number": chunk["page_number"],
@@ -252,8 +261,10 @@ def main():
         upsert_count += len(batch)
         print(f"  Upserted {upsert_count}/{len(points)} points.")
 
-    print("Updating Firestore system_meta ...")
+    print("Updating Firestore system_meta + documents ...")
     db = get_firestore_client()
+
+    # 1 — Update aggregate counters on system_meta/config (existing behaviour)
     config_ref = db.collection("system_meta").document("config")
     config_ref.set(
         {
@@ -263,6 +274,25 @@ def main():
         },
         merge=True,
     )
+
+    # 2 — Write a per-document record to the `documents` collection.
+    #     This is what api/list_documents.js reads to populate the Documents page.
+    #     Without this, locally-ingested docs are live in Qdrant but invisible in the UI.
+    doc_id = f"{source_type}_{int(time.time() * 1000)}"
+    db.collection("documents").document(doc_id).set(
+        {
+            "doc_name": source_doc_name,
+            "doc_type": doc_type,
+            "client": doc_client,
+            "source_url": source_url,
+            "source_type": source_type,
+            "client_name": client_name,
+            "chunks_indexed": len(chunks),
+            "pages_parsed": total_pages,
+            "ingested_at": ingested_at,
+        }
+    )
+    print(f"  Firestore documents/{doc_id} written.")
 
     elapsed = time.time() - start_time
     print("\n--- Ingestion Summary ---")
