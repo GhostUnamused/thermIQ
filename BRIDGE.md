@@ -8,6 +8,95 @@
 
 ## Queue
 
+### [DONE] task-021 | 2026-06-27T12:00:00Z
+**From:** Cowork
+**Task:** Backfill the 2 orphaned Firestore documents records for IPS2025 and BMD-32, then commit and push the `ingest_documents.py` fix.
+
+**Background:** `scripts/ingest_documents.py` never wrote to the Firestore `documents` collection — only to Qdrant + `system_meta`. So the two docs ingested in task-018 (IPS2025 and BMD-32) are fully live and searchable in Qdrant but invisible on the Documents page, which reads from `documents`. Cowork has already fixed the script so future local ingestions will write both. CC just needs to backfill the two missing records and push.
+
+**Files changed by Cowork (DO NOT re-edit):**
+- `scripts/ingest_documents.py` — now writes to `documents` collection after Qdrant upsert; also adds `source_type`/`client_name` fields to the Qdrant chunk payload (matching what `api/ingest_document.js` already writes for browser uploads)
+
+**CC must do:**
+
+1. **Run this one-time backfill** to insert the 2 missing Firestore records (use project venv / Python with .env loaded):
+```python
+# Run as: python -c "..."  or paste into a Python shell in the project root
+import os, time
+from datetime import datetime
+from dotenv import load_dotenv
+load_dotenv()
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+cred = credentials.Certificate({
+    "type": "service_account",
+    "project_id": os.environ["FIREBASE_PROJECT_ID"],
+    "private_key": os.environ["FIREBASE_PRIVATE_KEY"].replace("\\n", "\n"),
+    "client_email": os.environ["FIREBASE_CLIENT_EMAIL"],
+    "token_uri": "https://oauth2.googleapis.com/token",
+})
+app = firebase_admin.initialize_app(cred, name="backfill021")
+db = firestore.client(app=app)
+
+docs = [
+    {
+        "id": f"client_{int(time.time() * 1000)}",
+        "doc_name": "NTPC IPS2025 O&M Conference Compendium",
+        "doc_type": "conference_proceedings",
+        "client": "ntpc",
+        "source_url": "https://indianpowerstations.ntpc.co.in/e-Compendium-IPS-2025.pdf",
+        "source_type": "client",
+        "client_name": "ntpc",
+        "chunks_indexed": 120,
+        "pages_parsed": 148,
+        "ingested_at": "2026-06-26T23:30:00Z",
+    },
+    {
+        "id": f"client_{int(time.time() * 1000) + 1}",
+        "doc_name": "NTPC BMD-32 Waterwall RFET Inspection Spec",
+        "doc_type": "inspection_specification",
+        "client": "ntpc",
+        "source_url": "https://ntpctender.ntpc.co.in/TopSection/BMD-32.pdf",
+        "source_type": "client",
+        "client_name": "ntpc",
+        "chunks_indexed": 3,
+        "pages_parsed": 3,
+        "ingested_at": "2026-06-26T23:30:00Z",
+    },
+]
+for d in docs:
+    doc_id = d.pop("id")
+    db.collection("documents").document(doc_id).set(d)
+    print(f"  Written documents/{doc_id} — {d['doc_name']}")
+print("Done.")
+```
+Expected: prints 2 lines, no errors.
+
+2. **Verify** the Documents page now shows the 2 docs in the "Client Plant Sources" section for ntpc:
+```bash
+curl -s "https://therm-iq.vercel.app/api/list_documents" | python -m json.tool | grep -A2 "IPS2025\|BMD-32"
+```
+Expect 2 matches with `source_type: client`, `client_name: ntpc`.
+
+3. **Commit and push the script fix:**
+```bash
+git add scripts/ingest_documents.py
+git commit -m "fix: ingest_documents.py now writes Firestore documents record + adds source_type/client_name to Qdrant payload"
+git push origin main
+```
+
+**Notes:**
+- Do NOT `git add -A` — the data/chunks tree still has 900+ uncommitted files.
+- The two missing docs are already fully ingested in Qdrant (verified in task-018: IPS2025=120 chunks, BMD-32=3 chunks, total client count=287). This task only fixes their Firestore visibility.
+- After the backfill, `documents.html` on the live site should immediately show both docs under "Client Plant Sources" for the ntpc plant (no redeploy needed — the fix is a data write, not a code change).
+
+**CC summary:** Confirmed Cowork's `ingest_documents.py` fix was already on disk (writes `documents/{source_type}_{timestamp}` after the Qdrant upsert, tagging `source_type`/`client_name`). Ran the backfill script with the project venv (`.venv/Scripts/python.exe`) — `load_dotenv()` needed an explicit path since the script ran from the scratchpad dir, not the project root; otherwise straightforward. Wrote both records: `documents/client_1782558673761` (IPS2025) and `documents/client_1782558673762` (BMD-32).
+
+Verified live: `GET https://therm-iq.vercel.app/api/list_documents` now returns both docs with `source_type: client`, `client_name: ntpc`. Committed and pushed the script fix only (`d6a220e`) — did not `git add -A` per the task's note (the data/chunks tree still has 900+ uncommitted files).
+
+---
+
 ### [DONE] task-020 | 2026-06-27T00:30:00Z  (Phase 1 / task-019 is DONE + pushed, so this is clear to start)
 **From:** Cowork
 **Task:** Phase 2 — client namespacing. Isolate each plant by `client_name` so NTPC doesn't contaminate test plants, give the dashboard a plant selector, and add a one-click per-client wipe. Cowork has drafted and syntax-checked the code below — CC's job is to place it, run the one-time migration, and push.
