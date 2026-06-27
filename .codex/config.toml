@@ -1,0 +1,18 @@
+[mcp_servers.firebase]
+command = 'C:\Program Files\nodejs\npx.cmd'
+args = [
+    "-y",
+    "firebase-tools@latest",
+    "mcp",
+    "--dir",
+    'C:\Users\yamin\Documents\Projects\ET AI Hackathon',
+]
+env_vars = ["GOOGLE_APPLICATION_CREDENTIALS"]
+
+[mcp_servers.qdrant]
+command = 'C:\Users\yamin\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\Scripts\mcp-server-qdrant.exe'
+env_vars = ["QDRANT_API_KEY"]
+
+[mcp_servers.qdrant.env]
+QDRANT_URL = "https://0f75e829-2cbb-4cf9-b89f-6481f8da2c7a.us-west-1-0.aws.cloud.qdrant.io"
+COLLECTION_NAME = "thermIQ"
