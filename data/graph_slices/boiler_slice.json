@@ -1,0 +1,771 @@
+{
+  "nodes": [
+    {
+      "id": "boiler_subcritical_500mw",
+      "type": "Equipment",
+      "label": "Boiler (subcritical, 500MW class)"
+    },
+    {
+      "id": "waterwall",
+      "type": "Equipment",
+      "label": "Waterwall (furnace membrane tubes)"
+    },
+    {
+      "id": "superheater_reheater",
+      "type": "Equipment",
+      "label": "Superheater / Reheater"
+    },
+    {
+      "id": "air_preheater",
+      "type": "Equipment",
+      "label": "Air Pre-Heater (APH)"
+    },
+    {
+      "id": "economizer",
+      "type": "Equipment",
+      "label": "Economizer"
+    },
+    {
+      "id": "steam_drum",
+      "type": "Equipment",
+      "label": "Steam Drum"
+    },
+    {
+      "id": "boiler_tube_failure",
+      "type": "FailureMode",
+      "label": "Boiler Tube Failure / Leakage"
+    },
+    {
+      "id": "waterwall_tube_thinning",
+      "type": "FailureMode",
+      "label": "Waterwall Tube Wall Thinning"
+    },
+    {
+      "id": "flame_failure",
+      "type": "FailureMode",
+      "label": "Flame Failure / Master Fuel Trip (MFT)"
+    },
+    {
+      "id": "superheater_tube_failure",
+      "type": "FailureMode",
+      "label": "Superheater / Reheater Tube Failure"
+    },
+    {
+      "id": "boiler_tube_failure_sop",
+      "type": "Procedure",
+      "label": "Emergency Response SOP: Boiler Tube Failure",
+      "status": "ABSENT",
+      "criticality": 5,
+      "gap_id": "boiler_tube_failure_sop",
+      "evidence_count": 0,
+      "evidence": [],
+      "key_details": [],
+      "is_gap": true
+    },
+    {
+      "id": "waterwall_inspection_procedure",
+      "type": "Procedure",
+      "label": "Waterwall Inspection Procedure (NDT / RFET / UT Thickness)",
+      "status": "PARTIAL",
+      "criticality": 5,
+      "gap_id": "boiler_waterwall_inspection",
+      "evidence_count": 2,
+      "evidence": [
+        {
+          "source": "unknown",
+          "source_type": "client",
+          "similarity_score": 0.5797,
+          "status": "PARTIAL",
+          "quote": "1. RFET (Remote Field Electromagnetic Testing) Technique to be used in boilers for the following type of defects: a. Cracks in tubes (external as well as internal) b. Inside pitting c. Manufacturing defects d. Any irregularities inside the tubes",
+          "key_details": [
+            "RFET technique for cracks, pitting, and manufacturing defects in water wall tubes",
+            "UT confirmation of defects"
+          ],
+          "what_is_missing": "No numbered inspection steps, acceptance criteria, defect thresholds, or decision points provided"
+        },
+        {
+          "source": "unknown",
+          "source_type": "benchmark",
+          "similarity_score": 0.5361,
+          "status": "PARTIAL",
+          "quote": "steel ball test and for cleanliness by sponge passage",
+          "key_details": [
+            "100% UT prior to fabrication",
+            "longitudinal calibration notch of depth 5% of wall thickness"
+          ],
+          "what_is_missing": "no specific steps or thresholds for waterwall inspection using NDT/RFET/UT thickness"
+        }
+      ],
+      "key_details": [
+        "RFET technique for cracks, pitting, and manufacturing defects in water wall tubes",
+        "UT confirmation of defects",
+        "100% UT prior to fabrication",
+        "longitudinal calibration notch of depth 5% of wall thickness"
+      ],
+      "is_gap": true
+    },
+    {
+      "id": "flame_failure_sop",
+      "type": "Procedure",
+      "label": "Emergency Response SOP: Flame Failure / MFT",
+      "status": "PARTIAL",
+      "criticality": 5,
+      "gap_id": "flame_failure_response_sop",
+      "evidence_count": 2,
+      "evidence": [
+        {
+          "source": "unknown",
+          "source_type": "benchmark",
+          "similarity_score": 0.6604,
+          "status": "PARTIAL",
+          "quote": "effect a burner trip or master fuel trip",
+          "key_details": [
+            "Prevent any fuel firing unless a satisfactory purge sequence has first been completed",
+            "Provide flame monitoring when fuel-firing equipment is in service"
+          ],
+          "what_is_missing": "no specific steps for emergency response to flame failure or MFT"
+        },
+        {
+          "source": "unknown",
+          "source_type": "benchmark",
+          "similarity_score": 0.5402,
+          "status": "PARTIAL",
+          "quote": "e) Provide flame monitoring",
+          "key_details": [
+            "flame monitoring when fuel-firing equipment is in service",
+            "effect a burner trip or master fuel trip upon warranted firing conditions"
+          ],
+          "what_is_missing": "no specific steps or thresholds for emergency response to flame failure or MFT"
+        }
+      ],
+      "key_details": [
+        "Prevent any fuel firing unless a satisfactory purge sequence has first been completed",
+        "Provide flame monitoring when fuel-firing equipment is in service",
+        "flame monitoring when fuel-firing equipment is in service",
+        "effect a burner trip or master fuel trip upon warranted firing conditions"
+      ],
+      "is_gap": true
+    },
+    {
+      "id": "superheater_maintenance_sop",
+      "type": "Procedure",
+      "label": "Superheater / Reheater Tube Maintenance Procedure",
+      "status": "PARTIAL",
+      "criticality": 4,
+      "gap_id": "superheater_maintenance",
+      "evidence_count": 1,
+      "evidence": [
+        {
+          "source": "unknown",
+          "source_type": "benchmark",
+          "similarity_score": 0.5468,
+          "status": "PARTIAL",
+          "quote": "2.2.2.6...adequate number of chromel-alumel thermocouples for measurement of tube metal temperatures outside the gas path shall also be provided.",
+          "key_details": [
+            "minimum number of thermocouples specified",
+            "placement requirements for thermocouples"
+          ],
+          "what_is_missing": "Actual maintenance steps (e.g., inspection frequency, corrective actions, thresholds for action)"
+        }
+      ],
+      "key_details": [
+        "minimum number of thermocouples specified",
+        "placement requirements for thermocouples"
+      ],
+      "is_gap": true
+    },
+    {
+      "id": "boiler_startup_procedure",
+      "type": "Procedure",
+      "label": "Boiler Cold / Hot / Warm Startup Procedure",
+      "status": "ABSENT",
+      "criticality": 4,
+      "gap_id": "boiler_startup_procedure",
+      "evidence_count": 0,
+      "evidence": [],
+      "key_details": [],
+      "is_gap": true
+    },
+    {
+      "id": "cea_sts_500mw",
+      "type": "Regulation",
+      "label": "CEA Standard Technical Specification 500MW — Boiler Sections"
+    },
+    {
+      "id": "cea_om_practices",
+      "type": "Regulation",
+      "label": "CEA Review of O&M Practices for Thermal Power Plants"
+    },
+    {
+      "id": "ibr_pressure_vessels",
+      "type": "Regulation",
+      "label": "Indian Boiler Regulations (IBR) — Pressure Parts"
+    },
+    {
+      "id": "outage_BANDEL_TPS_2_2026-06-17",
+      "type": "OutageEvent",
+      "label": "BANDEL TPS — 2026-06-17",
+      "station": "BANDEL TPS",
+      "unit": "2",
+      "mw_lost": 60.0,
+      "date_out": "2026-06-17",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 1.94,
+      "failure_reason_raw": "REHEATER TUBE LEAKAGE",
+      "failure_category": "tube_failure"
+    },
+    {
+      "id": "outage_BARH_STPS_1_2026-06-23",
+      "type": "OutageEvent",
+      "label": "BARH STPS — 2026-06-23",
+      "station": "BARH STPS",
+      "unit": "1",
+      "mw_lost": 660.0,
+      "date_out": "2026-06-23",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 21.38,
+      "failure_reason_raw": "TUBE LKG. AT LOW TEMP. SUPERHEATER ZONE",
+      "failure_category": "unclassified"
+    },
+    {
+      "id": "outage_BELLARY_TPS_1_2026-06-23",
+      "type": "OutageEvent",
+      "label": "BELLARY TPS — 2026-06-23",
+      "station": "BELLARY TPS",
+      "unit": "1",
+      "mw_lost": 500.0,
+      "date_out": "2026-06-23",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 16.2,
+      "failure_reason_raw": "WATER WALL TUBE LEAKAGE",
+      "failure_category": "tube_failure"
+    },
+    {
+      "id": "outage_Dr._N.TATA_RAO_TPS_5_2026-06-23",
+      "type": "OutageEvent",
+      "label": "Dr. N.TATA RAO TPS — 2026-06-23",
+      "station": "Dr. N.TATA RAO TPS",
+      "unit": "5",
+      "mw_lost": 210.0,
+      "date_out": "2026-06-23",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 6.8,
+      "failure_reason_raw": "WATER WALL TUBE LEAKAGE",
+      "failure_category": "tube_failure"
+    },
+    {
+      "id": "outage_JAWAHARPUR_STPP_2_2026-06-20",
+      "type": "OutageEvent",
+      "label": "JAWAHARPUR STPP — 2026-06-20",
+      "station": "JAWAHARPUR STPP",
+      "unit": "2",
+      "mw_lost": 660.0,
+      "date_out": "2026-06-20",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 21.38,
+      "failure_reason_raw": "WATER WALL TUBE LEAKAGE",
+      "failure_category": "tube_failure"
+    },
+    {
+      "id": "outage_KODARMA_TPP_1_2026-06-23",
+      "type": "OutageEvent",
+      "label": "KODARMA TPP — 2026-06-23",
+      "station": "KODARMA TPP",
+      "unit": "1",
+      "mw_lost": 500.0,
+      "date_out": "2026-06-23",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 16.2,
+      "failure_reason_raw": "TUBE LKG. AT LOW TEMP. SUPERHEATER ZONE",
+      "failure_category": "unclassified"
+    },
+    {
+      "id": "outage_KORBA-WEST_TPS_4_2026-06-23",
+      "type": "OutageEvent",
+      "label": "KORBA-WEST TPS — 2026-06-23",
+      "station": "KORBA-WEST TPS",
+      "unit": "4",
+      "mw_lost": 210.0,
+      "date_out": "2026-06-23",
+      "outage_hours": 38.4,
+      "revenue_lost_est_cr": 3.63,
+      "failure_reason_raw": "SUPER HEATER TUBE LEAKAGE",
+      "failure_category": "tube_failure"
+    },
+    {
+      "id": "outage_MEENAKSHI_ENERGY_LTD_3_2026-06-24",
+      "type": "OutageEvent",
+      "label": "MEENAKSHI ENERGY LTD — 2026-06-24",
+      "station": "MEENAKSHI ENERGY LTD",
+      "unit": "3",
+      "mw_lost": 350.0,
+      "date_out": "2026-06-24",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 11.34,
+      "failure_reason_raw": "FURNACE FIRE OUT /FLAME FAILURE",
+      "failure_category": "unclassified"
+    },
+    {
+      "id": "outage_MUNDRA_UMTPP_2_2026-06-24",
+      "type": "OutageEvent",
+      "label": "MUNDRA UMTPP — 2026-06-24",
+      "station": "MUNDRA UMTPP",
+      "unit": "2",
+      "mw_lost": 800.0,
+      "date_out": "2026-06-24",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 25.92,
+      "failure_reason_raw": "WATER WALL TUBE LEAKAGE",
+      "failure_category": "tube_failure"
+    },
+    {
+      "id": "outage_NEYVELI_NEW_TPP_2_2026-06-22",
+      "type": "OutageEvent",
+      "label": "NEYVELI NEW TPP — 2026-06-22",
+      "station": "NEYVELI NEW TPP",
+      "unit": "2",
+      "mw_lost": 500.0,
+      "date_out": "2026-06-22",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 16.2,
+      "failure_reason_raw": "BOILER MISC. PROBLEM",
+      "failure_category": "unclassified"
+    },
+    {
+      "id": "outage_RAICHUR_TPS_6_2026-06-24",
+      "type": "OutageEvent",
+      "label": "RAICHUR TPS — 2026-06-24",
+      "station": "RAICHUR TPS",
+      "unit": "6",
+      "mw_lost": 210.0,
+      "date_out": "2026-06-24",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 6.8,
+      "failure_reason_raw": "WATER WALL TUBE LEAKAGE",
+      "failure_category": "tube_failure"
+    },
+    {
+      "id": "outage_RAICHUR_TPS_8_2026-05-26",
+      "type": "OutageEvent",
+      "label": "RAICHUR TPS — 2026-05-26",
+      "station": "RAICHUR TPS",
+      "unit": "8",
+      "mw_lost": 250.0,
+      "date_out": "2026-05-26",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 8.1,
+      "failure_reason_raw": "WATER WALL TUBE LEAKAGE",
+      "failure_category": "tube_failure"
+    },
+    {
+      "id": "outage_RAMAGUNDEM_STPS_5_2026-06-24",
+      "type": "OutageEvent",
+      "label": "RAMAGUNDEM STPS — 2026-06-24",
+      "station": "RAMAGUNDEM STPS",
+      "unit": "5",
+      "mw_lost": 500.0,
+      "date_out": "2026-06-24",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 16.2,
+      "failure_reason_raw": "WATER WALL TUBE LEAKAGE",
+      "failure_category": "tube_failure"
+    },
+    {
+      "id": "outage_ROPAR_TPS_3_2026-06-23",
+      "type": "OutageEvent",
+      "label": "ROPAR TPS — 2026-06-23",
+      "station": "ROPAR TPS",
+      "unit": "3",
+      "mw_lost": 210.0,
+      "date_out": "2026-06-23",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 6.8,
+      "failure_reason_raw": "BOILER MISC. PROBLEM",
+      "failure_category": "unclassified"
+    },
+    {
+      "id": "outage_SABARMATI_(D-F_STATIONS)_2_2026-06-23",
+      "type": "OutageEvent",
+      "label": "SABARMATI (D-F STATIONS) — 2026-06-23",
+      "station": "SABARMATI (D-F STATIONS)",
+      "unit": "2",
+      "mw_lost": 121.0,
+      "date_out": "2026-06-23",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 3.92,
+      "failure_reason_raw": "TUBE LKG. AT LOW TEMP. SUPERHEATER ZONE",
+      "failure_category": "unclassified"
+    },
+    {
+      "id": "outage_SANJAY_GANDHI_TPS_1_2026-06-20",
+      "type": "OutageEvent",
+      "label": "SANJAY GANDHI TPS — 2026-06-20",
+      "station": "SANJAY GANDHI TPS",
+      "unit": "1",
+      "mw_lost": 210.0,
+      "date_out": "2026-06-20",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 6.8,
+      "failure_reason_raw": "WATER WALL TUBE LEAKAGE",
+      "failure_category": "tube_failure"
+    },
+    {
+      "id": "outage_SHREE_SINGAJI_TPP_4_2026-06-22",
+      "type": "OutageEvent",
+      "label": "SHREE SINGAJI TPP — 2026-06-22",
+      "station": "SHREE SINGAJI TPP",
+      "unit": "4",
+      "mw_lost": 660.0,
+      "date_out": "2026-06-22",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 21.38,
+      "failure_reason_raw": "BOILER MISC. PROBLEM",
+      "failure_category": "unclassified"
+    },
+    {
+      "id": "outage_VINDHYACHAL_STPS_7_2026-06-24",
+      "type": "OutageEvent",
+      "label": "VINDHYACHAL STPS — 2026-06-24",
+      "station": "VINDHYACHAL STPS",
+      "unit": "7",
+      "mw_lost": 500.0,
+      "date_out": "2026-06-24",
+      "outage_hours": 3.8,
+      "revenue_lost_est_cr": 0.86,
+      "failure_reason_raw": "FURNACE DRAFT ABNORMAL",
+      "failure_category": "unclassified"
+    }
+  ],
+  "edges": [
+    {
+      "from": "boiler_subcritical_500mw",
+      "type": "HAS_SUB_COMPONENT",
+      "to": "waterwall"
+    },
+    {
+      "from": "boiler_subcritical_500mw",
+      "type": "HAS_SUB_COMPONENT",
+      "to": "superheater_reheater"
+    },
+    {
+      "from": "boiler_subcritical_500mw",
+      "type": "HAS_SUB_COMPONENT",
+      "to": "air_preheater"
+    },
+    {
+      "from": "boiler_subcritical_500mw",
+      "type": "HAS_SUB_COMPONENT",
+      "to": "economizer"
+    },
+    {
+      "from": "boiler_subcritical_500mw",
+      "type": "HAS_SUB_COMPONENT",
+      "to": "steam_drum"
+    },
+    {
+      "from": "boiler_subcritical_500mw",
+      "type": "HAS_FAILURE_MODE",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "waterwall",
+      "type": "HAS_FAILURE_MODE",
+      "to": "waterwall_tube_thinning"
+    },
+    {
+      "from": "boiler_subcritical_500mw",
+      "type": "HAS_FAILURE_MODE",
+      "to": "flame_failure"
+    },
+    {
+      "from": "superheater_reheater",
+      "type": "HAS_FAILURE_MODE",
+      "to": "superheater_tube_failure"
+    },
+    {
+      "from": "boiler_tube_failure",
+      "type": "ADDRESSED_BY",
+      "to": "boiler_tube_failure_sop",
+      "status": "ABSENT",
+      "is_gap": true
+    },
+    {
+      "from": "waterwall_tube_thinning",
+      "type": "ADDRESSED_BY",
+      "to": "waterwall_inspection_procedure",
+      "status": "PARTIAL",
+      "is_gap": true
+    },
+    {
+      "from": "boiler_tube_failure",
+      "type": "ADDRESSED_BY",
+      "to": "waterwall_inspection_procedure",
+      "status": "PARTIAL",
+      "is_gap": true
+    },
+    {
+      "from": "flame_failure",
+      "type": "ADDRESSED_BY",
+      "to": "flame_failure_sop",
+      "status": "PARTIAL",
+      "is_gap": true
+    },
+    {
+      "from": "superheater_tube_failure",
+      "type": "ADDRESSED_BY",
+      "to": "superheater_maintenance_sop",
+      "status": "PARTIAL",
+      "is_gap": true
+    },
+    {
+      "from": "boiler_tube_failure",
+      "type": "ADDRESSED_BY",
+      "to": "boiler_startup_procedure",
+      "status": "ABSENT",
+      "is_gap": true
+    },
+    {
+      "from": "flame_failure",
+      "type": "ADDRESSED_BY",
+      "to": "boiler_startup_procedure",
+      "status": "ABSENT",
+      "is_gap": true
+    },
+    {
+      "from": "waterwall_inspection_procedure",
+      "type": "REQUIRED_BY",
+      "to": "cea_sts_500mw"
+    },
+    {
+      "from": "boiler_tube_failure_sop",
+      "type": "REQUIRED_BY",
+      "to": "cea_sts_500mw"
+    },
+    {
+      "from": "boiler_startup_procedure",
+      "type": "REQUIRED_BY",
+      "to": "cea_sts_500mw"
+    },
+    {
+      "from": "boiler_tube_failure_sop",
+      "type": "REQUIRED_BY",
+      "to": "cea_om_practices"
+    },
+    {
+      "from": "flame_failure_sop",
+      "type": "REQUIRED_BY",
+      "to": "cea_om_practices"
+    },
+    {
+      "from": "superheater_maintenance_sop",
+      "type": "REQUIRED_BY",
+      "to": "cea_om_practices"
+    },
+    {
+      "from": "superheater_maintenance_sop",
+      "type": "REQUIRED_BY",
+      "to": "ibr_pressure_vessels"
+    },
+    {
+      "from": "waterwall_inspection_procedure",
+      "type": "REQUIRED_BY",
+      "to": "ibr_pressure_vessels"
+    },
+    {
+      "from": "outage_BANDEL_TPS_2_2026-06-17",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_BANDEL_TPS_2_2026-06-17",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_BARH_STPS_1_2026-06-23",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_BARH_STPS_1_2026-06-23",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_BELLARY_TPS_1_2026-06-23",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_BELLARY_TPS_1_2026-06-23",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_Dr._N.TATA_RAO_TPS_5_2026-06-23",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_Dr._N.TATA_RAO_TPS_5_2026-06-23",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_JAWAHARPUR_STPP_2_2026-06-20",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_JAWAHARPUR_STPP_2_2026-06-20",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_KODARMA_TPP_1_2026-06-23",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_KODARMA_TPP_1_2026-06-23",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_KORBA-WEST_TPS_4_2026-06-23",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_KORBA-WEST_TPS_4_2026-06-23",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_MEENAKSHI_ENERGY_LTD_3_2026-06-24",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_MEENAKSHI_ENERGY_LTD_3_2026-06-24",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_MUNDRA_UMTPP_2_2026-06-24",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_MUNDRA_UMTPP_2_2026-06-24",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_NEYVELI_NEW_TPP_2_2026-06-22",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_NEYVELI_NEW_TPP_2_2026-06-22",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_RAICHUR_TPS_6_2026-06-24",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_RAICHUR_TPS_6_2026-06-24",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_RAICHUR_TPS_8_2026-05-26",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_RAICHUR_TPS_8_2026-05-26",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_RAMAGUNDEM_STPS_5_2026-06-24",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_RAMAGUNDEM_STPS_5_2026-06-24",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_ROPAR_TPS_3_2026-06-23",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_ROPAR_TPS_3_2026-06-23",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_SABARMATI_(D-F_STATIONS)_2_2026-06-23",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_SABARMATI_(D-F_STATIONS)_2_2026-06-23",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_SANJAY_GANDHI_TPS_1_2026-06-20",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_SANJAY_GANDHI_TPS_1_2026-06-20",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_SHREE_SINGAJI_TPP_4_2026-06-22",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_SHREE_SINGAJI_TPP_4_2026-06-22",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    },
+    {
+      "from": "outage_VINDHYACHAL_STPS_7_2026-06-24",
+      "type": "INSTANCE_OF",
+      "to": "boiler_tube_failure"
+    },
+    {
+      "from": "outage_VINDHYACHAL_STPS_7_2026-06-24",
+      "type": "OCCURRED_AT",
+      "to": "boiler_subcritical_500mw"
+    }
+  ],
+  "meta": {
+    "extracted_at": "2026-06-28T19:04:02.774605+00:00",
+    "slice": "Boiler",
+    "node_count": 36,
+    "edge_count": 60,
+    "outage_events": 18,
+    "total_outage_revenue_cr": 211.8,
+    "confirmed_gaps": 5,
+    "gap_ids": [
+      "boiler_tube_failure_sop",
+      "boiler_waterwall_inspection",
+      "flame_failure_response_sop",
+      "superheater_maintenance",
+      "boiler_startup_procedure"
+    ]
+  }
+}
