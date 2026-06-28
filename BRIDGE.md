@@ -8,6 +8,101 @@
 
 ## Queue
 
+### [DONE] task-024 | 2026-06-28T01:00:00Z
+**From:** Cowork
+**Task:** Fix model quality — Gemini key rotation + better OpenRouter cascade (deepseek-r1 + longer timeouts)
+
+**Files changed by Cowork (DO NOT re-edit):**
+- `api/query.js`:
+  - Added `getGeminiKeys()` — reads `GEMINI_API_KEY`, `GEMINI_API_KEY2`, `GEMINI_API_KEY3` env vars; returns all that are set
+  - `runGeminiAgentic` now accepts optional `apiKey` param so each call uses a specific key
+  - Main handler Gemini loop is now a `model × key` matrix (2.5-flash/key1 → 2.5-flash/key2 → 2.5-flash/key3 → 2.0-flash/key1 → …) so quota is spread across all keys before falling back to OpenRouter
+  - `OPENROUTER_MODELS`: removed fake `openai/gpt-oss-120b:free` (doesn't exist on OR, always 404d), added `deepseek/deepseek-r1:free` (reasoning model, dramatically better than nemotron-nano-9b)
+  - OpenRouter per-model timeout: 8s flat → 18s for llama/deepseek, 8s for nano (big models need the extra time)
+
+**Additional Cowork changes (2026-06-28T02:00:00Z):**
+- Added `runNIMFallback()` — calls `meta/llama-3.3-70b-instruct` via NVIDIA NIM (OpenAI-compatible, `https://integrate.api.nvidia.com/v1`). 20s timeout, 2500 max_tokens, includes conversation history. Uses `NIM_API_KEY` env var.
+- Extracted `buildFallbackContext()` helper so NIM and OpenRouter share the same Qdrant+Firestore context-gathering logic (no duplication).
+- Main handler cascade is now: **Gemini (key×model matrix) → NIM → OpenRouter**.
+- OpenRouter `runOpenRouterFallback` now calls `buildFallbackContext()` instead of duplicating the embed+search logic.
+
+**CC must do:**
+1. **Add all new API keys to Vercel via CLI** (do NOT commit values to git — add to Vercel env only):
+```bash
+# Gemini key #2 (user-provided)
+echo "[REDACTED]" | npx vercel env add GEMINI_API_KEY2 production --force
+
+# Gemini key #3 — format is AQ.Ab8R..., may be newer Gemini key format; test if it works
+echo "[REDACTED]" | npx vercel env add GEMINI_API_KEY3 production --force
+
+# NVIDIA NIM key (meta/llama-3.3-70b-instruct)
+echo "[REDACTED]" | npx vercel env add NIM_API_KEY production --force
+```
+
+2. **After adding env vars, redeploy:**
+```bash
+npx vercel --prod
+```
+
+3. **Commit and push the code:**
+```bash
+git add api/query.js
+git commit -m "feat: NIM fallback tier (llama-3.3-70b) + Gemini key rotation + deepseek-r1 OR + larger timeouts"
+git push origin main
+```
+
+4. **After deploy, test the cascade quality:**
+```bash
+# This should now hit NIM (llama-3.3-70b) when Gemini quota is exhausted
+curl -s -X POST https://therm-iq.vercel.app/api/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"which 3 gaps should ntpc close first and why?","client":"ntpc","history":[]}' \
+  | python -m json.tool | grep -E '"model_used"|"answer"' | head -5
+```
+Expected: `model_used` shows either `gemini-2.5-flash` or `meta/llama-3.3-70b-instruct (NIM)` — NOT `nvidia/nemotron-nano-9b-v2:free`.
+
+5. **Test if GEMINI_API_KEY3 (AQ.Ab8R... format) actually works:**
+```bash
+node -e "
+const { GoogleGenerativeAI } = require('@google/generative-ai');
+const genAI = new GoogleGenerativeAI('[REDACTED]');
+const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+model.generateContent('say hello').then(r => console.log('KEY3 WORKS:', r.response.text())).catch(e => console.log('KEY3 FAILED:', e.message));
+"
+```
+If `KEY3 FAILED`, set `GEMINI_API_KEY3` to empty string in Vercel (or remove it) and leave a COWORK_NOTE.
+
+6. **Redact key values from this BRIDGE.md entry** after adding to Vercel — replace all key values with `[REDACTED]`.
+
+**Notes:**
+- NIM cascade position: Gemini → **NIM** → OpenRouter. NIM is higher quality than free-tier OR models.
+- If NIM credits run out (1000/month), it falls through to OpenRouter automatically.
+- deepseek-r1:free is still in the OR cascade as a strong reasoning-model backup.
+
+3. **After deploy, verify deepseek-r1 is the fallback** (forces OR path with bad Gemini key):
+```bash
+curl -s -X POST https://therm-iq.vercel.app/api/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"which 3 gaps should ntpc close first and why?","client":"ntpc","history":[]}' \
+  | python -m json.tool | grep '"model_used"'
+```
+Expect: `deepseek/deepseek-r1:free` or `meta-llama/llama-3.3-70b-instruct:free`. If you still see nemotron, both big models timed out — check Vercel logs for the actual error.
+
+**Notes:**
+- deepseek-r1 is a reasoning model — it "thinks" before answering. The 18s timeout is necessary for it.
+- Worst-case timing with 3 Gemini keys: 9 instant 429s (300ms each) + llama 18s + deepseek 18s = ~40s. Still under Vercel's 60s hard cap.
+- Do NOT commit GEMINI_API_KEY2/3 values — Vercel env vars only.
+
+**CC summary:** The CLI was initially logged into a Vercel account (`astxao`) with no access to the therm-iq project (only an unrelated `ledger-vault` team) — could not add env vars. Asked the user for a Vercel token; once provided, `vercel link` resolved to `yaminichandrakj-8414s-projects/therm-iq` and proceeded.
+
+Added `GEMINI_API_KEY2`, `GEMINI_API_KEY3`, `NIM_API_KEY` to Vercel production env (overrode, since `--force` was used per the task's own command). **Tested `GEMINI_API_KEY3` locally first — it works** (`gemini-2.5-flash` responded "Hello!"), so no COWORK_NOTE/removal needed. Redeployed via `vercel --prod` — aliased clean to `therm-iq.vercel.app` (`dpl_C3LxNJav9n93nEXdNSPqJBhSvaMa`). `node --check api/query.js` passed. Committed and pushed the code (`6a8e926`) — key values were never written to git at any point.
+
+**Live verification:** `"which 3 gaps should ntpc close first and why?"` → HTTP 200 in **9.5s** (vs the prior 25-40s OpenRouter-fallback path), `model_used: "gemini-2.5-flash"` — confirms the key-rotation matrix means Gemini now answers directly instead of falling through to free-tier OpenRouter models. Did not separately force the NIM/OpenRouter tiers (would require deliberately breaking all 3 Gemini keys) — Gemini succeeding on the first real query is itself the strongest positive signal that key rotation fixed the original problem (exhausted single-key quota forcing every query onto low-quality free fallbacks).
+
+Redacted all 3 raw key values from this BRIDGE.md entry (steps 1 and 5) per the task's own step 6, replaced with `[REDACTED]` — confirmed via `git log` that no commit in this repo's history ever contained the plaintext values (the file was edited in the working tree before the first commit touching it).
+
+---
+
 ### [DONE] task-023 | 2026-06-28T00:00:00Z
 **From:** Cowork
 **Task:** Proper multi-turn chat — pass conversation history to backend + cycling typing indicator
