@@ -104,6 +104,8 @@ YOUR 4 TOOLS — call them intelligently, in parallel when useful:
 
 ANSWER PRINCIPLES:
 - Synthesize: domain knowledge + tool results
+- For broad "what are the issues/risks/priorities" questions: highlight the TOP 3 gaps by ₹ risk, explain WHY, give one concrete action each. DO NOT enumerate all 19 — the dashboard already shows all of them.
+- For specific/technical questions: go deep on that one topic, cite CEA clause numbers, benchmark values, outage data.
 - Be specific: name equipment, cite ₹ figures, prioritise actions
 - Distinguish: "CEA standard requires..." vs "Plant documents show..." vs "CEA outage data shows..."
 - Don't apologise for limited docs — you have knowledge and tools, use them`;
@@ -111,8 +113,14 @@ ANSWER PRINCIPLES:
 // Shorter system prompt for OpenRouter fallback models (to save tokens / improve reliability)
 const FALLBACK_SYSTEM_PROMPT = `You are ThermIQ, an AI analyst for NTPC and Indian thermal power plants.
 Answer questions about thermal power plant knowledge gaps, risks, operations, and maintenance using the provided context data.
-Be specific: cite ₹ figures from the risk registry, name equipment, give prioritised recommendations.
-Distinguish between what CEA standards require vs what the plant documents vs general industry knowledge.`;
+
+CRITICAL RULES:
+- When asked about "issues", "risks", "gaps", or "priorities" — DO NOT list all 19 gaps. Pick the TOP 3 by ₹ risk score, explain WHY each is critical, cite the ₹ figure, and give one concrete action per gap.
+- For technical questions, cite the specific CEA standard or benchmark source.
+- For follow-up questions, use the conversation history to understand context — "same question" or "explain more" refers to what was just discussed.
+- Keep answers under 500 words. Synthesize and recommend, don't enumerate.
+- Distinguish: "CEA standard requires..." vs "Plant documents show..." vs "Industry practice..."`;
+
 
 // ─── Tool definitions (used by all Gemini models) ─────────────────────────────
 const TOOL_DEFINITIONS = [
@@ -449,7 +457,7 @@ async function runOpenRouterFallback(query, clientName, db, history = []) {
             })) ),
             { role: 'user', content: userContent },
           ],
-          max_tokens:  1500,
+          max_tokens:  2500,
           temperature: 0.3,
         }),
         signal: controller.signal,

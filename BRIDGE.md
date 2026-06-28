@@ -13,7 +13,7 @@
 **Task:** Proper multi-turn chat — pass conversation history to backend + cycling typing indicator
 
 **Files changed by Cowork (DO NOT re-edit):**
-- `api/query.js` — added `formatHistoryForGemini()` helper; `runGeminiAgentic` now accepts `history` arg and passes it to `model.startChat({ history: geminiHistory })`; `runOpenRouterFallback` prepends last 6 history messages before the userContent turn; main handler extracts `history` from request body and passes it through both cascade paths
+- `api/query.js` — (1) added `formatHistoryForGemini()` helper; `runGeminiAgentic` now accepts `history` arg and passes it to `model.startChat({ history: geminiHistory })`; `runOpenRouterFallback` prepends last 6 history messages before the userContent turn; main handler extracts `history` from request body and passes it through both cascade paths. (2) `FALLBACK_SYSTEM_PROMPT` updated to synthesize top 3 gaps instead of listing all 19, keep answers under 500 words, and use conversation history for follow-ups. (3) Main `SYSTEM_PROMPT` updated with same instruction for broad gap queries. (4) `max_tokens` raised 1500→2500 in OpenRouter call to fix mid-sentence truncation.
 - `docs/app.js` — `submit()` now builds `history` (last 6 messages before the new user turn) and sends it in the POST body; `addTypingIndicator()` now shows cycling status text ("Searching knowledge base… → Consulting risk registry… → Analyzing plant data… → Composing answer…") and stores the interval on `div._typingInterval`; `finally` block clears the interval before removing the indicator
 - `docs/style.css` — added `.typing-status` rule (small italic, `--text-tertiary` colour)
 
