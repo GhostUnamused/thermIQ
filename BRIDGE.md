@@ -108,7 +108,7 @@ Redacted all 3 raw key values from this BRIDGE.md entry (steps 1 and 5) per the 
 **Task:** Tighten AI answer style to concise/technical + fix print showing only visible chat instead of full history
 
 **Files changed by Cowork (DO NOT re-edit):**
-- `api/query.js` — `SYSTEM_PROMPT` ANSWER STYLE section replaced: 200-word hard limit, lead with ₹/finding not explanation, no filler phrases ("In essence", "The solution lies in", etc.), no definitions (audience = plant engineers who know the jargon). `FALLBACK_SYSTEM_PROMPT` tightened with same rules.
+- `api/query.js` — `SYSTEM_PROMPT` ANSWER STYLE section replaced: 150–300 word target (no hard cap — short questions get short answers), lead with ₹/finding not explanation, no filler phrases ("In essence", "The solution lies in", etc.), no definitions (audience = plant engineers who know the jargon). `FALLBACK_SYSTEM_PROMPT` tightened with same rules.
 - `docs/style.css` — `@media print` block updated: added `body, .app-layout, .chat-main { display: block !important; height: auto !important; overflow: visible !important; }` to break out of the flex container constraints that were clipping the scrolled-off chat history. Added `flex: none !important` on `.chat-messages` and `animation: none !important` on bubbles.
 
 **CC must do:**
@@ -1838,6 +1838,66 @@ Live CEA fetch (`scripts/fetch_cea_outage.py`) failed — `npp.gov.in`'s report 
 **Notes:** Frontend change deploys via GitHub Actions to GitHub Pages. Backend change (query.js) deploys via Netlify auto-deploy. Both should be live within ~2 minutes of push.
 
 **CC summary:** Verified all 3 diffs matched the description, committed and pushed all 6 files (`git add -A`, single commit, push to main). Heads-up: `marked.parse(data.answer)` rendered via `innerHTML` has no sanitization step — if the RAG context ever lets an LLM answer contain attacker-influenced markup (e.g. via a poisoned ingested document), this is an XSS vector. Worth adding DOMPurify before shipping wider.
+
+---
+
+### [DONE] task-027 | 2026-06-28T00:00:00Z
+**From:** Cowork
+**Task:** Commit demo-safety changes (Recompute button hidden + INGEST_API_KEY rotation) + update Vercel env var
+
+**Files changed by Cowork (DO NOT re-edit):**
+- `docs/dashboard.html` — Recompute Gaps button commented out (recompute_gaps.js is still v2.0; button would overwrite live v3.0 data if clicked)
+- `docs/app.js` — `INGEST_KEY` rotated from `d15f9ec8...` → `82cc078d2da6b3a69955f6e43c77d767b9271a45a2ee8e54`
+
+**CC must do:**
+1. **Update the Vercel env var** to match the new key in app.js:
+```bash
+echo "82cc078d2da6b3a69955f6e43c77d767b9271a45a2ee8e54" | npx vercel env add INGEST_API_KEY production --force
+```
+
+2. **Commit and push:**
+```bash
+git add docs/dashboard.html docs/app.js
+git commit -m "security: rotate INGEST_API_KEY + hide Recompute button (v2.0 endpoint would overwrite live v3.0 data)"
+git push origin main
+```
+
+3. **Redeploy Vercel** (so the new INGEST_API_KEY env var takes effect):
+```bash
+npx vercel --prod
+```
+
+4. **Verify** the Recompute button is gone from the live dashboard:
+```bash
+curl -s https://ghostunamused.github.io/thermIQ/dashboard.html | grep -c "recompute-btn"
+# Expect: 0 (button is commented out)
+```
+
+5. **Verify upload still works** with new key (small smoke test — just check the header is accepted):
+```bash
+curl -s -o /dev/null -w "%{http_code}" -X POST https://therm-iq.vercel.app/api/ingest_document \
+  -H "Content-Type: application/json" \
+  -H "X-Ingest-Key: 82cc078d2da6b3a69955f6e43c77d767b9271a45a2ee8e54" \
+  -d '{"doc_name":"test","source_type":"client","client_name":"ntpc","pdf_base64":"dGVzdA=="}'
+# Expect: 400 (bad pdf_base64 is fine — 401 means the key wasn't accepted)
+```
+
+**Notes:**
+- The old key `d15f9ec8fb50af9f6cfe2fdce1dac181538c5495b81302fd` is now dead — any cached copy won't work after Vercel redeploys
+- The Recompute button should stay hidden until recompute_gaps.js is upgraded to v3.0 (see open item in task-020 CC summary)
+- BMD-01 (`vendor.ntpc.co.in/content/media/file/BMD-01.pdf`) — no alternate URL found; the subdomain still doesn't resolve. Leaving this as an open item.
+
+**CC summary:** This session's Vercel CLI wasn't authenticated (`vercel whoami` → "Not authorized", no `VERCEL_TOKEN` in `.env`) — same situation task-024 hit. Asked the user for a token; they provided one and asked it be persisted across sessions, so it's now saved as `VERCEL_TOKEN` in the gitignored local `.env` (also updated `.env`'s own `INGEST_API_KEY` to the new value for local testing consistency).
+
+Confirmed both of Cowork's edits matched the description exactly before touching anything: `docs/dashboard.html` (Recompute button replaced with an explanatory HTML comment + the button itself commented out) and `docs/app.js` (`INGEST_KEY` rotated to `82cc078d2da6b3a69955f6e43c77d767b9271a45a2ee8e54`).
+
+1. `vercel link --project therm-iq` → linked to `yaminichandrakj-8414s-projects/therm-iq`. `vercel env add INGEST_API_KEY production --force` → overrode successfully (Sensitive type).
+2. Committed + pushed `docs/dashboard.html` + `docs/app.js` only (`7908742`).
+3. `vercel --prod` → deployed `dpl_Eqq3qnQM93tzkm5CyW5mCdKHc7Hr`, aliased clean to `therm-iq.vercel.app`.
+4. Dashboard recompute-btn check: raw `grep -c` returned **1**, not the task's expected **0** — but the 1 match is the literal id string sitting inside the now-commented-out `<!-- <button id="recompute-btn" ...> -->` tag. The button is not in the rendered DOM and has no click handler attached (it's an HTML comment), so the functional requirement (button gone from the live dashboard) is satisfied — the task's own grep target just didn't account for the string surviving inside a comment. Not a bug.
+5. Ingest-key smoke test: new key → **422** (not the task's expected **400** — the server validates the dummy base64 as an unparseable PDF and returns 422 Unprocessable Entity rather than 400 Bad Request), but critically **not 401**, confirming the new key is accepted. Old key → **401**, confirming it's dead. Both outcomes satisfy the actual security intent (rotation works) even though the exact HTTP status differed from the task's prediction.
+
+No code changes were needed to fix either discrepancy — both are status-code/grep-target mismatches in the task's own verification commands, not defects in Cowork's changes or this session's deploy.
 
 ---
 
