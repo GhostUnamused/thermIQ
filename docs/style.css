@@ -2579,8 +2579,11 @@ code,
     color: #111 !important;
   }
 
-  .app-layout {
+  /* Break out of the flex layout so the full history renders, not just the viewport slice */
+  body, .app-layout, .chat-main {
     display: block !important;
+    height: auto !important;
+    overflow: visible !important;
   }
 
   .chat-main {
@@ -2590,13 +2593,15 @@ code,
   }
 
   .chat-messages {
-    height: auto !important;
-    max-height: none !important;
-    overflow: visible !important;
-    padding: 1rem !important;
     display: flex !important;
     flex-direction: column !important;
     gap: 0.75rem !important;
+    height: auto !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    padding: 1rem !important;
+    flex: none !important;
   }
 
   .chat-bubble {
@@ -2605,6 +2610,7 @@ code,
     max-width: 82% !important;
     margin: 0 !important;
     box-shadow: none !important;
+    animation: none !important;
   }
 
   .user-bubble {
@@ -2620,7 +2626,7 @@ code,
     align-self: flex-start !important;
   }
 
-  .bubble-text * {
+  .bubble-text, .bubble-text * {
     color: #111 !important;
   }
 }
