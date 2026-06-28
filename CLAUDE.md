@@ -9,9 +9,11 @@ Formula: `risk_score_cr = criticality_score × consequence_cr × exposure_score`
 **Deadline:** ~July 1, 2026
 
 **Live URLs:**
-- Frontend: https://ghostunamused.github.io/thermIQ
-- Backend: https://thermiq-674.netlify.app
+- Frontend (GitHub Pages mirror): https://ghostunamused.github.io/thermIQ
+- Frontend + Backend (Vercel, primary): https://therm-iq.vercel.app
 - GitHub: https://github.com/GhostUnamused/thermIQ
+
+> **Netlify is dead.** The Netlify team was deleted 2026-06-27; `thermiq-674.netlify.app` 404s permanently. Vercel (`api/*.js`) is the sole live backend. Do not edit a `netlify/functions/` directory expecting it to deploy — it no longer exists in this repo.
 
 ---
 
@@ -19,8 +21,8 @@ Formula: `risk_score_cr = criticality_score × consequence_cr × exposure_score`
 
 | Layer | Service |
 |---|---|
-| Frontend | GitHub Pages (`/docs`) |
-| Backend | Netlify Functions (JavaScript) |
+| Frontend | GitHub Pages (`/docs`) + Vercel (serves `/docs` as root) |
+| Backend | Vercel Functions (`api/*.js`) |
 | Vector DB | Qdrant Cloud — collection `thermiq_chunks`, 1024-dim COSINE |
 | Embeddings | Jina AI v3 (`jina-embeddings-v3`) |
 | LLM | Gemini 2.5 Flash |
@@ -83,10 +85,12 @@ ET AI Hackathon/
 │   ├── dashboard.html             ← Risk Dashboard UI
 │   ├── app.js                     ← all frontend logic
 │   └── style.css                  ← dark navy/orange theme
-├── netlify/functions/
+├── api/                            ← Vercel functions (the live backend)
 │   ├── query.js                   ← Jina → Qdrant → Gemini RAG
 │   ├── gap_analysis.js            ← Firestore risk_scores reader
 │   ├── cea_outage.js              ← Firestore cea_outages reader
+│   ├── ingest_document.js         ← authenticated PDF upload → Qdrant + Firestore
+│   ├── list_documents.js / delete_document.js
 │   └── ingest_trigger.js          ← stub (ingestion is local only)
 └── scripts/
     ├── ingest_documents.py        ← PDF → chunks → Jina → Qdrant
@@ -96,9 +100,9 @@ ET AI Hackathon/
 
 ## Deploy instructions (for Claude Code)
 
-**Frontend** — push to `main`, GitHub Actions deploys `/docs` to GitHub Pages automatically.
+**Frontend** — push to `main`, GitHub Actions deploys `/docs` to GitHub Pages automatically. Vercel also redeploys `/docs` as its root on every push.
 
-**Backend** — push to `main`, Netlify auto-deploys from `netlify/functions/`.
+**Backend** — push to `main`, Vercel auto-deploys from `api/*.js` (no Netlify involved — that backend no longer exists).
 
 **After any file change**, always:
 ```bash
@@ -108,4 +112,4 @@ git push origin main
 ```
 
 ## Environment variables
-All secrets live in Netlify dashboard and local `.env`. Never commit `.env`.
+All secrets live in the Vercel dashboard and local `.env`. Never commit `.env`. A `VERCEL_TOKEN` is persisted in the gitignored `.env` for CLI auth — check there before asking the user for one.

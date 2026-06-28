@@ -4,8 +4,8 @@ AI-powered knowledge platform for thermal power plants. Quantifies knowledge
 gaps as ₹ crore operational risk.
 
 ## Architecture
-- Frontend: GitHub Pages (docs/)
-- Backend: Netlify Functions (JavaScript)
+- Frontend: GitHub Pages (docs/) + Vercel (serves docs/ as root)
+- Backend: Vercel Functions (api/*.js)
 - Vector DB: Qdrant Cloud
 - Embeddings: Jina AI (jina-embeddings-v3)
 - Generation: Gemini 2.5 Flash
@@ -14,7 +14,7 @@ gaps as ₹ crore operational risk.
 
 ## Setup
 
-### Environment Variables (Netlify Dashboard)
+### Environment Variables (Vercel Dashboard)
 GEMINI_API_KEY, JINA_API_KEY, QDRANT_URL, QDRANT_API_KEY,
 FIREBASE_PROJECT_ID, FIREBASE_PRIVATE_KEY, FIREBASE_CLIENT_EMAIL
 
