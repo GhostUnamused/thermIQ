@@ -103,6 +103,35 @@ Redacted all 3 raw key values from this BRIDGE.md entry (steps 1 and 5) per the 
 
 ---
 
+### [DONE] task-026 | 2026-06-28T21:00:00Z
+**From:** Cowork
+**Task:** Tighten AI answer style to concise/technical + fix print showing only visible chat instead of full history
+
+**Files changed by Cowork (DO NOT re-edit):**
+- `api/query.js` — `SYSTEM_PROMPT` ANSWER STYLE section replaced: 200-word hard limit, lead with ₹/finding not explanation, no filler phrases ("In essence", "The solution lies in", etc.), no definitions (audience = plant engineers who know the jargon). `FALLBACK_SYSTEM_PROMPT` tightened with same rules.
+- `docs/style.css` — `@media print` block updated: added `body, .app-layout, .chat-main { display: block !important; height: auto !important; overflow: visible !important; }` to break out of the flex container constraints that were clipping the scrolled-off chat history. Added `flex: none !important` on `.chat-messages` and `animation: none !important` on bubbles.
+
+**CC must do:**
+```bash
+git add api/query.js docs/style.css
+git commit -m "fix: concise technical AI answers (200w limit) + print full chat history"
+git push origin main
+```
+
+*(Do NOT `git add -A`)*
+
+**Test after deploy:**
+1. Ask "how was consequence calculated and why is criticality 5/5 for boiler tube failure?" — answer should be ≤200 words, lead with ₹ figure, no long generic explanations
+2. Have a 5+ message conversation, click print — should show ALL messages, not just the visible viewport
+
+**CC summary:** Diff matched Cowork's description exactly (`api/query.js`: both `SYSTEM_PROMPT` and `FALLBACK_SYSTEM_PROMPT` ANSWER STYLE sections replaced with the 200-word/no-filler/lead-with-finding rules; `docs/style.css`: `@media print` now forces `body, .app-layout, .chat-main` to `display: block` + `overflow: visible`, `.chat-messages` gets `flex: none`, bubbles get `animation: none`, and `.bubble-text` itself (not just its children) gets the print text colour). `node --check api/query.js` passed. Committed and pushed (`3f752f9`) — staged only the 2 task files, no `git add -A`.
+
+**Live verification (after Vercel + GitHub Pages redeployed):**
+- Test 1 (concise answer style): `POST /api/query` with the task's exact test question → HTTP 200 in 12.8s, **85-word answer**, leads immediately with "₹11.77 Cr" and the cause, cites a specific source (Vasudha Foundation 2022 / Farakka STPS 20.7%), zero filler phrases. Well under the 200-word limit. ✓
+- Test 2 (print CSS): fetched the live `style.css` directly — confirmed `body, .app-layout, .chat-main { display: block !important; ... }`, `animation: none !important`, and `.bubble-text, .bubble-text *` are all present in the deployed `@media print` block. ✓ Did not click-through the actual print dialog in a 5+ message conversation (no browser tool in this session) — CSS rule presence in the live deploy is the verification available here; recommend the user does one visual print-preview pass before a demo.
+
+---
+
 ### [DONE] task-025 | 2026-06-28T20:00:00Z
 **From:** Cowork
 **Task:** Add copy, edit+rerun (max 3), and print transcript to chat UI
