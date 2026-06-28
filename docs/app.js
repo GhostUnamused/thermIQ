@@ -10,7 +10,7 @@ const BACKEND = window.location.hostname.includes('github.io')
 // Shared secret for the document-ingest endpoint. Lives in client JS by necessity
 // (no server-side auth layer in this architecture) — deters opportunistic bots
 // probing the function URL, not a defense against a targeted attacker.
-const INGEST_KEY = 'd15f9ec8fb50af9f6cfe2fdce1dac181538c5495b81302fd';
+const INGEST_KEY = '82cc078d2da6b3a69955f6e43c77d767b9271a45a2ee8e54';
 
 // ─── Active plant namespace ─────────────────────────────────────────────────────
 // No auth in the demo — one client at a time, stored locally.

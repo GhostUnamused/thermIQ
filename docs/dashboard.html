@@ -89,7 +89,9 @@
         <div class="plant-selector-wrap">
           <label for="plant-selector">Assessing plant:</label>
           <select id="plant-selector" class="plant-selector"></select>
-          <button id="recompute-btn" class="btn-recompute" title="Re-run gap detection against client corpus">Recompute Gaps</button>
+          <!-- Recompute button hidden for demo — recompute_gaps.js is still v2.0 (18 gaps/old methodology);
+               enabling it would overwrite the live v3.0 data. Re-enable after task-027 upgrades the endpoint. -->
+          <!-- <button id="recompute-btn" class="btn-recompute" title="Re-run gap detection against client corpus">Recompute Gaps</button> -->
         </div>
       </div>
       <div id="recompute-status" class="recompute-status"></div>
