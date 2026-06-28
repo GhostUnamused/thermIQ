@@ -54,6 +54,10 @@ Ran the smoke test against live Vercel after deploy:
 
 Did not visually verify the cycling typing-indicator text in a browser (no browser tool in this session) — confirmed only via source inspection that `addTypingIndicator()`/`_typingInterval` logic is present and `finally` clears the interval.
 
+**Amendment (same session, after initial DONE):** Cowork appended a follow-up patch to `api/query.js` — main `SYSTEM_PROMPT` and `FALLBACK_SYSTEM_PROMPT` both updated so broad "what issues/risks" queries synthesize the **top 3 gaps by ₹ risk** with a reason + one action each, instead of enumerating all 19 (dashboard already lists all of them); `max_tokens` raised 1500→2500 in the OpenRouter call to stop mid-sentence truncation on the reasoning-heavy fallback models. `node --check` passed. Committed and pushed (`417fd54`).
+
+Verified live: `"what issues is ntpc facing right now"` → HTTP 200 (32.9s after one 504 retry — first attempt hit Vercel's 60s cap, almost certainly deploy-propagation lag seconds after push, not a regression), 199-word answer listing exactly 3 gaps (Turbine Vibration Response ₹42.4Cr, Turbine Blade Inspection ₹38.0Cr, + a third), each with a "why critical" + concrete action, via `nvidia/nemotron-nano-9b-v2:free`. Confirms the top-3 synthesis behavior is live.
+
 ---
 
 ### [DONE] task-022 | 2026-06-27T13:00:00Z
