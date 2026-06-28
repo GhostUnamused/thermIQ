@@ -204,7 +204,7 @@ function sourcesHtml(sources) {
     </details>`;
 }
 
-function renderMessages(messages) {
+function renderMessages(messages, editIdx = null) {
   const messagesEl = document.getElementById('chat-messages');
   const chipsEl    = document.getElementById('suggestion-chips');
   if (!messagesEl) return;
@@ -222,17 +222,45 @@ function renderMessages(messages) {
 
   if (chipsEl) chipsEl.style.display = 'none';
 
-  messagesEl.innerHTML = messages.map(msg => {
+  const copyIcon = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+  const editIcon = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+
+  messagesEl.innerHTML = messages.map((msg, idx) => {
+    const isEditing = editIdx === idx;
+    const editCount = msg.editCount || 0;
+    const canEdit   = msg.role === 'user' && editCount < 3;
+
+    const copyBtn = `<button class="msg-action-btn msg-copy-btn" data-copy-idx="${idx}" title="Copy">${copyIcon}</button>`;
+    const editBtnHtml = msg.role === 'user'
+      ? (canEdit
+          ? `<button class="msg-action-btn msg-edit-btn" data-edit-idx="${idx}" title="Edit &amp; rerun">${editIcon}${editCount > 0 ? `<span class="edit-count">${editCount}/3</span>` : ''}</button>`
+          : `<span class="edit-limit" title="Edit limit reached (3/3)">${editCount}/3</span>`)
+      : '';
+    const actionsHtml = `<div class="msg-actions">${copyBtn}${editBtnHtml}</div>`;
+
     if (msg.role === 'user') {
+      if (isEditing) {
+        return `<div class="chat-bubble user-bubble editing">
+          <textarea class="msg-edit-textarea" id="edit-ta-${idx}" rows="3">${escapeHtml(msg.content)}</textarea>
+          <div class="msg-edit-controls">
+            <button class="btn-cancel-edit" data-cancel-idx="${idx}">Cancel</button>
+            <button class="btn-rerun" data-rerun-idx="${idx}">↺ Rerun</button>
+          </div>
+        </div>`;
+      }
       return `<div class="chat-bubble user-bubble">
         <div class="bubble-text">${escapeHtml(msg.content)}</div>
+        ${actionsHtml}
       </div>`;
     }
+
+    // Assistant bubble
     const isFallback = msg.model_used && !msg.model_used.startsWith('gemini');
     return `<div class="chat-bubble assistant-bubble">
       <div class="bubble-text">${DOMPurify.sanitize(marked.parse(msg.content || ''))}</div>
       ${sourcesHtml(msg.sources)}
       ${isFallback ? `<div class="bubble-meta">↩ fallback via ${escapeHtml(msg.model_used)}</div>` : ''}
+      ${actionsHtml}
     </div>`;
   }).join('');
 
@@ -342,6 +370,19 @@ function initSidebar() {
   return { closeSidebar };
 }
 
+// ─── API call helper ─────────────────────────────────────────────────────────
+
+async function callAPI(query, history, client) {
+  const res = await fetch(`${BACKEND}/api/query`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, client: client || '', history }),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
+  return data;
+}
+
 // ─── Main Init — Query Copilot ────────────────────────────────────────────────
 
 function initQueryCopilot() {
@@ -352,11 +393,12 @@ function initQueryCopilot() {
   if (!sendBtn || !inputEl) return;
 
   let store = loadStore();
+  let activeEditIdx = null;
   const sidebarControls = initSidebar();
 
   function refresh() {
     const chat = getActiveChat(store);
-    renderMessages(chat ? chat.messages : []);
+    renderMessages(chat ? chat.messages : [], activeEditIdx);
     renderSidebar(store);
   }
 
@@ -380,6 +422,7 @@ function initQueryCopilot() {
   // ── New Chat button ──
   if (newChatBtn) {
     newChatBtn.addEventListener('click', () => {
+      activeEditIdx = null;
       const id = generateId();
       store.chats[id] = {
         id,
@@ -430,6 +473,7 @@ function initQueryCopilot() {
       if (chatItem) {
         const id = chatItem.dataset.chatId;
         if (id !== store.activeId) {
+          activeEditIdx = null;
           store.activeId = id;
           saveStore(store);
           refresh();
@@ -479,14 +523,7 @@ function initQueryCopilot() {
         content: m.content || '',
       }));
 
-      const res = await fetch(`${BACKEND}/api/query`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query, client, history }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
-
+      const data = await callAPI(query, history, client);
       chat.messages.push({
         role: 'assistant',
         content: data.answer,
@@ -509,8 +546,7 @@ function initQueryCopilot() {
       }
       sendBtn.disabled = false;
       saveStore(store);
-      renderMessages(chat.messages);
-      renderSidebar(store);
+      refresh();
       inputEl.focus();
     }
   }
@@ -522,6 +558,118 @@ function initQueryCopilot() {
       submit();
     }
   });
+
+  // ── Message action delegation (copy / edit / rerun / cancel) ──
+  const messagesEl = document.getElementById('chat-messages');
+  if (messagesEl) {
+    messagesEl.addEventListener('click', async (e) => {
+      // Copy
+      const copyBtn = e.target.closest('[data-copy-idx]');
+      if (copyBtn) {
+        const idx = parseInt(copyBtn.dataset.copyIdx, 10);
+        const chat = getActiveChat(store);
+        if (!chat || !chat.messages[idx]) return;
+        const text = chat.messages[idx].content || '';
+        try {
+          await navigator.clipboard.writeText(text);
+          copyBtn.classList.add('copied');
+          setTimeout(() => copyBtn.classList.remove('copied'), 1500);
+        } catch (_) { /* clipboard unavailable */ }
+        return;
+      }
+
+      // Enter edit mode
+      const editBtn = e.target.closest('[data-edit-idx]');
+      if (editBtn) {
+        activeEditIdx = parseInt(editBtn.dataset.editIdx, 10);
+        refresh();
+        const ta = document.getElementById(`edit-ta-${activeEditIdx}`);
+        if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+        return;
+      }
+
+      // Cancel edit
+      const cancelBtn = e.target.closest('[data-cancel-idx]');
+      if (cancelBtn) {
+        activeEditIdx = null;
+        refresh();
+        return;
+      }
+
+      // Rerun edited message
+      const rerunBtn = e.target.closest('[data-rerun-idx]');
+      if (rerunBtn) {
+        const idx = parseInt(rerunBtn.dataset.rerunIdx, 10);
+        const ta = document.getElementById(`edit-ta-${idx}`);
+        const newContent = ta ? ta.value.trim() : '';
+        if (!newContent) return;
+
+        const chat = getActiveChat(store);
+        if (!chat) return;
+
+        // Commit edit
+        chat.messages[idx].content   = newContent;
+        chat.messages[idx].editCount = (chat.messages[idx].editCount || 0) + 1;
+        // Drop everything after the edited message
+        chat.messages = chat.messages.slice(0, idx + 1);
+        activeEditIdx = null;
+        chat.updatedAt = Date.now();
+        saveStore(store);
+        refresh();
+
+        // Re-query
+        const typing = addTypingIndicator();
+        sendBtn.disabled = true;
+
+        const clientSelect = document.getElementById('client-select');
+        const client = clientSelect ? clientSelect.value : '';
+        const history = chat.messages.slice(0, idx).slice(-6).map(m => ({
+          role: m.role, content: m.content || '',
+        }));
+
+        try {
+          const data = await callAPI(newContent, history, client);
+          chat.messages.push({
+            role: 'assistant',
+            content: data.answer,
+            sources: data.sources || [],
+            model_used: data.model_used || 'gemini-2.5-flash',
+            ts: Date.now(),
+          });
+        } catch (err) {
+          chat.messages.push({
+            role: 'assistant',
+            content: `**Error:** ${err.message}`,
+            sources: [],
+            ts: Date.now(),
+          });
+        } finally {
+          chat.updatedAt = Date.now();
+          if (typing) {
+            if (typing._typingInterval) clearInterval(typing._typingInterval);
+            typing.remove();
+          }
+          sendBtn.disabled = false;
+          saveStore(store);
+          refresh();
+          inputEl.focus();
+        }
+      }
+    });
+  }
+
+  // ── Print transcript ──
+  const printBtn = document.getElementById('print-transcript-btn');
+  if (printBtn) {
+    printBtn.addEventListener('click', () => {
+      const chat = getActiveChat(store);
+      if (!chat || !chat.messages.length) {
+        alert('Nothing to print — start a conversation first.');
+        return;
+      }
+      window.print();
+    });
+  }
 }
 
 // ─── Risk Dashboard (dashboard.html) ──────────────────────────────────────────

@@ -2411,3 +2411,216 @@ code,
     max-width: 94%;
   }
 }
+
+/* ─── Message Actions (copy / edit) ─────────────────────────────────────── */
+
+.chat-bubble {
+  display: flex;
+  flex-direction: column;
+}
+
+.msg-actions {
+  display: flex;
+  gap: 3px;
+  margin-top: 6px;
+  height: 22px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.chat-bubble:hover .msg-actions {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.user-bubble .msg-actions {
+  justify-content: flex-end;
+}
+
+.assistant-bubble .msg-actions {
+  justify-content: flex-start;
+}
+
+.msg-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 22px;
+  min-width: 22px;
+  padding: 0 4px;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.7rem;
+  transition: color 0.15s, background 0.15s;
+}
+
+.user-bubble .msg-action-btn {
+  color: rgba(255,255,255,0.6);
+}
+
+.user-bubble .msg-action-btn:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.15);
+}
+
+.assistant-bubble .msg-action-btn {
+  color: var(--text-tertiary);
+}
+
+.assistant-bubble .msg-action-btn:hover {
+  color: var(--text-primary);
+  background: var(--accent-muted);
+}
+
+.msg-copy-btn.copied {
+  color: var(--green) !important;
+}
+
+.edit-count {
+  font-size: 0.6rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.edit-limit {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.4);
+  padding: 0 4px;
+  height: 22px;
+}
+
+/* ─── Edit Mode ──────────────────────────────────────────────────────────── */
+
+.chat-bubble.editing {
+  background: var(--input-bg) !important;
+  border: 1px solid var(--accent) !important;
+  color: var(--text-primary) !important;
+  padding: 0.6rem 0.75rem;
+}
+
+.msg-edit-textarea {
+  width: 100%;
+  min-height: 64px;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: vertical;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.93rem;
+  line-height: 1.55;
+  padding: 0;
+}
+
+.msg-edit-controls {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  justify-content: flex-end;
+}
+
+.btn-cancel-edit {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.btn-cancel-edit:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+.btn-rerun {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+}
+
+.btn-rerun:hover {
+  background: var(--accent-hover);
+}
+
+/* ─── Print Transcript ───────────────────────────────────────────────────── */
+
+@media print {
+  .sidebar,
+  .sidebar-overlay,
+  .site-header,
+  .chat-input-area,
+  .site-footer,
+  .msg-actions,
+  .sources-toggle,
+  .bubble-meta,
+  #suggestion-chips {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  .app-layout {
+    display: block !important;
+  }
+
+  .chat-main {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .chat-messages {
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: 1rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .chat-bubble {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    max-width: 82% !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .user-bubble {
+    background: #f0f0f0 !important;
+    color: #111 !important;
+    align-self: flex-end !important;
+  }
+
+  .assistant-bubble {
+    background: #fff !important;
+    color: #111 !important;
+    border: 1px solid #ddd !important;
+    align-self: flex-start !important;
+  }
+
+  .bubble-text * {
+    color: #111 !important;
+  }
+}
