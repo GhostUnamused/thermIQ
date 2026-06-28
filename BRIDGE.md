@@ -92,6 +92,95 @@ Committed `scripts/graph_ontology.py` (unmodified, Cowork's), `scripts/extract_b
 
 ---
 
+### [DONE] task-028 | 2026-06-29T00:00:00Z
+**From:** Cowork
+**Task:** Install neo4j driver, load boiler graph into Neo4j Aura, run hero traversal, paste output here
+**Files written by Cowork (DO NOT re-edit):**
+- `scripts/load_graph_neo4j.py` — reads `data/graph_slices/boiler_slice.json`, MERGEs all 36 nodes + 60 edges into Neo4j Aura
+- `scripts/hero_traversal.py` — runs the 3-step demo Cypher query (waterwall → gap → outages → ₹ → regulation)
+
+**CC must do:**
+
+1. **Install neo4j driver** into the project venv:
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+.venv\Scripts\pip install neo4j --quiet
+```
+(python-dotenv should already be installed; if not, add it to the command)
+
+2. **Run the loader** (reads NEO4J_URI / NEO4J_USERNAME / NEO4J_PASSWORD from .env):
+```bash
+.venv\Scripts\python scripts/load_graph_neo4j.py
+```
+Expected output: 36 lines of `✓ Equipment/FailureMode/etc  <node_id>` then 60 lines of `✓ (from) --[EDGE]--> (to)`, ending with "Graph loaded: 36 nodes · 60 edges".
+If it fails with "Cannot connect", check that .env has all 4 NEO4J_* keys.
+
+3. **Run the hero traversal**:
+```bash
+.venv\Scripts\python scripts/hero_traversal.py
+```
+Expected: 3 sections (STEP 1 gap traversal / STEP 2 outage table / STEP 3 regulations) plus the final "DEMO ANSWER" block.
+Paste the **full terminal output** into the CC summary below.
+
+4. **Delete the plaintext credentials file** (security hygiene — creds are safely in .env):
+```bash
+del "Neo4j-de815806-Created-2026-06-28.txt"
+```
+
+5. **Commit the two new scripts only**:
+```bash
+git add scripts/load_graph_neo4j.py scripts/hero_traversal.py
+git commit -m "feat: Neo4j loader + hero traversal for boiler knowledge graph"
+git push origin main
+```
+Do NOT `git add -A`.
+
+**Notes:**
+- NEO4J_DATABASE in .env is `de815806` (matches the Aura instance ID — this is correct for Aura Free tier)
+- The loader is idempotent: if a node already exists, MERGE updates its properties instead of duplicating it
+- If neo4j driver throws SSL errors on Aura, that is unusual — Aura URIs start with `neo4j+s://` which enables TLS automatically
+- Do NOT put the password in this file or in any committed script — it's already in .env
+
+**CC summary:** Installed `neo4j` + `python-dotenv` in the project venv. Connected to Aura instance `de815806` (`neo4j+s://de815806.databases.neo4j.io`) — all 4 NEO4J_* keys were already in `.env`.
+
+Ran `load_graph_neo4j.py`: created 5 uniqueness constraints, loaded all 36 nodes (6 Equipment, 4 FailureMode, 5 Procedure, 3 Regulation, 18 OutageEvent) and all 60 edges with no errors. One harmless snag: the script's `✓` characters crashed on Windows' default `cp1252` console encoding (`UnicodeEncodeError`) — not a code bug, just a console codepage issue. Re-ran with `PYTHONIOENCODING=utf-8` set and it printed cleanly; did not touch the script per the "DO NOT re-edit" note.
+
+Ran `hero_traversal.py` — full output below:
+
+```
+STEP 1 — Equipment -> Failure Mode -> Procedure Gap
+  Equipment    : Waterwall (furnace membrane tubes)
+  Failure Mode : Waterwall Tube Wall Thinning
+  Procedure    : Waterwall Inspection Procedure (NDT / RFET / UT Thickness)
+  Status       : PARTIAL  (gap_id: boiler_waterwall_inspection)
+  Criticality  : 5/5
+  GAP CONFIRMED — RFET technique mentioned, but NO condemning thickness limit
+  or decision criteria found in any document. Operators rely on verbal
+  rule-of-thumb (25% thickness).
+
+STEP 2 — Real Outage Events (Boiler Tube Failure, National)
+  Top events: MUNDRA UMTPP U2 (Rs 25.92 Cr), BARH STPS U1 (Rs 21.38 Cr),
+  JAWAHARPUR STPP U2 (Rs 21.38 Cr), SHREE SINGAJI TPP U4 (Rs 21.38 Cr),
+  BELLARY TPS U1 (Rs 16.20 Cr), + 13 more.
+  Total events: 18 | Total Rs at risk: Rs 211.85 Cr
+
+STEP 3 — Regulations That Mandate This Procedure
+  - CEA Standard Technical Specification 500MW — Boiler Sections
+  - Indian Boiler Regulations (IBR) — Pressure Parts
+
+DEMO ANSWER:
+  Waterwall unit has a PARTIAL knowledge gap (criticality 5/5). RFET technique
+  is documented in CEA/NTPC specs, but no condemning thickness limit exists —
+  operators use an informal 25% rule. Nationally, boiler tube failures caused
+  18 forced outages in 30 days, costing ~Rs 211.85 Cr. Mandating regulation:
+  IBR + CEA STS 500MW. Recommended action: formalize condemning thickness
+  limits into a plant-level SOP referencing IBR + CEA STS 500MW clause 2.2.x.
+```
+
+Deleted `Neo4j-de815806-Created-2026-06-28.txt` (plaintext creds — already safely in `.env`). Committed `scripts/load_graph_neo4j.py` + `scripts/hero_traversal.py` only (`git add -A` avoided per task note); credentials file deletion isn't separately trackable in git since it was untracked.
+
+---
+
 ### [DONE] task-024 | 2026-06-28T01:00:00Z
 **From:** Cowork
 **Task:** Fix model quality — Gemini key rotation + better OpenRouter cascade (deepseek-r1 + longer timeouts)
