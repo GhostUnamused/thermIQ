@@ -42,21 +42,35 @@ function getFirebaseApp() {
 }
 
 // ─── LLM model lists ───────────────────────────────────────────────────────────
-// Gemini cascade: each has its own rate-limit quota — exhausting 2.5 doesn't
-// block 2.0 or 1.5. All three support function calling identically.
+// Gemini cascade — model × key matrix.
+// GEMINI_API_KEY  = primary key   (env var, always set)
+// GEMINI_API_KEY2 = secondary key (optional; if set, doubles the daily free quota)
+// GEMINI_API_KEY3 = tertiary key  (optional; triples quota)
+// All three keys try gemini-2.5-flash first, then 2.0-flash, then 2.0-flash-lite.
+// Having 3 keys gives ~60 quality responses/day on the free tier.
 const GEMINI_MODELS = [
   'gemini-2.5-flash',
   'gemini-2.0-flash',
   'gemini-2.0-flash-lite',
 ];
 
-// OpenRouter free-tier cascade. Tried in order; moves to next on any error or timeout.
-// llama-3.3-70b is best quality but gets overloaded. gemini-2.0-flash-exp:free goes
-// through Google's own serving via OR routing (different quota from direct Gemini).
-// mistral-7b is the reliable last resort — smaller but almost always available.
+function getGeminiKeys() {
+  const keys = [
+    process.env.GEMINI_API_KEY,
+    process.env.GEMINI_API_KEY2,
+    process.env.GEMINI_API_KEY3,
+  ].filter(Boolean);
+  return keys.length ? keys : [process.env.GEMINI_API_KEY];
+}
+
+// OpenRouter free-tier cascade.
+// - llama-3.3-70b is strong (70B) but slow — bumped timeout to 18s to let it finish
+// - deepseek/deepseek-r1:free is a reasoning model, very good for analysis questions
+// - nemotron-nano-9b is the last resort (small but reliable)
+// gpt-oss-120b:free removed — that model doesn't exist on OR and always 404s
 const OPENROUTER_MODELS = [
   'meta-llama/llama-3.3-70b-instruct:free',
-  'openai/gpt-oss-120b:free',
+  'deepseek/deepseek-r1:free',
   'nvidia/nemotron-nano-9b-v2:free',
 ];
 
@@ -361,8 +375,8 @@ function formatHistoryForGemini(history) {
   return clean;
 }
 
-async function runGeminiAgentic(modelName, query, clientName, db, history = []) {
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+async function runGeminiAgentic(modelName, query, clientName, db, history = [], apiKey = null) {
+  const genAI = new GoogleGenerativeAI(apiKey || process.env.GEMINI_API_KEY);
   const model = genAI.getGenerativeModel({
     model:            modelName,
     systemInstruction: SYSTEM_PROMPT,
@@ -399,34 +413,80 @@ async function runGeminiAgentic(modelName, query, clientName, db, history = []) 
   return { answer, toolsUsed, model: modelName };
 }
 
-// ─── OpenRouter fallback (non-agentic, direct context injection) ───────────────
-// Injects the risk registry + knowledge base directly into the prompt.
-// Tries each free model in OPENROUTER_MODELS until one succeeds.
-async function runOpenRouterFallback(query, clientName, db, history = []) {
-  // Gather context in parallel
+// ─── Shared context builder (used by NIM and OpenRouter) ──────────────────────
+async function buildFallbackContext(query, clientName, db) {
   const [embedding, registry] = await Promise.all([
     embedQuery(query),
     toolGetRiskRegistry({ client_name: clientName || 'ntpc' }, db),
   ]);
-
   const qdrant = new QdrantClient({ url: process.env.QDRANT_URL, apiKey: process.env.QDRANT_API_KEY, timeout: 8000 });
   const [bm, cl] = await Promise.all([
-    withTimeout(qdrant.search('thermiq_chunks', { vector: embedding, filter: { must: [{ key: 'source_type', match: { value: 'benchmark' } }] }, limit: 3, with_payload: true }), DEFAULT_TIMEOUT_MS, 'qdrant benchmark search'),
-    withTimeout(qdrant.search('thermiq_chunks', { vector: embedding, filter: { must: [{ key: 'source_type', match: { value: 'client'    } }] }, limit: 3, with_payload: true }), DEFAULT_TIMEOUT_MS, 'qdrant client search'),
+    withTimeout(qdrant.search('thermiq_chunks', { vector: embedding, filter: { must: [{ key: 'source_type', match: { value: 'benchmark' } }] }, limit: 3, with_payload: true }), DEFAULT_TIMEOUT_MS, 'qdrant benchmark'),
+    withTimeout(qdrant.search('thermiq_chunks', { vector: embedding, filter: { must: [{ key: 'source_type', match: { value: 'client'    } }] }, limit: 3, with_payload: true }), DEFAULT_TIMEOUT_MS, 'qdrant client'),
   ]);
-
   const docContext = [...bm, ...cl].map(h => {
     const p   = h.payload || {};
     const tag = p.source_type === 'benchmark' ? `[Benchmark: ${p.source_doc}]` : `[Client: ${p.source_doc}]`;
     return `${tag} — ${p.section || ''}\n${(p.text || '').slice(0, 500)}`;
   }).join('\n\n---\n\n');
-
-  // Keep user content concise — free models have small effective context windows
   const userContent =
     `Question: ${query}\n\n` +
     `--- RISK REGISTRY (live data) ---\n${registry.slice(0, 2500)}\n\n` +
     `--- KNOWLEDGE BASE (top matches) ---\n${docContext.slice(0, 2000)}\n\n` +
     `Answer the question using the above data and your knowledge of Indian thermal power plants.`;
+  return userContent;
+}
+
+// ─── NVIDIA NIM fallback (non-agentic, OpenAI-compatible) ─────────────────────
+// meta/llama-3.3-70b-instruct via NIM — ~1000 free credits/month, high quality
+async function runNIMFallback(query, clientName, db, history = []) {
+  if (!process.env.NIM_API_KEY) throw new Error('NIM_API_KEY not configured');
+
+  const userContent = await buildFallbackContext(query, clientName, db);
+
+  const controller = new AbortController();
+  const nimTimeout = setTimeout(() => controller.abort(), 20000); // 70B needs up to 20s
+
+  const r = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      Authorization:  `Bearer ${process.env.NIM_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      model: 'meta/llama-3.3-70b-instruct',
+      messages: [
+        { role: 'system', content: FALLBACK_SYSTEM_PROMPT },
+        ...( (history || []).slice(-6).map(m => ({
+          role:    m.role === 'assistant' ? 'assistant' : 'user',
+          content: String(m.content || ''),
+        })) ),
+        { role: 'user', content: userContent },
+      ],
+      temperature: 0.3,
+      top_p:       0.7,
+      max_tokens:  2500,
+      stream:      false,
+    }),
+    signal: controller.signal,
+  });
+  clearTimeout(nimTimeout);
+
+  if (!r.ok) {
+    const err = await r.text().catch(() => String(r.status));
+    throw new Error(`NIM HTTP ${r.status}: ${err}`);
+  }
+  const data = await r.json();
+  const text = data?.choices?.[0]?.message?.content;
+  if (!text) throw new Error('NIM returned empty content');
+  return { answer: text, model: 'meta/llama-3.3-70b-instruct (NIM)', toolsUsed: ['search_knowledge_base', 'get_risk_registry'] };
+}
+
+// ─── OpenRouter fallback (non-agentic, direct context injection) ───────────────
+// Injects the risk registry + knowledge base directly into the prompt.
+// Tries each free model in OPENROUTER_MODELS until one succeeds.
+async function runOpenRouterFallback(query, clientName, db, history = []) {
+  const userContent = await buildFallbackContext(query, clientName, db);
 
   if (!process.env.OPENROUTER_API_KEY) {
     throw new Error('OPENROUTER_API_KEY not configured');
@@ -435,7 +495,8 @@ async function runOpenRouterFallback(query, clientName, db, history = []) {
   for (const orModel of OPENROUTER_MODELS) {
     try {
       const controller = new AbortController();
-      const timeout    = setTimeout(() => controller.abort(), 8000); // 8s per model — must stay under Vercel's 60s hard cap across 3 Gemini + 3 OpenRouter attempts
+      const orTimeout  = orModel.includes('llama') || orModel.includes('deepseek') ? 18000 : 8000;
+      const timeout    = setTimeout(() => controller.abort(), orTimeout); // longer timeout for big models (llama-70B, deepseek-r1 need 12-18s)
 
       const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method:  'POST',
@@ -501,24 +562,44 @@ module.exports = async (req, res) => {
 
     const db = getFirestore(getFirebaseApp());
 
-    // ── Gemini cascade: 2.5-flash → 2.0-flash → 1.5-flash ───────────────────
+    // ── Gemini cascade: model × key matrix ──────────────────────────────────
+    // Try each model with each API key before giving up on Gemini entirely.
+    // Order: 2.5-flash/key1 → 2.5-flash/key2 → 2.5-flash/key3 → 2.0-flash/key1 → …
+    // This maximises the chance of hitting a key that still has daily quota.
+    const geminiKeys = getGeminiKeys();
     for (const geminiModel of GEMINI_MODELS) {
-      try {
-        const result = await runGeminiAgentic(geminiModel, query, client, db, history);
-        return res.status(200).json({
-          answer:     result.answer,
-          tools_used: result.toolsUsed,
-          model_used: result.model,
-        });
-      } catch (err) {
-        if (!isThrottleError(err)) throw err; // real error — stop trying Gemini
-        console.warn(`[query] ${geminiModel} throttled (${err.message}), trying next...`);
-        await new Promise(r => setTimeout(r, 300)); // brief pause before next Gemini model
+      for (const apiKey of geminiKeys) {
+        try {
+          const result = await runGeminiAgentic(geminiModel, query, client, db, history, apiKey);
+          return res.status(200).json({
+            answer:     result.answer,
+            tools_used: result.toolsUsed,
+            model_used: result.model,
+          });
+        } catch (err) {
+          if (!isThrottleError(err)) throw err; // real error — stop trying Gemini
+          console.warn(`[query] ${geminiModel} key …${apiKey.slice(-4)} throttled (${err.message})`);
+          await new Promise(r => setTimeout(r, 200));
+        }
       }
     }
 
-    // ── OpenRouter fallback (all Gemini models throttled) ─────────────────────
-    console.log('[query] All Gemini models throttled — falling back to OpenRouter');
+    // ── NIM fallback (Gemini quota exhausted) ────────────────────────────────
+    // meta/llama-3.3-70b-instruct via NVIDIA NIM — high quality, ~1000 free credits/month
+    console.log('[query] All Gemini models throttled — trying NIM (llama-3.3-70b)');
+    try {
+      const nimResult = await runNIMFallback(query, client, db, history);
+      return res.status(200).json({
+        answer:     nimResult.answer,
+        tools_used: nimResult.toolsUsed,
+        model_used: nimResult.model,
+      });
+    } catch (nimErr) {
+      console.warn(`[query] NIM failed (${nimErr.message}), falling back to OpenRouter`);
+    }
+
+    // ── OpenRouter fallback (NIM also failed) ────────────────────────────────
+    console.log('[query] NIM failed — falling back to OpenRouter free tier');
     const result = await runOpenRouterFallback(query, client, db, history);
     return res.status(200).json({
       answer:     result.answer,
