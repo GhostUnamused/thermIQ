@@ -8,6 +8,54 @@
 
 ## Queue
 
+### [DONE] task-023 | 2026-06-28T00:00:00Z
+**From:** Cowork
+**Task:** Proper multi-turn chat — pass conversation history to backend + cycling typing indicator
+
+**Files changed by Cowork (DO NOT re-edit):**
+- `api/query.js` — added `formatHistoryForGemini()` helper; `runGeminiAgentic` now accepts `history` arg and passes it to `model.startChat({ history: geminiHistory })`; `runOpenRouterFallback` prepends last 6 history messages before the userContent turn; main handler extracts `history` from request body and passes it through both cascade paths
+- `docs/app.js` — `submit()` now builds `history` (last 6 messages before the new user turn) and sends it in the POST body; `addTypingIndicator()` now shows cycling status text ("Searching knowledge base… → Consulting risk registry… → Analyzing plant data… → Composing answer…") and stores the interval on `div._typingInterval`; `finally` block clears the interval before removing the indicator
+- `docs/style.css` — added `.typing-status` rule (small italic, `--text-tertiary` colour)
+
+**CC must do:**
+1. Commit and push:
+```bash
+git add api/query.js docs/app.js docs/style.css
+git commit -m "feat: multi-turn chat — send conversation history to backend + cycling typing indicator"
+git push origin main
+```
+2. After Vercel deploys (~60 sec), run a quick multi-turn smoke test:
+```bash
+# Turn 1 — ask a question
+curl -s -X POST https://therm-iq.vercel.app/api/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"what is the biggest risk gap for ntpc?","client":"ntpc","history":[]}' \
+  | python -m json.tool | grep '"answer"' | head -c 200
+
+# Turn 2 — follow-up that requires context
+curl -s -X POST https://therm-iq.vercel.app/api/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"same question","client":"ntpc","history":[{"role":"user","content":"what is the biggest risk gap for ntpc?"},{"role":"assistant","content":"The biggest gap is boiler_tube_failure_sop at Rs 54.6 Cr"}]}' \
+  | python -m json.tool | grep '"answer"' | head -c 200
+```
+Turn 2 should reference boiler tube failure or repeat/expand the prior answer — NOT say "I don't have a previous question".
+
+**Notes:**
+- `formatHistoryForGemini` trims any trailing user turn from history (Gemini requires history to end on a model turn). This is defensive — the caller already excludes the current query from history.
+- History is capped at last 6 messages (3 exchanges) both in the frontend and in the backend handler. This keeps token usage bounded.
+- No streaming yet — that's a separate, larger task. The cycling indicator buys UX breathing room for the current 25-35s response times.
+- Do NOT `git add -A` — the data/chunks tree has 900+ uncommitted files.
+
+**CC summary:** Verified the diff matched Cowork's description exactly (`api/query.js` +56/-15: `formatHistoryForGemini()`, `history` threading through both the Gemini and OpenRouter cascade paths; `docs/app.js` +34/-3: history building in `submit()`, cycling typing-indicator text with interval cleanup; `docs/style.css` +8: `.typing-status` rule). `node --check api/query.js` passed. Committed and pushed (`0eb1793`) — did not `git add -A` per the task's note.
+
+Ran the smoke test against live Vercel after deploy:
+- **Turn 1** (`history:[]`) → HTTP 200, 39.5s. Answer: biggest gap is Turbine Vibration Response, ₹42.4 Cr (current live data — differs from the task's example boiler_tube_failure_sop/₹54.6 Cr, which was from an older risk-registry snapshot; not a bug, just stale example numbers in the task text).
+- **Turn 2** (`query:"same question"`, history seeded with turn 1's real answer) → HTTP 200, 18.9s. Answer: "The biggest risk gap for NTPC **remains** Turbine Vibration Response at ₹42.4 Cr" — correctly used conversation history instead of treating "same question" as context-free. Confirms multi-turn context is working end-to-end.
+
+Did not visually verify the cycling typing-indicator text in a browser (no browser tool in this session) — confirmed only via source inspection that `addTypingIndicator()`/`_typingInterval` logic is present and `finally` clears the interval.
+
+---
+
 ### [DONE] task-022 | 2026-06-27T13:00:00Z
 **From:** Cowork
 **Task:** Deploy agentic RAG v2.1 — robust LLM cascade with fixed OpenRouter fallback.
