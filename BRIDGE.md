@@ -8,6 +8,90 @@
 
 ## Queue
 
+### [DONE] task-027 | 2026-06-28T00:00:00Z
+**From:** Cowork
+**Task:** Phase 1 — Run Boiler graph extraction harness and commit outputs for human spot-check gate
+
+**Files written by Cowork (DO NOT re-edit):**
+- `scripts/graph_ontology.py` — canonical node IDs, alias lists, edge types for Boiler family
+- `scripts/extract_boiler_graph.py` — extraction harness (Qdrant → Gemini → graph JSON + review MD)
+
+**CC must do:**
+
+1. **Install any missing deps** (in project venv):
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+.venv\Scripts\pip install google-generativeai qdrant-client firebase-admin requests python-dotenv --quiet
+```
+
+2. **First, do a dry run** to confirm the pipeline wiring is correct (no API calls):
+```bash
+.venv\Scripts\python scripts/extract_boiler_graph.py --dry-run
+```
+Expected: prints gap summary ending in "Done. Share boiler_review.md with YC."
+Two files written: `data/graph_slices/boiler_slice.json` and `data/graph_slices/boiler_review.md`
+If dry run fails, fix the error before proceeding to live run.
+
+3. **Live run** (uses real Qdrant + Firestore + Gemini):
+```bash
+.venv\Scripts\python scripts/extract_boiler_graph.py
+```
+This takes ~3–5 minutes (Gemini rate limits). Expected terminal output:
+- `[1/4]` pulling chunks from Qdrant → shows similarity scores per procedure
+- `[2/4]` pulling Boiler outage events → shows count + total ₹ Cr
+- `[3/4]` classifying via Gemini → one status (EXISTS/PARTIAL/ABSENT) per procedure
+- `[4/4]` building graph → node/edge counts
+- Gap summary with 🔴/⚠️/✅ per procedure
+
+If Gemini quota is exhausted on all 3 keys (3 × 429 immediately), note it in CC summary
+and commit the dry-run outputs instead — YC can still see the pipeline structure.
+
+4. **Commit outputs only** (not the whole tree — there are 900+ uncommitted data files):
+```bash
+git add scripts/graph_ontology.py scripts/extract_boiler_graph.py \
+        data/graph_slices/boiler_slice.json data/graph_slices/boiler_review.md
+git commit -m "feat: Phase 1 — Boiler graph extraction harness + first slice output"
+git push origin main
+```
+
+5. **Print the gap summary** from the terminal output into your CC summary so Cowork
+   can see the results without reading the file directly.
+
+**Notes:**
+- `data/graph_slices/` will be created by the script if it doesn't exist.
+- Do NOT `git add -A` — the data/chunks tree has 900+ uncommitted files.
+- If a procedure scores PARTIAL on the waterwall inspection (expected — BMD-32 covers
+  RFET scanning but has no condemning thickness criteria), that IS the right answer.
+  The PARTIAL waterwall inspection + ABSENT condemning limit is the demo gap story.
+- The `--dry-run` flag is safe to run multiple times; the live run consumes Gemini quota.
+
+**CC summary:** Dry run passed immediately (synthetic data, waterwall correctly shows PARTIAL). The first live run completed without crashing but found two real bugs blocking it: `qdrant.search()` doesn't exist in the installed `qdrant-client` 1.18 (renamed `query_points`), and Firestore's Python SDK uses `doc.to_dict()` not `doc.data()`. Fixed both — neither was a design choice, just version-mismatch bugs.
+
+With those fixed, the live run completed but returned **ABSENT for all 5 procedures**, including waterwall — contradicting this task's own note that waterwall should score PARTIAL. Root cause: `get_gemini_model()` only probes for a working key **once at startup** and then locks onto it for the entire run with no further fallback; that single key ran out of quota partway through classification, and every failed call silently fell through to the function's `ABSENT` default with no real classification happening. Flagged this to the user instead of committing it — got direction to fix and retry rather than ship degraded data.
+
+Fixed in order, re-running live after each:
+1. **Per-call Gemini key rotation** — `classify_procedure` now rotates across all 3 keys (`GEMINI_API_KEY/2/3`) on every quota/429 error instead of being stuck on one. Confirmed working (logs showed it actually switching keys), but the combined quota of all 3 free-tier keys still wasn't enough for the full workload (5 procedures × up to 3 chunks × up to 3 retries ≈ up to 45 calls) — by the 3rd procedure all 3 keys were dead and results were still ABSENT-by-default.
+2. **`max_output_tokens` 400 → 1024** — gemini-2.5-flash's hidden "thinking" tokens count against this budget in the deprecated `google-generativeai` SDK, so 400 wasn't enough room for both reasoning and the JSON answer (explained recurring "JSON parse failed" messages even on non-quota calls).
+3. **NIM → OpenRouter fallback cascade** — added `call_nim()` / `call_openrouter()` / `call_llm_fallback_cascade()`, mirroring the cascade already proven in `api/query.js` (task-024). Once `GeminiKeyRotator.exhausted` flips true, `classify_procedure` now falls through to NIM (`meta/llama-3.3-70b-instruct`) then OpenRouter free models instead of giving up.
+
+**Final live run — real results, no more quota-driven false negatives:**
+```
+🔴 [5/5] Emergency Response SOP: Boiler Tube Failure: ABSENT ← GAP
+⚠️ [5/5] Waterwall Inspection Procedure (NDT / RFET / UT Thickness): PARTIAL ← GAP
+⚠️ [5/5] Emergency Response SOP: Flame Failure / MFT: PARTIAL ← GAP
+⚠️ [4/5] Superheater / Reheater Tube Maintenance Procedure: PARTIAL ← GAP
+🔴 [4/5] Boiler Cold / Hot / Warm Startup Procedure: ABSENT ← GAP
+```
+Waterwall = PARTIAL with the exact evidence this task predicted — `boiler_review.md` quotes RFET technique for cracks/pitting/manufacturing defects and 100% UT-prior-to-fabrication language, then correctly flags "No numbered inspection steps, acceptance criteria, defect thresholds, or decision points provided." That's the documented gap story working end-to-end via real Gemini/NIM/OpenRouter classification, not a quota-exhaustion artifact.
+
+Graph: 36 nodes · 60 edges · 5 confirmed gaps. 18 real Boiler outage events from CEA data, ₹211.8 Cr total impact.
+
+**Minor flag (not blocking):** the review.md shows `Found in: unknown` for each PARTIAL item's source — the chunk payload's `source_name`/`doc_name`/`filename` fields were empty for these particular Qdrant points, so it fell through to the `"unknown"` default in `pull_boiler_chunks()`. Doesn't affect the classification logic, just citation display; worth a follow-up if source attribution matters for the demo.
+
+Committed `scripts/graph_ontology.py` (unmodified, Cowork's), `scripts/extract_boiler_graph.py` (with the 4 fixes above), `data/graph_slices/boiler_slice.json`, `data/graph_slices/boiler_review.md` — did not `git add -A` (commit `67a3b0b`, pushed to `main`).
+
+---
+
 ### [DONE] task-024 | 2026-06-28T01:00:00Z
 **From:** Cowork
 **Task:** Fix model quality — Gemini key rotation + better OpenRouter cascade (deepseek-r1 + longer timeouts)
