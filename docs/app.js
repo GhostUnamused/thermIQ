@@ -245,9 +245,25 @@ function addTypingIndicator() {
   if (!messagesEl) return null;
   const div = document.createElement('div');
   div.className = 'chat-bubble assistant-bubble typing-bubble';
-  div.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>';
+  div.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>'
+    + '<span class="typing-status">Searching knowledge base…</span>';
   messagesEl.appendChild(div);
   messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  // Cycle through stages so the user knows it's still working
+  const stages = [
+    'Searching knowledge base…',
+    'Consulting risk registry…',
+    'Analyzing plant data…',
+    'Composing answer…',
+  ];
+  let stageIdx = 0;
+  const statusEl = div.querySelector('.typing-status');
+  div._typingInterval = setInterval(() => {
+    stageIdx = (stageIdx + 1) % stages.length;
+    if (statusEl) statusEl.textContent = stages[stageIdx];
+  }, 7000);
+
   return div;
 }
 
@@ -454,10 +470,19 @@ function initQueryCopilot() {
     try {
       const clientSelect = document.getElementById('client-select');
       const client = clientSelect ? clientSelect.value : '';
+
+      // Send the last 3 exchanges (6 messages) as conversation history so the
+      // model can resolve follow-ups like "same question" or "explain the first".
+      // We already pushed the new user message, so slice(-1) excludes it.
+      const history = chat.messages.slice(0, -1).slice(-6).map(m => ({
+        role:    m.role,
+        content: m.content || '',
+      }));
+
       const res = await fetch(`${BACKEND}/api/query`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query, client }),
+        body: JSON.stringify({ query, client, history }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
@@ -478,7 +503,10 @@ function initQueryCopilot() {
       });
     } finally {
       chat.updatedAt = Date.now();
-      if (typing) typing.remove();
+      if (typing) {
+        if (typing._typingInterval) clearInterval(typing._typingInterval);
+        typing.remove();
+      }
       sendBtn.disabled = false;
       saveStore(store);
       renderMessages(chat.messages);

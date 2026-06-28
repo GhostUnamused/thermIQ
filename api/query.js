@@ -333,7 +333,27 @@ function isThrottleError(err) {
 // attempt so a slow/hung call can't eat the whole request on its own.
 const GEMINI_MODEL_TIMEOUT_MS = 10000;
 
-async function runGeminiAgentic(modelName, query, clientName, db) {
+// Format frontend history ({ role: 'user'|'assistant', content }) for Gemini's
+// startChat history format ({ role: 'user'|'model', parts: [{ text }] }).
+// Gemini requires the history to alternate user/model and END on model — drop the
+// trailing user turn (the current query) if it slipped in, and skip any entries
+// that don't have content (e.g. empty assistant messages during errors).
+function formatHistoryForGemini(history) {
+  const clean = (history || [])
+    .filter(m => (m.role === 'user' || m.role === 'assistant') && m.content && m.content.trim())
+    .map(m => ({
+      role:  m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: String(m.content) }],
+    }));
+  // Gemini rejects history that ends on a user turn — trim it.
+  // (The caller already excludes the new query from history, but be defensive.)
+  while (clean.length > 0 && clean[clean.length - 1].role === 'user') {
+    clean.pop();
+  }
+  return clean;
+}
+
+async function runGeminiAgentic(modelName, query, clientName, db, history = []) {
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   const model = genAI.getGenerativeModel({
     model:            modelName,
@@ -341,7 +361,11 @@ async function runGeminiAgentic(modelName, query, clientName, db) {
     generationConfig: { temperature: 0.3, maxOutputTokens: 2048 },
   });
 
-  const chat  = model.startChat({ tools: [{ functionDeclarations: TOOL_DEFINITIONS }] });
+  const geminiHistory = formatHistoryForGemini(history);
+  const chat  = model.startChat({
+    tools:   [{ functionDeclarations: TOOL_DEFINITIONS }],
+    history: geminiHistory,
+  });
   const turn1 = await withTimeout(chat.sendMessage(query), GEMINI_MODEL_TIMEOUT_MS, modelName);
   const parts1 = turn1.response.candidates[0].content.parts;
   const calls  = parts1.filter(p => p.functionCall);
@@ -370,7 +394,7 @@ async function runGeminiAgentic(modelName, query, clientName, db) {
 // ─── OpenRouter fallback (non-agentic, direct context injection) ───────────────
 // Injects the risk registry + knowledge base directly into the prompt.
 // Tries each free model in OPENROUTER_MODELS until one succeeds.
-async function runOpenRouterFallback(query, clientName, db) {
+async function runOpenRouterFallback(query, clientName, db, history = []) {
   // Gather context in parallel
   const [embedding, registry] = await Promise.all([
     embedQuery(query),
@@ -414,10 +438,16 @@ async function runOpenRouterFallback(query, clientName, db) {
           'X-Title':      'ThermIQ',
         },
         body: JSON.stringify({
-          model:      orModel,
-          messages:   [
-            { role: 'system', content: FALLBACK_SYSTEM_PROMPT },  // proper system/user split
-            { role: 'user',   content: userContent },
+          model:    orModel,
+          messages: [
+            { role: 'system', content: FALLBACK_SYSTEM_PROMPT },
+            // Conversation history — last 3 exchanges so the model can resolve
+            // follow-up questions like "same question" or "explain the first one"
+            ...( (history || []).slice(-6).map(m => ({
+              role:    m.role === 'assistant' ? 'assistant' : 'user',
+              content: String(m.content || ''),
+            })) ),
+            { role: 'user', content: userContent },
           ],
           max_tokens:  1500,
           temperature: 0.3,
@@ -454,9 +484,11 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   try {
-    const body   = req.body || {};
-    const query  = (body.query || '').trim();
-    const client = (body.client || '').trim().toLowerCase();
+    const body    = req.body || {};
+    const query   = (body.query || '').trim();
+    const client  = (body.client || '').trim().toLowerCase();
+    // history: array of {role:'user'|'assistant', content:string} — prior turns
+    const history = Array.isArray(body.history) ? body.history.slice(-6) : [];
     if (!query) return res.status(400).json({ error: "Missing 'query' field." });
 
     const db = getFirestore(getFirebaseApp());
@@ -464,7 +496,7 @@ module.exports = async (req, res) => {
     // ── Gemini cascade: 2.5-flash → 2.0-flash → 1.5-flash ───────────────────
     for (const geminiModel of GEMINI_MODELS) {
       try {
-        const result = await runGeminiAgentic(geminiModel, query, client, db);
+        const result = await runGeminiAgentic(geminiModel, query, client, db, history);
         return res.status(200).json({
           answer:     result.answer,
           tools_used: result.toolsUsed,
@@ -479,7 +511,7 @@ module.exports = async (req, res) => {
 
     // ── OpenRouter fallback (all Gemini models throttled) ─────────────────────
     console.log('[query] All Gemini models throttled — falling back to OpenRouter');
-    const result = await runOpenRouterFallback(query, client, db);
+    const result = await runOpenRouterFallback(query, client, db, history);
     return res.status(200).json({
       answer:     result.answer,
       tools_used: result.toolsUsed,
