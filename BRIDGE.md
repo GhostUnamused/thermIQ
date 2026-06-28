@@ -103,6 +103,59 @@ Redacted all 3 raw key values from this BRIDGE.md entry (steps 1 and 5) per the 
 
 ---
 
+### [DONE] task-025 | 2026-06-28T20:00:00Z
+**From:** Cowork
+**Task:** Add copy, edit+rerun (max 3), and print transcript to chat UI
+
+**Files changed by Cowork (DO NOT re-edit):**
+- `docs/index.html` — Added print button (`#print-transcript-btn`) to `.header-actions` div, before the theme toggle (printer SVG icon, same `.theme-toggle` class for styling)
+- `docs/app.js`:
+  - `renderMessages(messages, editIdx = null)` — now accepts optional `editIdx` param; renders `.msg-actions` div inside each bubble with copy button (all messages) and edit button (user messages only, max 3 edits — shows `N/3` badge; disables after 3rd with a static limit label); when `editIdx === idx`, renders the user bubble in edit mode (textarea + Rerun/Cancel buttons) instead of normal view
+  - Added module-level `callAPI(query, history, client)` helper — extracted from `submit()`, used by both submit and rerun flows
+  - `submit()` now uses `callAPI()` instead of inline fetch; calls `refresh()` in finally instead of separate `renderMessages` + `renderSidebar`
+  - Added `let activeEditIdx = null;` inside `initQueryCopilot` (tracks which message is in edit mode; cleared on new chat, chat switch)
+  - `refresh()` now passes `activeEditIdx` to `renderMessages`
+  - Event delegation on `#chat-messages` handles: copy (clipboard + 1.5s ✓ visual), enter edit mode, cancel edit, rerun (updates content + editCount, slices messages to current idx, calls `callAPI`, pushes new assistant response)
+  - Print button (`#print-transcript-btn`) handler calls `window.print()` if chat has messages
+- `docs/style.css`:
+  - `.chat-bubble { display: flex; flex-direction: column; }` so action buttons sit naturally below bubble text
+  - `.msg-actions` — flex row, hidden (`opacity: 0; pointer-events: none`), shown on `.chat-bubble:hover`
+  - `.msg-action-btn`, `.user-bubble .msg-action-btn`, `.assistant-bubble .msg-action-btn` — small icon button styles, theme-aware colors
+  - `.msg-copy-btn.copied { color: var(--green) }` — confirmation tick colour
+  - `.edit-count`, `.edit-limit` — badge and limit indicator styles
+  - `.chat-bubble.editing`, `.msg-edit-textarea`, `.msg-edit-controls`, `.btn-rerun`, `.btn-cancel-edit` — edit mode styles
+  - `@media print` — hides sidebar/header/input/footer/actions, forces white background, chat-messages flows as auto-height, bubbles get print-safe colours
+
+**CC must do:**
+1. Commit and push:
+```bash
+git add docs/index.html docs/app.js docs/style.css
+git commit -m "feat: copy messages, edit+rerun (max 3), print transcript"
+git push origin main
+```
+*(Do NOT `git add -A` — 900+ uncommitted data files in the repo)*
+
+2. After GitHub Pages deploys (~60 sec), smoke-test the three features:
+   - **Copy**: hover a bubble, click copy icon, paste somewhere — text should appear
+   - **Edit**: hover a user bubble, click edit icon, change the text, click ↺ Rerun — should re-query and replace the assistant reply; repeat 3 times total and confirm edit button disappears after 3rd
+   - **Print**: click the printer icon in the header, browser print dialog should open showing only the chat bubbles (no sidebar/header/input)
+
+**Notes:**
+- `activeEditIdx` is scoped inside `initQueryCopilot`, not a global — prevents any conflict with dashboard or docs pages
+- Rerun history is built from `chat.messages.slice(0, idx)` (messages before the edited one), so conversation context before the edit is preserved
+- The typing indicator and sendBtn disable/enable work the same as `submit()` during a rerun
+
+**CC summary:** Diff matched Cowork's description exactly (`docs/index.html` +7: print button before theme toggle; `docs/app.js` +174/-13: `callAPI()` helper, `activeEditIdx` state, `renderMessages(messages, editIdx)` edit-mode rendering, event delegation for copy/edit/cancel/rerun/print; `docs/style.css` +213: `.msg-actions`, `.msg-action-btn`, edit-mode styles, `@media print`). `node --check docs/app.js` passed. Committed and pushed (`5b8874b`) — did not `git add -A`, staged only the 3 task files per the task's own note.
+
+Did not have a browser tool in this session, so could not click through copy/edit/rerun/print interactively. Verified via source inspection instead: after GitHub Pages redeployed, fetched the live site directly —
+- `https://ghostunamused.github.io/thermIQ/index.html` → contains `print-transcript-btn` ✓
+- `https://ghostunamused.github.io/thermIQ/app.js` → contains `print-transcript-btn`, `msg-actions`, `activeEditIdx`, `callAPI` ✓
+- `https://ghostunamused.github.io/thermIQ/style.css` → contains `msg-action-btn`, `chat-bubble.editing`, `@media print` ✓
+
+Confirms the deploy is live and serving the new code. Functional click-through (copy-to-clipboard, 3x edit/rerun cycle, print dialog) is unverified — recommend the user spot-checks those three interactions live before a demo.
+
+---
+
 ### [DONE] task-023 | 2026-06-28T00:00:00Z
 **From:** Cowork
 **Task:** Proper multi-turn chat — pass conversation history to backend + cycling typing indicator
