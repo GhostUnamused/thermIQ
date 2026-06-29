@@ -40,7 +40,7 @@ Claude Code handles all of those. They communicate through **`BRIDGE.md`** in th
 
 1. **Cowork** writes tasks to `BRIDGE.md` in the format below and updates this log after making file edits.
 2. **Claude Code** (running inside the Claude desktop app) reads `BRIDGE.md` on startup, finds any `PENDING` tasks, implements them, then updates each task's status to `DONE` or `FAILED` with a note.
-3. Optionally run `scripts/watch_bridge.ps1` in a PowerShell terminal — it watches `BRIDGE.md` and beeps + prompts you to switch to Claude Code when Cowork writes a new task.
+3. To stay live, Claude Code runs `python scripts/watch_bridge.py` — it blocks (stays awake), does nothing until `BRIDGE.md` changes, then prints every `[PENDING]` task and exits. CC implements them, updates status, commits if required, and re-runs the command to wait for the next change.
 4. Both sides append to the log — never delete old entries. Completed tasks stay for audit trail.
 
 ### Claude Code startup checklist
@@ -79,7 +79,7 @@ ET AI Hackathon/
 ├── CLAUDE.md                      ← you are here
 ├── BRIDGE.md                      ← Cowork ↔ CC communication log
 ├── scripts/
-│   └── watch_bridge.ps1           ← run this to auto-watch BRIDGE.md
+│   └── watch_bridge.py            ← CC runs `python scripts/watch_bridge.py` to stay awake on BRIDGE.md
 ├── docs/
 │   ├── index.html                 ← Query Copilot UI
 │   ├── dashboard.html             ← Risk Dashboard UI
