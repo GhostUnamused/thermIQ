@@ -455,6 +455,27 @@ function initQueryCopilot() {
 
   refresh();
 
+  // ── Scroll to bottom button ──
+  const messagesEl = document.getElementById('chat-messages');
+  const scrollBottomBtn = document.getElementById('scroll-bottom-btn');
+  if (messagesEl && scrollBottomBtn) {
+    messagesEl.addEventListener('scroll', () => {
+      const distanceToBottom = messagesEl.scrollHeight - messagesEl.scrollTop - messagesEl.clientHeight;
+      if (distanceToBottom > 150) {
+        scrollBottomBtn.classList.add('visible');
+      } else {
+        scrollBottomBtn.classList.remove('visible');
+      }
+    });
+
+    scrollBottomBtn.addEventListener('click', () => {
+      messagesEl.scrollTo({
+        top: messagesEl.scrollHeight,
+        behavior: 'smooth'
+      });
+    });
+  }
+
   // ── Auto-resize textarea ──
   inputEl.addEventListener('input', () => {
     inputEl.style.height = 'auto';
