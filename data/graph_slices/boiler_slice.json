@@ -69,38 +69,30 @@
       "status": "PARTIAL",
       "criticality": 5,
       "gap_id": "boiler_waterwall_inspection",
-      "evidence_count": 2,
+      "evidence_count": 1,
       "evidence": [
         {
-          "source": "unknown",
+          "source": "NTPC BMD-32 Waterwall RFET Inspection Spec",
           "source_type": "client",
           "similarity_score": 0.5797,
           "status": "PARTIAL",
-          "quote": "1. RFET (Remote Field Electromagnetic Testing) Technique to be used in boilers for the following type of defects: a. Cracks in tubes (external as well as internal) b. Inside pitting c. Manufacturing defects d. Any irregularities inside the tubes",
+          "quote": "Calibration of instruments shall be as per ASME Section V, Article 17. Calibration of the equipment to be done on the calibration block...",
           "key_details": [
-            "RFET technique for cracks, pitting, and manufacturing defects in water wall tubes",
-            "UT confirmation of defects"
+            "Calibration per ASME Section V, Article 17",
+            "Calibration block with notches inside and holes outside",
+            "Sensitivity calibration using new/used tube or reference block",
+            "RFET defect indication to be confirmed by UT for nature and size",
+            "RFET detected defects cross-checked by RT (crack) and visual (pitting)"
           ],
-          "what_is_missing": "No numbered inspection steps, acceptance criteria, defect thresholds, or decision points provided"
-        },
-        {
-          "source": "unknown",
-          "source_type": "benchmark",
-          "similarity_score": 0.5361,
-          "status": "PARTIAL",
-          "quote": "steel ball test and for cleanliness by sponge passage",
-          "key_details": [
-            "100% UT prior to fabrication",
-            "longitudinal calibration notch of depth 5% of wall thickness"
-          ],
-          "what_is_missing": "no specific steps or thresholds for waterwall inspection using NDT/RFET/UT thickness"
+          "what_is_missing": "Specific acceptance/rejection criteria for defects; detailed RFET scanning parameters; comprehensive procedure for UT thickness measurement beyond defect sizing."
         }
       ],
       "key_details": [
-        "RFET technique for cracks, pitting, and manufacturing defects in water wall tubes",
-        "UT confirmation of defects",
-        "100% UT prior to fabrication",
-        "longitudinal calibration notch of depth 5% of wall thickness"
+        "Calibration per ASME Section V, Article 17",
+        "Calibration block with notches inside and holes outside",
+        "Sensitivity calibration using new/used tube or reference block",
+        "RFET defect indication to be confirmed by UT for nature and size",
+        "RFET detected defects cross-checked by RT (crack) and visual (pitting)"
       ],
       "is_gap": true
     },
@@ -111,79 +103,108 @@
       "status": "PARTIAL",
       "criticality": 5,
       "gap_id": "flame_failure_response_sop",
-      "evidence_count": 2,
+      "evidence_count": 3,
       "evidence": [
         {
-          "source": "unknown",
+          "source": "CEA Standard Technical Specification 500MW",
           "source_type": "benchmark",
           "similarity_score": 0.6604,
           "status": "PARTIAL",
-          "quote": "effect a burner trip or master fuel trip",
-          "key_details": [
-            "Prevent any fuel firing unless a satisfactory purge sequence has first been completed",
-            "Provide flame monitoring when fuel-firing equipment is in service"
-          ],
-          "what_is_missing": "no specific steps for emergency response to flame failure or MFT"
+          "quote": "e) Provide flame monitoring when fuel-firing equipment is in service and effect a burner trip or master fuel trip upon warranted firing conditions.",
+          "key_details": [],
+          "what_is_missing": "The passage describes the system's (BMS/MFT) automated response to flame failure and adverse conditions (actuating MFT/burner trip), but it does not provide any specific, actionable steps or procedures for an operator or technician to follow during or after such an event."
         },
         {
-          "source": "unknown",
+          "source": "CEA Standard Technical Specification 500MW",
           "source_type": "benchmark",
           "similarity_score": 0.5402,
           "status": "PARTIAL",
-          "quote": "e) Provide flame monitoring",
-          "key_details": [
-            "flame monitoring when fuel-firing equipment is in service",
-            "effect a burner trip or master fuel trip upon warranted firing conditions"
-          ],
-          "what_is_missing": "no specific steps or thresholds for emergency response to flame failure or MFT"
+          "quote": "e) Provide flame monitoring when fuel-firing equipment is in service and effect a burner trip or master fuel trip upon warranted firing conditions. f) Continually monitor boiler conditions and actuate a master fuel trip (MFT) during adverse operating conditions which could be hazardous to equipment and personnel.",
+          "key_details": [],
+          "what_is_missing": "Specific operator steps for responding to flame failure or master fuel trip (MFT), detailed criteria for 'warranted firing conditions' or 'adverse operating conditions' from an operator's perspective, decision points, or acceptance criteria for emergency response actions."
+        },
+        {
+          "source": "NTPC IPS2025 O&M Conference Compendium",
+          "source_type": "client",
+          "similarity_score": 0.4801,
+          "status": "PARTIAL",
+          "quote": "Strategies have been formulated for addressing the part load ﬂame failure issues.",
+          "key_details": [],
+          "what_is_missing": "Actual step-by-step emergency response procedure for flame failure or MFT, including numbered steps, acceptance criteria, specific thresholds, or decision points for an operator to follow."
         }
       ],
-      "key_details": [
-        "Prevent any fuel firing unless a satisfactory purge sequence has first been completed",
-        "Provide flame monitoring when fuel-firing equipment is in service",
-        "flame monitoring when fuel-firing equipment is in service",
-        "effect a burner trip or master fuel trip upon warranted firing conditions"
-      ],
+      "key_details": [],
       "is_gap": true
     },
     {
       "id": "superheater_maintenance_sop",
       "type": "Procedure",
       "label": "Superheater / Reheater Tube Maintenance Procedure",
-      "status": "PARTIAL",
+      "status": "ABSENT",
       "criticality": 4,
       "gap_id": "superheater_maintenance",
-      "evidence_count": 1,
-      "evidence": [
-        {
-          "source": "unknown",
-          "source_type": "benchmark",
-          "similarity_score": 0.5468,
-          "status": "PARTIAL",
-          "quote": "2.2.2.6...adequate number of chromel-alumel thermocouples for measurement of tube metal temperatures outside the gas path shall also be provided.",
-          "key_details": [
-            "minimum number of thermocouples specified",
-            "placement requirements for thermocouples"
-          ],
-          "what_is_missing": "Actual maintenance steps (e.g., inspection frequency, corrective actions, thresholds for action)"
-        }
-      ],
-      "key_details": [
-        "minimum number of thermocouples specified",
-        "placement requirements for thermocouples"
-      ],
+      "evidence_count": 0,
+      "evidence": [],
+      "key_details": [],
       "is_gap": true
     },
     {
       "id": "boiler_startup_procedure",
       "type": "Procedure",
       "label": "Boiler Cold / Hot / Warm Startup Procedure",
-      "status": "ABSENT",
+      "status": "PARTIAL",
       "criticality": 4,
       "gap_id": "boiler_startup_procedure",
-      "evidence_count": 0,
-      "evidence": [],
-      "key_details": [],
+      "evidence_count": 3,
+      "evidence": [
+        {
+          "source": "CEA Standard Technical Specification 500MW",
+          "source_type": "benchmark",
+          "similarity_score": 0.474,
+          "status": "PARTIAL",
+          "quote": "the steam generator shall also be capable of start up without HP-LP bypass system in service, except in case of hot start-up.",
+          "key_details": [
+            "Capability for start-up without HP-LP bypass (except hot start-up) is required",
+            "HP-LP bypass system provided for smooth start-up",
+            "Design considerations for thermal shock during HP-LP bypass operation (e.g., 140 deg C feedwater)"
+          ],
+          "what_is_missing": "The actual step-by-step procedure for cold, hot, or warm startup, including specific operator actions, setpoints for various stages (e.g., purging, light-off, ramping steam pressure/temperature, synchronization steps)."
+        },
+        {
+          "source": "CEA Standard Technical Specification 500MW",
+          "source_type": "benchmark",
+          "similarity_score": 0.4695,
+          "status": "PARTIAL",
+          "quote": "The unit shall be suitably designed and pr ovided with necessary instrumentation for rapid starting, loading and unloading wit hout causing undue vibration...",
+          "key_details": [],
+          "what_is_missing": "Actual numbered steps, specific thresholds (e.g., temperature ramp rates, pressure hold times), acceptance criteria, or decision points for an operator to follow for cold, hot, or warm boiler startup."
+        },
+        {
+          "source": "CEA Standard Technical Specification 500MW",
+          "source_type": "benchmark",
+          "similarity_score": 0.4685,
+          "status": "PARTIAL",
+          "quote": "The sequence control shall provide safe and automatic startup and shutdown of plant and of plant items associated with a plant group.",
+          "key_details": [
+            "Sequences are used for startup and shutdown, moving from 'OFF' to 'ON'",
+            "Sequences are made of steps executed in predetermined order",
+            "Steps include logic criteria, monitoring time, interlocks, protections, and checkbacks",
+            "Each step has a 'waiting time' before the next can execute",
+            "Commands for unit and group level sequences issued from OWS/TFT/KBD"
+          ],
+          "what_is_missing": "The specific, actionable steps, thresholds, or acceptance criteria for performing a boiler cold/hot/warm startup procedure are not provided. The passage describes the system and principles of sequencing, not the operational steps."
+        }
+      ],
+      "key_details": [
+        "Capability for start-up without HP-LP bypass (except hot start-up) is required",
+        "HP-LP bypass system provided for smooth start-up",
+        "Design considerations for thermal shock during HP-LP bypass operation (e.g., 140 deg C feedwater)",
+        "Sequences are used for startup and shutdown, moving from 'OFF' to 'ON'",
+        "Sequences are made of steps executed in predetermined order",
+        "Steps include logic criteria, monitoring time, interlocks, protections, and checkbacks",
+        "Each step has a 'waiting time' before the next can execute",
+        "Commands for unit and group level sequences issued from OWS/TFT/KBD"
+      ],
       "is_gap": true
     },
     {
@@ -514,21 +535,21 @@
       "from": "superheater_tube_failure",
       "type": "ADDRESSED_BY",
       "to": "superheater_maintenance_sop",
-      "status": "PARTIAL",
+      "status": "ABSENT",
       "is_gap": true
     },
     {
       "from": "boiler_tube_failure",
       "type": "ADDRESSED_BY",
       "to": "boiler_startup_procedure",
-      "status": "ABSENT",
+      "status": "PARTIAL",
       "is_gap": true
     },
     {
       "from": "flame_failure",
       "type": "ADDRESSED_BY",
       "to": "boiler_startup_procedure",
-      "status": "ABSENT",
+      "status": "PARTIAL",
       "is_gap": true
     },
     {
@@ -753,7 +774,7 @@
     }
   ],
   "meta": {
-    "extracted_at": "2026-06-28T19:04:02.774605+00:00",
+    "extracted_at": "2026-06-29T15:57:00.129752+00:00",
     "slice": "Boiler",
     "node_count": 36,
     "edge_count": 60,

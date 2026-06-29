@@ -381,7 +381,7 @@ def classify_procedure(gemini, proc_id, proc, chunks):
                 try:
                     response = gemini.generate_content(
                         prompt,
-                        generation_config={"max_output_tokens": 1024},
+                        generation_config={"max_output_tokens": 2048},
                     )
                     raw = response.text.strip()
                     break  # success
@@ -551,6 +551,23 @@ def build_graph(chunks_by_proc, outages, classifications):
 # STEP 5 — Generate human-readable spot-check report
 # ══════════════════════════════════════════════════════════════════════════════
 
+STATUS_DISPLAY = {
+    "EXISTS": "DOCUMENTED",
+    "PARTIAL": "PARTIALLY DOCUMENTED",
+    "ABSENT": "NOT DOCUMENTED (ABSENT)",
+}
+
+
+def _failure_mode_labels(proc_id):
+    """Look up the plain-English failure-mode label(s) this procedure addresses,
+    so the report can say 'Failure mode: X -> Procedure: Y' instead of
+    printing the procedure label alone next to a status (which reads as if
+    the failure mode itself, not the missing procedure, were absent)."""
+    proc = BOILER_PROCEDURES[proc_id]
+    labels = [BOILER_FAILURE_MODES[fm_id]["label"] for fm_id in proc.get("addresses_failure_modes", [])]
+    return " / ".join(labels) if labels else "—"
+
+
 def generate_review(graph, outages):
     """
     Plain-English markdown report for YC to review.
@@ -595,7 +612,22 @@ def generate_review(graph, outages):
         "",
         "---",
         "",
+        "## Jargon Glossary",
+        "",
+        "A few abbreviations show up below. Quick definitions before you hit them:",
+        "",
+        "- **SOP** = Standard Operating Procedure (written step-by-step instructions)",
+        "- **MFT** = Master Fuel Trip (an automatic safety cutoff of all fuel to the boiler)",
+        "- **RFET** = Remote Field Electromagnetic Testing (a tube-inspection method)",
+        "",
+        "---",
+        "",
         "## Gap Summary",
+        "",
+        "_Each item below separates the **failure mode** (a real physical risk the equipment",
+        "faces) from the **procedure status** (whether a written SOP for handling it actually",
+        "exists in our documents). A 🔴/⚠️ status describes the missing or incomplete",
+        "*procedure* — it does NOT mean the failure mode itself is rare or absent._",
         "",
         "_🔴 = No procedure found anywhere in the document corpus (confirmed gap)_",
         "_⚠️ = Topic mentioned in documents but no actual SOP steps found (partial gap)_",
@@ -614,9 +646,12 @@ def generate_review(graph, outages):
         crit = n.get("criticality", "?")
         emoji = {"EXISTS": "✅", "PARTIAL": "⚠️", "ABSENT": "🔴"}.get(status, "❓")
         is_gap = n.get("is_gap", False)
+        status_display = STATUS_DISPLAY.get(status, status)
+        fm_labels = _failure_mode_labels(n["id"])
 
-        lines.append(f"### {emoji} {n['label']}")
-        lines.append(f"**Criticality:** {crit}/5 · **Status:** {status}"
+        lines.append(f"### {emoji} Failure mode: {fm_labels}")
+        lines.append(f"**Procedure checked:** {n['label']}")
+        lines.append(f"**Criticality:** {crit}/5 · **Procedure status:** {status_display}"
                      + (" · **THIS IS A GAP**" if is_gap else ""))
         lines.append("")
 
@@ -816,7 +851,10 @@ def main():
         status = n.get("status", "ABSENT")
         emoji = {"EXISTS": "✅", "PARTIAL": "⚠️", "ABSENT": "🔴"}.get(status, "❓")
         gap_flag = " ← GAP" if n.get("is_gap") else ""
-        print(f"  {emoji} [{n['criticality']}/5] {n['label']}: {status}{gap_flag}")
+        status_display = STATUS_DISPLAY.get(status, status)
+        fm_labels = _failure_mode_labels(n["id"])
+        print(f"  {emoji} [{n['criticality']}/5] Failure mode: {fm_labels} -> "
+              f"Procedure '{n['label']}': {status_display}{gap_flag}")
 
     print("\nDone. Share boiler_review.md with YC for the spot-check gate.")
 

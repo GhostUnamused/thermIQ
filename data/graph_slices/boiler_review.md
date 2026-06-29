@@ -1,5 +1,5 @@
 # ThermIQ — Boiler Slice Spot-Check
-_Generated 2026-06-28_
+_Generated 2026-06-29_
 
 > **How to use this:** Read through the Gap Summary section.
 > For each 🔴 or ⚠️ item, ask yourself: does it make sense that this document
@@ -33,47 +33,66 @@ connected by 'contains' edges.
 
 ---
 
+## Jargon Glossary
+
+A few abbreviations show up below. Quick definitions before you hit them:
+
+- **SOP** = Standard Operating Procedure (written step-by-step instructions)
+- **MFT** = Master Fuel Trip (an automatic safety cutoff of all fuel to the boiler)
+- **RFET** = Remote Field Electromagnetic Testing (a tube-inspection method)
+
+---
+
 ## Gap Summary
+
+_Each item below separates the **failure mode** (a real physical risk the equipment
+faces) from the **procedure status** (whether a written SOP for handling it actually
+exists in our documents). A 🔴/⚠️ status describes the missing or incomplete
+*procedure* — it does NOT mean the failure mode itself is rare or absent._
 
 _🔴 = No procedure found anywhere in the document corpus (confirmed gap)_
 _⚠️ = Topic mentioned in documents but no actual SOP steps found (partial gap)_
 _✅ = Full procedure found_
 
-### 🔴 Emergency Response SOP: Boiler Tube Failure
-**Criticality:** 5/5 · **Status:** ABSENT · **THIS IS A GAP**
+### 🔴 Failure mode: Boiler Tube Failure / Leakage
+**Procedure checked:** Emergency Response SOP: Boiler Tube Failure
+**Criticality:** 5/5 · **Procedure status:** NOT DOCUMENTED (ABSENT) · **THIS IS A GAP**
 
 _Not found in any document in the corpus._
 
-### ⚠️ Waterwall Inspection Procedure (NDT / RFET / UT Thickness)
-**Criticality:** 5/5 · **Status:** PARTIAL · **THIS IS A GAP**
+### ⚠️ Failure mode: Waterwall Tube Wall Thinning / Boiler Tube Failure / Leakage
+**Procedure checked:** Waterwall Inspection Procedure (NDT / RFET / UT Thickness)
+**Criticality:** 5/5 · **Procedure status:** PARTIALLY DOCUMENTED · **THIS IS A GAP**
 
-**Found in:** unknown
-> *"1. RFET (Remote Field Electromagnetic Testing) Technique to be used in boilers for the following type of defects: a. Cracks in tubes (external as well as internal) b. Inside pitting c. Manufacturing defects d. Any irregularities inside the tubes"*
-> *"steel ball test and for cleanliness by sponge passage"*
-**Specific details extracted:** RFET technique for cracks, pitting, and manufacturing defects in water wall tubes · UT confirmation of defects · 100% UT prior to fabrication · longitudinal calibration notch of depth 5% of wall thickness
-**What's missing from these documents:** No numbered inspection steps, acceptance criteria, defect thresholds, or decision points provided
+**Found in:** NTPC BMD-32 Waterwall RFET Inspection Spec
+> *"Calibration of instruments shall be as per ASME Section V, Article 17. Calibration of the equipment to be done on the calibration block..."*
+**Specific details extracted:** Calibration per ASME Section V, Article 17 · Calibration block with notches inside and holes outside · Sensitivity calibration using new/used tube or reference block · RFET defect indication to be confirmed by UT for nature and size
+**What's missing from these documents:** Specific acceptance/rejection criteria for defects; detailed RFET scanning parameters; comprehensive procedure for UT thickness measurement beyond defect sizing.
 
-### ⚠️ Emergency Response SOP: Flame Failure / MFT
-**Criticality:** 5/5 · **Status:** PARTIAL · **THIS IS A GAP**
+### ⚠️ Failure mode: Flame Failure / Master Fuel Trip (MFT)
+**Procedure checked:** Emergency Response SOP: Flame Failure / MFT
+**Criticality:** 5/5 · **Procedure status:** PARTIALLY DOCUMENTED · **THIS IS A GAP**
 
-**Found in:** unknown
-> *"effect a burner trip or master fuel trip"*
-> *"e) Provide flame monitoring"*
-**Specific details extracted:** Prevent any fuel firing unless a satisfactory purge sequence has first been completed · Provide flame monitoring when fuel-firing equipment is in service · flame monitoring when fuel-firing equipment is in service · effect a burner trip or master fuel trip upon warranted firing conditions
-**What's missing from these documents:** no specific steps for emergency response to flame failure or MFT
+**Found in:** CEA Standard Technical Specification 500MW, NTPC IPS2025 O&M Conference Compendium
+> *"e) Provide flame monitoring when fuel-firing equipment is in service and effect a burner trip or master fuel trip upon warranted firing conditions."*
+> *"e) Provide flame monitoring when fuel-firing equipment is in service and effect a burner trip or master fuel trip upon warranted firing conditions. f) Continually monitor boiler conditions and actuate a master fuel trip (MFT) during adverse operating conditions which could be hazardous to equipment and personnel."*
+**What's missing from these documents:** The passage describes the system's (BMS/MFT) automated response to flame failure and adverse conditions (actuating MFT/burner trip), but it does not provide any specific, actionable steps or procedures for an operator or technician to follow during or after such an event.
 
-### ⚠️ Superheater / Reheater Tube Maintenance Procedure
-**Criticality:** 4/5 · **Status:** PARTIAL · **THIS IS A GAP**
-
-**Found in:** unknown
-> *"2.2.2.6...adequate number of chromel-alumel thermocouples for measurement of tube metal temperatures outside the gas path shall also be provided."*
-**Specific details extracted:** minimum number of thermocouples specified · placement requirements for thermocouples
-**What's missing from these documents:** Actual maintenance steps (e.g., inspection frequency, corrective actions, thresholds for action)
-
-### 🔴 Boiler Cold / Hot / Warm Startup Procedure
-**Criticality:** 4/5 · **Status:** ABSENT · **THIS IS A GAP**
+### 🔴 Failure mode: Superheater / Reheater Tube Failure
+**Procedure checked:** Superheater / Reheater Tube Maintenance Procedure
+**Criticality:** 4/5 · **Procedure status:** NOT DOCUMENTED (ABSENT) · **THIS IS A GAP**
 
 _Not found in any document in the corpus._
+
+### ⚠️ Failure mode: Boiler Tube Failure / Leakage / Flame Failure / Master Fuel Trip (MFT)
+**Procedure checked:** Boiler Cold / Hot / Warm Startup Procedure
+**Criticality:** 4/5 · **Procedure status:** PARTIALLY DOCUMENTED · **THIS IS A GAP**
+
+**Found in:** CEA Standard Technical Specification 500MW
+> *"the steam generator shall also be capable of start up without HP-LP bypass system in service, except in case of hot start-up."*
+> *"The unit shall be suitably designed and pr ovided with necessary instrumentation for rapid starting, loading and unloading wit hout causing undue vibration..."*
+**Specific details extracted:** Capability for start-up without HP-LP bypass (except hot start-up) is required · HP-LP bypass system provided for smooth start-up · Design considerations for thermal shock during HP-LP bypass operation (e.g., 140 deg C feedwater) · Sequences are used for startup and shutdown, moving from 'OFF' to 'ON'
+**What's missing from these documents:** The actual step-by-step procedure for cold, hot, or warm startup, including specific operator actions, setpoints for various stages (e.g., purging, light-off, ramping steam pressure/temperature, synchronization steps).
 
 ---
 
