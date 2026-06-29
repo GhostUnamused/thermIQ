@@ -118,13 +118,13 @@ YOUR 4 TOOLS — call them intelligently, in parallel when useful:
 
 ANSWER STYLE — NON-NEGOTIABLE:
 - Audience = plant engineers and O&M managers. They know the jargon. No definitions, no hand-holding.
-- HARD LIMIT: 200 words max per answer. Cut everything else.
-- Lead with the number or the finding. "₹28.6 Cr at risk. Cause: waterwall erosion with 51% doc coverage." NOT "The consequence value represents..."
-- Use short, dense paragraphs or a tight numbered list. Never more than 3 items.
-- No filler phrases: no "In essence", "In summary", "The solution lies in", "It's worth noting", "This means that"
-- For broad "what are the issues/risks" questions: TOP 3 gaps by ₹, one sentence why each is critical, one action each. Stop there.
-- For specific/technical questions: cite the specific value, CEA clause, or outage record. Skip the background — they already know it.
-- If docs are missing, say "SOP gap — draft using CEA STS Clause X as template." Don't explain what an SOP is.
+- Target 150–300 words. Simple questions get shorter answers. Never pad to fill space.
+- Lead with the number or the finding. "₹28.6 Cr at risk. Cause: waterwall erosion, 51% doc coverage." NOT "The consequence value represents the estimated financial impact of..."
+- Short, direct sentences. Dense paragraphs or a tight numbered list — never both in the same answer.
+- No filler phrases: no "In essence", "In summary", "The solution lies in", "It's worth noting", "This means that", "It is important to"
+- For broad "what are the issues/risks" questions: TOP 3 gaps by ₹, one sentence why each is critical, one action each. Stop.
+- For specific/technical questions: cite the value, CEA clause, or outage record. Skip the background — they already know it.
+- If docs are missing, say "SOP gap — draft using CEA STS Clause X." Don't explain what an SOP is.
 - Distinguish: "CEA STS requires..." vs "Plant docs show..." vs "CEA outage records show..."
 - Don't apologise for limited docs — pivot immediately to what can be done`;
 
@@ -132,14 +132,14 @@ ANSWER STYLE — NON-NEGOTIABLE:
 const FALLBACK_SYSTEM_PROMPT = `You are ThermIQ, an AI analyst for NTPC and Indian thermal power plants.
 Answer using the provided context data. Audience = plant engineers. They know the terminology.
 
-RULES — HARD LIMITS:
-- 200 words max. Cut everything else.
+RULES:
+- 150–300 words target. Short questions get short answers. Never pad.
 - Lead with the ₹ figure or technical finding immediately. No preamble.
-- No definitions, no explanations of what an SOP or criticality score "is".
+- No definitions, no explaining what an SOP or criticality score "is".
 - No filler: no "In essence", "In summary", "It's important to note", "The solution lies in".
 - For broad risk/gap questions: TOP 3 by ₹ risk only. One line why critical, one concrete action. Stop.
 - For technical questions: cite the specific CEA clause, UT thickness threshold, MTTR, or outage record. No background.
-- Follow-up questions ("same question", "explain more"): refer to conversation history, don't restart from scratch.
+- Follow-up questions ("same question", "explain more"): use conversation history, don't restart from scratch.
 - Distinguish: "CEA STS requires..." vs "Plant docs show..." vs "CEA outage records show..."`;
 
 
@@ -273,8 +273,11 @@ async function toolGetRiskRegistry({ client_name = 'ntpc' }, db) {
 
     gaps.sort((a, b) => (b.risk_score_cr || 0) - (a.risk_score_cr || 0));
     const total      = gaps.reduce((s, g) => s + (g.risk_score_cr || 0), 0);
-    const gapCount   = gaps.filter(g => (g.status || g.gap_status) === 'gap').length;
-    const partCount  = gaps.filter(g => (g.status || g.gap_status) === 'partial').length;
+    // Canonical writer (scripts/detect_gaps.py) and the dashboard both use
+    // `coverage_status`. Keep status/gap_status as legacy fallbacks only.
+    const statusOf   = g => g.coverage_status || g.status || g.gap_status || 'gap';
+    const gapCount   = gaps.filter(g => statusOf(g) === 'gap').length;
+    const partCount  = gaps.filter(g => statusOf(g) === 'partial').length;
 
     const lines = gaps.map((g, i) => {
       const topic   = g.topic || g.gap_id;
@@ -283,7 +286,7 @@ async function toolGetRiskRegistry({ client_name = 'ntpc' }, db) {
       const expo    = g.exposure_score ?? '?';
       const score   = g.risk_score_cr != null ? g.risk_score_cr.toFixed(1) : '?';
       const cov     = g.client_score  != null ? `${(g.client_score * 100).toFixed(0)}%` : '?';
-      const status  = (g.status || g.gap_status || 'gap').toUpperCase();
+      const status  = statusOf(g).toUpperCase();
       const src     = g.criticality_source ? ` [${g.criticality_source}]` : '';
       return `${i + 1}. ${topic} [${status}] — criticality ${crit}/5${src} × ₹${consq}Cr × exposure ${expo} = ₹${score}Cr | doc coverage: ${cov}`;
     });

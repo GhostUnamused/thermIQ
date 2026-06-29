@@ -89,12 +89,8 @@
         <div class="plant-selector-wrap">
           <label for="plant-selector">Assessing plant:</label>
           <select id="plant-selector" class="plant-selector"></select>
-          <!-- Recompute button hidden for demo — recompute_gaps.js is still v2.0 (18 gaps/old methodology);
-               enabling it would overwrite the live v3.0 data. Re-enable after task-027 upgrades the endpoint. -->
-          <!-- <button id="recompute-btn" class="btn-recompute" title="Re-run gap detection against client corpus">Recompute Gaps</button> -->
         </div>
       </div>
-      <div id="recompute-status" class="recompute-status"></div>
       <table class="data-table" id="gaps-table">
         <thead>
           <tr>
@@ -111,8 +107,8 @@
         </tbody>
       </table>
       <p class="explainer">
-        Risk Score = Criticality (1–10) × Annual Consequence (₹ Cr) × Exposure (0–1)<br />
-        Consequence derived from: Forced Outage Hours × Plant MW × ₹4.5/kWh (IEX floor)<br />
+        Risk Score = Criticality (1–5, sourced) × Consequence (₹ Cr) × Exposure (0–1)<br />
+        Consequence derived from: CEA forced-outage records × ₹5.0/kWh (LBNL/Ember 2024 India coal fleet avg)<br />
         Exposure = 1 − best vector similarity score (how poorly the corpus covers this area)<br />
         Data sources: CEA Daily Outage Reports, ThermIQ Qdrant knowledge base scan
       </p>
@@ -143,7 +139,7 @@
   </main>
 
   <footer class="site-footer">
-    ThermIQ v0.3 | Powered by Qdrant + Gemini | Data: CEA Public Sources
+    ThermIQ v0.4 | Powered by Qdrant + Gemini | Data: CEA Public Sources
   </footer>
 
   <script src="app.js"></script>

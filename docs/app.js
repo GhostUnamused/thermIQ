@@ -1,5 +1,5 @@
 // ThermIQ frontend — Query Copilot (chat) + Risk Dashboard
-// v0.2: Multi-chat, dark/light theme, sidebar history
+// v0.4: Multi-chat, dark/light theme, sidebar history, benchmark/client split
 
 // ─── Config ───────────────────────────────────────────────────────────────────
 // Backend is Vercel. (The old Netlify mirror was decommissioned on 2026-06-27.)
@@ -767,14 +767,15 @@ async function initDashboard() {
         gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">No gap analysis data. Run the gap scanner first.</td></tr>`;
       } else {
         const totalRisk = gaps.reduce((sum, g) => sum + (g.risk_score_cr || 0), 0);
-        const criticalCount = gaps.filter(g => g.coverage_status === 'gap').length;
+        // Card label is "Critical Gaps (> ₹100 Cr)" — count by ₹ risk, not status.
+        const over100Count = gaps.filter(g => (g.risk_score_cr || 0) > 100).length;
         const coveredCount = gaps.filter(g => g.coverage_status === 'covered').length;
-        const partialCount = gaps.filter(g => g.coverage_status === 'partial').length;
+        const gapCount     = gaps.filter(g => g.coverage_status === 'gap').length;
 
         if (totalRiskEl)  totalRiskEl.textContent  = `₹${Math.round(totalRisk)} Cr`;
-        if (criticalEl)   criticalEl.textContent    = criticalCount;
+        if (criticalEl)   criticalEl.textContent    = over100Count;
         if (coveredEl)    coveredEl.textContent      = coveredCount;
-        if (gapsCountEl)  gapsCountEl.textContent    = `${criticalCount + partialCount}`;
+        if (gapsCountEl)  gapsCountEl.textContent    = `${gapCount}`;
 
         gapsBody.innerHTML = gaps.map((g, i) => {
           const covInfo  = COVERAGE_LABELS[g.coverage_status] || COVERAGE_LABELS.gap;
@@ -788,7 +789,7 @@ async function initDashboard() {
             : `<span class="consequence-label consequence-label--assumed" title="${escapeHtml(g.consequence_source || 'Default assumption')}">assumed default</span>`;
 
           // Criticality scale is 1–5 (sourced), not 1–10 arbitrary
-          const critScale = g.criticality_scale && g.criticality_scale.includes('1-5') ? '5' : '5';
+          const critScale = '5';
 
           // Threshold shown so a judge can verify
           const threshold = g.coverage_threshold_used
@@ -848,40 +849,9 @@ async function initDashboard() {
   await outagesPromise;
   if (lastUpdated) lastUpdated.textContent = `Last updated: ${new Date().toLocaleString()}`;
 
-  // ── Recompute Gaps button ────────────────────────────────────────────────
-  const recomputeBtn    = document.getElementById('recompute-btn');
-  const recomputeStatus = document.getElementById('recompute-status');
-
-  if (recomputeBtn) {
-    recomputeBtn.addEventListener('click', async () => {
-      recomputeBtn.disabled = true;
-      recomputeBtn.textContent = 'Recomputing...';
-      if (recomputeStatus) {
-        recomputeStatus.style.display = 'block';
-        recomputeStatus.textContent = 'Running gap detection against client corpus. This takes about 30 seconds...';
-      }
-      try {
-        const res  = await fetch(`${BACKEND}/api/recompute_gaps`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
-          body: JSON.stringify({ triggered_by: 'manual_dashboard', client_name: getActiveClient() }),
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
-        if (recomputeStatus) {
-          recomputeStatus.textContent =
-            `Complete: ${data.items_scanned} items scanned, ${data.gap_count} gaps detected, ` +
-            `total risk Rs ${data.total_risk_cr} Cr. Refreshing...`;
-        }
-        // Reload the page after 1.5s so the table shows fresh data
-        setTimeout(() => window.location.reload(), 1500);
-      } catch (err) {
-        if (recomputeStatus) recomputeStatus.textContent = `Error: ${err.message}`;
-        recomputeBtn.disabled = false;
-        recomputeBtn.textContent = 'Recompute Gaps';
-      }
-    });
-  }
+  // Gap scores are produced by the canonical offline engine (scripts/detect_gaps.py)
+  // and read here. There is no in-browser recompute — a second JS engine would drift
+  // from the Python one. Re-run detect_gaps.py and the dashboard reflects it on reload.
 }
 
 // ─── Document Upload (documents.html) ────────────────────────────────────────
@@ -1146,7 +1116,7 @@ async function loadDocuments() {
                   data-doc-id="${escapeHtml(d.id)}"
                   data-doc-name="${escapeHtml(d.doc_name || '')}"
                   data-source-type="client"
-                  title="Delete client document (triggers gap recompute)">
+                  title="Delete client document">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -1168,8 +1138,7 @@ async function loadDocuments() {
 async function deleteDocument(docId, docName) {
   if (!confirm(
     `Delete client document "${docName}"?\n\n` +
-    `This removes all chunks from the knowledge base and triggers gap recomputation.\n` +
-    `The dashboard will update within ~60 seconds. This cannot be undone.`
+    `This removes all of its chunks from the knowledge base. This cannot be undone.`
   )) return;
 
   const btn = document.querySelector(`[data-doc-id="${CSS.escape(docId)}"]`);

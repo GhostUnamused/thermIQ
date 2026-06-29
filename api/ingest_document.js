@@ -268,11 +268,9 @@ module.exports = async (req, res) => {
       ingested_at:    ingestedAt,
     });
 
-    // NOTE: Auto-recompute after ingest is intentionally disabled.
-    // Gap scores are managed by the v3 graph-based pipeline (scripts/extract_boiler_graph.py
-    // → load_graph_neo4j.py → seed_firestore.py). Running the v2 recompute_gaps endpoint
-    // after every upload would overwrite those scores with v2 logic.
-    // To recompute manually, use the "Recompute Gaps" button on the Risk Dashboard.
+    // NOTE: No in-request gap recompute. Gap scoring has a single source of truth,
+    // the offline engine scripts/detect_gaps.py. Uploading a client doc adds it to
+    // the RAG index immediately; re-run detect_gaps.py to refresh the gap scores.
 
     return res.status(200).json({
       success:        true,
@@ -284,7 +282,7 @@ module.exports = async (req, res) => {
       pages_parsed:   numPages,
       ingested_at:    ingestedAt,
       message:        source_type === 'client'
-        ? 'Document ingested. Gap analysis will recompute in ~60 seconds.'
+        ? 'Document ingested. Gap scores are refreshed by the offline gap engine (scripts/detect_gaps.py).'
         : 'Benchmark document ingested successfully.',
     });
   } catch (e) {

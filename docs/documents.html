@@ -68,7 +68,7 @@
         <div>
           <h3>Client Plant Sources <span class="source-badge source-badge--client">Being Assessed</span></h3>
           <p>A specific plant's own operational documents (SOPs, manuals, tariff petitions, inspection records). These are what's being <em>measured</em>. Gaps = topics the benchmark requires that these documents don't cover.</p>
-          <p class="doc-split-note">Uploadable and deletable. Deleting triggers gap recomputation.</p>
+          <p class="doc-split-note">Uploadable and deletable. Gap scores are refreshed by the offline gap engine.</p>
         </div>
       </div>
     </section>
@@ -190,7 +190,7 @@
       </div>
       <p class="explainer" style="margin-bottom: 1rem;">
         Plant-specific operational documents. Gaps are measured against these.
-        Deleting a document triggers gap recomputation (~60 seconds).
+        Gap scores are refreshed by the offline gap engine (scripts/detect_gaps.py).
       </p>
       <table class="data-table" id="client-docs-table">
         <thead>

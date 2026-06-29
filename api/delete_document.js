@@ -90,25 +90,16 @@ module.exports = async (req, res) => {
       { merge: true }
     );
 
-    // Trigger gap recomputation asynchronously (fire-and-forget).
-    // We do NOT await this — it can take 30–60s and we don't want to block the delete response.
-    // The dashboard will reflect updated gaps within ~60 seconds.
-    const recomputeUrl = `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers['host']}/api/recompute_gaps`;
-    fetch(recomputeUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-ingest-key': process.env.INGEST_API_KEY,
-      },
-      body: JSON.stringify({ triggered_by: 'delete', doc_id }),
-    }).catch((err) => console.error('[delete_document] recompute_gaps trigger failed:', err.message));
+    // NOTE: No in-request gap recompute. Gap scoring has a single source of truth,
+    // the offline engine scripts/detect_gaps.py. Re-run it to refresh risk_scores
+    // after deletes/uploads; the dashboard reflects the new scores on next load.
 
     return res.status(200).json({
       success:        true,
       doc_id,
       doc_name,
       chunks_removed: chunks_indexed,
-      message:        'Document deleted. Gap analysis will recompute in ~60 seconds.',
+      message:        'Document deleted. Gap scores are refreshed by the offline gap engine (scripts/detect_gaps.py).',
     });
   } catch (e) {
     console.error('delete_document error:', e);

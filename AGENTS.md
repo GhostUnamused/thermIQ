@@ -83,20 +83,29 @@ ET AI Hackathon/
 ├── docs/
 │   ├── index.html                 ← Query Copilot UI
 │   ├── dashboard.html             ← Risk Dashboard UI
+│   ├── documents.html             ← Documents manager (benchmark/client split)
 │   ├── app.js                     ← all frontend logic
 │   └── style.css                  ← dark navy/orange theme
 ├── api/                            ← Vercel functions (the live backend)
-│   ├── query.js                   ← Jina → Qdrant → Gemini RAG
+│   ├── _cors.js                   ← shared CORS helper (not an endpoint)
+│   ├── query.js                   ← Jina → Qdrant → Gemini RAG (+ NIM/OpenRouter fallback)
 │   ├── gap_analysis.js            ← Firestore risk_scores reader
 │   ├── cea_outage.js              ← Firestore cea_outages reader
 │   ├── ingest_document.js         ← authenticated PDF upload → Qdrant + Firestore
-│   ├── list_documents.js / delete_document.js
+│   ├── list_documents.js / delete_document.js / clear_client.js
 │   └── ingest_trigger.js          ← stub (ingestion is local only)
+│   (recompute_gaps.js is RETIRED — returns 410; pending git rm)
 └── scripts/
-    ├── ingest_documents.py        ← PDF → chunks → Jina → Qdrant
-    ├── fetch_cea_outage.py        ← CEA XLS → Firestore cea_outages
-    └── seed_firestore.py          ← one-time seed (already ran)
+    ├── ingest_documents.py        ← PDF → chunks → Jina → Qdrant (text PDFs)
+    ├── ingest_ocr.py              ← OCR ingest for scanned/image PDFs
+    ├── detect_gaps.py             ← CANONICAL gap engine → Firestore risk_scores (1-5 scale)
+    └── fetch_cea_outage.py        ← CEA outage data → Firestore cea_outages (daily GH Action)
 ```
+
+> **Gap scoring has ONE source of truth: `scripts/detect_gaps.py`** (19 items,
+> criticality 1-5, writes `risk_scores` with `topic`/`coverage_status`/`client_score`).
+> The dashboard and `api/query.js` read this shape. The old JS twin
+> `api/recompute_gaps.js` drifted (1-10 scale, different schema) and is retired.
 
 ## Deploy instructions (for Codex)
 

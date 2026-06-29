@@ -17,3 +17,5 @@ venv/
 .tmp_fbkey
 .tmp_fbkey_payload.json
 data/*.pdf
+
+.vercel
