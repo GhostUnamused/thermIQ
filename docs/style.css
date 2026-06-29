@@ -1897,6 +1897,7 @@ body.chat-page .app-layout {
   font-size: 0.65rem;
   color: var(--text-muted);
   padding: 0 4px;
+  white-space: nowrap;
 }
 
 .user-bubble .msg-actions { right: 0; flex-direction: row-reverse; }
@@ -2045,7 +2046,10 @@ body.chat-page .app-layout {
 }
 
 .app-layout.sidebar-collapsed .sidebar {
-  display: none;
+  width: 0 !important;
+  border-right-width: 0;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .app-layout.sidebar-collapsed .sidebar-resizer {

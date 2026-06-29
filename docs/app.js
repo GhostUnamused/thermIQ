@@ -178,6 +178,30 @@ function getActiveChat(store) {
   return store.chats[store.activeId] || null;
 }
 
+function formatRelativeTime(ts) {
+  const diff = Math.max(0, Date.now() - ts);
+  const sec = Math.floor(diff / 1000);
+  if (sec < 60) return `${sec}s ago`;
+  
+  const min = Math.floor(sec / 60);
+  if (min < 60) return `${min} min ago`;
+  
+  const hrs = Math.floor(min / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  
+  const days = Math.floor(hrs / 24);
+  if (days < 30) return `${days}d ago`;
+  
+  const months = Math.floor(days / 30);
+  if (months < 12) {
+    const remDays = days % 30;
+    return remDays > 0 ? `${months}m ${remDays}d ago` : `${months}m ago`;
+  }
+  
+  const years = Math.floor(days / 365);
+  return `${years}y ago`;
+}
+
 // ─── Query Copilot — Chat UI (index.html) ─────────────────────────────────────
 
 function sourcesHtml(sources) {
@@ -232,9 +256,9 @@ function renderMessages(messages, editIdx = null) {
     const canEdit   = msg.role === 'user' && editCount < 3;
     const canRegen  = msg.role === 'assistant' && (msg.regenerateCount || 0) < 3 && idx === messages.length - 1;
 
-    // Format timestamp
-    const date = new Date(msg.ts || Date.now());
-    const tsFormatted = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // Format relative timestamp
+    const tsValue = msg.ts || Date.now();
+    const tsFormatted = formatRelativeTime(tsValue);
     const timestampHtml = `<span class="msg-timestamp">${tsFormatted}</span>`;
 
     const copyBtn = `<button class="msg-action-btn msg-copy-btn" data-copy-idx="${idx}" title="Copy">${copyIcon}</button>`;
