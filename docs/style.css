@@ -289,7 +289,7 @@ code,
   border-right: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
 }
 
@@ -1240,15 +1240,16 @@ body.chat-page .app-layout {
 /* ─── Methodology Banner ────────────────────────────────────────────────── */
 
 .methodology-banner {
-  background: var(--accent-muted);
+  background: transparent;
   border: none;
-  border-left: 3px solid var(--accent);
-  border-radius: 0 6px 6px 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  border-radius: 0;
   color: var(--text-secondary);
-  font-size: 0.82rem;
-  line-height: 1.6;
-  margin-bottom: 1.25rem;
-  padding: 0.85rem 1rem;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  padding: 1.25rem 0;
 }
 
 .methodology-banner strong,
@@ -1889,20 +1890,19 @@ body.chat-page .app-layout {
   display: flex;
   gap: 3px;
   height: 22px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.15s ease;
+  align-items: center;
 }
 
-.chat-bubble:hover .msg-actions {
-  opacity: 1;
-  pointer-events: auto;
+.msg-timestamp {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  padding: 0 4px;
 }
 
 .user-bubble .msg-actions { right: 0; flex-direction: row-reverse; }
 .assistant-bubble .msg-actions { left: 0; }
 
-.msg-action-btn {
+.msg-action-btn, .edit-limit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1915,7 +1915,15 @@ body.chat-page .app-layout {
   background: transparent;
   cursor: pointer;
   font-size: 0.68rem;
-  transition: color 0.15s, background 0.15s;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease, color 0.15s, background 0.15s;
+}
+
+.chat-bubble:hover .msg-action-btn,
+.chat-bubble:hover .edit-limit {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .user-bubble .msg-action-btn {
@@ -2055,11 +2063,14 @@ body.chat-page .app-layout {
 }
 
 .docs-grid-view thead,
-.docs-grid-view tbody,
 .docs-grid-view tr,
 .docs-grid-view td,
 .docs-grid-view th {
   display: block;
+}
+
+.docs-grid-view tbody {
+  display: contents;
 }
 
 .docs-grid-view thead {
@@ -2068,17 +2079,18 @@ body.chat-page .app-layout {
 
 .docs-grid-view tr {
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1rem;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 1.25rem;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease;
   position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
 }
 
 .docs-grid-view tr:hover {
-  border-color: var(--border-subtle);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-color: var(--border);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.06);
 }
 
 .docs-grid-view tr::before {

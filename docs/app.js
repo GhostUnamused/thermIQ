@@ -224,19 +224,33 @@ function renderMessages(messages, editIdx = null) {
 
   const copyIcon = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
   const editIcon = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+  const regenIcon = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.92-10.26l5.67-5.67"/></svg>`;
 
   messagesEl.innerHTML = messages.map((msg, idx) => {
     const isEditing = editIdx === idx;
     const editCount = msg.editCount || 0;
     const canEdit   = msg.role === 'user' && editCount < 3;
+    const canRegen  = msg.role === 'assistant' && (msg.regenerateCount || 0) < 3 && idx === messages.length - 1;
+
+    // Format timestamp
+    const date = new Date(msg.ts || Date.now());
+    const tsFormatted = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const timestampHtml = `<span class="msg-timestamp">${tsFormatted}</span>`;
 
     const copyBtn = `<button class="msg-action-btn msg-copy-btn" data-copy-idx="${idx}" title="Copy">${copyIcon}</button>`;
-    const editBtnHtml = msg.role === 'user'
-      ? (canEdit
-          ? `<button class="msg-action-btn msg-edit-btn" data-edit-idx="${idx}" title="Edit &amp; rerun">${editIcon}${editCount > 0 ? `<span class="edit-count">${editCount}/3</span>` : ''}</button>`
-          : `<span class="edit-limit" title="Edit limit reached (3/3)">${editCount}/3</span>`)
-      : '';
-    const actionsHtml = `<div class="msg-actions">${copyBtn}${editBtnHtml}</div>`;
+    
+    let actionsHtml = '';
+    if (msg.role === 'user') {
+      const editBtnHtml = canEdit
+        ? `<button class="msg-action-btn msg-edit-btn" data-edit-idx="${idx}" title="Edit &amp; rerun">${editIcon}${editCount > 0 ? `<span class="edit-count">${editCount}/3</span>` : ''}</button>`
+        : `<span class="edit-limit" title="Edit limit reached (3/3)">${editCount}/3</span>`;
+      actionsHtml = `<div class="msg-actions">${timestampHtml}${copyBtn}${editBtnHtml}</div>`;
+    } else {
+      const regenBtnHtml = canRegen
+        ? `<button class="msg-action-btn msg-regen-btn" data-regen-idx="${idx}" title="Regenerate response">${regenIcon}</button>`
+        : '';
+      actionsHtml = `<div class="msg-actions">${timestampHtml}${copyBtn}${regenBtnHtml}</div>`;
+    }
 
     if (msg.role === 'user') {
       if (isEditing) {
@@ -552,26 +566,44 @@ function initQueryCopilot() {
       const clientSelect = document.getElementById('client-select');
       const client = clientSelect ? clientSelect.value : '';
 
-      // Send the last 3 exchanges (6 messages) as conversation history so the
-      // model can resolve follow-ups like "same question" or "explain the first".
-      // We already pushed the new user message, so slice(-1) excludes it.
       const history = chat.messages.slice(0, -1).slice(-6).map(m => ({
         role:    m.role,
         content: m.content || '',
       }));
 
-      const data = await callAPI(query, history, client);
+      // Retry loop
+      let attempt = 1;
+      const maxAttempts = 3;
+      let success = false;
+      let answerData = null;
+
+      while (attempt <= maxAttempts && !success) {
+        try {
+          if (attempt > 1 && typing) {
+            typing.innerHTML = `<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span> <em style="margin-left:8px;font-size:0.75rem;color:var(--text-muted)">Synthesizing... (Attempt ${attempt}/${maxAttempts})</em>`;
+          }
+          answerData = await callAPI(query, history, client);
+          success = true;
+        } catch (err) {
+          if (attempt === maxAttempts) throw err;
+          // Wait 1 second before retrying
+          await new Promise(r => setTimeout(r, 1000));
+        } finally {
+          attempt++;
+        }
+      }
+
       chat.messages.push({
         role: 'assistant',
-        content: data.answer,
-        sources: data.sources || [],
-        model_used: data.model_used || 'gemini-2.5-flash',
+        content: answerData.answer,
+        sources: answerData.sources || [],
+        model_used: answerData.model_used || 'gemini-2.5-flash',
         ts: Date.now(),
       });
     } catch (err) {
       chat.messages.push({
         role: 'assistant',
-        content: `**Error:** ${err.message}`,
+        content: `**Error:** ${err.message}${err.message.includes('504') ? ' (Timeout)' : ''}\n\nThe server timed out or failed to respond after multiple attempts. Please try again.`,
         sources: [],
         ts: Date.now(),
       });
@@ -630,6 +662,29 @@ function initQueryCopilot() {
       if (cancelBtn) {
         activeEditIdx = null;
         refresh();
+        return;
+      }
+
+      // Regenerate response
+      const regenBtn = e.target.closest('[data-regen-idx]');
+      if (regenBtn) {
+        const idx = parseInt(regenBtn.dataset.regenIdx, 10);
+        const chat = getActiveChat(store);
+        if (!chat || !chat.messages[idx] || chat.messages[idx].role !== 'assistant') return;
+        
+        // Ensure there is a preceding user message
+        const userMsg = chat.messages[idx - 1];
+        if (!userMsg || userMsg.role !== 'user') return;
+        
+        chat.messages[idx - 1].regenerateCount = (chat.messages[idx - 1].regenerateCount || 0) + 1;
+        
+        // Remove this AI message
+        chat.messages = chat.messages.slice(0, idx);
+        
+        // Trigger submit again with the user's original query
+        inputEl.value = userMsg.content;
+        chat.messages.pop(); // Remove it so submit() adds it fresh
+        submit();
         return;
       }
 
