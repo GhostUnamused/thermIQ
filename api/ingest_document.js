@@ -268,23 +268,11 @@ module.exports = async (req, res) => {
       ingested_at:    ingestedAt,
     });
 
-    // If a client document was just ingested, trigger gap recomputation.
-    // Fire-and-forget — dashboard reflects updated gaps within ~60 seconds.
-    if (source_type === 'client') {
-      const recomputeUrl = `${req.headers['x-forwarded-proto'] || 'https'}://${req.headers['host']}/api/recompute_gaps`;
-      fetch(recomputeUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-ingest-key': process.env.INGEST_API_KEY,
-        },
-        body: JSON.stringify({
-          client_name: resolvedClientName,
-          triggered_by: 'ingest',
-          doc_name,
-        }),
-      }).catch((err) => console.error('[ingest_document] recompute_gaps trigger failed:', err.message));
-    }
+    // NOTE: Auto-recompute after ingest is intentionally disabled.
+    // Gap scores are managed by the v3 graph-based pipeline (scripts/extract_boiler_graph.py
+    // → load_graph_neo4j.py → seed_firestore.py). Running the v2 recompute_gaps endpoint
+    // after every upload would overwrite those scores with v2 logic.
+    // To recompute manually, use the "Recompute Gaps" button on the Risk Dashboard.
 
     return res.status(200).json({
       success:        true,

@@ -246,9 +246,13 @@ def pull_boiler_chunks(qdrant, top_k=8):
                 "id": str(hit.id),
                 "score": round(hit.score, 4),
                 "text": payload.get("text", ""),
+                # Both ingest_documents.py and api/ingest_document.js store the
+                # document name in "source_doc". The other field names were wrong
+                # guesses that always fell through to "unknown".
                 "source": payload.get(
-                    "source_name",
-                    payload.get("doc_name", payload.get("filename", "unknown"))
+                    "source_doc",
+                    payload.get("source_name",
+                    payload.get("doc_name", payload.get("filename", "unknown")))
                 ),
                 "source_type": payload.get("source_type", "unknown"),
                 "client_name": payload.get("client_name", ""),

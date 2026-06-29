@@ -700,6 +700,45 @@ function riskBadgeClass(riskScoreCr) {
   return 'low';
 }
 
+// ── CEA Outages loader (runs independently — not blocked by gap analysis fetch) ──
+async function loadCeaOutages(outagesBody) {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000); // 12s timeout
+    try {
+      const response = await fetch(`${BACKEND}/api/cea_outage`, { signal: controller.signal });
+      clearTimeout(timeout);
+      const data = await response.json();
+      const outages = (data.outages || []).slice(0, 10);
+
+      outagesBody.innerHTML = '';
+      outages.forEach(outage => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${escapeHtml(outage.station)}</td>
+          <td>${escapeHtml(outage.unit)}</td>
+          <td>${escapeHtml(outage.mw_lost)}</td>
+          <td>${escapeHtml(outage.equipment_tag)}</td>
+          <td>${escapeHtml(outage.failure_reason_raw)}</td>
+          <td>₹${escapeHtml(outage.revenue_lost_est_cr)}</td>
+          <td>${escapeHtml(outage.date_out)}</td>
+        `;
+        outagesBody.appendChild(row);
+      });
+
+      if (!outages.length) {
+        outagesBody.innerHTML = `<tr><td colspan="7" class="skeleton-row">No outage data yet.</td></tr>`;
+      }
+    } catch (fetchErr) {
+      clearTimeout(timeout);
+      throw fetchErr;
+    }
+  } catch (err) {
+    const msg = err.name === 'AbortError' ? 'Timed out loading outages.' : `Failed to load outages: ${escapeHtml(err.message)}`;
+    outagesBody.innerHTML = `<tr><td colspan="7" class="skeleton-row">${msg}</td></tr>`;
+  }
+}
+
 async function initDashboard() {
   const outagesBody = document.getElementById('outages-table-body');
   if (!outagesBody) return;
@@ -707,6 +746,9 @@ async function initDashboard() {
   initPlantSelector();
 
   const lastUpdated = document.getElementById('last-updated');
+
+  // Fire outages fetch immediately — parallel with gap analysis, not blocked by it.
+  const outagesPromise = loadCeaOutages(outagesBody);
 
   // ── Fetch Gap Analysis ──
   const gapsBody       = document.getElementById('gaps-table-body');
@@ -802,34 +844,8 @@ async function initDashboard() {
     }
   }
 
-  // ── Fetch CEA Outages ──
-  try {
-    const response = await fetch(`${BACKEND}/api/cea_outage`);
-    const data = await response.json();
-    const outages = (data.outages || []).slice(0, 10);
-
-    outagesBody.innerHTML = '';
-    outages.forEach(outage => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${escapeHtml(outage.station)}</td>
-        <td>${escapeHtml(outage.unit)}</td>
-        <td>${escapeHtml(outage.mw_lost)}</td>
-        <td>${escapeHtml(outage.equipment_tag)}</td>
-        <td>${escapeHtml(outage.failure_reason_raw)}</td>
-        <td>₹${escapeHtml(outage.revenue_lost_est_cr)}</td>
-        <td>${escapeHtml(outage.date_out)}</td>
-      `;
-      outagesBody.appendChild(row);
-    });
-
-    if (!outages.length) {
-      outagesBody.innerHTML = `<tr><td colspan="7" class="skeleton-row">No outage data yet.</td></tr>`;
-    }
-  } catch (err) {
-    outagesBody.innerHTML = `<tr><td colspan="7" class="skeleton-row">Failed to load outages: ${escapeHtml(err.message)}</td></tr>`;
-  }
-
+  // Wait for both sections to finish before updating the timestamp.
+  await outagesPromise;
   if (lastUpdated) lastUpdated.textContent = `Last updated: ${new Date().toLocaleString()}`;
 
   // ── Recompute Gaps button ────────────────────────────────────────────────
@@ -1013,11 +1029,8 @@ function initUpload() {
       const data = await res.json();
       if (!res.ok || !data.success) throw new Error(data.error || `Server error ${res.status}`);
 
-      const extra = sourceType === 'client'
-        ? ' Gap analysis recomputing — dashboard updates in ~60 seconds.'
-        : '';
       setStatus(
-        `Ingested "${data.doc_name}": ${data.chunks_indexed} chunks from ${data.pages_parsed} pages.${extra}`,
+        `Ingested "${data.doc_name}": ${data.chunks_indexed} chunks from ${data.pages_parsed} pages.`,
         'success'
       );
 
