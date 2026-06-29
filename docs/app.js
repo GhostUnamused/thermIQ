@@ -674,7 +674,7 @@ function initQueryCopilot() {
   });
 
   // ── Message action delegation (copy / edit / rerun / cancel) ──
-  const messagesEl = document.getElementById('chat-messages');
+  // (messagesEl is already defined for the scroll-bottom handler)
   if (messagesEl) {
     messagesEl.addEventListener('click', async (e) => {
       // Copy

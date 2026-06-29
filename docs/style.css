@@ -2266,6 +2266,42 @@ body.chat-page .app-layout {
   font-weight: 500;
 }
 
+/* ─── Scroll to Bottom Button ───────────────────────────────────────────── */
+
+.scroll-bottom-btn {
+  position: absolute;
+  bottom: 150px;
+  right: 2.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 50;
+  padding: 0;
+}
+
+.scroll-bottom-btn.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.scroll-bottom-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--border);
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    Responsive
    ═══════════════════════════════════════════════════════════════════════════ */
