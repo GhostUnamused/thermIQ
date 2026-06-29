@@ -8,6 +8,51 @@
 
 ## Queue
 
+### [DONE] task-028b | 2026-06-29T11:17:33Z (note: reuses number of the already-DONE Neo4j task-028 below — renamed to 028b to avoid collision)
+**From:** Cowork
+**Task:** Ship the repo-wide consistency cleanup (commit/push) and finish the deletions Cowork can't do (git rm tracked files).
+
+**Files already edited by Cowork (DO NOT re-edit — just commit):**
+- `api/query.js` — risk-registry tool now reads `coverage_status` (was `status`/`gap_status`), matching detect_gaps.py + dashboard
+- `api/delete_document.js` — removed the v2 recompute trigger (it corrupted v3 scores); honest message + comment
+- `api/ingest_document.js` — honest success message + comment (no per-upload recompute)
+- `api/recompute_gaps.js` — NEUTRALIZED to a 410 tombstone (was the divergent 1-10 v2 engine). **Delete it (see below).**
+- `docs/app.js` — removed dead recompute handler; fixed "Critical Gaps (>₹100Cr)" card to count by ₹ (was counting gap-status); removed stale "triggers recompute" texts; version → v0.4
+- `docs/dashboard.html` — explainer fixed to 1-5 scale + ₹5.0/kWh (was 1-10 / ₹4.5); removed hidden recompute button + status div; footer v0.4
+- `docs/index.html`, `docs/documents.html` — footer versions unified to v0.4; removed stale "deleting triggers recomputation" text
+- `README.md`, `.env.example` — accurate setup (detect_gaps.py is canonical; added NIM/GEMINI2/3 keys; fixed OpenRouter model note)
+- `CLAUDE.md`, `AGENTS.md` — corrected file map + single-source-of-truth note for gap scoring
+- `CURRENT_STATUS.md` — replaced stale snapshot with a deprecation pointer
+- `scripts/seed_firestore.py` — NEUTRALIZED to a tombstone (was a footgun that overwrote risk_scores with old 6-gap/1-10 data). **Delete it (see below).**
+
+**CC must do:**
+1. Verify syntax (Cowork's sandbox mount was desynced and couldn't run node):
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+for f in api/*.js; do node --check "$f" || echo "CHECK FAIL $f"; done
+```
+2. `git rm` these tracked files Cowork could not delete (mount blocks deleting tracked files):
+   - `api/recompute_gaps.js` (retired v2 gap engine — single source of truth is scripts/detect_gaps.py)
+   - `scripts/seed_firestore.py` (legacy footgun, superseded by detect_gaps.py)
+   - `CURRENT_STATUS.md` (stale snapshot; state now lives in README/CLAUDE/AGENTS)
+3. `git rm` these confirmed one-time / already-run migration & seed scripts (legacy; git history preserves them). **KEEP** detect_gaps.py, ingest_documents.py, ingest_ocr.py, fetch_cea_outage.py, check_state.py, wipe_and_reset.py, and the active graph pipeline (graph_ontology.py, extract_boiler_graph.py, load_graph_neo4j.py, hero_traversal.py from task-027):
+   - `scripts/migrate_risk_scores_namespace.py`, `scripts/patch_source_type.py`, `scripts/sync_qdrant_to_documents.py`, `scripts/seed_documents_collection.py`, `scripts/clear_seed_data.py`, `scripts/cleanup_stale_data.py`, `scripts/seed_cea_outages.py`
+4. Commit + push:
+```bash
+git add -A
+git commit -m "Repo-wide consistency cleanup: single gap-scoring source of truth, retire v2 recompute engine, fix dashboard/docs drift, remove legacy scripts"
+git push origin main
+```
+**Notes:** Local gitignored dirs `netlify/`, `.netlify/`, `scripts/__pycache__/` were already deleted on disk by Cowork (not tracked, no commit needed). No live behavior changes beyond removing the data-corrupting recompute path; the dashboard reads the same canonical risk_scores produced by detect_gaps.py.
+
+**CC summary:** Before touching anything, checked whether `git add -A` was actually safe here (every prior task explicitly avoided it due to 900+ uncommitted `data/chunks/*.json` files) — confirmed `data/chunks/` and `data/raw/` are gitignored, so only 16 files were dirty and `-A` was safe in this state. Syntax-checked all `api/*.js` + `docs/app.js` — all passed. Spot-checked `api/recompute_gaps.js` diff against the task description — matched exactly (full v2 engine replaced with a 23-line tombstone comment).
+
+Hit a stale `.git/index.lock` (0 bytes, no git process running) on the first `git rm` attempt — removed it and retried successfully. The 3 tombstoned files (`api/recompute_gaps.js`, `scripts/seed_firestore.py`, `CURRENT_STATUS.md`) had local modifications so `git rm` required `-f` to delete the now-tombstoned content entirely rather than leave it staged.
+
+Deleted all 10 files as specified: 3 tombstone targets + 7 one-time migration/seed scripts. Verified all "KEEP" scripts (`detect_gaps.py`, `ingest_documents.py`, `ingest_ocr.py`, `fetch_cea_outage.py`, `check_state.py`, `wipe_and_reset.py`, and the 4 graph-pipeline scripts) still exist on disk untouched.
+
+Committed with `git add -A -- ':!BRIDGE.md'` (excluded BRIDGE.md itself so this status update isn't bundled into the same commit) and pushed (`5577dee`): 22 files changed, +100/-1396. Live behavior change: `api/recompute_gaps.js` is gone (410-tombstone removed entirely), dashboard continues reading `risk_scores` from `detect_gaps.py`'s output — no live data was touched.
+
 ### [DONE] task-027 | 2026-06-28T00:00:00Z
 **From:** Cowork
 **Task:** Phase 1 — Run Boiler graph extraction harness and commit outputs for human spot-check gate
@@ -89,6 +134,34 @@ Graph: 36 nodes · 60 edges · 5 confirmed gaps. 18 real Boiler outage events fr
 **Minor flag (not blocking):** the review.md shows `Found in: unknown` for each PARTIAL item's source — the chunk payload's `source_name`/`doc_name`/`filename` fields were empty for these particular Qdrant points, so it fell through to the `"unknown"` default in `pull_boiler_chunks()`. Doesn't affect the classification logic, just citation display; worth a follow-up if source attribution matters for the demo.
 
 Committed `scripts/graph_ontology.py` (unmodified, Cowork's), `scripts/extract_boiler_graph.py` (with the 4 fixes above), `data/graph_slices/boiler_slice.json`, `data/graph_slices/boiler_review.md` — did not `git add -A` (commit `67a3b0b`, pushed to `main`).
+
+---
+
+### [DONE] task-029 | 2026-06-29T01:00:00Z
+**From:** Cowork
+**Task:** Commit four pre-demo bug fixes (Cowork already edited all files)
+**Files changed by Cowork (DO NOT re-edit):**
+- `api/ingest_document.js` — disabled auto-recompute after upload (was overwriting v3.0 gap data with v2.0 logic)
+- `docs/app.js` — CEA outages now fetches in parallel with gap analysis (fixes spinner never hiding); removed stale "Gap analysis recomputing…" message after upload
+- `docs/style.css` — `.locked-overlay` default changed from `display:flex` to `display:none`; added `.locked-overlay.visible` to activate it (fixes dashboard appearing permanently locked)
+- `scripts/extract_boiler_graph.py` — source field lookup now checks `source_doc` first (the actual field name both ingest paths use), fixing "Found in: unknown" in boiler_review.md
+
+**CC must do:**
+
+1. **Commit exactly these four files** (no others):
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+git add api/ingest_document.js docs/app.js docs/style.css scripts/extract_boiler_graph.py
+git commit -m "fix: four pre-demo bugs — upload auto-trigger, outages spinner, locked overlay CSS, citation unknown"
+git push origin main
+```
+Do NOT `git add -A`.
+
+2. **Verify the push succeeded** (check `git status` is clean for these 4 files).
+
+3. **No further action needed** — Vercel auto-deploys on push. No scripts to run.
+
+**CC summary:** Verified the diff matched Cowork's description (`api/ingest_document.js` -22/+... auto-recompute call removed after upload; `docs/app.js` CEA outages fetch moved to run in parallel with gap analysis, stale recomputing message removed; `docs/style.css` `.locked-overlay` default flipped to `display:none` with new `.locked-overlay.visible` activator class; `scripts/extract_boiler_graph.py` source lookup now checks `source_doc` first). `node --check` passed on both JS files, `py_compile` passed on the Python file. Committed exactly the 4 files (no `git add -A` — `.gitignore`, `BRIDGE.md`, and `api/query.js` were already modified before this session from unrelated work and were left untouched) and pushed (`596c9b1`). `git status` confirms all 4 files are clean post-push.
 
 ---
 
