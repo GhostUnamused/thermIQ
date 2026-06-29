@@ -29,8 +29,8 @@
   --glass-border:    rgba(255, 255, 255, 0.08);
   --sidebar-bg:      #0e0e10;
   --input-bg:        #18181b;
-  --user-bubble-bg:  linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-  --user-bubble-text:#18181b;
+  --user-bubble-bg:  #27272a;
+  --user-bubble-text:#fafafa;
   --overlay:         rgba(0, 0, 0, 0.65);
   --scrollbar-thumb: rgba(255, 255, 255, 0.12);
   --scrollbar-track: transparent;
@@ -39,34 +39,34 @@
 }
 
 [data-theme="light"] {
-  --bg:              #faf8f5;
-  --bg-secondary:    #f0ece6;
+  --bg:              #f8fafc;
+  --bg-secondary:    #f1f5f9;
   --surface:         #ffffff;
-  --surface-hover:   #f5f2ed;
-  --border:          rgba(28, 25, 23, 0.10);
-  --border-subtle:   rgba(28, 25, 23, 0.06);
-  --accent:          #b45309;
-  --accent-hover:    #d97706;
-  --accent-muted:    rgba(180, 83, 9, 0.08);
-  --accent-strong:   rgba(180, 83, 9, 0.15);
-  --text-primary:    #1c1917;
-  --text-secondary:  #57534e;
-  --text-muted:      #a8a29e;
-  --red:             #dc2626;
-  --amber:           #b45309;
-  --green:           #15803d;
+  --surface-hover:   #f1f5f9;
+  --border:          rgba(15, 23, 42, 0.10);
+  --border-subtle:   rgba(15, 23, 42, 0.05);
+  --accent:          #4f46e5;
+  --accent-hover:    #4338ca;
+  --accent-muted:    rgba(79, 70, 229, 0.08);
+  --accent-strong:   rgba(79, 70, 229, 0.15);
+  --text-primary:    #0f172a;
+  --text-secondary:  #475569;
+  --text-muted:      #94a3b8;
+  --red:             #ef4444;
+  --amber:           #f59e0b;
+  --green:           #16a34a;
   --blue:            #2563eb;
-  --orange:          #b45309;
-  --glass-bg:        rgba(250, 248, 245, 0.95);
-  --glass-border:    rgba(28, 25, 23, 0.08);
-  --sidebar-bg:      #f0ece6;
-  --input-bg:        #f5f2ed;
-  --user-bubble-bg:  linear-gradient(135deg, #d97706 0%, #b45309 100%);
-  --user-bubble-text:#fffbeb;
-  --overlay:         rgba(28, 25, 23, 0.20);
-  --scrollbar-thumb: rgba(28, 25, 23, 0.18);
+  --orange:          #f97316;
+  --glass-bg:        rgba(248, 250, 252, 0.95);
+  --glass-border:    rgba(15, 23, 42, 0.08);
+  --sidebar-bg:      #f1f5f9;
+  --input-bg:        #f1f5f9;
+  --user-bubble-bg:  #e2e8f0;
+  --user-bubble-text:#0f172a;
+  --overlay:         rgba(15, 23, 42, 0.25);
+  --scrollbar-thumb: rgba(15, 23, 42, 0.15);
   --scrollbar-track: transparent;
-  --row-stripe:      rgba(28, 25, 23, 0.025);
+  --row-stripe:      rgba(15, 23, 42, 0.02);
   color-scheme: light;
 }
 
@@ -146,7 +146,7 @@ code,
 }
 
 .sidebar-toggle {
-  display: none;
+  display: flex;
   background: none;
   border: none;
   color: var(--text-secondary);
@@ -675,6 +675,7 @@ body.chat-page .app-layout {
 /* ─── Chat Bubbles — Gemini style ───────────────────────────────────────── */
 
 .chat-bubble {
+  position: relative;
   display: flex;
   flex-direction: column;
   max-width: 100%;
@@ -1883,9 +1884,10 @@ body.chat-page .app-layout {
 /* ─── Message Actions (copy / edit) ─────────────────────────────────────── */
 
 .msg-actions {
+  position: absolute;
+  bottom: -24px;
   display: flex;
   gap: 3px;
-  margin-top: 0.3rem;
   height: 22px;
   opacity: 0;
   pointer-events: none;
@@ -1897,8 +1899,8 @@ body.chat-page .app-layout {
   pointer-events: auto;
 }
 
-.user-bubble .msg-actions { justify-content: flex-end; }
-.assistant-bubble .msg-actions { justify-content: flex-start; }
+.user-bubble .msg-actions { right: 0; flex-direction: row-reverse; }
+.assistant-bubble .msg-actions { left: 0; }
 
 .msg-action-btn {
   display: inline-flex;
@@ -2015,6 +2017,238 @@ body.chat-page .app-layout {
 }
 
 .btn-rerun:hover { background: var(--accent-hover); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Sidebar Resizer & Collapsed State
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.sidebar-resizer {
+  width: 5px;
+  background: transparent;
+  cursor: col-resize;
+  position: relative;
+  z-index: 10;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.sidebar-resizer:hover, .sidebar-resizer.is-dragging {
+  background: var(--accent);
+}
+
+.app-layout.sidebar-collapsed .sidebar {
+  display: none;
+}
+
+.app-layout.sidebar-collapsed .sidebar-resizer {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Document Grid View & Preview Modal
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.docs-grid-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.docs-grid-view thead,
+.docs-grid-view tbody,
+.docs-grid-view tr,
+.docs-grid-view td,
+.docs-grid-view th {
+  display: block;
+}
+
+.docs-grid-view thead {
+  display: none;
+}
+
+.docs-grid-view tr {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  position: relative;
+}
+
+.docs-grid-view tr:hover {
+  border-color: var(--border-subtle);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.docs-grid-view tr::before {
+  display: none; /* Hide hover accent bar */
+}
+
+.docs-grid-view td {
+  padding: 0.25rem 0;
+  border-bottom: none;
+}
+
+.docs-grid-view td:first-child {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+  padding-right: 2rem;
+}
+
+.docs-grid-view td:last-child {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0;
+  display: flex;
+  gap: 0.25rem;
+}
+
+.docs-grid-view td:not(:first-child):not(:last-child)::before {
+  content: attr(data-label);
+  display: inline-block;
+  width: 80px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.view-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  border-radius: 6px;
+  padding: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.view-toggle-btn:hover {
+  background: var(--accent-muted);
+  color: var(--accent);
+}
+
+.btn-icon-only {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  border-radius: 4px;
+  padding: 0.25rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.btn-icon-only:hover {
+  background: var(--accent-muted);
+  color: var(--accent);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  backdrop-filter: blur(2px);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  transform: translateY(10px);
+  transition: transform 0.2s ease;
+}
+
+.modal-overlay.active .modal-content {
+  transform: translateY(0);
+}
+
+.modal-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.modal-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.modal-close:hover {
+  background: rgba(255, 0, 0, 0.1);
+  color: var(--red);
+}
+
+.modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.modal-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.modal-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.modal-meta-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.modal-meta-value {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
 
 /* ═══════════════════════════════════════════════════════════════════════════
    Responsive

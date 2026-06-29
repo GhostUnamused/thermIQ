@@ -36,11 +36,11 @@
         <a href="documents.html">Documents</a>
       </nav>
       <div class="header-actions">
-        <button id="print-transcript-btn" class="theme-toggle" aria-label="Print transcript" title="Print chat transcript">
+        <button id="export-transcript-btn" class="theme-toggle" aria-label="Export transcript" title="Export chat to Markdown">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-            <polyline points="6 9 6 2 18 2 18 9"></polyline>
-            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
-            <rect x="6" y="14" width="12" height="8"></rect>
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
           </svg>
         </button>
         <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
@@ -71,12 +71,20 @@
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <h2>Chats</h2>
-        <button id="new-chat-btn" class="btn-new-chat">New</button>
+        <button id="new-chat-btn" class="btn-new-chat btn-icon-only" aria-label="New Chat" title="New Chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
       </div>
       <div class="chat-list" id="chat-list">
         <!-- Populated by app.js -->
       </div>
     </aside>
+
+    <!-- Sidebar Resizer -->
+    <div class="sidebar-resizer" id="sidebar-resizer"></div>
 
     <!-- Main Chat Area -->
     <main class="chat-main">

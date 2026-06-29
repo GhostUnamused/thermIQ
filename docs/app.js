@@ -340,6 +340,8 @@ function initSidebar() {
   const sidebar    = document.getElementById('sidebar');
   const overlay    = document.getElementById('sidebar-overlay');
   const toggleBtn  = document.getElementById('sidebar-toggle-btn');
+  const resizer    = document.getElementById('sidebar-resizer');
+  const appLayout  = document.querySelector('.app-layout');
   if (!sidebar) return;
 
   function openSidebar() {
@@ -354,16 +356,51 @@ function initSidebar() {
 
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
-      if (sidebar.classList.contains('open')) {
-        closeSidebar();
+      if (window.innerWidth <= 768) {
+        if (sidebar.classList.contains('open')) {
+          closeSidebar();
+        } else {
+          openSidebar();
+        }
       } else {
-        openSidebar();
+        if (appLayout) appLayout.classList.toggle('sidebar-collapsed');
       }
     });
   }
 
   if (overlay) {
     overlay.addEventListener('click', closeSidebar);
+  }
+
+  if (resizer) {
+    let isResizing = false;
+    resizer.addEventListener('mousedown', (e) => {
+      isResizing = true;
+      resizer.classList.add('is-dragging');
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+    });
+    document.addEventListener('mousemove', (e) => {
+      if (!isResizing) return;
+      let newWidth = e.clientX;
+      if (newWidth < 200) newWidth = 200;
+      if (newWidth > 600) newWidth = 600;
+      sidebar.style.width = newWidth + 'px';
+    });
+    document.addEventListener('mouseup', () => {
+      if (isResizing) {
+        isResizing = false;
+        resizer.classList.remove('is-dragging');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+        localStorage.setItem('thermiq_sidebar_width', sidebar.style.width);
+      }
+    });
+    
+    const savedWidth = localStorage.getItem('thermiq_sidebar_width');
+    if (savedWidth && window.innerWidth > 768) {
+      sidebar.style.width = savedWidth;
+    }
   }
 
   // Close sidebar when switching chats on mobile
@@ -658,16 +695,31 @@ function initQueryCopilot() {
     });
   }
 
-  // ── Print transcript ──
-  const printBtn = document.getElementById('print-transcript-btn');
-  if (printBtn) {
-    printBtn.addEventListener('click', () => {
+  // ── Export transcript ──
+  const exportBtn = document.getElementById('export-transcript-btn');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
       const chat = getActiveChat(store);
       if (!chat || !chat.messages.length) {
-        alert('Nothing to print — start a conversation first.');
+        alert('Nothing to export — start a conversation first.');
         return;
       }
-      window.print();
+      
+      let md = `# ThermIQ Chat Transcript\n\n**Date:** ${new Date().toLocaleString()}\n\n---\n\n`;
+      chat.messages.forEach(m => {
+        const role = m.role === 'user' ? 'User' : 'ThermIQ';
+        md += `### ${role}\n\n${m.content}\n\n`;
+      });
+      
+      const blob = new Blob([md], { type: 'text/markdown' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `thermiq_chat_${new Date().toISOString().slice(0,10)}.md`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     });
   }
 }
@@ -1081,11 +1133,23 @@ async function loadDocuments() {
                 ${escapeHtml(d.doc_name || '—')}
                 <span class="doc-lock-icon" title="Benchmark locked">Locked</span>
               </td>
-              <td>${typeLabel}</td>
-              <td>${d.chunks_indexed ?? '—'}</td>
-              <td>${d.pages_parsed ?? '—'}</td>
-              <td>${formatDate(d.ingested_at)}</td>
-              <td>${sourceLink}</td>
+              <td data-label="Type">${typeLabel}</td>
+              <td data-label="Chunks">${d.chunks_indexed ?? '—'}</td>
+              <td data-label="Pages">${d.pages_parsed ?? '—'}</td>
+              <td data-label="Ingested">${formatDate(d.ingested_at)}</td>
+              <td data-label="Source">${sourceLink}</td>
+              <td>
+                <button class="btn-preview-doc btn-icon-only"
+                  data-doc-name="${escapeHtml(d.doc_name || '')}"
+                  data-client="— (Benchmark)"
+                  data-type="${escapeHtml(typeLabel)}"
+                  data-chunks="${d.chunks_indexed ?? '—'}"
+                  data-date="${formatDate(d.ingested_at)}"
+                  data-source="${escapeHtml(d.source_url || '')}"
+                  title="Preview details">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
+              </td>
             </tr>`;
         }).join('');
       }
@@ -1105,13 +1169,23 @@ async function loadDocuments() {
           return `
             <tr class="doc-row-client">
               <td class="doc-name-cell">${escapeHtml(d.doc_name || '—')}</td>
-              <td><span class="client-badge">${escapeHtml(plantName.toUpperCase())}</span></td>
-              <td>${typeLabel}</td>
-              <td>${d.chunks_indexed ?? '—'}</td>
-              <td>${d.pages_parsed ?? '—'}</td>
-              <td>${formatDate(d.ingested_at)}</td>
-              <td>${sourceLink}</td>
+              <td data-label="Plant"><span class="client-badge">${escapeHtml(plantName.toUpperCase())}</span></td>
+              <td data-label="Type">${typeLabel}</td>
+              <td data-label="Chunks">${d.chunks_indexed ?? '—'}</td>
+              <td data-label="Pages">${d.pages_parsed ?? '—'}</td>
+              <td data-label="Ingested">${formatDate(d.ingested_at)}</td>
+              <td data-label="Source">${sourceLink}</td>
               <td>
+                <button class="btn-preview-doc btn-icon-only"
+                  data-doc-name="${escapeHtml(d.doc_name || '')}"
+                  data-client="${escapeHtml(plantName)}"
+                  data-type="${escapeHtml(typeLabel)}"
+                  data-chunks="${d.chunks_indexed ?? '—'}"
+                  data-date="${formatDate(d.ingested_at)}"
+                  data-source="${escapeHtml(d.source_url || '')}"
+                  title="Preview details">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                </button>
                 <button class="btn-delete-doc"
                   data-doc-id="${escapeHtml(d.id)}"
                   data-doc-name="${escapeHtml(d.doc_name || '')}"
@@ -1199,11 +1273,59 @@ function initDocumentsPage() {
   // Delete button delegation — only client docs have delete buttons
   document.addEventListener('click', (e) => {
     const btn = e.target.closest('.btn-delete-doc');
-    if (!btn) return;
-    const docId   = btn.dataset.docId;
-    const docName = btn.dataset.docName;
-    if (docId) deleteDocument(docId, docName);
+    if (btn) {
+      const docId   = btn.dataset.docId;
+      const docName = btn.dataset.docName;
+      if (docId) deleteDocument(docId, docName);
+      return;
+    }
+    
+    // Preview modal delegation
+    const previewBtn = e.target.closest('.btn-preview-doc');
+    if (previewBtn) {
+      const modal = document.getElementById('doc-preview-modal');
+      if (modal) {
+        document.getElementById('modal-doc-title').textContent = previewBtn.dataset.docName || 'Document';
+        document.getElementById('modal-doc-client').textContent = previewBtn.dataset.client || '—';
+        document.getElementById('modal-doc-type').textContent = previewBtn.dataset.type || '—';
+        document.getElementById('modal-doc-chunks').textContent = previewBtn.dataset.chunks || '—';
+        document.getElementById('modal-doc-date').textContent = previewBtn.dataset.date || '—';
+        
+        const sourceUrl = previewBtn.dataset.source;
+        const sourceEl = document.getElementById('modal-doc-source');
+        if (sourceUrl) {
+          sourceEl.innerHTML = `<a href="${sourceUrl}" target="_blank" rel="noopener" class="doc-source-link">${sourceUrl} ↗</a>`;
+        } else {
+          sourceEl.textContent = '—';
+        }
+        
+        modal.classList.add('active');
+      }
+    }
   });
+
+  // Modal close logic
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const modalOverlay = document.getElementById('doc-preview-modal');
+  if (modalCloseBtn && modalOverlay) {
+    modalCloseBtn.addEventListener('click', () => modalOverlay.classList.remove('active'));
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) modalOverlay.classList.remove('active');
+    });
+  }
+
+  // Grid/List toggle logic
+  const bToggle = document.getElementById('benchmark-view-toggle');
+  const bTable = document.getElementById('benchmark-docs-table');
+  if (bToggle && bTable) {
+    bToggle.addEventListener('click', () => bTable.classList.toggle('docs-grid-view'));
+  }
+  
+  const cToggle = document.getElementById('client-view-toggle');
+  const cTable = document.getElementById('client-docs-table');
+  if (cToggle && cTable) {
+    cToggle.addEventListener('click', () => cTable.classList.toggle('docs-grid-view'));
+  }
 }
 
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
