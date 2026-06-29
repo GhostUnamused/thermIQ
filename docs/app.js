@@ -827,10 +827,34 @@ function initQueryCopilot() {
 // ─── Risk Dashboard (dashboard.html) ──────────────────────────────────────────
 
 const COVERAGE_LABELS = {
-  gap:     { text: 'Gap',     cls: 'coverage-gap' },
-  partial: { text: 'Partial', cls: 'coverage-partial' },
-  covered: { text: 'Covered', cls: 'coverage-covered' },
+  gap:     { text: 'Not documented',    cls: 'coverage-gap' },
+  partial: { text: 'Partly documented', cls: 'coverage-partial' },
+  covered: { text: 'Documented',        cls: 'coverage-covered' },
 };
+
+// Plain-language definitions shown on hover/tap behind each (i) icon.
+const GAP_TIPS = {
+  criticality: "<b>How critical this topic is</b>, on a 1–5 scale. Set from CEA forced-outage frequency data and CERC penalty rules — not opinion. 5 = a leading cause of full-unit trips.",
+  match: "<b>How well your plant's own uploaded documents cover this topic</b>, measured by semantic search. 100% = fully documented, 0% = nothing on file.",
+  mttr: "<b>Typical days to repair if this fails</b> (mean time to repair). Shown for context — it does not change the risk score.",
+};
+
+// Renders a small circular info icon. Shows its tooltip on hover, keyboard
+// focus, and tap (the onclick toggles .show for touch devices).
+function infoIcon(tip, extraClass = '') {
+  return `<span class="tiq-info ${extraClass}" tabindex="0" role="button" aria-label="More information"`
+       + ` onclick="this.classList.toggle('show')"`
+       + ` onmouseleave="this.classList.remove('show')">i<span class="tip">${tip}</span></span>`;
+}
+
+function coverageTip(thresholds) {
+  const cov = Math.round(((thresholds && thresholds.covered) || 0.62) * 100);
+  const par = Math.round(((thresholds && thresholds.partial) || 0.45) * 100);
+  return `<b>Does your plant have a documented procedure for this?</b><br><br>`
+       + `<b>Documented</b> — strong match (≥${cov}%)<br>`
+       + `<b>Partly documented</b> — some related text (${par}–${cov}%)<br>`
+       + `<b>Not documented</b> — no real coverage (&lt;${par}%)`;
+}
 
 const GAP_TYPE_LABELS = {
   missing_sop: 'Missing SOP',
@@ -943,10 +967,11 @@ async function initDashboard() {
           // Criticality scale is 1–5 (sourced), not 1–10 arbitrary
           const critScale = '5';
 
-          // Threshold shown so a judge can verify
-          const threshold = g.coverage_threshold_used
-            ? `≥${g.coverage_threshold_used.covered} covered / ≥${g.coverage_threshold_used.partial} partial`
-            : 'threshold n/a';
+          // How well the plant's own docs match this topic (0–100%).
+          const matchPct = Math.round((g.best_match_score || 0) * 100);
+
+          // Coverage threshold definitions live in the coverage column's (i) tooltip.
+          const covTip = coverageTip(g.coverage_threshold_used);
 
           // Unique id for expandable methodology panel
           const detailId = `meth-${i}`;
@@ -970,17 +995,24 @@ async function initDashboard() {
               <td>${escapeHtml(g.equipment_tag || '—')}</td>
               <td class="gap-desc-cell">
                 <div class="gap-desc">${escapeHtml(g.description || '—')}</div>
-                <div class="gap-meta">
-                  ${typeLabel} ·
-                  Criticality ${g.criticality_score || '—'}/${critScale}<span class="criticality-sourced" title="Scale 1–5 tied to CEA outage frequency data and CERC regulations">sourced</span> ·
-                  Client match ${Math.round((g.best_match_score || 0) * 100)}% ·
-                  MTTR ~${g.typical_mttr_days || '?'}d ·
-                  ${threshold}
+                <div class="gap-meta gap-meta--chips">
+                  <span class="chip">${typeLabel}</span>
+                  <span class="chip"><b>Criticality (severity) ${g.criticality_score || '—'}/${critScale}</b>${infoIcon(GAP_TIPS.criticality)}</span>
+                  <span class="chip"><b>Plant docs match ${matchPct}%</b>${infoIcon(GAP_TIPS.match)}</span>
+                  ${g.typical_mttr_days ? `<span class="chip"><b>Repair time ~${g.typical_mttr_days} days</b>${infoIcon(GAP_TIPS.mttr)}</span>` : ''}
                   ${sourceBtn}
                 </div>
                 ${methodPanel}
               </td>
-              <td><span class="coverage-badge ${covInfo.cls}">${covInfo.text}</span></td>
+              <td>
+                <div class="cov-status ${covInfo.cls}">
+                  <span class="cov-dot"></span>
+                  <span class="cov-label">${covInfo.text}</span>
+                  ${infoIcon(covTip, 'tiq-info--right')}
+                </div>
+                <div class="cov-bar"><span class="${covInfo.cls}" style="width:${matchPct}%"></span></div>
+                <div class="cov-sub">${matchPct}% match</div>
+              </td>
               <td>${g.linked_outages || 0}</td>
               <td>
                 <span class="risk-badge risk-${badge}">₹${(g.risk_score_cr || 0).toFixed(1)}</span>

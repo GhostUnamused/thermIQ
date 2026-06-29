@@ -1147,6 +1147,134 @@ body.chat-page .app-layout {
 .coverage-partial { color: var(--amber); }
 .coverage-covered { color: var(--green); }
 
+/* ─── Plain-language coverage cell (dot + label + match bar) ─────────────── */
+
+.cov-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cov-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.cov-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cov-bar {
+  height: 5px;
+  max-width: 130px;
+  border-radius: 3px;
+  background: var(--bg-secondary);
+  overflow: hidden;
+  margin-top: 0.4rem;
+}
+
+.cov-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+  background: currentColor;
+}
+
+.cov-sub {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 0.3rem;
+}
+
+/* ─── Plain-language meta chips ──────────────────────────────────────────── */
+
+.gap-meta--chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.85rem;
+}
+
+.gap-meta--chips .chip {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
+}
+
+.gap-meta--chips .chip b {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* ─── Inline (i) info tooltip — hover, keyboard focus, and tap ───────────── */
+
+.tiq-info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  margin-left: 4px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1;
+  cursor: help;
+  position: relative;
+}
+
+.tiq-info:hover,
+.tiq-info:focus,
+.tiq-info.show {
+  color: var(--accent);
+  border-color: var(--accent);
+  outline: none;
+}
+
+.tiq-info .tip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 150%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 230px;
+  padding: 0.55rem 0.65rem;
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  white-space: normal;
+  z-index: 50;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+  transition: opacity 0.12s ease;
+  pointer-events: none;
+}
+
+.tiq-info .tip b { color: var(--text-primary); font-weight: 600; }
+
+/* Right-anchor the tooltip in the right-most column so it never clips off-screen */
+.tiq-info--right .tip { left: auto; right: 0; transform: none; }
+
+.tiq-info:hover .tip,
+.tiq-info:focus .tip,
+.tiq-info.show .tip {
+  visibility: visible;
+  opacity: 1;
+}
+
 .risk-badge {
   display: inline-block;
   font-size: 0.78rem;
