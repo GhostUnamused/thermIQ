@@ -1056,11 +1056,21 @@ function initUpload() {
   const fileLabel    = document.getElementById('upload-file-name');
 
   const MAX_BYTES = 6 * 1024 * 1024; // 6 MB
-  let selectedFile = null;
+  let selectedFiles = [];   // supports multiple files at once
 
   // Default the plant name to the active client, and populate the selector.
   if (clientNameEl && !clientNameEl.value) clientNameEl.value = getActiveClient();
   initPlantSelector();
+
+  // Remember the last-used Document Type so it doesn't reset on every upload.
+  const DOC_TYPE_KEY = 'thermiq_last_doc_type';
+  if (docType) {
+    const savedType = localStorage.getItem(DOC_TYPE_KEY);
+    if (savedType && [...docType.options].some(o => o.value === savedType)) {
+      docType.value = savedType;
+    }
+    docType.addEventListener('change', () => localStorage.setItem(DOC_TYPE_KEY, docType.value));
+  }
 
   // ── Source type radio helpers ─────────────────────────────────────────────
   function getSourceType() {
@@ -1098,28 +1108,56 @@ function initUpload() {
     const sourceType = getSourceType();
     const needsClientName = sourceType === 'client';
     const clientNameOk = !needsClientName || (clientNameEl && clientNameEl.value.trim());
-    const ready = selectedFile && docName.value.trim() && clientNameOk;
+    // With multiple files each doc is named from its filename, so the single
+    // Document Name field is only required when exactly one file is selected.
+    const nameOk = selectedFiles.length > 1 || docName.value.trim();
+    const ready = selectedFiles.length >= 1 && nameOk && clientNameOk;
     submitBtn.disabled = !ready;
+    if (btnText && !submitBtn.disabled) {
+      btnText.textContent = selectedFiles.length > 1
+        ? `Ingest ${selectedFiles.length} Documents`
+        : 'Ingest Document';
+    }
   }
 
-  // ── File handling ─────────────────────────────────────────────────────────
-  function handleFile(file) {
-    if (!file) return;
-    if (!file.name.toLowerCase().endsWith('.pdf')) {
-      setStatus('Only PDF files are supported.', 'error');
-      return;
+  // Turn a filename into a readable document name.
+  function nameFromFile(file) {
+    return file.name.replace(/\.pdf$/i, '').replace(/[_-]/g, ' ').trim();
+  }
+
+  // ── File handling (accepts one or many) ────────────────────────────────────
+  function handleFiles(fileList) {
+    const incoming = Array.from(fileList || []);
+    if (!incoming.length) return;
+
+    const accepted = [];
+    const skipped = [];
+    for (const file of incoming) {
+      if (!file.name.toLowerCase().endsWith('.pdf')) { skipped.push(`${file.name} (not a PDF)`); continue; }
+      if (file.size > MAX_BYTES) { skipped.push(`${file.name} (>6 MB)`); continue; }
+      accepted.push(file);
     }
-    if (file.size > MAX_BYTES) {
-      setStatus(`File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Max ~6 MB.`, 'error');
+
+    if (!accepted.length) {
+      setStatus(`No files added. ${skipped.join('; ')}`, 'error');
       return;
     }
     clearStatus();
-    selectedFile = file;
-    fileLabel.textContent = `${file.name} · ${(file.size / 1024).toFixed(0)} KB`;
-    dropZone.classList.add('has-file');
-    if (!docName.value.trim()) {
-      docName.value = file.name.replace(/\.pdf$/i, '').replace(/[_-]/g, ' ');
+    selectedFiles = accepted;
+
+    if (selectedFiles.length === 1) {
+      const f = selectedFiles[0];
+      fileLabel.textContent = `${f.name} · ${(f.size / 1024).toFixed(0)} KB`;
+      // Single file: prefill the editable Document Name if empty.
+      if (!docName.value.trim()) docName.value = nameFromFile(f);
+    } else {
+      const totalKB = selectedFiles.reduce((s, f) => s + f.size, 0) / 1024;
+      fileLabel.textContent = `${selectedFiles.length} files selected · ${totalKB.toFixed(0)} KB total · named from filenames`;
     }
+    if (skipped.length) {
+      setStatus(`Added ${accepted.length} file(s). Skipped: ${skipped.join('; ')}`, 'info');
+    }
+    dropZone.classList.add('has-file');
     updateSubmitState();
   }
 
@@ -1128,84 +1166,101 @@ function initUpload() {
   dropZone.addEventListener('drop', e => {
     e.preventDefault();
     dropZone.classList.remove('drag-over');
-    const file = e.dataTransfer.files[0];
-    if (file) handleFile(file);
+    handleFiles(e.dataTransfer.files);
   });
-  fileInput.addEventListener('change', () => {
-    if (fileInput.files[0]) handleFile(fileInput.files[0]);
-  });
+  fileInput.addEventListener('change', () => handleFiles(fileInput.files));
 
   docName.addEventListener('input', updateSubmitState);
   if (clientNameEl) clientNameEl.addEventListener('input', updateSubmitState);
 
-  // ── Submit ────────────────────────────────────────────────────────────────
-  submitBtn.addEventListener('click', async () => {
-    if (!selectedFile || !docName.value.trim()) return;
+  const readAsBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 
-    const sourceType  = getSourceType();
-    const clientName  = (clientNameEl ? clientNameEl.value.trim() : '').toLowerCase();
+  async function ingestOne(file, docNameValue, sourceType, clientName) {
+    const base64 = await readAsBase64(file);
+    const res = await fetch(`${BACKEND}/api/ingest_document`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+      body: JSON.stringify({
+        pdf_base64:  base64,
+        doc_name:    docNameValue,
+        doc_type:    docType.value,
+        source_url:  sourceUrl.value.trim(),
+        source_type: sourceType,
+        client_name: clientName,
+        client:      clientName, // legacy field — keep for compat
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.success) throw new Error(data.error || `Server error ${res.status}`);
+    return data;
+  }
+
+  // ── Submit (handles one OR many files, sequentially) ────────────────────────
+  submitBtn.addEventListener('click', async () => {
+    if (!selectedFiles.length) return;
+
+    const sourceType = getSourceType();
+    const clientName = (clientNameEl ? clientNameEl.value.trim() : '').toLowerCase();
 
     if (sourceType === 'client' && !clientName) {
       setStatus('Please enter a Client / Plant Name (e.g. ntpc_lara) for client documents.', 'error');
       return;
     }
+    if (selectedFiles.length === 1 && !docName.value.trim()) {
+      setStatus('Please enter a Document Name.', 'error');
+      return;
+    }
 
     submitBtn.disabled = true;
-    btnText.textContent = 'Reading PDF…';
     clearStatus();
 
-    try {
-      const base64 = await new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.onerror = reject;
-        reader.readAsDataURL(selectedFile);
-      });
+    const sourceLabel = sourceType === 'client' ? `plant "${clientName}"` : 'benchmark';
+    const results = [];
+    const failures = [];
 
-      btnText.textContent = 'Chunking & embedding…';
-      const sourceLabel = sourceType === 'client' ? `client plant "${clientName}"` : 'benchmark';
-      setStatus(`Ingesting as ${sourceLabel} — embedding via Jina AI, up to 20 seconds…`, 'info');
+    for (let i = 0; i < selectedFiles.length; i++) {
+      const file = selectedFiles[i];
+      // Single file → editable name field; multiple → derive from each filename.
+      const thisName = selectedFiles.length === 1
+        ? docName.value.trim()
+        : nameFromFile(file);
+      const counter = selectedFiles.length > 1 ? `(${i + 1}/${selectedFiles.length}) ` : '';
+      btnText.textContent = `Uploading ${i + 1}/${selectedFiles.length}…`;
+      setStatus(`${counter}Ingesting "${thisName}" into ${sourceLabel} — embedding via Jina AI…`, 'info');
 
-      const res = await fetch(`${BACKEND}/api/ingest_document`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
-        body: JSON.stringify({
-          pdf_base64:  base64,
-          doc_name:    docName.value.trim(),
-          doc_type:    docType.value,
-          source_url:  sourceUrl.value.trim(),
-          source_type: sourceType,
-          client_name: clientName,
-          client:      clientName, // legacy field — keep for compat
-        }),
-      });
-
-      const data = await res.json();
-      if (!res.ok || !data.success) throw new Error(data.error || `Server error ${res.status}`);
-
-      setStatus(
-        `Ingested "${data.doc_name}": ${data.chunks_indexed} chunks from ${data.pages_parsed} pages.`,
-        'success'
-      );
-
-      // Reset form
-      selectedFile = null;
-      fileInput.value = '';
-      docName.value = '';
-      if (clientNameEl) clientNameEl.value = '';
-      if (sourceUrl) sourceUrl.value = '';
-      fileLabel.textContent = 'No file selected · PDF only · max ~6 MB';
-      dropZone.classList.remove('has-file');
-      btnText.textContent = 'Ingest Document';
-      submitBtn.disabled = true;
-
-      setTimeout(loadDocuments, 1500);
-
-    } catch (err) {
-      setStatus(`Error: ${err.message}`, 'error');
-      btnText.textContent = 'Ingest Document';
-      submitBtn.disabled = false;
+      try {
+        const data = await ingestOne(file, thisName, sourceType, clientName);
+        results.push(`"${data.doc_name}": ${data.chunks_indexed} chunks / ${data.pages_parsed} pages`);
+      } catch (err) {
+        failures.push(`"${thisName}": ${err.message}`);
+      }
     }
+
+    // Summary
+    if (failures.length === 0) {
+      setStatus(`Ingested ${results.length} document(s) into ${sourceLabel}. ${results.join(' · ')}`, 'success');
+    } else if (results.length === 0) {
+      setStatus(`All ${failures.length} upload(s) failed. ${failures.join(' · ')}`, 'error');
+    } else {
+      setStatus(`Ingested ${results.length}, failed ${failures.length}. Failed: ${failures.join(' · ')}`, 'error');
+    }
+
+    // Reset file selection (keep plant name + doc type for convenience on repeat uploads)
+    selectedFiles = [];
+    fileInput.value = '';
+    docName.value = '';
+    if (sourceUrl) sourceUrl.value = '';
+    fileLabel.textContent = 'No files selected · PDF only · max ~6 MB each · multiple allowed';
+    dropZone.classList.remove('has-file');
+    btnText.textContent = 'Ingest Document';
+    submitBtn.disabled = true;
+
+    setTimeout(loadDocuments, 1500);
   });
 }
 

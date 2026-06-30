@@ -3,7 +3,7 @@
  * POST /api/ingest_document
  * Body (JSON): { pdf_base64: string, doc_name: string, doc_type: string, source_url?: string, client?: string }
  *
- * Pipeline: base64 PDF → pdfjs-dist → chunk (400 words, 50 overlap) →
+ * Pipeline: base64 PDF → unpdf (serverless-safe) → chunk (400 words, 50 overlap) →
  *            Jina embed (batches of 8) → Qdrant upsert → Firestore update
  *
  * Size limit: ~8 MB base64 (~6 MB PDF). Use local script for larger files.
@@ -18,8 +18,10 @@ module.exports.config = {
   },
 };
 
-const pdfjsLib = require('pdfjs-dist/legacy/build/pdf.js');
-pdfjsLib.GlobalWorkerOptions.workerSrc = '';
+// PDF text extraction uses `unpdf` — a worker-free, serverless-safe wrapper around
+// pdfjs. The previous `pdfjs-dist/legacy` path tried to spawn a fake worker
+// (`Cannot find module './pdf.worker.js'`) which doesn't bundle on Vercel.
+// unpdf is ESM-only, so it is loaded via dynamic import() inside the handler.
 const { QdrantClient } = require('@qdrant/js-client-rest');
 const { initializeApp, getApps, getApp, cert } = require('firebase-admin/app');
 const { getFirestore, FieldValue } = require('firebase-admin/firestore');
@@ -167,23 +169,20 @@ module.exports = async (req, res) => {
       });
     }
 
-    // 1 — Decode and parse PDF
+    // 1 — Decode and parse PDF (via unpdf — no worker, serverless-safe)
     const pdfBuffer = Buffer.from(pdf_base64, 'base64');
     let text = '';
     let numPages = 0;
     try {
+      const { getDocumentProxy, extractText } = await import('unpdf');
       const data = new Uint8Array(pdfBuffer);
-      const loadingTask = pdfjsLib.getDocument({ data, disableWorker: true });
-      const pdf = await loadingTask.promise;
+      const pdf = await getDocumentProxy(data);
       numPages = pdf.numPages;
-      const pageTexts = [];
-      for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-        const page = await pdf.getPage(pageNum);
-        const content = await page.getTextContent();
-        const pageText = content.items.map(item => item.str || '').join(' ');
-        if (pageText.trim().length > 20) pageTexts.push(pageText);
-      }
-      text = pageTexts.join('\n');
+      const extracted = await extractText(pdf, { mergePages: true });
+      // unpdf returns { totalPages, text } where text is a string when mergePages:true,
+      // or an array of per-page strings otherwise. Handle both defensively.
+      text = Array.isArray(extracted.text) ? extracted.text.join('\n') : (extracted.text || '');
+      if (typeof extracted.totalPages === 'number') numPages = extracted.totalPages;
     } catch (pdfErr) {
       return res.status(422).json({
         error: `PDF parse failed: ${pdfErr.message}. File may be corrupted, encrypted, or image-based.`,
