@@ -21,8 +21,9 @@ documents, edit the alias list here BEFORE running the extraction.
 
 SCOPE
 -----
-This file covers the BOILER family only (Phase 1 slice).
-Other equipment families (BFP, Turbine, etc.) will be added in later phases.
+Phase 1 slice: BOILER family (BOILER_* dicts).
+Phase 2 slice: TURBINE family (TURBINE_* dicts).
+Other equipment families (Generator, BFP, etc.) will be added in later phases.
 """
 
 # ─── NODE TYPES ───────────────────────────────────────────────────────────────
@@ -345,6 +346,268 @@ BOILER_REGULATIONS = {
         "requires_procedures": [
             "superheater_maintenance_sop",
             "waterwall_inspection_procedure",
+        ],
+    },
+}
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# PHASE 2 — TURBINE FAMILY
+# ══════════════════════════════════════════════════════════════════════════════
+# Same node/edge types as the Boiler slice. The steam turbine is the machine that
+# the boiler's steam actually spins to make electricity. After the boiler, it's the
+# single biggest forced-outage category in Indian thermal plants (Vasudha/CEA 2022).
+#
+# gap_id values below MUST match the Turbine entries in scripts/detect_gaps.py so
+# the graph links to the same risk_scores the dashboard already shows:
+#   turbine_vibration_response (crit 5), turbine_blade_inspection (crit 4),
+#   turbine_governor_valve_maintenance (crit 3), turbine_oil_system (crit 3).
+
+# ─── TURBINE EQUIPMENT NODES ──────────────────────────────────────────────────
+TURBINE_EQUIPMENT = {
+    "steam_turbine_500mw": {
+        "label": "Steam Turbine (500MW class, HP-IP-LP)",
+        "node_type": "Equipment",
+        "sub_components": [
+            "hp_turbine",
+            "ip_lp_turbine",
+            "turbine_blades",
+            "turbine_bearings",
+            "governing_system",
+            "lube_oil_system",
+        ],
+        "aliases": [
+            "turbine", "steam turbine", "turbine generator", "TG", "TG set",
+            "turbo generator", "turbo-generator", "turbine-generator",
+            "TURBINE", "STEAM TURBINE", "main turbine", "turbine unit",
+        ],
+    },
+
+    "hp_turbine": {
+        "label": "HP Turbine (high-pressure cylinder)",
+        "node_type": "Equipment",
+        "aliases": [
+            "HP turbine", "high pressure turbine", "high-pressure turbine",
+            "HP cylinder", "HP rotor", "HPT",
+            "HP TURBINE", "HIGH PRESSURE TURBINE",
+        ],
+    },
+
+    "ip_lp_turbine": {
+        "label": "IP / LP Turbine (intermediate & low-pressure cylinders)",
+        "node_type": "Equipment",
+        "aliases": [
+            "IP turbine", "LP turbine", "intermediate pressure turbine",
+            "low pressure turbine", "low-pressure turbine",
+            "IP cylinder", "LP cylinder", "IP rotor", "LP rotor",
+            "IPT", "LPT", "IP-LP", "IP/LP",
+            "IP TURBINE", "LP TURBINE", "LOW PRESSURE TURBINE",
+            "last stage blade", "LSB",   # LP last-stage blades — common failure site
+        ],
+    },
+
+    "turbine_blades": {
+        "label": "Turbine Blades (moving & fixed)",
+        "node_type": "Equipment",
+        "aliases": [
+            "blade", "blades", "turbine blade", "turbine blades",
+            "moving blade", "fixed blade", "stationary blade",
+            "blading", "buckets", "nozzle", "diaphragm",
+            "blade root", "blade tip", "shroud",
+            "BLADE", "BLADES", "TURBINE BLADE",
+        ],
+    },
+
+    "turbine_bearings": {
+        "label": "Turbine Bearings (journal & thrust)",
+        "node_type": "Equipment",
+        "aliases": [
+            "bearing", "bearings", "journal bearing", "thrust bearing",
+            "turbine bearing", "babbitt", "white metal",
+            "bearing pedestal", "bearing housing",
+            "BEARING", "JOURNAL BEARING", "THRUST BEARING",
+            "shaft vibration", "rotor vibration",   # vibration is read at the bearings
+        ],
+    },
+
+    "governing_system": {
+        "label": "Governing / Control Valve System",
+        "node_type": "Equipment",
+        "aliases": [
+            "governor", "governing system", "governor valve", "control valve",
+            "GV", "CV", "ESV", "emergency stop valve",
+            "EHC", "electro-hydraulic control", "speed governor",
+            "main stop valve", "MSV", "interceptor valve", "IV",
+            "GOVERNOR", "CONTROL VALVE", "GOVERNING SYSTEM",
+        ],
+    },
+
+    "lube_oil_system": {
+        "label": "Turbine Lubricating Oil System",
+        "node_type": "Equipment",
+        "aliases": [
+            "lube oil", "lubricating oil", "lube oil system", "LO system",
+            "oil system", "turbine oil", "MOT", "main oil tank",
+            "oil pump", "AOP", "auxiliary oil pump", "JOP", "jacking oil pump",
+            "oil cooler", "oil purifier", "centrifuge",
+            "LUBE OIL", "LUBRICATING OIL", "TURBINE OIL",
+        ],
+    },
+}
+
+
+# ─── TURBINE FAILURE MODES ────────────────────────────────────────────────────
+TURBINE_FAILURE_MODES = {
+    "turbine_high_vibration": {
+        "label": "Turbine High Vibration",
+        "node_type": "FailureMode",
+        "equipment": "turbine_bearings",     # vibration is measured at the bearings
+        "cea_failure_categories": ["vibration"],
+        # Plain English: the rotating shaft starts shaking beyond safe limits
+        # (imbalance, misalignment, bearing wear, or a cracked/loose blade).
+        # Past the trip threshold the whole unit auto-trips — a full shutdown.
+        "aliases": [
+            "vibration", "high vibration", "vibrations high", "excessive vibration",
+            "shaft vibration", "rotor vibration", "bearing vibration",
+            "imbalance", "unbalance", "misalignment", "rotor bow", "shaft bow",
+            "VIBRATION", "HIGH VIBRATION", "VIBRATIONS HIGH",
+            "ISO 7919", "ISO 10816",   # the standards that set the limits
+        ],
+    },
+
+    "turbine_blade_damage": {
+        "label": "Turbine Blade Damage / Failure",
+        "node_type": "FailureMode",
+        "equipment": "turbine_blades",
+        "cea_failure_categories": ["blade_damage"],
+        # Plain English: a blade erodes, cracks, or gets struck by debris (FOD).
+        # A failed LP last-stage blade can wreck the whole turbine — months of outage.
+        "aliases": [
+            "blade failure", "blade damage", "blade crack", "blade erosion",
+            "blade fatigue", "blade liberation", "last stage blade failure",
+            "FOD", "foreign object damage", "water induction", "solid particle erosion",
+            "BLADE FAILURE", "BLADE DAMAGE", "BLADE CRACK",
+        ],
+    },
+
+    "governor_valve_failure": {
+        "label": "Governor / Control Valve Failure",
+        "node_type": "FailureMode",
+        "equipment": "governing_system",
+        "cea_failure_categories": [],   # rarely appears as a distinct CEA category
+        # Plain English: the valves that control how much steam reaches the turbine
+        # stick, leak, or mis-calibrate — causing load-control loss or, worst case,
+        # preventing a controlled shutdown.
+        "aliases": [
+            "governor failure", "governor valve", "control valve failure",
+            "valve sticking", "stuck valve", "servo failure", "EHC fault",
+            "load control loss", "runback", "overspeed",
+            "GOVERNOR FAILURE", "CONTROL VALVE", "VALVE STICKING",
+        ],
+    },
+
+    "lube_oil_degradation": {
+        "label": "Lube Oil System Degradation / Low Oil Pressure",
+        "node_type": "FailureMode",
+        "equipment": "lube_oil_system",
+        "cea_failure_categories": [],
+        # Plain English: turbine oil gets contaminated (water, particles) or loses
+        # pressure. Starved bearings overheat and can seize — a bearing wipe.
+        "aliases": [
+            "low oil pressure", "lube oil failure", "oil contamination",
+            "water ingress", "oil degradation", "bearing oil",
+            "viscosity drift", "oil quality", "TAN", "acidity",
+            "LOW OIL PRESSURE", "LUBE OIL", "OIL CONTAMINATION",
+        ],
+    },
+}
+
+
+# ─── TURBINE PROCEDURE NODES ──────────────────────────────────────────────────
+# gap_id + criticality MUST match scripts/detect_gaps.py Turbine entries.
+TURBINE_PROCEDURES = {
+    "turbine_vibration_response_sop": {
+        "label": "Turbine High-Vibration Emergency Response SOP",
+        "node_type": "Procedure",
+        "addresses_failure_modes": ["turbine_high_vibration"],
+        "gap_id": "turbine_vibration_response",
+        "criticality": 5,
+        "qdrant_query": (
+            "turbine vibration high response trip threshold diagnostic "
+            "bearing inspection procedure alarm ISO 7919 load reduction"
+        ),
+    },
+
+    "turbine_blade_inspection_procedure": {
+        "label": "HP/IP/LP Turbine Blade Inspection Procedure",
+        "node_type": "Procedure",
+        "addresses_failure_modes": ["turbine_blade_damage"],
+        "gap_id": "turbine_blade_inspection",
+        "criticality": 4,
+        "qdrant_query": (
+            "turbine blade inspection HP LP IP erosion damage condemning "
+            "criteria FOD foreign object NDT PT RT blade root"
+        ),
+    },
+
+    "turbine_governor_valve_maintenance_sop": {
+        "label": "Governor / Control Valve Maintenance & Testing Procedure",
+        "node_type": "Procedure",
+        "addresses_failure_modes": ["governor_valve_failure"],
+        "gap_id": "turbine_governor_valve_maintenance",
+        "criticality": 3,
+        "qdrant_query": (
+            "turbine governor valve control valve maintenance testing "
+            "calibration procedure servo EHC seat disc leak-off test"
+        ),
+    },
+
+    "turbine_oil_system_sop": {
+        "label": "Turbine Lube Oil System Maintenance Procedure",
+        "node_type": "Procedure",
+        "addresses_failure_modes": ["lube_oil_degradation"],
+        "gap_id": "turbine_oil_system",
+        "criticality": 3,
+        "qdrant_query": (
+            "turbine lubricating oil system maintenance quality testing "
+            "purification bearing oil supply ISO cleanliness TAN viscosity"
+        ),
+    },
+}
+
+
+# ─── TURBINE REGULATION NODES ─────────────────────────────────────────────────
+# NOTE: "cea_om_practices" reuses the SAME node id as the Boiler slice on purpose —
+# it's one real document. When both slices load into Neo4j the MERGE collapses them
+# into a single Regulation node, so the graph shows one regulation governing
+# procedures across BOTH equipment families. That cross-family link is intentional.
+TURBINE_REGULATIONS = {
+    "cea_sts_500mw_turbine": {
+        "label": "CEA Standard Technical Specification 500MW — Turbine-Generator Sections",
+        "node_type": "Regulation",
+        "requires_procedures": [
+            "turbine_vibration_response_sop",
+            "turbine_blade_inspection_procedure",
+            "turbine_governor_valve_maintenance_sop",
+        ],
+    },
+
+    "cea_om_practices": {   # same id as Boiler slice — intentional shared node
+        "label": "CEA Review of O&M Practices for Thermal Power Plants",
+        "node_type": "Regulation",
+        "requires_procedures": [
+            "turbine_vibration_response_sop",
+            "turbine_blade_inspection_procedure",
+            "turbine_governor_valve_maintenance_sop",
+            "turbine_oil_system_sop",
+        ],
+    },
+
+    "iso_vibration_standards": {
+        "label": "ISO 7919 / ISO 10816 — Rotating Machinery Vibration Limits",
+        "node_type": "Regulation",
+        "requires_procedures": [
+            "turbine_vibration_response_sop",
         ],
     },
 }

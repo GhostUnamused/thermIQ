@@ -1,0 +1,449 @@
+{
+  "nodes": [
+    {
+      "id": "steam_turbine_500mw",
+      "type": "Equipment",
+      "label": "Steam Turbine (500MW class, HP-IP-LP)"
+    },
+    {
+      "id": "hp_turbine",
+      "type": "Equipment",
+      "label": "HP Turbine (high-pressure cylinder)"
+    },
+    {
+      "id": "ip_lp_turbine",
+      "type": "Equipment",
+      "label": "IP / LP Turbine (intermediate & low-pressure cylinders)"
+    },
+    {
+      "id": "turbine_blades",
+      "type": "Equipment",
+      "label": "Turbine Blades (moving & fixed)"
+    },
+    {
+      "id": "turbine_bearings",
+      "type": "Equipment",
+      "label": "Turbine Bearings (journal & thrust)"
+    },
+    {
+      "id": "governing_system",
+      "type": "Equipment",
+      "label": "Governing / Control Valve System"
+    },
+    {
+      "id": "lube_oil_system",
+      "type": "Equipment",
+      "label": "Turbine Lubricating Oil System"
+    },
+    {
+      "id": "turbine_high_vibration",
+      "type": "FailureMode",
+      "label": "Turbine High Vibration"
+    },
+    {
+      "id": "turbine_blade_damage",
+      "type": "FailureMode",
+      "label": "Turbine Blade Damage / Failure"
+    },
+    {
+      "id": "governor_valve_failure",
+      "type": "FailureMode",
+      "label": "Governor / Control Valve Failure"
+    },
+    {
+      "id": "lube_oil_degradation",
+      "type": "FailureMode",
+      "label": "Lube Oil System Degradation / Low Oil Pressure"
+    },
+    {
+      "id": "turbine_vibration_response_sop",
+      "type": "Procedure",
+      "label": "Turbine High-Vibration Emergency Response SOP",
+      "status": "PARTIAL",
+      "criticality": 5,
+      "gap_id": "turbine_vibration_response",
+      "evidence_count": 2,
+      "evidence": [
+        {
+          "source": "CEA Standard Technical Specification 500MW",
+          "source_type": "benchmark",
+          "similarity_score": 0.595,
+          "status": "PARTIAL",
+          "quote": "Necessary pick-ups and accessories for remote monitoring of vibrations (horizontal and vertical).",
+          "key_details": [],
+          "what_is_missing": "no specific steps for emergency response, no thresholds for vibration alarms or trips, no decision points or actions to be taken in case of high vibration."
+        },
+        {
+          "source": "CEA Standard Technical Specification 500MW",
+          "source_type": "benchmark",
+          "similarity_score": 0.5713,
+          "status": "PARTIAL",
+          "quote": "For all vibration measurements indicated under (ii) above, a Microprocessor/computer based system shall also be provided to achieve the following functions... identification of the exact nature of failure resulting in increase in bearing vibration and direct message on the TFT indicating the exact nature of fault",
+          "key_details": [
+            "Shaft eccentricity, absolute/relative shaft vibration, differential expansion, overall expansion, stator winding vibration, axial shift, turbine speed, emergency stop and control valve position, temperatures are measured",
+            "Microprocessor/computer based system for on-line spectrum/harmonic analysis, identification of failure nature (e.g., misalignment, shaft crack, bearing looseness), storage, comparative analysis, plot generation",
+            "Vibration and supervisory parameters fed to turbine control system (TCS)"
+          ],
+          "what_is_missing": "Actual procedural steps for an operator or automated system to follow in response to detected high vibration, including specific thresholds for alarms or trips, and the sequence of actions for an emergency shutdown."
+        }
+      ],
+      "key_details": [
+        "Shaft eccentricity, absolute/relative shaft vibration, differential expansion, overall expansion, stator winding vibration, axial shift, turbine speed, emergency stop and control valve position, temperatures are measured",
+        "Microprocessor/computer based system for on-line spectrum/harmonic analysis, identification of failure nature (e.g., misalignment, shaft crack, bearing looseness), storage, comparative analysis, plot generation",
+        "Vibration and supervisory parameters fed to turbine control system (TCS)"
+      ],
+      "is_gap": true
+    },
+    {
+      "id": "turbine_blade_inspection_procedure",
+      "type": "Procedure",
+      "label": "HP/IP/LP Turbine Blade Inspection Procedure",
+      "status": "ABSENT",
+      "criticality": 4,
+      "gap_id": "turbine_blade_inspection",
+      "evidence_count": 0,
+      "evidence": [],
+      "key_details": [],
+      "is_gap": true
+    },
+    {
+      "id": "turbine_governor_valve_maintenance_sop",
+      "type": "Procedure",
+      "label": "Governor / Control Valve Maintenance & Testing Procedure",
+      "status": "PARTIAL",
+      "criticality": 3,
+      "gap_id": "turbine_governor_valve_maintenance",
+      "evidence_count": 2,
+      "evidence": [
+        {
+          "source": "CEA Standard Technical Specification 500MW",
+          "source_type": "benchmark",
+          "similarity_score": 0.4789,
+          "status": "PARTIAL",
+          "quote": "Actuator operated valves shall be checked for seat leakage by closing the valves with actuator. Seat leakage test shall be carried out in both directions.",
+          "key_details": [
+            "seat leakage test for actuator-operated valves",
+            "closing valves with actuator",
+            "test in both directions"
+          ],
+          "what_is_missing": "no mention of 'Governor' procedures; no complete maintenance or testing procedure for control valves; no acceptance criteria or specific thresholds for seat leakage; no numbered steps or full sequence for a maintenance/testing SOP."
+        },
+        {
+          "source": "CEA Standard Technical Specification 500MW",
+          "source_type": "benchmark",
+          "similarity_score": 0.4689,
+          "status": "PARTIAL",
+          "quote": "Performance testing shall be carried out on valve operators and actuators to check functional requirements like trip closing and opening time, valve lift and hysterisis.",
+          "key_details": [
+            "Performance testing required for valve operators and actuators",
+            "Checks for trip closing and opening time",
+            "Checks for valve lift",
+            "Checks for hysterisis"
+          ],
+          "what_is_missing": "Specific methodology/steps for conducting the performance tests; acceptance criteria or thresholds for trip closing/opening time, valve lift, and hysterisis."
+        }
+      ],
+      "key_details": [
+        "seat leakage test for actuator-operated valves",
+        "closing valves with actuator",
+        "test in both directions",
+        "Performance testing required for valve operators and actuators",
+        "Checks for trip closing and opening time",
+        "Checks for valve lift",
+        "Checks for hysterisis"
+      ],
+      "is_gap": false
+    },
+    {
+      "id": "turbine_oil_system_sop",
+      "type": "Procedure",
+      "label": "Turbine Lube Oil System Maintenance Procedure",
+      "status": "PARTIAL",
+      "criticality": 3,
+      "gap_id": "turbine_oil_system",
+      "evidence_count": 1,
+      "evidence": [
+        {
+          "source": "CEA Standard Technical Specification 500MW",
+          "source_type": "benchmark",
+          "similarity_score": 0.5765,
+          "status": "PARTIAL",
+          "quote": "• One no. oil conditioning system of centrifuge type as specified for main turbine • One no. portable type oil purifier per unit",
+          "key_details": [
+            "Oil conditioning system (centrifuge type)",
+            "Portable type oil purifier per unit"
+          ],
+          "what_is_missing": "The passage describes components related to oil conditioning/purification but does not provide actual procedural steps, frequencies, thresholds, or criteria for performing maintenance on the lube oil system."
+        }
+      ],
+      "key_details": [
+        "Oil conditioning system (centrifuge type)",
+        "Portable type oil purifier per unit"
+      ],
+      "is_gap": false
+    },
+    {
+      "id": "cea_sts_500mw_turbine",
+      "type": "Regulation",
+      "label": "CEA Standard Technical Specification 500MW — Turbine-Generator Sections"
+    },
+    {
+      "id": "cea_om_practices",
+      "type": "Regulation",
+      "label": "CEA Review of O&M Practices for Thermal Power Plants"
+    },
+    {
+      "id": "iso_vibration_standards",
+      "type": "Regulation",
+      "label": "ISO 7919 / ISO 10816 — Rotating Machinery Vibration Limits"
+    },
+    {
+      "id": "outage_JSW_Energy_Utkal_Limited_1_2026-06-24",
+      "type": "OutageEvent",
+      "label": "JSW Energy Utkal Limited — 2026-06-24",
+      "station": "JSW Energy Utkal Limited",
+      "unit": "1",
+      "mw_lost": 350.0,
+      "date_out": "2026-06-24",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 11.34,
+      "failure_reason_raw": "TURBINE MISC. PROBLEM",
+      "failure_category": "unclassified"
+    },
+    {
+      "id": "outage_MUTHIARA_TPP_1_2026-06-20",
+      "type": "OutageEvent",
+      "label": "MUTHIARA TPP — 2026-06-20",
+      "station": "MUTHIARA TPP",
+      "unit": "1",
+      "mw_lost": 600.0,
+      "date_out": "2026-06-20",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 19.44,
+      "failure_reason_raw": "TURBINE MISC. PROBLEM",
+      "failure_category": "unclassified"
+    },
+    {
+      "id": "outage_RAGHUNATHPUR_TPP_2_2026-04-14",
+      "type": "OutageEvent",
+      "label": "RAGHUNATHPUR TPP — 2026-04-14",
+      "station": "RAGHUNATHPUR TPP",
+      "unit": "2",
+      "mw_lost": 600.0,
+      "date_out": "2026-04-14",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 19.44,
+      "failure_reason_raw": "TURBINE VIBRATIONS HIGH",
+      "failure_category": "vibration"
+    },
+    {
+      "id": "outage_SIMHAPURI_TPS_2_2026-06-20",
+      "type": "OutageEvent",
+      "label": "SIMHAPURI TPS — 2026-06-20",
+      "station": "SIMHAPURI TPS",
+      "unit": "2",
+      "mw_lost": 150.0,
+      "date_out": "2026-06-20",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 4.86,
+      "failure_reason_raw": "TURBINE MISC. PROBLEM",
+      "failure_category": "unclassified"
+    },
+    {
+      "id": "outage_YADADRI_TPS_3_2026-06-07",
+      "type": "OutageEvent",
+      "label": "YADADRI TPS — 2026-06-07",
+      "station": "YADADRI TPS",
+      "unit": "3",
+      "mw_lost": 800.0,
+      "date_out": "2026-06-07",
+      "outage_hours": 72,
+      "revenue_lost_est_cr": 25.92,
+      "failure_reason_raw": "TURBINE MISC.",
+      "failure_category": "unclassified"
+    }
+  ],
+  "edges": [
+    {
+      "from": "steam_turbine_500mw",
+      "type": "HAS_SUB_COMPONENT",
+      "to": "hp_turbine"
+    },
+    {
+      "from": "steam_turbine_500mw",
+      "type": "HAS_SUB_COMPONENT",
+      "to": "ip_lp_turbine"
+    },
+    {
+      "from": "steam_turbine_500mw",
+      "type": "HAS_SUB_COMPONENT",
+      "to": "turbine_blades"
+    },
+    {
+      "from": "steam_turbine_500mw",
+      "type": "HAS_SUB_COMPONENT",
+      "to": "turbine_bearings"
+    },
+    {
+      "from": "steam_turbine_500mw",
+      "type": "HAS_SUB_COMPONENT",
+      "to": "governing_system"
+    },
+    {
+      "from": "steam_turbine_500mw",
+      "type": "HAS_SUB_COMPONENT",
+      "to": "lube_oil_system"
+    },
+    {
+      "from": "turbine_bearings",
+      "type": "HAS_FAILURE_MODE",
+      "to": "turbine_high_vibration"
+    },
+    {
+      "from": "turbine_blades",
+      "type": "HAS_FAILURE_MODE",
+      "to": "turbine_blade_damage"
+    },
+    {
+      "from": "governing_system",
+      "type": "HAS_FAILURE_MODE",
+      "to": "governor_valve_failure"
+    },
+    {
+      "from": "lube_oil_system",
+      "type": "HAS_FAILURE_MODE",
+      "to": "lube_oil_degradation"
+    },
+    {
+      "from": "turbine_high_vibration",
+      "type": "ADDRESSED_BY",
+      "to": "turbine_vibration_response_sop",
+      "status": "PARTIAL",
+      "is_gap": true
+    },
+    {
+      "from": "turbine_blade_damage",
+      "type": "ADDRESSED_BY",
+      "to": "turbine_blade_inspection_procedure",
+      "status": "ABSENT",
+      "is_gap": true
+    },
+    {
+      "from": "governor_valve_failure",
+      "type": "ADDRESSED_BY",
+      "to": "turbine_governor_valve_maintenance_sop",
+      "status": "PARTIAL",
+      "is_gap": false
+    },
+    {
+      "from": "lube_oil_degradation",
+      "type": "ADDRESSED_BY",
+      "to": "turbine_oil_system_sop",
+      "status": "PARTIAL",
+      "is_gap": false
+    },
+    {
+      "from": "turbine_vibration_response_sop",
+      "type": "REQUIRED_BY",
+      "to": "cea_sts_500mw_turbine"
+    },
+    {
+      "from": "turbine_blade_inspection_procedure",
+      "type": "REQUIRED_BY",
+      "to": "cea_sts_500mw_turbine"
+    },
+    {
+      "from": "turbine_governor_valve_maintenance_sop",
+      "type": "REQUIRED_BY",
+      "to": "cea_sts_500mw_turbine"
+    },
+    {
+      "from": "turbine_vibration_response_sop",
+      "type": "REQUIRED_BY",
+      "to": "cea_om_practices"
+    },
+    {
+      "from": "turbine_blade_inspection_procedure",
+      "type": "REQUIRED_BY",
+      "to": "cea_om_practices"
+    },
+    {
+      "from": "turbine_governor_valve_maintenance_sop",
+      "type": "REQUIRED_BY",
+      "to": "cea_om_practices"
+    },
+    {
+      "from": "turbine_oil_system_sop",
+      "type": "REQUIRED_BY",
+      "to": "cea_om_practices"
+    },
+    {
+      "from": "turbine_vibration_response_sop",
+      "type": "REQUIRED_BY",
+      "to": "iso_vibration_standards"
+    },
+    {
+      "from": "outage_JSW_Energy_Utkal_Limited_1_2026-06-24",
+      "type": "INSTANCE_OF",
+      "to": "turbine_high_vibration"
+    },
+    {
+      "from": "outage_JSW_Energy_Utkal_Limited_1_2026-06-24",
+      "type": "OCCURRED_AT",
+      "to": "steam_turbine_500mw"
+    },
+    {
+      "from": "outage_MUTHIARA_TPP_1_2026-06-20",
+      "type": "INSTANCE_OF",
+      "to": "turbine_high_vibration"
+    },
+    {
+      "from": "outage_MUTHIARA_TPP_1_2026-06-20",
+      "type": "OCCURRED_AT",
+      "to": "steam_turbine_500mw"
+    },
+    {
+      "from": "outage_RAGHUNATHPUR_TPP_2_2026-04-14",
+      "type": "INSTANCE_OF",
+      "to": "turbine_high_vibration"
+    },
+    {
+      "from": "outage_RAGHUNATHPUR_TPP_2_2026-04-14",
+      "type": "OCCURRED_AT",
+      "to": "steam_turbine_500mw"
+    },
+    {
+      "from": "outage_SIMHAPURI_TPS_2_2026-06-20",
+      "type": "INSTANCE_OF",
+      "to": "turbine_high_vibration"
+    },
+    {
+      "from": "outage_SIMHAPURI_TPS_2_2026-06-20",
+      "type": "OCCURRED_AT",
+      "to": "steam_turbine_500mw"
+    },
+    {
+      "from": "outage_YADADRI_TPS_3_2026-06-07",
+      "type": "INSTANCE_OF",
+      "to": "turbine_high_vibration"
+    },
+    {
+      "from": "outage_YADADRI_TPS_3_2026-06-07",
+      "type": "OCCURRED_AT",
+      "to": "steam_turbine_500mw"
+    }
+  ],
+  "meta": {
+    "extracted_at": "2026-06-30T17:00:48.142846+00:00",
+    "slice": "Turbine",
+    "node_count": 23,
+    "edge_count": 32,
+    "outage_events": 5,
+    "total_outage_revenue_cr": 81.0,
+    "confirmed_gaps": 2,
+    "gap_ids": [
+      "turbine_vibration_response",
+      "turbine_blade_inspection"
+    ]
+  }
+}

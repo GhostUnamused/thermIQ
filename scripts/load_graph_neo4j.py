@@ -9,7 +9,13 @@ Idempotent: safe to run multiple times. MERGE on node id means
 re-running will update properties but won't create duplicate nodes.
 
 Usage (from project root):
-    python scripts/load_graph_neo4j.py
+    python scripts/load_graph_neo4j.py                       # default: boiler_slice.json
+    python scripts/load_graph_neo4j.py turbine_slice.json    # load a different slice
+    python scripts/load_graph_neo4j.py data/graph_slices/turbine_slice.json
+
+A bare filename is resolved under data/graph_slices/. Loading is idempotent and
+additive (MERGE on node id), so loading the turbine slice after the boiler slice
+extends the same graph rather than replacing it.
 
 Requires:
     pip install neo4j python-dotenv
@@ -36,7 +42,21 @@ if not all([NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD]):
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 PROJECT_ROOT = Path(__file__).parent.parent
-SLICE_PATH   = PROJECT_ROOT / "data" / "graph_slices" / "boiler_slice.json"
+SLICES_DIR   = PROJECT_ROOT / "data" / "graph_slices"
+
+
+def resolve_slice_path(arg: str | None) -> Path:
+    """Default to boiler_slice.json. A bare filename resolves under the slices dir;
+    an absolute/relative path with separators is used as-is."""
+    if not arg:
+        return SLICES_DIR / "boiler_slice.json"
+    p = Path(arg)
+    if p.parent == Path("."):          # bare filename like "turbine_slice.json"
+        return SLICES_DIR / p
+    return p if p.is_absolute() else PROJECT_ROOT / p
+
+
+SLICE_PATH = resolve_slice_path(sys.argv[1] if len(sys.argv) > 1 else None)
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
