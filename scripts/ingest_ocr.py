@@ -180,7 +180,12 @@ def main():
         sys.exit(1)
 
     pdf_path, doc_type, source_doc_name, source_url = sys.argv[1:5]
-    doc_client = sys.argv[5] if len(sys.argv) > 5 else ""
+    doc_client = (sys.argv[5] if len(sys.argv) > 5 else "").strip().lower()
+    # Same convention as ingest_documents.py — these two fields are what
+    # detect_gaps.py and api/query.js filter on. Without them, OCR-ingested
+    # docs are invisible to gap detection and the benchmark/client split.
+    source_type = "client" if doc_client else "benchmark"
+    client_name = doc_client  # "" for benchmark docs
     doc_slug = source_doc_name.lower().replace(" ", "_")
 
     start_time = time.time()
@@ -232,7 +237,9 @@ def main():
             "source_doc": source_doc_name,
             "source_url": source_url,
             "doc_type": doc_type,
-            "client": doc_client,
+            "client": doc_client,  # legacy field
+            "source_type": source_type,   # "benchmark" or "client" — used by gap detection filter
+            "client_name": client_name,   # "" for benchmark; plant slug for client docs
             "equipment_tags": chunk["equipment_tags"],
             "section": "",
             "page_number": chunk["page_number"],
@@ -253,7 +260,7 @@ def main():
         upsert_count += len(batch)
         print(f"  Upserted {upsert_count}/{len(points)} points.")
 
-    print("Updating Firestore system_meta...")
+    print("Updating Firestore system_meta + documents...")
     db = get_firestore_client()
     db.collection("system_meta").document("config").set(
         {
@@ -264,6 +271,25 @@ def main():
         merge=True,
     )
 
+    # Per-document record — this is what api/list_documents.js reads to populate
+    # the Documents page (same shape as ingest_documents.py writes).
+    doc_id = f"{source_type}_{int(time.time() * 1000)}"
+    db.collection("documents").document(doc_id).set(
+        {
+            "doc_name": source_doc_name,
+            "doc_type": doc_type,
+            "client": doc_client,
+            "source_url": source_url,
+            "source_type": source_type,
+            "client_name": client_name,
+            "chunks_indexed": len(chunks),
+            "pages_parsed": len(pages),
+            "ingested_at": ingested_at,
+            "ocr": True,
+        }
+    )
+    print(f"  Firestore documents/{doc_id} written.")
+
     elapsed = time.time() - start_time
     print("\n--- OCR Ingestion Summary ---")
     print(f"Source: {source_doc_name}")
@@ -272,6 +298,8 @@ def main():
     print(f"Qdrant upserts: {upsert_count}")
     print(f"Time taken: {elapsed:.1f}s")
 
+# NOTE: run `python scripts/detect_gaps.py --client <plant>` after OCR ingestion
+# so the new chunks are reflected in the dashboard's gap scores.
 
 if __name__ == "__main__":
     main()

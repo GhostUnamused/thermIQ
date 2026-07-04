@@ -36,7 +36,7 @@ async function initPlantSelector() {
     });
   } catch (_) { /* selector still works with just the active client */ }
   sel.innerHTML = [...names].sort().map(
-    (n) => `<option value="${n}"${n === active ? ' selected' : ''}>${n}</option>`
+    (n) => `<option value="${escapeHtml(n)}"${n === active ? ' selected' : ''}>${escapeHtml(n)}</option>`
   ).join('');
   sel.addEventListener('change', () => { setActiveClient(sel.value); window.location.reload(); });
 }
@@ -1055,7 +1055,9 @@ function initUpload() {
   const statusEl     = document.getElementById('upload-status');
   const fileLabel    = document.getElementById('upload-file-name');
 
-  const MAX_BYTES = 6 * 1024 * 1024; // 6 MB
+  // Must stay under Vercel's ~4.5 MB request-body cap after base64 (+33%) overhead —
+  // larger files die at the platform edge with an opaque 413.
+  const MAX_BYTES = 3 * 1024 * 1024; // 3 MB
   let selectedFiles = [];   // supports multiple files at once
 
   // Default the plant name to the active client, and populate the selector.
@@ -1134,7 +1136,7 @@ function initUpload() {
     const skipped = [];
     for (const file of incoming) {
       if (!file.name.toLowerCase().endsWith('.pdf')) { skipped.push(`${file.name} (not a PDF)`); continue; }
-      if (file.size > MAX_BYTES) { skipped.push(`${file.name} (>6 MB)`); continue; }
+      if (file.size > MAX_BYTES) { skipped.push(`${file.name} (>3 MB)`); continue; }
       accepted.push(file);
     }
 
@@ -1255,7 +1257,7 @@ function initUpload() {
     fileInput.value = '';
     docName.value = '';
     if (sourceUrl) sourceUrl.value = '';
-    fileLabel.textContent = 'No files selected · PDF only · max ~6 MB each · multiple allowed';
+    fileLabel.textContent = 'No files selected · PDF only · max ~3 MB each · multiple allowed';
     dropZone.classList.remove('has-file');
     btnText.textContent = 'Ingest Document';
     submitBtn.disabled = true;
@@ -1480,8 +1482,12 @@ function initDocumentsPage() {
         
         const sourceUrl = previewBtn.dataset.source;
         const sourceEl = document.getElementById('modal-doc-source');
-        if (sourceUrl) {
-          sourceEl.innerHTML = `<a href="${sourceUrl}" target="_blank" rel="noopener" class="doc-source-link">${sourceUrl} ↗</a>`;
+        // Only render as a link for http(s) URLs, and escape — source_url is
+        // user-supplied at upload time, so it must not reach innerHTML raw.
+        if (sourceUrl && /^https?:\/\//i.test(sourceUrl)) {
+          sourceEl.innerHTML = `<a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener" class="doc-source-link">${escapeHtml(sourceUrl)} ↗</a>`;
+        } else if (sourceUrl) {
+          sourceEl.textContent = sourceUrl;
         } else {
           sourceEl.textContent = '—';
         }

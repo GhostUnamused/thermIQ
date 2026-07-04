@@ -399,7 +399,11 @@ async function runGeminiAgentic(modelName, query, clientName, db, history = [], 
     history: geminiHistory,
   });
   const turn1 = await withTimeout(chat.sendMessage(query), GEMINI_MODEL_TIMEOUT_MS, modelName);
-  const parts1 = turn1.response.candidates[0].content.parts;
+  // Guard: safety blocks / malformed responses return no candidates. The
+  // "empty answer" phrasing matches isThrottleError() so the key/model cascade
+  // (and NIM/OpenRouter fallbacks) continue instead of crashing to a 500.
+  const parts1 = turn1?.response?.candidates?.[0]?.content?.parts;
+  if (!parts1) throw new Error(`${modelName} returned an empty answer (no candidates — possibly safety-blocked)`);
   const calls  = parts1.filter(p => p.functionCall);
 
   if (!calls.length) {
@@ -418,6 +422,8 @@ async function runGeminiAgentic(modelName, query, clientName, db, history = [], 
   );
 
   const turn2  = await withTimeout(chat.sendMessage(responses), GEMINI_MODEL_TIMEOUT_MS, modelName);
+  // Same guard for the post-tool turn — .text() throws on candidate-less responses.
+  if (!turn2?.response?.candidates?.[0]) throw new Error(`${modelName} returned an empty answer after tool execution (no candidates)`);
   const answer = turn2.response.text();
   if (!answer.trim()) throw new Error(`${modelName} returned an empty answer after tool execution`);
   return { answer, toolsUsed, model: modelName };

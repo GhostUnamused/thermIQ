@@ -80,7 +80,7 @@
       <h2>Add New Document</h2>
       <p class="upload-description">
         Upload a PDF. Text is chunked into 400-word passages and embedded via Jina AI into Qdrant.
-        Max ~6 MB per upload. For larger files use <code>scripts/ingest_documents.py</code> locally.
+        Max ~3 MB per upload (Vercel request-body cap). For larger files use <code>scripts/ingest_documents.py</code> locally.
       </p>
 
       <!-- Web uploads are client plant documents only. Benchmark sources (the CEA
@@ -131,7 +131,7 @@
             <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round"/>
           </svg>
           <p class="drop-text">Drop PDFs here or <label for="upload-file-input" class="drop-link">browse</label></p>
-          <p class="drop-hint" id="upload-file-name">No files selected · PDF only · max ~6 MB each · multiple allowed</p>
+          <p class="drop-hint" id="upload-file-name">No files selected · PDF only · max ~3 MB each · multiple allowed</p>
           <input type="file" id="upload-file-input" accept=".pdf" multiple style="display:none" />
         </div>
         <div class="upload-actions">

@@ -731,6 +731,10 @@ def detect_gaps(client_name=None):
             # Methodology audit trail — every number is traceable
             "benchmark_requirement":   item["query"],
             "client_name_assessed":    client_name or "all_clients",
+            # Namespacing field the API readers filter on (api/gap_analysis.js,
+            # api/query.js toolGetRiskRegistry, api/clear_client.js). Empty string
+            # for un-namespaced runs → those fall into the readers' legacy branch.
+            "client_name":             (client_name or "").strip().lower(),
             "best_match_score":        round(best_score, 3),
             "avg_match_score":         round(avg_score, 3),
             "coverage_threshold_used": COVERAGE_THRESHOLDS,
@@ -775,14 +779,27 @@ def detect_gaps(client_name=None):
     results.sort(key=lambda r: r["risk_score_cr"], reverse=True)
 
     # ── Write to Firestore ────────────────────────────────────────────────────
+    # Doc IDs are namespaced "<client>__<gap_id>" when a client is set (matches
+    # what api/clear_client.js expects), plain gap_id for un-namespaced runs.
+    # Only THIS namespace's old records are cleared — other clients' scores and
+    # legacy records survive a scoped re-run.
     print("\n" + "=" * 70)
     print("Writing to Firestore risk_scores…")
-    existing = list(db.collection("risk_scores").stream())
-    for doc in existing:
-        doc.reference.delete()
-    print(f"  Cleared {len(existing)} old records.")
+    cn = (client_name or "").strip().lower()
+    cleared = 0
+    for doc in db.collection("risk_scores").stream():
+        data = doc.to_dict() or {}
+        if cn:
+            same_ns = data.get("client_name", "") == cn or doc.id.startswith(f"{cn}__")
+        else:
+            same_ns = not data.get("client_name")
+        if same_ns:
+            doc.reference.delete()
+            cleared += 1
+    print(f"  Cleared {cleared} old records for namespace '{cn or '(legacy/global)'}'.")
     for r in results:
-        db.collection("risk_scores").document(r["gap_id"]).set(r)
+        doc_id = f"{cn}__{r['gap_id']}" if cn else r["gap_id"]
+        db.collection("risk_scores").document(doc_id).set(r)
     print(f"  Written {len(results)} records.")
 
     # ── Summary ───────────────────────────────────────────────────────────────

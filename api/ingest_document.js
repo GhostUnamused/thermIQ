@@ -6,17 +6,11 @@
  * Pipeline: base64 PDF → unpdf (serverless-safe) → chunk (400 words, 50 overlap) →
  *            Jina embed (batches of 8) → Qdrant upsert → Firestore update
  *
- * Size limit: ~8 MB base64 (~6 MB PDF). Use local script for larger files.
+ * Size limit: Vercel's platform request-body cap is ~4.5 MB, which bounds the
+ * PDF to roughly ~3 MB after base64 overhead. Larger uploads are rejected at
+ * the platform edge (413) before this code runs. Use the local script
+ * (scripts/ingest_documents.py) for larger files.
  */
-
-// Increase Vercel body size limit for this function (base64 PDFs are large)
-module.exports.config = {
-  api: {
-    bodyParser: {
-      sizeLimit: '10mb',
-    },
-  },
-};
 
 // PDF text extraction uses `unpdf` — a worker-free, serverless-safe wrapper around
 // pdfjs. The previous `pdfjs-dist/legacy` path tried to spawn a fake worker
@@ -32,7 +26,9 @@ const COLLECTION_NAME = 'thermiq_chunks';
 const CHUNK_WORDS     = 400;
 const CHUNK_OVERLAP   = 50;
 const JINA_BATCH_SIZE = 8;
-const MAX_BASE64_BYTES = 8 * 1024 * 1024; // 8 MB
+// Vercel's platform body cap is ~4.5 MB — anything above that dies at the edge
+// with a bare 413 before this code runs, so the in-code limit must sit below it.
+const MAX_BASE64_BYTES = Math.floor(4.3 * 1024 * 1024); // ≈3 MB PDF after base64 overhead
 
 const EQUIPMENT_KEYWORDS = {
   Boiler:          ['boiler','furnace','super heater','superheater','economiser','air preheater','steam drum','burner'],
@@ -165,7 +161,7 @@ module.exports = async (req, res) => {
     // Check size (base64 string length as proxy for byte size)
     if (pdf_base64.length > MAX_BASE64_BYTES) {
       return res.status(413).json({
-        error: 'PDF too large. Maximum ~6 MB. Use local ingest script for larger files.',
+        error: 'PDF too large. Maximum ~3 MB (Vercel request-body cap). Use local ingest script for larger files.',
       });
     }
 

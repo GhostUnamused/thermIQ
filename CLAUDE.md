@@ -6,7 +6,7 @@ Quantifies knowledge gaps as ₹ crore operational risk.
 Formula: `risk_score_cr = criticality_score × consequence_cr × exposure_score`
 
 **Builder:** YC (IIM Amritsar IPM student, no coding background — Claude is the dev partner)
-**Deadline:** ~July 1, 2026
+**Deadline:** ~July 20, 2026
 
 **Live URLs:**
 - Frontend (GitHub Pages mirror): https://ghostunamused.github.io/thermIQ
@@ -34,21 +34,27 @@ Formula: `risk_score_cr = criticality_score × consequence_cr × exposure_score`
 ## Cowork ↔ Claude Code Bridge Protocol
 
 Cowork (Claude in the desktop app) cannot push to GitHub, run local scripts, or make git commits.
-Claude Code handles all of those. They communicate through **`BRIDGE.md`** in this folder.
+Claude Code handles all of those. They communicate through **`BRIDGE.md`** (active queue) and **`LOG.md`** (completed history).
+
+### Two-file design
+- **`BRIDGE.md`** — active tasks only (PENDING / IN_PROGRESS). Stays small so CC can read it cheaply on every startup. No completed task text lives here.
+- **`LOG.md`** — append-only archive of completed tasks, one compact 3-line entry per task. CC does **not** read LOG.md on startup.
 
 ### How it works
 
-1. **Cowork** writes tasks to `BRIDGE.md` in the format below and updates this log after making file edits.
-2. **Claude Code** (running inside the Claude desktop app) reads `BRIDGE.md` on startup, finds any `PENDING` tasks, implements them, then updates each task's status to `DONE` or `FAILED` with a note.
-3. To stay live, Claude Code runs `python scripts/watch_bridge.py` — it blocks (stays awake), does nothing until `BRIDGE.md` changes, then prints every `[PENDING]` task and exits. CC implements them, updates status, commits if required, and re-runs the command to wait for the next change.
-4. Both sides append to the log — never delete old entries. Completed tasks stay for audit trail.
+1. **Cowork** writes a `[PENDING]` task to `BRIDGE.md` using the format below.
+2. **Claude Code** reads `BRIDGE.md` on startup, implements each `[PENDING]` task in order, then:
+   - Marks the task `[DONE]` or `[FAILED: reason]` in `BRIDGE.md`
+   - Appends a compact summary to `LOG.md` (3 lines max: what was done, key outcome, commit hash)
+   - Removes (or leaves as a 1-line stub) the completed task from `BRIDGE.md` to keep it lean
+3. To stay live, CC runs `python scripts/watch_bridge.py` — polls every 3s, prints all `[PENDING]` blocks and exits on any change. CC implements, updates, then re-runs the watcher.
 
 ### Claude Code startup checklist
 **Every time Claude Code opens this project**, do this first:
-1. Read `BRIDGE.md`
-2. If any tasks are marked `[PENDING]`, implement them in order
-3. Update each task to `[DONE]` or `[FAILED: reason]` when finished
-4. Commit and push if the task requires it (check task instructions)
+1. Read `BRIDGE.md` (small — active tasks only)
+2. Implement any `[PENDING]` tasks in order
+3. For each completed task: update status in `BRIDGE.md`, append 3-line summary to `LOG.md`
+4. Commit and push if the task requires it
 
 ### Task format Cowork uses in BRIDGE.md
 
@@ -63,12 +69,20 @@ Claude Code handles all of those. They communicate through **`BRIDGE.md`** in th
 **Notes:** any context
 ```
 
+### LOG.md entry format (CC writes this when done)
+
+```
+## task-XXX | YYYY-MM-DD | DONE
+One-line description of what was done.
+Key outcome (metrics, errors fixed, etc). Commit: <hash>
+```
+
 ### Status markers
 - `[PENDING]` — Cowork has written this, CC has not yet acted
-- `[IN_PROGRESS]` — CC is working on it (CC updates this itself)
-- `[DONE]` — CC completed it, include summary of what was done
-- `[FAILED: reason]` — CC could not complete it, include error/reason
-- `[COWORK_NOTE]` — Cowork leaving a follow-up note on a completed task
+- `[IN_PROGRESS]` — CC is working on it
+- `[DONE]` — CC completed it (full details in LOG.md)
+- `[FAILED: reason]` — CC could not complete it
+- `[COWORK_NOTE]` — Cowork leaving a follow-up note
 
 ---
 
@@ -77,7 +91,8 @@ Claude Code handles all of those. They communicate through **`BRIDGE.md`** in th
 ```
 ET AI Hackathon/
 ├── CLAUDE.md                      ← you are here
-├── BRIDGE.md                      ← Cowork ↔ CC communication log
+├── BRIDGE.md                      ← active task queue (read this on startup; keep it lean)
+├── LOG.md                         ← completed task archive (human reference; CC does not read on startup)
 ├── scripts/
 │   └── watch_bridge.py            ← CC runs `python scripts/watch_bridge.py` to stay awake on BRIDGE.md
 ├── docs/
