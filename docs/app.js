@@ -38,7 +38,12 @@ async function initPlantSelector() {
   sel.innerHTML = [...names].sort().map(
     (n) => `<option value="${escapeHtml(n)}"${n === active ? ' selected' : ''}>${escapeHtml(n)}</option>`
   ).join('');
-  sel.addEventListener('change', () => { setActiveClient(sel.value); window.location.reload(); });
+  // Guard against double-wiring — initUpload and initDashboard both call this
+  // on the single-page shell, and duplicate listeners would double-reload.
+  if (!sel.dataset.wired) {
+    sel.dataset.wired = '1';
+    sel.addEventListener('change', () => { setActiveClient(sel.value); window.location.reload(); });
+  }
 }
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
@@ -1221,7 +1226,7 @@ function initUpload() {
     submitBtn.disabled = true;
     clearStatus();
 
-    const sourceLabel = sourceType === 'client' ? `plant "${clientName}"` : 'benchmark';
+    const sourceLabel = sourceType === 'client' ? `plant "${clientName}"` : 'guideline corpus';
     const results = [];
     const failures = [];
 
@@ -1309,7 +1314,7 @@ async function loadDocuments() {
     // ── Benchmark rows (no delete button) ─────────────────────────────────
     if (benchmarkBody) {
       if (!benchmarks.length) {
-        benchmarkBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">No benchmark documents found. Run the patch script if you just migrated.</td></tr>`;
+        benchmarkBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">No guideline documents found. Run the patch script if you just migrated.</td></tr>`;
       } else {
         benchmarkBody.innerHTML = benchmarks.map(d => {
           const typeLabel  = DOC_TYPE_LABELS[d.doc_type] || escapeHtml(d.doc_type || '—');
@@ -1320,7 +1325,7 @@ async function loadDocuments() {
             <tr class="doc-row-benchmark">
               <td class="doc-name-cell">
                 ${escapeHtml(d.doc_name || '—')}
-                <span class="doc-lock-icon" title="Benchmark locked">Locked</span>
+                <span class="doc-lock-icon" title="Guideline document — locked">Locked</span>
               </td>
               <td data-label="Type">${typeLabel}</td>
               <td data-label="Chunks">${d.chunks_indexed ?? '—'}</td>
@@ -1330,7 +1335,7 @@ async function loadDocuments() {
               <td>
                 <button class="btn-preview-doc btn-icon-only"
                   data-doc-name="${escapeHtml(d.doc_name || '')}"
-                  data-client="— (Benchmark)"
+                  data-client="— (Guideline)"
                   data-type="${escapeHtml(typeLabel)}"
                   data-chunks="${d.chunks_indexed ?? '—'}"
                   data-date="${formatDate(d.ingested_at)}"
@@ -1347,7 +1352,7 @@ async function loadDocuments() {
     // ── Client rows (with delete button) ──────────────────────────────────
     if (clientBody) {
       if (!clients.length) {
-        clientBody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No client documents yet. Upload a plant's documents above.</td></tr>`;
+        clientBody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No plant documents yet. Upload a plant's documents above.</td></tr>`;
       } else {
         clientBody.innerHTML = clients.map(d => {
           const plantName  = d.client_name || d.client || '—';
@@ -1379,7 +1384,7 @@ async function loadDocuments() {
                   data-doc-id="${escapeHtml(d.id)}"
                   data-doc-name="${escapeHtml(d.doc_name || '')}"
                   data-source-type="client"
-                  title="Delete client document">
+                  title="Delete plant document">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="3 6 5 6 21 6"></polyline>
                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -1426,7 +1431,7 @@ async function loadDocuments() {
 
 async function deleteDocument(docId, docName) {
   if (!confirm(
-    `Delete client document "${docName}"?\n\n` +
+    `Delete plant document "${docName}"?\n\n` +
     `This removes all of its chunks from the knowledge base. This cannot be undone.`
   )) return;
 
@@ -1449,7 +1454,7 @@ async function deleteDocument(docId, docName) {
     // Check if client table is empty
     const clientBody = document.getElementById('client-docs-body');
     if (clientBody && !clientBody.querySelector('tr:not(.skeleton-row)')) {
-      clientBody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No client documents. Upload a plant's documents above.</td></tr>`;
+      clientBody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No plant documents. Upload a plant's documents above.</td></tr>`;
     }
   } catch (err) {
     alert(`Failed to delete: ${err.message}`);
@@ -1459,7 +1464,7 @@ async function deleteDocument(docId, docName) {
 
 async function clearPlant() {
   const cn = getActiveClient();
-  if (!confirm(`Delete ALL documents and gap scores for plant "${cn}"?\n\nRemoves its Qdrant chunks, document records, and risk scores. Benchmarks untouched. Cannot be undone.`)) return;
+  if (!confirm(`Delete ALL documents and gap scores for plant "${cn}"?\n\nRemoves its Qdrant chunks, document records, and risk scores. Guideline documents untouched. Cannot be undone.`)) return;
   try {
     const res = await fetch(`${BACKEND}/api/clear_client`, {
       method: 'POST',
@@ -1547,9 +1552,290 @@ function initDocumentsPage() {
   }
 }
 
+// ─── SPA Shell — in-page view router (index.html single-page app) ────────────
+// Tiles switch views with showView(); no full-page navigation. Matches the
+// approved thermiq_mockup.html interaction pattern (its showScreen()).
+
+const SPA_VIEWS = ['home', 'chat', 'graph', 'guideline', 'plant', 'sheet'];
+let _graphViewStarted = false;
+let _graphNetwork = null;
+
+function isSpaShell() {
+  return !!document.getElementById('view-home');
+}
+
+function showView(name, opts = {}) {
+  if (!isSpaShell()) return;
+  if (!SPA_VIEWS.includes(name)) name = 'home';
+
+  SPA_VIEWS.forEach((v) => {
+    const el = document.getElementById('view-' + v);
+    if (el) el.classList.toggle('active', v === name);
+  });
+  document.body.setAttribute('data-view', name);
+  // The chat view needs the full-height app frame (fixed header, hidden footer)
+  // that style.css keys off body.chat-page — reuse it rather than duplicate it.
+  document.body.classList.toggle('chat-page', name === 'chat');
+
+  const hash = name === 'home' ? '#/' : '#/' + name;
+  if (location.hash !== hash) history.replaceState(null, '', hash);
+  window.scrollTo(0, 0);
+
+  if (name === 'chat') {
+    // The messages pane can't measure scrollHeight while hidden — snap to
+    // bottom now that it's visible again.
+    const m = document.getElementById('chat-messages');
+    if (m) m.scrollTop = m.scrollHeight;
+  }
+
+  if (name === 'graph') {
+    // vis-network can't size itself inside display:none — init lazily on first
+    // show, then just re-fit on subsequent shows.
+    if (!_graphViewStarted) {
+      _graphViewStarted = true;
+      initGraphView();
+    } else if (_graphNetwork) {
+      _graphNetwork.redraw();
+      _graphNetwork.fit();
+    }
+  }
+
+  if (opts.scrollTo) {
+    const target = document.getElementById(opts.scrollTo);
+    if (target) setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+  }
+}
+
+function routeFromHash() {
+  const name = (location.hash || '').replace(/^#\/?/, '');
+  showView(name || 'home');
+}
+
+async function loadShellTicker() {
+  if (!isSpaShell()) return;
+  const client = getActiveClient();
+  const set = (id, text) => { const el = document.getElementById(id); if (el) el.textContent = text; };
+
+  // Live Sheet CSV feed link (api/sheet_sync, read-only)
+  const csvLink = document.getElementById('sheet-csv-link');
+  if (csvLink) csvLink.href = `${BACKEND}/api/sheet_sync?client_name=${encodeURIComponent(client)}`;
+
+  try {
+    const r = await fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(client)}`);
+    const d = await r.json();
+    set('ticker-risk', `₹${(d.total_risk_cr ?? 0)} Cr`);
+    set('ticker-gaps', String(d.gap_count ?? '—'));
+    set('tile-risk-2', `₹${(d.total_risk_cr ?? 0)} Cr at risk`);
+    set('tile-sheet-count', `${(d.gaps || []).length} rows`);
+  } catch (_) { /* ticker keeps the em-dash placeholders */ }
+
+  try {
+    const r = await fetch(`${BACKEND}/api/list_documents`);
+    const d = await r.json();
+    const docs = d.documents || [];
+    const guidelineCount = docs.filter((doc) => doc.source_type === 'benchmark').length;
+    const plantCount = docs.filter((doc) => doc.source_type === 'client' && (doc.client_name || doc.client || '').toLowerCase() === client).length;
+    const totalChunks = docs.reduce((s, doc) => s + (Number(doc.chunks_indexed) || 0), 0);
+    set('tile-guideline-count', `${guidelineCount} DOCS`);
+    set('tile-plant-count', `${plantCount} DOCS`);
+    if (totalChunks > 0) {
+      set('ticker-chunks', totalChunks.toLocaleString('en-IN'));
+      set('tile-chunks', `${totalChunks.toLocaleString('en-IN')} CHUNKS INDEXED`);
+    }
+  } catch (_) { /* tiles keep their placeholders */ }
+}
+
+function initShell() {
+  if (!isSpaShell()) return;
+
+  // Tile / back-link / wordmark navigation — event delegation, in-page only.
+  document.addEventListener('click', (e) => {
+    const el = e.target.closest('[data-view-target]');
+    if (!el) return;
+    e.preventDefault();
+    showView(el.dataset.viewTarget, { scrollTo: el.dataset.scrollTo });
+  });
+  window.addEventListener('hashchange', routeFromHash);
+
+  loadShellTicker();
+  routeFromHash();
+}
+
+// ─── Risk & Gap Graph view (moved from graph.html — logic unchanged) ─────────
+// vis-network rendering verified live in task-035/039. Only the mounting
+// changed (lazy in-page init instead of a standalone page's inline script).
+
+function initGraphView() {
+  const statusEl  = document.getElementById('graph-status');
+  const emptyEl   = document.getElementById('graph-panel-empty');
+  const contentEl = document.getElementById('graph-panel-content');
+  if (!statusEl || !contentEl) return;
+
+  const NODE_COLORS = {
+    Equipment:   { border: '#60a5fa', background: 'rgba(96,165,250,0.14)' },
+    FailureMode: { border: '#a1a1aa', background: 'rgba(161,161,170,0.12)' },
+    Procedure:   { border: '#4ade80', background: 'rgba(74,222,128,0.12)' },
+    Regulation:  { border: '#f59e0b', background: 'rgba(245,158,11,0.12)' },
+    OutageEvent: { border: '#fbbf24', background: 'rgba(251,191,36,0.14)' },
+    Role:        { border: '#a1a1aa', background: 'rgba(161,161,170,0.10)' },
+  };
+  const GAP_COLOR = { border: '#f87171', background: 'rgba(248,113,113,0.16)' };
+
+  function shortLabel(str, len = 22) {
+    if (!str) return '';
+    return str.length > len ? str.slice(0, len - 1) + '…' : str;
+  }
+
+  async function fetchJson(url) {
+    const r = await fetch(url);
+    if (!r.ok) {
+      const body = await r.json().catch(() => ({}));
+      throw new Error(body.error || `Request failed (${r.status})`);
+    }
+    return r.json();
+  }
+
+  function renderPanelNode(node) {
+    emptyEl.style.display = 'none';
+    contentEl.style.display = 'block';
+    const rows = Object.entries(node)
+      .filter(([k]) => !['id', 'node_type', 'label'].includes(k))
+      .map(([k, v]) => `<div class="panel-row"><span class="panel-key">${escapeHtml(k)}</span><span class="panel-val">${escapeHtml(v)}</span></div>`)
+      .join('');
+    contentEl.innerHTML = `
+      <div class="panel-badge">${escapeHtml(node.node_type || 'Node')}</div>
+      <h3>${escapeHtml(node.label || node.id)}</h3>
+      ${rows}
+    `;
+  }
+
+  async function renderPanelTraversal(fmId) {
+    emptyEl.style.display = 'none';
+    contentEl.style.display = 'block';
+    contentEl.innerHTML = `<div class="panel-badge gap">Loading traversal…</div>`;
+    try {
+      const data = await fetchJson(`${BACKEND}/api/graph_query?type=traversal&failure_mode_id=${encodeURIComponent(fmId)}`);
+      const g = data.gap || {};
+      const statusLabel = g.status === 'ABSENT' ? 'No procedure documented' : (g.status || 'Unknown');
+
+      const outageRows = (data.outages || []).slice(0, 8).map((ev) => `
+        <tr>
+          <td>${escapeHtml(ev.station)}</td>
+          <td>${escapeHtml(ev.unit)}</td>
+          <td>${escapeHtml(ev.mw_lost)}</td>
+          <td class="risk-hi">₹${(ev.revenue_cr || 0).toFixed ? ev.revenue_cr.toFixed(1) : ev.revenue_cr}</td>
+        </tr>
+      `).join('') || `<tr><td colspan="4">No linked outage events found.</td></tr>`;
+
+      const regList = (data.regulations || []).map((r) => `<li>${escapeHtml(r.label)}</li>`).join('')
+        || '<li>No mandating regulation linked.</li>';
+
+      contentEl.innerHTML = `
+        <div class="panel-badge gap">Gap traversal</div>
+        <h3>${escapeHtml(g.failure_mode || fmId)}</h3>
+        <p class="panel-chain">
+          <strong>${escapeHtml(g.equipment || '—')}</strong> →
+          <strong>${escapeHtml(g.failure_mode || '—')}</strong> →
+          ${g.procedure ? escapeHtml(g.procedure) : '<em>no procedure</em>'}
+          (<span class="risk-hi">${escapeHtml(statusLabel)}</span>${g.criticality ? `, criticality ${escapeHtml(g.criticality)}/5` : ''})
+        </p>
+
+        <h4>Real ₹ outages linked to this failure mode</h4>
+        <table class="sheet-mini">
+          <thead><tr><th>Station</th><th>Unit</th><th>MW</th><th>₹ Cr</th></tr></thead>
+          <tbody>${outageRows}</tbody>
+        </table>
+        <p class="panel-total">Total exposure: <span class="risk-hi">₹${data.total_revenue_cr ?? 0} Cr</span> across ${data.outage_count ?? 0} event(s)</p>
+
+        <h4>Mandating regulation(s)</h4>
+        <ul class="panel-reg-list">${regList}</ul>
+      `;
+    } catch (e) {
+      contentEl.innerHTML = `<div class="panel-badge gap">Error</div><p>${escapeHtml(e.message)}</p>`;
+    }
+  }
+
+  async function init() {
+    try {
+      const [overview, gapsData] = await Promise.all([
+        fetchJson(`${BACKEND}/api/graph_query?type=overview`),
+        fetchJson(`${BACKEND}/api/graph_query?type=gaps`),
+      ]);
+
+      const gapFmIds = new Set((gapsData.gaps || []).map((g) => g.failure_mode_id));
+      const nodesById = {};
+      (overview.nodes || []).forEach((n) => { nodesById[n.id] = n; });
+
+      const visNodes = (overview.nodes || []).map((n) => {
+        const isGapNode = n.node_type === 'FailureMode' && gapFmIds.has(n.id);
+        const color = isGapNode ? GAP_COLOR : (NODE_COLORS[n.node_type] || NODE_COLORS.Role);
+        return {
+          id: n.id,
+          label: shortLabel(n.label || n.id),
+          shape: n.node_type === 'OutageEvent' ? 'dot' : 'box',
+          size: n.node_type === 'OutageEvent' ? 8 : undefined,
+          color: { border: color.border, background: color.background, highlight: color },
+          borderWidth: isGapNode ? 3 : 1.5,
+          shapeProperties: isGapNode ? { borderDashes: [6, 4] } : undefined,
+          font: { color: '#e7eaee', face: 'IBM Plex Mono', size: 11 },
+          _raw: n,
+          _isGap: isGapNode,
+        };
+      });
+
+      const visEdges = (overview.edges || []).map((e) => ({
+        from: e.source,
+        to: e.target,
+        arrows: 'to',
+        label: e.rel_type.replace(/_/g, ' '),
+        font: { size: 8, color: '#8b94a3', strokeWidth: 0, align: 'middle' },
+        color: { color: 'rgba(255,255,255,0.18)', highlight: '#f59e0b' },
+        smooth: { type: 'continuous' },
+      }));
+
+      const container = document.getElementById('graph-canvas');
+      const data = {
+        nodes: new vis.DataSet(visNodes),
+        edges: new vis.DataSet(visEdges),
+      };
+      const options = {
+        physics: {
+          solver: 'forceAtlas2Based',
+          forceAtlas2Based: { gravitationalConstant: -60, springLength: 130, avoidOverlap: 0.6 },
+          stabilization: { iterations: 200 },
+        },
+        interaction: { hover: true, tooltipDelay: 150 },
+        layout: { improvedLayout: true },
+      };
+      const network = new vis.Network(container, data, options);
+      _graphNetwork = network;
+
+      statusEl.textContent = `${overview.node_count} nodes · ${overview.edge_count} edges · ${gapsData.gap_count} flagged gaps`;
+
+      network.on('click', (params) => {
+        if (!params.nodes || params.nodes.length === 0) return;
+        const nodeId = params.nodes[0];
+        const node = nodesById[nodeId];
+        if (!node) return;
+        const isGapNode = node.node_type === 'FailureMode' && gapFmIds.has(node.id);
+        if (isGapNode) {
+          renderPanelTraversal(node.id);
+        } else {
+          renderPanelNode(node);
+        }
+      });
+    } catch (e) {
+      statusEl.textContent = `Failed to load graph: ${e.message}`;
+    }
+  }
+
+  init();
+}
+
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
 
 initQueryCopilot();
 initDashboard();
 initUpload();
 initDocumentsPage();
+initShell();

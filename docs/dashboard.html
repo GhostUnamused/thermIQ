@@ -1,150 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ThermIQ — Risk Dashboard</title>
-  <meta name="description" content="ThermIQ Risk Dashboard — Knowledge gaps quantified as ₹ crore operational risk for thermal power plants. CEA outage data and gap analysis." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
-    rel="stylesheet"
-  />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="style.css" />
+  <title>ThermIQ — Live Sheet</title>
+  <!-- Retired as a standalone page (task-044). Its stat strip, gap-analysis
+       table, and CEA outages table now live in the single-page app's
+       Live Sheet view (index.html#/sheet), which reuses the exact same
+       initDashboard() logic in app.js. Kept as a redirect for old bookmarks. -->
+  <meta http-equiv="refresh" content="0; url=./index.html#/sheet" />
+  <script>location.replace('./index.html#/sheet');</script>
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="header-left">
-        <a href="index.html" class="logo" style="text-decoration:none;">ThermIQ</a>
-      </div>
-      <nav class="nav-links">
-        <a href="index.html">Hub</a>
-        <a href="chat.html">Query Copilot</a>
-        <a href="dashboard.html" class="active">Risk Dashboard</a>
-        <a href="graph.html">Risk &amp; Gap Graph</a>
-        <a href="documents.html">Documents</a>
-      </nav>
-      <div class="header-actions">
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-    <h1 class="page-title">Knowledge Risk Dashboard</h1>
-    <p class="page-subtitle">
-      Knowledge gaps quantified as ₹ crore operational risk · Criticality × Consequence × Exposure
-    </p>
-
-    <!-- ── Methodology banner ── -->
-    <div class="methodology-banner">
-      <strong>How gaps are scored:</strong>
-      Each gap = a topic the <span>CEA benchmark</span> requires a plant to document,
-      where the <span>client plant's corpus</span> has weak or no coverage.
-      Coverage is measured against client documents only.
-      Risk = Criticality × Consequence (from CEA outage data) × Exposure (1 − client match score).
-      Assumptions are labelled.
-    </div>
-
-    <!-- ── Stat Strip (replaces old summary-cards) ── -->
-    <section class="summary-cards">
-      <div class="summary-card">
-        <div class="summary-label">Total Risk Exposure</div>
-        <div class="summary-value orange" id="total-risk">—</div>
-      </div>
-      <div class="summary-card">
-        <div class="summary-label">Critical Gaps (&gt; ₹100 Cr)</div>
-        <div class="summary-value red" id="critical-gaps-count">—</div>
-      </div>
-      <div class="summary-card">
-        <div class="summary-label">Covered Areas</div>
-        <div class="summary-value green" id="covered-count">—</div>
-      </div>
-      <div class="summary-card">
-        <div class="summary-label">Knowledge Gaps Detected</div>
-        <div class="summary-value" id="gaps-count">—</div>
-      </div>
-    </section>
-
-    <!-- ── Gaps table — no card wrapper ── -->
-    <section class="table-card">
-      <div class="docs-list-header">
-        <h2>Knowledge Gap Analysis</h2>
-        <div class="plant-selector-wrap">
-          <label for="plant-selector">Assessing plant:</label>
-          <select id="plant-selector" class="plant-selector"></select>
-        </div>
-      </div>
-      <table class="data-table" id="gaps-table">
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Equipment</th>
-            <th>Gap Description</th>
-            <th>Plant Coverage</th>
-            <th>Outages Linked</th>
-            <th>Risk Score (₹ Cr)</th>
-          </tr>
-        </thead>
-        <tbody id="gaps-table-body">
-          <tr><td colspan="6" class="skeleton-row">Loading gap analysis...</td></tr>
-        </tbody>
-      </table>
-      <p class="explainer">
-        Risk Score = Criticality (1–5, sourced) × Consequence (₹ Cr) × Exposure (0–1)<br />
-        Consequence derived from: CEA forced-outage records × ₹5.0/kWh (LBNL/Ember 2024 India coal fleet avg)<br />
-        Exposure = 1 − best vector similarity score (how poorly the corpus covers this area)<br />
-        Data sources: CEA Daily Outage Reports, ThermIQ Qdrant knowledge base scan
-      </p>
-    </section>
-
-    <!-- ── CEA Outages — no card wrapper ── -->
-    <section class="table-card">
-      <h2>Recent Forced Outages — Live CEA Data</h2>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Station</th>
-            <th>Unit</th>
-            <th>MW Lost</th>
-            <th>Equipment</th>
-            <th>Failure Reason</th>
-            <th>Revenue Impact (₹ Cr)</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody id="outages-table-body">
-          <tr><td colspan="7" class="skeleton-row">Loading outages...</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <p class="last-updated" id="last-updated"></p>
-  </main>
-
-  <footer class="site-footer">
-    ThermIQ v0.6 | Powered by Qdrant + Gemini | Data: CEA Public Sources
-  </footer>
-
-  <script src="app.js"></script>
+  <p>Moved — continue to the <a href="./index.html#/sheet">ThermIQ Live Sheet</a>.</p>
 </body>
 </html>

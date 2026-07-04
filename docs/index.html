@@ -3,32 +3,54 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ThermIQ — Hub</title>
+  <title>ThermIQ — Industrial Knowledge Intelligence</title>
   <meta name="description" content="ThermIQ — Industrial Knowledge Intelligence for thermal power plants. Quantifies knowledge gaps as ₹ crore operational risk." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
     rel="stylesheet"
   />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.9/standalone/umd/vis-network.min.js"></script>
 </head>
-<body>
+<body data-view="home">
   <header class="site-header">
     <div class="header-inner">
       <div class="header-left">
-        <a href="index.html" class="logo" style="text-decoration:none;">ThermIQ</a>
+        <button id="sidebar-toggle-btn" class="sidebar-toggle" aria-label="Toggle sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <a class="wordmark" data-view-target="home" href="#/">
+          <span class="mark">TQ</span>
+          <span class="name">THERM<span>·</span>IQ</span>
+        </a>
       </div>
-      <div class="hub-ticker" id="hub-ticker">
-        <span id="ticker-client">—</span>
+      <div class="shell-ticker" id="shell-ticker">
+        <select id="plant-selector" class="plant-selector" title="Active plant"></select>
         <span class="sep">·</span>
-        <span>Risk exposure <b id="ticker-risk">—</b></span>
+        <span>Risk <b id="ticker-risk">—</b></span>
         <span class="sep">·</span>
         <span><b id="ticker-gaps">—</b> open gaps</span>
+        <span class="sep tick-hide-sm">·</span>
+        <span class="tick-hide-sm"><b id="ticker-chunks">—</b> chunks indexed</span>
       </div>
       <div class="header-actions">
+        <button id="export-transcript-btn" class="theme-toggle" aria-label="Export transcript" title="Export chat to Markdown">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </button>
         <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
           <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
@@ -49,12 +71,15 @@
     </div>
   </header>
 
-  <main class="container hub-container">
-    <h1 class="page-title">ThermIQ</h1>
-    <p class="page-subtitle">Industrial knowledge intelligence — every gap quantified as ₹ crore operational risk.</p>
+  <!-- ═══ HOME (hub) ═══ -->
+  <main id="view-home" class="spa-view active container hub-container">
+    <div class="hub-hero">
+      <h1>Operations Console</h1>
+      <span class="hub-tagline">Every gap quantified as ₹ crore operational risk</span>
+    </div>
 
     <div class="row-primary">
-      <a class="tile primary chat" href="chat.html">
+      <button class="tile primary chat" type="button" data-view-target="chat">
         <div>
           <div class="tile-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
@@ -63,9 +88,9 @@
           <div class="tile-sub">Ask about any procedure, spec, or failure mode — cited to source, or flagged as a gap.</div>
         </div>
         <div class="instrument"><span><span class="live-dot"></span>LIVE</span><b id="tile-chunks">RAG-backed</b></div>
-      </a>
+      </button>
 
-      <a class="tile primary risk" href="graph.html">
+      <button class="tile primary risk" type="button" data-view-target="graph">
         <div>
           <div class="tile-icon">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="12" cy="18" r="2.3"/><line x1="7.8" y1="7.3" x2="10.5" y2="16"/><line x1="16.2" y1="7.3" x2="13.5" y2="16"/></svg>
@@ -74,22 +99,22 @@
           <div class="tile-sub">Every gap traced to a missing edge. Every rupee traced to a real outage record.</div>
         </div>
         <div class="instrument"><span>Boiler + Turbine</span><b id="tile-risk-2">—</b></div>
-      </a>
+      </button>
     </div>
 
     <div class="row-secondary">
-      <a class="tile secondary" href="documents.html#add-document">
+      <button class="tile secondary" type="button" data-view-target="plant" data-scroll-to="add-document">
         <div>
           <div class="tile-icon">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
           </div>
           <div class="tile-title">Upload Documents</div>
-          <div class="tile-sub">Plant docs or guideline docs</div>
+          <div class="tile-sub">Add a plant's own records</div>
         </div>
-        <div class="instrument">2 DOC TYPES</div>
-      </a>
+        <div class="instrument">PDF · MULTI-FILE</div>
+      </button>
 
-      <a class="tile secondary" href="documents.html#guideline-documents">
+      <button class="tile secondary" type="button" data-view-target="guideline">
         <div>
           <div class="tile-icon">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
@@ -98,9 +123,9 @@
           <div class="tile-sub">CEA &amp; regulatory corpus</div>
         </div>
         <div class="instrument" id="tile-guideline-count">— DOCS</div>
-      </a>
+      </button>
 
-      <a class="tile secondary" href="documents.html#plant-documents">
+      <button class="tile secondary" type="button" data-view-target="plant">
         <div>
           <div class="tile-icon">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
@@ -109,17 +134,17 @@
           <div class="tile-sub">Active plant's own records</div>
         </div>
         <div class="instrument" id="tile-plant-count">— DOCS</div>
-      </a>
+      </button>
 
-      <button class="tile secondary live" id="tile-live-sheet" type="button">
+      <button class="tile secondary live" type="button" data-view-target="sheet">
         <div>
           <div class="tile-icon">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
           </div>
           <div class="tile-title">Live Sheet</div>
-          <div class="tile-sub">Auto-synced · read-only</div>
+          <div class="tile-sub">Risk table · read-only</div>
         </div>
-        <div class="instrument"><span>Google Sheets</span><b>Coming soon</b></div>
+        <div class="instrument"><span><span class="live-dot"></span>LIVE</span><b id="tile-sheet-count">—</b></div>
       </button>
     </div>
 
@@ -128,81 +153,427 @@
     </p>
   </main>
 
-  <!-- Live Sheet — coming soon overlay (reuses the documents.html preview-modal classes) -->
-  <div class="modal-overlay" id="live-sheet-overlay">
-    <div class="modal-content" style="max-width:420px;">
+  <!-- ═══ EXPERT COPILOT (chat) ═══ -->
+  <div id="view-chat" class="spa-view app-layout">
+    <!-- Sidebar overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <!-- Chat History Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>Chats</h2>
+        <button id="new-chat-btn" class="btn-new-chat btn-icon-only" aria-label="New Chat" title="New Chat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="chat-list" id="chat-list">
+        <!-- Populated by app.js -->
+      </div>
+    </aside>
+
+    <!-- Sidebar Resizer -->
+    <div class="sidebar-resizer" id="sidebar-resizer"></div>
+
+    <!-- Main Chat Area -->
+    <main class="chat-main">
+      <div id="chat-messages" class="chat-messages">
+        <!-- Rendered by app.js — empty state shows chips -->
+      </div>
+
+      <button id="scroll-bottom-btn" class="scroll-bottom-btn" title="Scroll to bottom" aria-label="Scroll to bottom">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <polyline points="19 12 12 19 5 12"></polyline>
+        </svg>
+      </button>
+
+      <div class="chat-input-area">
+        <div class="client-bar">
+          <button class="back-link" type="button" data-view-target="home">&larr; Hub</button>
+          <span class="client-label">Knowledge base:</span>
+          <select id="client-select" class="client-select">
+            <option value="">All documents</option>
+            <option value="ntpc">NTPC</option>
+          </select>
+        </div>
+        <div id="suggestion-chips" class="chip-row">
+          <button class="chip" data-query="What are the mandatory spares for a 500MW boiler per CEA spec?">Mandatory boiler spares</button>
+          <button class="chip" data-query="Super heater tube failure emergency procedure">Superheater failure procedure</button>
+          <button class="chip" data-query="BFP seal replacement steps">BFP seal replacement</button>
+          <button class="chip" data-query="Turbine vibration trip thresholds">Turbine vibration limits</button>
+        </div>
+        <div class="input-row">
+          <textarea
+            id="chat-input"
+            placeholder="Ask about boiler procedures, turbine specs, CEA compliance..."
+            rows="1"
+          ></textarea>
+          <button id="send-btn" class="btn-send" title="Send (Ctrl+Enter)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ═══ RISK & GAP GRAPH ═══ -->
+  <main id="view-graph" class="spa-view container">
+    <button class="back-link" type="button" data-view-target="home">&larr; Back to hub</button>
+    <div class="view-head">
+      <h2>Risk &amp; Gap Graph</h2>
+      <p class="view-sub">
+        Every gap traced to a missing or partial <code>ADDRESSED_BY</code> edge. Every rupee traced to a real CEA outage record.
+        Click a flagged <strong>Failure Mode</strong> node (dashed red ring) to see its full traversal.
+      </p>
+    </div>
+
+    <div class="graph-legend" id="graph-legend">
+      <span class="legend-item"><span class="legend-dot legend-equipment"></span>Equipment</span>
+      <span class="legend-item"><span class="legend-dot legend-failuremode"></span>Failure Mode</span>
+      <span class="legend-item"><span class="legend-dot legend-gap"></span>Failure Mode — <strong>Gap</strong></span>
+      <span class="legend-item"><span class="legend-dot legend-procedure"></span>Procedure</span>
+      <span class="legend-item"><span class="legend-dot legend-regulation"></span>Regulation</span>
+      <span class="legend-item"><span class="legend-dot legend-outage"></span>Outage Event</span>
+    </div>
+
+    <div class="graph-shell">
+      <div class="graph-canvas-wrap">
+        <div id="graph-status" class="graph-status">Loading knowledge graph…</div>
+        <div id="graph-canvas"></div>
+      </div>
+
+      <aside class="graph-panel" id="graph-panel">
+        <div class="graph-panel-empty" id="graph-panel-empty">
+          <p><strong>No node selected.</strong></p>
+          <p>Click any node to inspect it. Click a red-flagged Failure Mode to walk the full chain: equipment → failure mode → procedure status → real ₹ outages → mandating regulation.</p>
+        </div>
+        <div class="graph-panel-content" id="graph-panel-content" style="display:none;"></div>
+      </aside>
+    </div>
+
+    <p class="explainer">
+      Data source: Neo4j Aura knowledge graph (Equipment → FailureMode → Procedure → Regulation, plus real OutageEvent records from CEA daily reports) via <code>api/graph_query.js</code>.
+      This is the same traversal <code>scripts/hero_traversal.py</code> proves in a terminal — rendered here as something a judge can click through.
+    </p>
+  </main>
+
+  <!-- ═══ GUIDELINE DOCUMENTS ═══ -->
+  <main id="view-guideline" class="spa-view container">
+    <button class="back-link" type="button" data-view-target="home">&larr; Back to hub</button>
+    <div class="view-head">
+      <h2>Guideline Documents <span class="source-badge source-badge--benchmark">Yardstick — Locked</span></h2>
+      <p class="view-sub">
+        CEA standards and regulatory guidelines that define what a well-run 500MW plant <em>should</em> document
+        and maintain. These are the measuring stick — they don't change per plant, and they're locked:
+        changing them would silently change the assessment baseline for every plant.
+      </p>
+    </div>
+
+    <section class="table-card" id="guideline-documents">
+      <div class="docs-list-header">
+        <h2>Corpus</h2>
+        <div style="display: flex; gap: 0.5rem;">
+          <button id="benchmark-view-toggle" class="btn-icon-only" title="Toggle Grid View">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          </button>
+          <button id="docs-refresh-btn" class="btn-ghost btn-sm" title="Refresh list">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+            </svg>
+            Refresh
+          </button>
+        </div>
+      </div>
+      <p class="explainer" style="margin-bottom: 1rem;">
+        Not deletable — removing a guideline document would silently change the gap assessment for every plant.
+        Seeded via <code>scripts/ingest_documents.py</code>; not uploadable from the browser.
+      </p>
+      <table class="data-table docs-grid-view" id="benchmark-docs-table">
+        <thead>
+          <tr>
+            <th>Document Name</th>
+            <th>Type</th>
+            <th>Chunks</th>
+            <th>Pages</th>
+            <th>Ingested</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="benchmark-docs-body">
+          <tr><td colspan="6" class="skeleton-row">Loading guideline documents…</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- ═══ PLANT DOCUMENTS ═══ -->
+  <main id="view-plant" class="spa-view container">
+    <button class="back-link" type="button" data-view-target="home">&larr; Back to hub</button>
+    <div class="view-head">
+      <h2>Plant Documents <span class="source-badge source-badge--client">Being Assessed</span></h2>
+      <p class="view-sub">
+        The active plant's own operational documents (SOPs, manuals, tariff petitions, inspection records).
+        These are what's being <em>measured</em> — gaps are topics the CEA guideline baseline requires that
+        these documents don't cover. Uploadable and deletable; gap scores are refreshed by the offline gap engine.
+      </p>
+    </div>
+
+    <!-- ── Upload Section ── -->
+    <section class="table-card upload-section" id="add-document">
+      <h2>Add New Document</h2>
+      <p class="upload-description">
+        Upload a PDF. Text is chunked into 400-word passages and embedded via Jina AI into Qdrant.
+        Max ~3 MB per upload (Vercel request-body cap). For larger files use <code>scripts/ingest_documents.py</code> locally.
+      </p>
+
+      <!-- Web uploads are plant documents only. Guideline documents (the CEA
+           yardstick) are system-managed and seeded via scripts/ingest_documents.py
+           locally — they are intentionally NOT uploadable from the browser so the
+           assessment baseline can't be altered by anyone with the link. -->
+      <input type="hidden" name="source_type" id="source-type-client" value="client" />
+      <div class="upload-source-type-row">
+        <span class="upload-source-type-label">Uploading a Plant Document</span>
+        <p class="upload-source-type-desc">
+          This adds a specific plant's own document (SOP, manual, inspection record) to the
+          corpus being assessed. Guideline documents — the CEA yardstick — are system-managed
+          and cannot be uploaded here.
+        </p>
+      </div>
+
+      <div class="upload-form">
+        <div class="upload-row upload-row-4">
+          <label class="upload-label">
+            Document Name <span class="required">*</span>
+            <input type="text" id="upload-doc-name" class="upload-input" placeholder="e.g. Lara Unit-1 Boiler SOP 2024" />
+          </label>
+          <!-- Client name — shown only when source_type = client -->
+          <label class="upload-label" id="upload-client-name-field">
+            Client / Plant Name <span class="required">*</span>
+            <input type="text" id="upload-client-name" class="upload-input" placeholder="e.g. ntpc_lara, adani_raipur" />
+            <span class="upload-hint">Lowercase, no spaces. Used to scope gap assessments to this plant.</span>
+          </label>
+          <label class="upload-label">
+            Document Type
+            <select id="upload-doc-type" class="upload-input upload-select">
+              <option value="sop">SOP / Procedure</option>
+              <option value="manual">Manual / Handbook</option>
+              <option value="guideline">Guideline / Standard</option>
+              <option value="technical_spec">Technical Specification</option>
+              <option value="tariff_petition">Tariff Petition</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="upload-label">
+            Source URL <span class="optional">(optional)</span>
+            <input type="url" id="upload-source-url" class="upload-input" placeholder="https://..." />
+          </label>
+        </div>
+        <div class="upload-drop-zone" id="upload-drop-zone">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="upload-icon">
+            <path d="M12 16V4m0 0L8 8m4-4 4 4" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round"/>
+          </svg>
+          <p class="drop-text">Drop PDFs here or <label for="upload-file-input" class="drop-link">browse</label></p>
+          <p class="drop-hint" id="upload-file-name">No files selected · PDF only · max ~3 MB each · multiple allowed</p>
+          <input type="file" id="upload-file-input" accept=".pdf" multiple style="display:none" />
+        </div>
+        <div class="upload-actions">
+          <button id="upload-submit-btn" class="btn-upload" disabled>
+            <span id="upload-btn-text">Ingest Document</span>
+          </button>
+        </div>
+        <div id="upload-status" class="upload-status hidden"></div>
+      </div>
+    </section>
+
+    <!-- ── Plant documents list (deletable) ── -->
+    <section class="table-card" id="plant-documents">
+      <div class="docs-list-header">
+        <h2>On File</h2>
+        <button id="client-view-toggle" class="btn-icon-only" title="Toggle Grid View">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        </button>
+      </div>
+      <div class="plant-selector-wrap">
+        <span>Active plant is set in the header ticker.</span>
+        <button id="clear-plant-btn" class="btn-clear-plant" title="Delete ALL documents and gap scores for the active plant">Clear this plant</button>
+      </div>
+      <p class="explainer" style="margin-bottom: 1rem;">
+        Plant-specific operational documents. Gaps are measured against these.
+        Gap scores are refreshed by the offline gap engine (scripts/detect_gaps.py).
+        Topics the CEA baseline requires but no document covers appear below as flagged <strong>GAP</strong> cards.
+      </p>
+      <table class="data-table docs-grid-view" id="client-docs-table">
+        <thead>
+          <tr>
+            <th>Document Name</th>
+            <th>Plant</th>
+            <th>Type</th>
+            <th>Chunks</th>
+            <th>Pages</th>
+            <th>Ingested</th>
+            <th>Source</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="client-docs-body">
+          <tr><td colspan="8" class="skeleton-row">Loading plant documents…</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- ═══ LIVE SHEET (risk table mirror) ═══ -->
+  <main id="view-sheet" class="spa-view container">
+    <button class="back-link" type="button" data-view-target="home">&larr; Back to hub</button>
+    <div class="view-head">
+      <h2>Live Sheet</h2>
+      <p class="view-sub">
+        The live risk table for the active plant — the same data the ThermIQ Sheets add-on mirrors into Google Sheets,
+        one-way and read-only. Knowledge gaps quantified as ₹ crore operational risk · Criticality × Consequence × Exposure.
+      </p>
+    </div>
+
+    <div class="live-status">
+      <span class="left"><span class="live-dot"></span>LIVE</span>
+      <span class="right">Reads api/gap_analysis on load · refreshed every page load</span>
+    </div>
+    <div class="lock-note">🔒 Read-only — risk scores always trace back to real outage records in Neo4j and Firestore. Edits in Sheets never write back.</div>
+
+    <!-- ── Methodology banner ── -->
+    <div class="methodology-banner">
+      <strong>How gaps are scored:</strong>
+      Each gap = a topic the <span>CEA guideline baseline</span> requires a plant to document,
+      where the <span>plant's own corpus</span> has weak or no coverage.
+      Coverage is measured against plant documents only.
+      Risk = Criticality × Consequence (from CEA outage data) × Exposure (1 − plant match score).
+      Assumptions are labelled.
+    </div>
+
+    <!-- ── Stat Strip ── -->
+    <section class="summary-cards">
+      <div class="summary-card">
+        <div class="summary-label">Total Risk Exposure</div>
+        <div class="summary-value orange" id="total-risk">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Critical Gaps (&gt; ₹100 Cr)</div>
+        <div class="summary-value red" id="critical-gaps-count">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Covered Areas</div>
+        <div class="summary-value green" id="covered-count">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Knowledge Gaps Detected</div>
+        <div class="summary-value" id="gaps-count">—</div>
+      </div>
+    </section>
+
+    <!-- ── Gaps table ── -->
+    <section class="table-card">
+      <div class="docs-list-header">
+        <h2>Knowledge Gap Analysis</h2>
+      </div>
+      <table class="data-table" id="gaps-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Equipment</th>
+            <th>Gap Description</th>
+            <th>Plant Coverage</th>
+            <th>Outages Linked</th>
+            <th>Risk Score (₹ Cr)</th>
+          </tr>
+        </thead>
+        <tbody id="gaps-table-body">
+          <tr><td colspan="6" class="skeleton-row">Loading gap analysis...</td></tr>
+        </tbody>
+      </table>
+      <p class="explainer">
+        Risk Score = Criticality (1–5, sourced) × Consequence (₹ Cr) × Exposure (0–1)<br />
+        Consequence derived from: CEA forced-outage records × ₹5.0/kWh (LBNL/Ember 2024 India coal fleet avg)<br />
+        Exposure = 1 − best vector similarity score (how poorly the corpus covers this area)<br />
+        Data sources: CEA Daily Outage Reports, ThermIQ Qdrant knowledge base scan
+      </p>
+    </section>
+
+    <!-- ── CEA Outages ── -->
+    <section class="table-card">
+      <h2>Recent Forced Outages — Live CEA Data</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Station</th>
+            <th>Unit</th>
+            <th>MW Lost</th>
+            <th>Equipment</th>
+            <th>Failure Reason</th>
+            <th>Revenue Impact (₹ Cr)</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody id="outages-table-body">
+          <tr><td colspan="7" class="skeleton-row">Loading outages...</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="sheet-actions">
+      <span class="sync-note">Feed: api/sheet_sync (CSV, read-only) · Google Sheets add-on: pending (Phase C2)</span>
+      <a class="btn-sheet-csv" id="sheet-csv-link" href="#" target="_blank" rel="noopener">Open CSV Feed ↗</a>
+    </div>
+
+    <p class="last-updated" id="last-updated"></p>
+  </main>
+
+  <!-- Document Preview Modal -->
+  <div class="modal-overlay" id="doc-preview-modal">
+    <div class="modal-content">
       <div class="modal-header">
-        <h3>Live Sheet — Coming Soon</h3>
-        <button class="modal-close" id="live-sheet-close" aria-label="Close">
+        <h3 id="modal-doc-title">Document Details</h3>
+        <button class="modal-close" id="modal-close-btn" aria-label="Close">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </div>
-      <div class="modal-body">
-        <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5;">
-          A read-only, one-way mirror of the risk table inside Google Sheets, via a ThermIQ Sheets add-on.
-          Edits made directly in Sheets never write back — risk scores always trace back to the real
-          outage records in Neo4j and Firestore.
-        </p>
-        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.75rem;">This is being built next — check back soon.</p>
+      <div class="modal-body" id="modal-doc-body">
+        <div class="modal-meta-grid">
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Plant / Client</span>
+            <span class="modal-meta-value" id="modal-doc-client">-</span>
+          </div>
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Document Type</span>
+            <span class="modal-meta-value" id="modal-doc-type">-</span>
+          </div>
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Indexed Chunks</span>
+            <span class="modal-meta-value" id="modal-doc-chunks">-</span>
+          </div>
+          <div class="modal-meta-item">
+            <span class="modal-meta-label">Ingested On</span>
+            <span class="modal-meta-value" id="modal-doc-date">-</span>
+          </div>
+        </div>
+        <div class="modal-meta-item" style="margin-top: 1rem;">
+          <span class="modal-meta-label">Source URL</span>
+          <span class="modal-meta-value" id="modal-doc-source">-</span>
+        </div>
       </div>
     </div>
   </div>
 
   <footer class="site-footer">
-    ThermIQ v0.6 | Qdrant + Gemini + Neo4j | Data: CEA Public Sources
+    ThermIQ v0.7 | Qdrant + Gemini + Neo4j | Data: CEA Public Sources
   </footer>
 
   <script src="app.js"></script>
-  <script>
-    (function () {
-      const BACKEND = window.location.hostname.includes('github.io')
-        ? 'https://therm-iq.vercel.app'
-        : '';
-
-      function getActiveClientLocal() {
-        return (localStorage.getItem('thermiq_active_client') || 'ntpc').trim().toLowerCase();
-      }
-
-      async function loadTicker() {
-        const client = getActiveClientLocal();
-        document.getElementById('ticker-client').textContent = client.toUpperCase();
-        try {
-          const r = await fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(client)}`);
-          const d = await r.json();
-          document.getElementById('ticker-risk').textContent = `₹${(d.total_risk_cr ?? 0)} Cr`;
-          document.getElementById('ticker-gaps').textContent = d.gap_count ?? '—';
-          document.getElementById('tile-risk-2').textContent = `₹${(d.total_risk_cr ?? 0)} Cr at risk`;
-        } catch (_) {
-          document.getElementById('ticker-risk').textContent = '—';
-          document.getElementById('ticker-gaps').textContent = '—';
-        }
-      }
-
-      async function loadDocCounts() {
-        const client = getActiveClientLocal();
-        try {
-          const r = await fetch(`${BACKEND}/api/list_documents`);
-          const d = await r.json();
-          const docs = d.documents || [];
-          const guidelineCount = docs.filter((doc) => doc.source_type === 'benchmark').length;
-          const plantCount = docs.filter((doc) => doc.source_type === 'client' && (doc.client_name || doc.client || '').toLowerCase() === client).length;
-          document.getElementById('tile-guideline-count').textContent = `${guidelineCount} DOCS`;
-          document.getElementById('tile-plant-count').textContent = `${plantCount} DOCS`;
-        } catch (_) { /* tiles just keep the em-dash placeholder */ }
-      }
-
-      loadTicker();
-      loadDocCounts();
-
-      const liveTile = document.getElementById('tile-live-sheet');
-      const liveOverlay = document.getElementById('live-sheet-overlay');
-      const liveClose = document.getElementById('live-sheet-close');
-      if (liveTile && liveOverlay) {
-        liveTile.addEventListener('click', () => liveOverlay.classList.add('active'));
-        liveClose.addEventListener('click', () => liveOverlay.classList.remove('active'));
-        liveOverlay.addEventListener('click', (e) => { if (e.target === liveOverlay) liveOverlay.classList.remove('active'); });
-      }
-    })();
-  </script>
 </body>
 </html>

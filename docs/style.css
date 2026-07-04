@@ -2941,3 +2941,152 @@ body.chat-page .app-layout {
   color: var(--text-secondary);
   line-height: 1.6;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SPA Shell (task-040) — single-page hub, mockup interaction pattern
+   Instrument-panel aesthetic: Space Grotesk display, IBM Plex Mono microtext,
+   amber + teal channel accents. Views switch in-page via showView().
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+[data-theme="dark"] {
+  --teal: #4fb3c6;
+  --teal-muted: rgba(79, 179, 198, 0.13);
+  --danger-soft: rgba(248, 113, 113, 0.12);
+  --font-display: "Space Grotesk", "IBM Plex Sans", sans-serif;
+}
+
+[data-theme="light"] {
+  --teal: #0e7490;
+  --teal-muted: rgba(14, 116, 144, 0.10);
+  --danger-soft: rgba(239, 68, 68, 0.08);
+  --font-display: "Space Grotesk", "IBM Plex Sans", sans-serif;
+}
+
+/* ── View switching ── */
+.spa-view { display: none; }
+.spa-view.active { display: block; }
+#view-chat.spa-view.active { display: flex; }
+
+/* ── Wordmark ── */
+.wordmark { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; cursor: pointer; }
+.wordmark:hover { text-decoration: none; }
+.wordmark .mark {
+  width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent), #b85f10);
+  display: flex; align-items: center; justify-content: center;
+  font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 12px; color: #1a1200;
+}
+[data-theme="light"] .wordmark .mark { background: linear-gradient(135deg, var(--accent), #312e81); color: #fff; }
+.wordmark .name {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.05rem;
+  letter-spacing: 0.02em; color: var(--text-primary);
+}
+.wordmark .name span { color: var(--text-muted); font-weight: 500; }
+
+/* ── Header ticker (live figures + plant selector) ── */
+.shell-ticker {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 0.55rem;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
+  letter-spacing: 0.03em; color: var(--text-secondary); text-transform: uppercase;
+  min-width: 0;
+}
+.shell-ticker b { color: var(--accent); font-weight: 600; }
+.shell-ticker .sep { color: var(--text-muted); }
+.shell-ticker .plant-selector {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; text-transform: uppercase;
+  background: var(--surface); color: var(--text-primary);
+  border: 1px solid var(--border); border-radius: 6px; padding: 0.18rem 0.4rem;
+  cursor: pointer; max-width: 130px;
+}
+@media (max-width: 900px) { .shell-ticker .tick-hide-sm { display: none; } }
+
+@keyframes tiq-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55); }
+  70% { box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--green);
+  display: inline-block; margin-right: 5px; animation: tiq-pulse 1.8s infinite;
+}
+
+/* ── Per-view header actions ── */
+body[data-view] #export-transcript-btn,
+body[data-view] #sidebar-toggle-btn { display: none; }
+body[data-view="chat"] #export-transcript-btn { display: flex; }
+body[data-view="chat"] #sidebar-toggle-btn { display: flex; }
+
+/* ── Hub home view ── */
+.hub-hero {
+  display: flex; align-items: baseline; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.4rem;
+  padding-bottom: 1rem; border-bottom: 1px solid var(--border-subtle);
+}
+.hub-hero h1 {
+  font-family: var(--font-display); font-size: 1.45rem; font-weight: 700;
+  letter-spacing: 0.01em; color: var(--text-primary);
+}
+.hub-hero .hub-tagline {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
+  color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase;
+}
+
+/* Tiles — restyle over the task-036 base toward the approved mockup */
+.tile {
+  font-family: inherit; text-align: left;
+  border-radius: 12px;
+  transition: border-color 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+.tile:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28); text-decoration: none; }
+.tile:active { transform: scale(0.995); }
+.tile-title { font-family: var(--font-display); font-weight: 600; }
+.tile.primary.chat { border-left: 3px solid var(--teal); }
+.tile.chat .tile-icon { background: var(--teal-muted); color: var(--teal); }
+.tile.chat .instrument b { color: var(--teal); }
+.instrument {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.62rem;
+  letter-spacing: 0.05em; text-transform: uppercase;
+}
+
+/* ── Sub-view chrome ── */
+.back-link {
+  font-family: "IBM Plex Mono", monospace; font-size: 0.7rem;
+  color: var(--text-secondary); cursor: pointer; background: none; border: none;
+  display: inline-flex; align-items: center; gap: 6px; margin-bottom: 1.1rem; padding: 0;
+  letter-spacing: 0.03em;
+}
+.back-link:hover { color: var(--text-primary); }
+.view-head { margin-bottom: 1.2rem; }
+.view-head h2 {
+  font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
+  color: var(--text-primary); display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+}
+.view-head .view-sub { color: var(--text-secondary); font-size: 0.82rem; margin-top: 0.25rem; }
+
+/* ── Live Sheet view ── */
+.live-status {
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 0.65rem 1rem; margin-bottom: 1rem;
+  font-family: "IBM Plex Mono", monospace; font-size: 0.7rem;
+}
+.live-status .left { display: flex; align-items: center; color: var(--green); font-weight: 600; letter-spacing: 0.04em; }
+.live-status .right { color: var(--text-muted); }
+.lock-note {
+  font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.1rem;
+  display: flex; gap: 6px; align-items: flex-start;
+}
+.sheet-actions {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem;
+}
+.sync-note { font-family: "IBM Plex Mono", monospace; font-size: 0.65rem; color: var(--text-muted); }
+.btn-sheet-csv {
+  font-size: 0.78rem; font-weight: 600; padding: 0.5rem 0.9rem; border-radius: 8px;
+  border: 1px solid var(--accent); background: var(--accent); color: #1a1200; text-decoration: none;
+}
+.btn-sheet-csv:hover { background: var(--accent-hover); text-decoration: none; }
+[data-theme="light"] .btn-sheet-csv { color: #fff; }
+
+/* Headings inside migrated view content pick up the display face */
+.spa-view .page-title, .spa-view .table-card h2 { font-family: var(--font-display); }
