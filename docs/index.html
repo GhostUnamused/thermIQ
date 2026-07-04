@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ThermIQ — Query Copilot</title>
-  <meta name="description" content="ThermIQ Query Copilot — AI-powered assistant for thermal power plant procedures, turbine specs, CEA compliance, and maintenance knowledge." />
+  <title>ThermIQ — Hub</title>
+  <meta name="description" content="ThermIQ — Industrial Knowledge Intelligence for thermal power plants. Quantifies knowledge gaps as ₹ crore operational risk." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -14,35 +14,21 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="shortcut icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
 </head>
-<body class="chat-page">
+<body>
   <header class="site-header">
     <div class="header-inner">
       <div class="header-left">
-        <button id="sidebar-toggle-btn" class="sidebar-toggle" aria-label="Toggle sidebar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-        <div class="logo">ThermIQ</div>
+        <a href="index.html" class="logo" style="text-decoration:none;">ThermIQ</a>
       </div>
-      <nav class="nav-links">
-        <a href="index.html" class="active">Query Copilot</a>
-        <a href="dashboard.html">Risk Dashboard</a>
-        <a href="documents.html">Documents</a>
-      </nav>
+      <div class="hub-ticker" id="hub-ticker">
+        <span id="ticker-client">—</span>
+        <span class="sep">·</span>
+        <span>Risk exposure <b id="ticker-risk">—</b></span>
+        <span class="sep">·</span>
+        <span><b id="ticker-gaps">—</b> open gaps</span>
+      </div>
       <div class="header-actions">
-        <button id="export-transcript-btn" class="theme-toggle" aria-label="Export transcript" title="Export chat to Markdown">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
-            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-            <polyline points="7 10 12 15 17 10"></polyline>
-            <line x1="12" y1="15" x2="12" y2="3"></line>
-          </svg>
-        </button>
         <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
           <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="5"></circle>
@@ -63,77 +49,160 @@
     </div>
   </header>
 
-  <div class="app-layout">
-    <!-- Sidebar overlay for mobile -->
-    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  <main class="container hub-container">
+    <h1 class="page-title">ThermIQ</h1>
+    <p class="page-subtitle">Industrial knowledge intelligence — every gap quantified as ₹ crore operational risk.</p>
 
-    <!-- Chat History Sidebar -->
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <h2>Chats</h2>
-        <button id="new-chat-btn" class="btn-new-chat btn-icon-only" aria-label="New Chat" title="New Chat">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
+    <div class="row-primary">
+      <a class="tile primary chat" href="chat.html">
+        <div>
+          <div class="tile-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+          </div>
+          <div class="tile-title">Expert Copilot</div>
+          <div class="tile-sub">Ask about any procedure, spec, or failure mode — cited to source, or flagged as a gap.</div>
+        </div>
+        <div class="instrument"><span><span class="live-dot"></span>LIVE</span><b id="tile-chunks">RAG-backed</b></div>
+      </a>
+
+      <a class="tile primary risk" href="graph.html">
+        <div>
+          <div class="tile-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="12" cy="18" r="2.3"/><line x1="7.8" y1="7.3" x2="10.5" y2="16"/><line x1="16.2" y1="7.3" x2="13.5" y2="16"/></svg>
+          </div>
+          <div class="tile-title">Risk &amp; Gap Graph</div>
+          <div class="tile-sub">Every gap traced to a missing edge. Every rupee traced to a real outage record.</div>
+        </div>
+        <div class="instrument"><span>Boiler + Turbine</span><b id="tile-risk-2">—</b></div>
+      </a>
+    </div>
+
+    <div class="row-secondary">
+      <a class="tile secondary" href="documents.html#add-document">
+        <div>
+          <div class="tile-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+          </div>
+          <div class="tile-title">Upload Documents</div>
+          <div class="tile-sub">Plant docs or guideline docs</div>
+        </div>
+        <div class="instrument">2 DOC TYPES</div>
+      </a>
+
+      <a class="tile secondary" href="documents.html#guideline-documents">
+        <div>
+          <div class="tile-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <div class="tile-title">Guideline Documents</div>
+          <div class="tile-sub">CEA &amp; regulatory corpus</div>
+        </div>
+        <div class="instrument" id="tile-guideline-count">— DOCS</div>
+      </a>
+
+      <a class="tile secondary" href="documents.html#plant-documents">
+        <div>
+          <div class="tile-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          </div>
+          <div class="tile-title">Plant Documents</div>
+          <div class="tile-sub">Active plant's own records</div>
+        </div>
+        <div class="instrument" id="tile-plant-count">— DOCS</div>
+      </a>
+
+      <button class="tile secondary live" id="tile-live-sheet" type="button">
+        <div>
+          <div class="tile-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+          </div>
+          <div class="tile-title">Live Sheet</div>
+          <div class="tile-sub">Auto-synced · read-only</div>
+        </div>
+        <div class="instrument"><span>Google Sheets</span><b>Coming soon</b></div>
+      </button>
+    </div>
+
+    <p class="explainer">
+      Formula: risk_score_cr = criticality_score × consequence_cr × exposure_score. Data sources: CEA Daily Outage Reports, ThermIQ Qdrant knowledge base scan, Neo4j knowledge graph.
+    </p>
+  </main>
+
+  <!-- Live Sheet — coming soon overlay (reuses the documents.html preview-modal classes) -->
+  <div class="modal-overlay" id="live-sheet-overlay">
+    <div class="modal-content" style="max-width:420px;">
+      <div class="modal-header">
+        <h3>Live Sheet — Coming Soon</h3>
+        <button class="modal-close" id="live-sheet-close" aria-label="Close">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
       </div>
-      <div class="chat-list" id="chat-list">
-        <!-- Populated by app.js -->
+      <div class="modal-body">
+        <p style="font-size:0.85rem; color:var(--text-secondary); line-height:1.5;">
+          A read-only, one-way mirror of the risk table inside Google Sheets, via a ThermIQ Sheets add-on.
+          Edits made directly in Sheets never write back — risk scores always trace back to the real
+          outage records in Neo4j and Firestore.
+        </p>
+        <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.75rem;">This is being built next — check back soon.</p>
       </div>
-    </aside>
-
-    <!-- Sidebar Resizer -->
-    <div class="sidebar-resizer" id="sidebar-resizer"></div>
-
-    <!-- Main Chat Area -->
-    <main class="chat-main">
-      <div id="chat-messages" class="chat-messages">
-        <!-- Rendered by app.js — empty state shows chips -->
-      </div>
-      
-      <button id="scroll-bottom-btn" class="scroll-bottom-btn" title="Scroll to bottom" aria-label="Scroll to bottom">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="5" x2="12" y2="19"></line>
-          <polyline points="19 12 12 19 5 12"></polyline>
-        </svg>
-      </button>
-
-      <div class="chat-input-area">
-        <div class="client-bar">
-          <span class="client-label">Knowledge base:</span>
-          <select id="client-select" class="client-select">
-            <option value="">All documents</option>
-            <option value="ntpc">NTPC</option>
-          </select>
-        </div>
-        <div id="suggestion-chips" class="chip-row">
-          <button class="chip" data-query="What are the mandatory spares for a 500MW boiler per CEA spec?">Mandatory boiler spares</button>
-          <button class="chip" data-query="Super heater tube failure emergency procedure">Superheater failure procedure</button>
-          <button class="chip" data-query="BFP seal replacement steps">BFP seal replacement</button>
-          <button class="chip" data-query="Turbine vibration trip thresholds">Turbine vibration limits</button>
-        </div>
-        <div class="input-row">
-          <textarea
-            id="chat-input"
-            placeholder="Ask about boiler procedures, turbine specs, CEA compliance..."
-            rows="1"
-          ></textarea>
-          <button id="send-btn" class="btn-send" title="Send (Ctrl+Enter)">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-          </button>
-        </div>
-      </div>
-    </main>
+    </div>
   </div>
 
   <footer class="site-footer">
-    ThermIQ v0.6 | Qdrant + Gemini | Data: CEA Public Sources
+    ThermIQ v0.6 | Qdrant + Gemini + Neo4j | Data: CEA Public Sources
   </footer>
 
   <script src="app.js"></script>
+  <script>
+    (function () {
+      const BACKEND = window.location.hostname.includes('github.io')
+        ? 'https://therm-iq.vercel.app'
+        : '';
+
+      function getActiveClientLocal() {
+        return (localStorage.getItem('thermiq_active_client') || 'ntpc').trim().toLowerCase();
+      }
+
+      async function loadTicker() {
+        const client = getActiveClientLocal();
+        document.getElementById('ticker-client').textContent = client.toUpperCase();
+        try {
+          const r = await fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(client)}`);
+          const d = await r.json();
+          document.getElementById('ticker-risk').textContent = `₹${(d.total_risk_cr ?? 0)} Cr`;
+          document.getElementById('ticker-gaps').textContent = d.gap_count ?? '—';
+          document.getElementById('tile-risk-2').textContent = `₹${(d.total_risk_cr ?? 0)} Cr at risk`;
+        } catch (_) {
+          document.getElementById('ticker-risk').textContent = '—';
+          document.getElementById('ticker-gaps').textContent = '—';
+        }
+      }
+
+      async function loadDocCounts() {
+        const client = getActiveClientLocal();
+        try {
+          const r = await fetch(`${BACKEND}/api/list_documents`);
+          const d = await r.json();
+          const docs = d.documents || [];
+          const guidelineCount = docs.filter((doc) => doc.source_type === 'benchmark').length;
+          const plantCount = docs.filter((doc) => doc.source_type === 'client' && (doc.client_name || doc.client || '').toLowerCase() === client).length;
+          document.getElementById('tile-guideline-count').textContent = `${guidelineCount} DOCS`;
+          document.getElementById('tile-plant-count').textContent = `${plantCount} DOCS`;
+        } catch (_) { /* tiles just keep the em-dash placeholder */ }
+      }
+
+      loadTicker();
+      loadDocCounts();
+
+      const liveTile = document.getElementById('tile-live-sheet');
+      const liveOverlay = document.getElementById('live-sheet-overlay');
+      const liveClose = document.getElementById('live-sheet-close');
+      if (liveTile && liveOverlay) {
+        liveTile.addEventListener('click', () => liveOverlay.classList.add('active'));
+        liveClose.addEventListener('click', () => liveOverlay.classList.remove('active'));
+        liveOverlay.addEventListener('click', (e) => { if (e.target === liveOverlay) liveOverlay.classList.remove('active'); });
+      }
+    })();
+  </script>
 </body>
 </html>
