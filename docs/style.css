@@ -85,7 +85,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text-primary);
-  font-family: "IBM Plex Sans", system-ui, -apple-system, sans-serif;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -114,7 +114,7 @@ code,
 .chat-empty-icon,
 .chat-item-icon,
 .chat-list-empty-icon {
-  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-family: "JetBrains Mono", Consolas, monospace;
 }
 
 /* ─── Header ────────────────────────────────────────────────────────────── */
@@ -165,7 +165,7 @@ code,
 .sidebar-toggle svg { display: block; }
 
 .logo {
-  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 1rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -301,7 +301,7 @@ code,
 }
 
 .sidebar-header h2 {
-  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 0.72rem;
   font-weight: 600;
   color: var(--text-muted);
@@ -657,7 +657,7 @@ body.chat-page .app-layout {
 }
 
 .chat-empty-title {
-  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 1.65rem;
   font-weight: 600;
   color: var(--text-primary);
@@ -727,7 +727,7 @@ body.chat-page .app-layout {
   color: var(--text-primary);
   font-size: 0.95rem;
   margin: 0.8rem 0 0.35rem;
-  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-weight: 600;
 }
 .assistant-bubble .bubble-text strong   { color: var(--text-primary); }
@@ -980,7 +980,7 @@ body.chat-page .app-layout {
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .page-title {
-  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 1.45rem;
   font-weight: 650;
   margin-bottom: 0.25rem;
@@ -1046,7 +1046,7 @@ body.chat-page .app-layout {
 }
 
 .summary-value {
-  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-family: "JetBrains Mono", Consolas, monospace;
   font-size: 1.6rem;
   font-weight: 600;
   line-height: 1.2;
@@ -1068,7 +1068,7 @@ body.chat-page .app-layout {
 
 .table-card h2 {
   margin-top: 0;
-  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 1rem;
   font-weight: 650;
 }
@@ -1284,7 +1284,7 @@ body.chat-page .app-layout {
   white-space: nowrap;
   border: 1px solid currentColor;
   background: transparent;
-  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-family: "JetBrains Mono", Consolas, monospace;
 }
 
 .risk-badge.critical,
@@ -1654,7 +1654,7 @@ body.chat-page .app-layout {
   background: var(--bg-secondary);
   border-radius: 4px;
   color: var(--text-muted);
-  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-family: "JetBrains Mono", Consolas, monospace;
   font-weight: 600;
 }
 
@@ -1802,7 +1802,7 @@ body.chat-page .app-layout {
   color: var(--accent);
   letter-spacing: 0.03em;
   white-space: nowrap;
-  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-family: "JetBrains Mono", Consolas, monospace;
 }
 
 .client-badge--generic {
@@ -1937,7 +1937,7 @@ body.chat-page .app-layout {
   margin-right: 0.2rem;
   border: 1px solid currentColor;
   background: transparent;
-  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-family: "JetBrains Mono", Consolas, monospace;
 }
 
 .source-type-chip--benchmark { color: var(--blue); }
@@ -1987,7 +1987,7 @@ body.chat-page .app-layout {
 }
 
 .locked-title {
-  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 1.05rem;
   font-weight: 600;
   color: var(--text-primary);
@@ -2645,7 +2645,7 @@ body.chat-page .app-layout {
 }
 
 .hub-ticker {
-  font-family: "IBM Plex Mono", monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 0.72rem;
   color: var(--text-secondary);
   display: flex;
@@ -2740,7 +2740,7 @@ body.chat-page .app-layout {
 .tile.secondary .tile-icon { width: 26px; height: 26px; background: var(--border-subtle); color: var(--text-secondary); }
 
 .tile-title {
-  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-weight: 650;
   font-size: 0.98rem;
   margin-bottom: 0.25rem;
@@ -2758,7 +2758,7 @@ body.chat-page .app-layout {
   margin-top: 0.85rem;
   padding-top: 0.6rem;
   border-top: 1px solid var(--border-subtle);
-  font-family: "IBM Plex Mono", monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 0.68rem;
   letter-spacing: 0.02em;
   color: var(--text-muted);
@@ -2831,7 +2831,7 @@ body.chat-page .app-layout {
   top: 0.6rem;
   left: 0.75rem;
   z-index: 2;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 0.7rem;
   color: var(--text-muted);
   background: var(--glass-bg);
@@ -2858,7 +2858,7 @@ body.chat-page .app-layout {
 
 .panel-badge {
   display: inline-block;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: "JetBrains Mono", monospace;
   font-size: 0.65rem;
   letter-spacing: 0.04em;
   padding: 0.15rem 0.5rem;
@@ -2876,7 +2876,7 @@ body.chat-page .app-layout {
 }
 
 .graph-panel-content h3 {
-  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   font-size: 1rem;
   margin-bottom: 0.5rem;
 }
@@ -2904,14 +2904,14 @@ body.chat-page .app-layout {
   font-size: 0.78rem;
 }
 
-.panel-key { color: var(--text-muted); font-family: "IBM Plex Mono", monospace; }
+.panel-key { color: var(--text-muted); font-family: "JetBrains Mono", monospace; }
 .panel-val { color: var(--text-primary); text-align: right; word-break: break-word; }
 
 .sheet-mini {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.75rem;
-  font-family: "IBM Plex Mono", monospace;
+  font-family: "JetBrains Mono", monospace;
 }
 
 .sheet-mini th {
@@ -2944,22 +2944,22 @@ body.chat-page .app-layout {
 
 /* ═══════════════════════════════════════════════════════════════════════════
    SPA Shell (task-040) — single-page hub, mockup interaction pattern
-   Instrument-panel aesthetic: Space Grotesk display, IBM Plex Mono microtext,
-   amber + teal channel accents. Views switch in-page via showView().
+   Instrument-panel aesthetic (fonts revised in task-046: Inter + JetBrains
+   Mono), amber + teal channel accents. Views switch in-page via showView().
    ═══════════════════════════════════════════════════════════════════════════ */
 
 [data-theme="dark"] {
   --teal: #4fb3c6;
   --teal-muted: rgba(79, 179, 198, 0.13);
   --danger-soft: rgba(248, 113, 113, 0.12);
-  --font-display: "Space Grotesk", "IBM Plex Sans", sans-serif;
+  --font-display: "Inter", system-ui, sans-serif;
 }
 
 [data-theme="light"] {
   --teal: #0e7490;
   --teal-muted: rgba(14, 116, 144, 0.10);
   --danger-soft: rgba(239, 68, 68, 0.08);
-  --font-display: "Space Grotesk", "IBM Plex Sans", sans-serif;
+  --font-display: "Inter", system-ui, sans-serif;
 }
 
 /* ── View switching ── */
@@ -2974,7 +2974,7 @@ body.chat-page .app-layout {
   width: 28px; height: 28px; border-radius: 7px; flex-shrink: 0;
   background: linear-gradient(135deg, var(--accent), #b85f10);
   display: flex; align-items: center; justify-content: center;
-  font-family: "IBM Plex Mono", monospace; font-weight: 600; font-size: 12px; color: #1a1200;
+  font-family: "JetBrains Mono", monospace; font-weight: 600; font-size: 12px; color: #1a1200;
 }
 [data-theme="light"] .wordmark .mark { background: linear-gradient(135deg, var(--accent), #312e81); color: #fff; }
 .wordmark .name {
@@ -2986,14 +2986,14 @@ body.chat-page .app-layout {
 /* ── Header ticker (live figures + plant selector) ── */
 .shell-ticker {
   display: flex; align-items: center; flex-wrap: wrap; gap: 0.55rem;
-  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
+  font-family: "JetBrains Mono", monospace; font-size: 0.68rem;
   letter-spacing: 0.03em; color: var(--text-secondary); text-transform: uppercase;
   min-width: 0;
 }
 .shell-ticker b { color: var(--accent); font-weight: 600; }
 .shell-ticker .sep { color: var(--text-muted); }
 .shell-ticker .plant-selector {
-  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem; text-transform: uppercase;
+  font-family: "JetBrains Mono", monospace; font-size: 0.68rem; text-transform: uppercase;
   background: var(--surface); color: var(--text-primary);
   border: 1px solid var(--border); border-radius: 6px; padding: 0.18rem 0.4rem;
   cursor: pointer; max-width: 130px;
@@ -3027,7 +3027,7 @@ body[data-view="chat"] #sidebar-toggle-btn { display: flex; }
   letter-spacing: 0.01em; color: var(--text-primary);
 }
 .hub-hero .hub-tagline {
-  font-family: "IBM Plex Mono", monospace; font-size: 0.68rem;
+  font-family: "JetBrains Mono", monospace; font-size: 0.68rem;
   color: var(--text-muted); letter-spacing: 0.04em; text-transform: uppercase;
 }
 
@@ -3044,13 +3044,13 @@ body[data-view="chat"] #sidebar-toggle-btn { display: flex; }
 .tile.chat .tile-icon { background: var(--teal-muted); color: var(--teal); }
 .tile.chat .instrument b { color: var(--teal); }
 .instrument {
-  font-family: "IBM Plex Mono", monospace; font-size: 0.62rem;
+  font-family: "JetBrains Mono", monospace; font-size: 0.62rem;
   letter-spacing: 0.05em; text-transform: uppercase;
 }
 
 /* ── Sub-view chrome ── */
 .back-link {
-  font-family: "IBM Plex Mono", monospace; font-size: 0.7rem;
+  font-family: "JetBrains Mono", monospace; font-size: 0.7rem;
   color: var(--text-secondary); cursor: pointer; background: none; border: none;
   display: inline-flex; align-items: center; gap: 6px; margin-bottom: 1.1rem; padding: 0;
   letter-spacing: 0.03em;
@@ -3068,7 +3068,7 @@ body[data-view="chat"] #sidebar-toggle-btn { display: flex; }
   display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem;
   background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
   padding: 0.65rem 1rem; margin-bottom: 1rem;
-  font-family: "IBM Plex Mono", monospace; font-size: 0.7rem;
+  font-family: "JetBrains Mono", monospace; font-size: 0.7rem;
 }
 .live-status .left { display: flex; align-items: center; color: var(--green); font-weight: 600; letter-spacing: 0.04em; }
 .live-status .right { color: var(--text-muted); }
@@ -3080,7 +3080,7 @@ body[data-view="chat"] #sidebar-toggle-btn { display: flex; }
   display: flex; justify-content: space-between; align-items: center;
   flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem;
 }
-.sync-note { font-family: "IBM Plex Mono", monospace; font-size: 0.65rem; color: var(--text-muted); }
+.sync-note { font-family: "JetBrains Mono", monospace; font-size: 0.65rem; color: var(--text-muted); }
 .btn-sheet-csv {
   font-size: 0.78rem; font-weight: 600; padding: 0.5rem 0.9rem; border-radius: 8px;
   border: 1px solid var(--accent); background: var(--accent); color: #1a1200; text-decoration: none;
@@ -3090,3 +3090,413 @@ body[data-view="chat"] #sidebar-toggle-btn { display: flex; }
 
 /* Headings inside migrated view content pick up the display face */
 .spa-view .page-title, .spa-view .table-card h2 { font-family: var(--font-display); }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Redesign round 2 (task-046) — operator-console pass
+   Inter + JetBrains Mono, icon-rail chat sidebar, real document cards,
+   floating upload panel + dock, in-app document viewer, tile rework.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Type polish ── */
+body { letter-spacing: 0.005em; }
+.view-head h2, .hub-hero h1, .tile-title { letter-spacing: -0.015em; }
+
+/* ── Hub tiles — proper buttons, no color stripes ── */
+.tile {
+  position: relative;
+  background: linear-gradient(180deg, var(--surface-hover) 0%, var(--surface) 55%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+.tile.primary.risk, .tile.primary.chat { border-left: 1px solid var(--border); }
+.tile::after {
+  content: "↗";
+  position: absolute;
+  top: 0.85rem;
+  right: 1rem;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  opacity: 0.45;
+  transition: opacity 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.tile:hover::after { opacity: 1; transform: translate(1px, -1px); }
+.tile.primary.chat:hover::after, .tile.chat:hover::after { color: var(--teal); }
+.tile.primary.risk:hover::after { color: var(--accent); }
+.tile.primary .tile-icon { width: 38px; height: 38px; border-radius: 10px; }
+.tile.primary.chat .tile-icon { box-shadow: 0 0 18px rgba(79, 179, 198, 0.18); }
+.tile.primary.risk .tile-icon { box-shadow: 0 0 18px rgba(245, 158, 11, 0.16); }
+.tile.primary.chat:hover { border-color: rgba(79, 179, 198, 0.55); }
+.tile.primary.risk:hover { border-color: rgba(245, 158, 11, 0.55); }
+.tile:hover { box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 10px 28px rgba(0, 0, 0, 0.32); }
+
+/* ── Chat sidebar — toggle lives IN the sidebar; collapsed = icon rail ── */
+.sidebar-collapse-btn { flex-shrink: 0; }
+.sidebar-header { gap: 0.45rem; }
+.sidebar-header h2 { flex: 1; }
+.sidebar-foot {
+  border-top: 1px solid var(--border-subtle);
+  padding: 0.5rem;
+  margin-top: auto;
+}
+.sidebar-hub-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  padding: 0.45rem 0.6rem;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.sidebar-hub-btn:hover { color: var(--text-primary); border-color: var(--border); background: var(--surface-hover); }
+
+.app-layout.sidebar-collapsed .sidebar {
+  width: 54px !important;
+  opacity: 1;
+  pointer-events: auto;
+  border-right: 1px solid var(--border-subtle);
+}
+.app-layout.sidebar-collapsed .sidebar-header {
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 0.3rem 0.5rem;
+}
+.app-layout.sidebar-collapsed .sidebar-header h2 { display: none; }
+.app-layout.sidebar-collapsed .chat-item {
+  justify-content: center;
+  padding: 0.55rem 0;
+}
+.app-layout.sidebar-collapsed .chat-item-content,
+.app-layout.sidebar-collapsed .chat-item-delete { display: none; }
+.app-layout.sidebar-collapsed .sidebar-foot { padding: 0.4rem 0.3rem; }
+.app-layout.sidebar-collapsed .sidebar-hub-btn { justify-content: center; padding: 0.45rem 0; border: none; }
+.app-layout.sidebar-collapsed .sidebar-hub-btn .back-text { display: none; }
+
+/* Sidebar is a static rail on mobile too (no off-canvas drawer) */
+@media (max-width: 768px) {
+  .sidebar {
+    position: relative;
+    top: auto;
+    transform: none;
+    box-shadow: none;
+  }
+  .sidebar-overlay { display: none !important; }
+}
+
+/* Chat item icon renders an svg glyph now */
+.chat-item-icon svg { display: block; }
+
+/* ── Real document cards ── */
+.doc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0.9rem;
+}
+.doc-skeleton {
+  grid-column: 1 / -1;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  padding: 1.2rem 0.3rem;
+}
+.doc-card {
+  background: linear-gradient(180deg, var(--surface-hover) 0%, var(--surface) 60%);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem 1.1rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+.doc-card:hover {
+  border-color: var(--border);
+  transform: translateY(-1px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 8px 20px rgba(0, 0, 0, 0.28);
+}
+.doc-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+.doc-card-name {
+  font-weight: 600;
+  font-size: 0.92rem;
+  line-height: 1.35;
+  color: var(--text-primary);
+}
+.doc-card-actions { display: flex; gap: 0.2rem; flex-shrink: 0; }
+.doc-card-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.3rem 0.9rem;
+  font-size: 0.72rem;
+}
+.doc-card-meta .m-label {
+  color: var(--text-muted);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+}
+.doc-card-meta .m-val { color: var(--text-secondary); font-weight: 500; }
+.doc-card-foot {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: 0.55rem;
+  border-top: 1px solid var(--border-subtle);
+}
+.doc-chip {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.12rem 0.42rem;
+}
+.doc-chip--system { color: var(--blue); border-color: rgba(96, 165, 250, 0.35); }
+.doc-chip--plant { color: var(--accent); border-color: rgba(245, 158, 11, 0.35); }
+.doc-card-foot .doc-source-link { margin-left: auto; font-size: 0.8rem; }
+
+.doc-card--gap {
+  border: 1px dashed var(--red);
+  background: var(--danger-soft);
+  cursor: default;
+}
+.doc-card--gap:hover { transform: none; box-shadow: none; border-color: var(--red); }
+
+/* ── In-app document viewer ── */
+.modal-content--viewer {
+  max-width: min(1000px, 94vw);
+  width: 94%;
+  height: 88vh;
+}
+.viewer-body {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+  background: var(--bg-secondary);
+}
+.viewer-body iframe {
+  flex: 1;
+  border: none;
+  width: 100%;
+  background: #fff;
+}
+.viewer-fallback {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  padding: 2rem;
+  text-align: center;
+  line-height: 1.6;
+}
+.viewer-head-actions { display: flex; align-items: center; gap: 0.5rem; }
+
+/* ── Floating upload panel ── */
+.upload-float {
+  position: fixed;
+  top: 84px;
+  right: 28px;
+  width: 400px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 110px);
+  overflow-y: auto;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+}
+.upload-float[hidden] { display: none; }
+.upload-float-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem 0.7rem;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: grab;
+  user-select: none;
+}
+.upload-float-head:active { cursor: grabbing; }
+.upload-float-head h3 { font-size: 0.95rem; margin: 0 0 0.15rem; color: var(--text-primary); }
+.upload-float-head p {
+  margin: 0;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+}
+.upload-float-btns { display: flex; gap: 0.2rem; flex-shrink: 0; }
+.upload-float-body { padding: 0.9rem 1rem 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.upload-float-body .upload-label { font-size: 0.72rem; }
+.upload-float-body .upload-drop-zone { padding: 1.1rem 0.8rem; }
+
+.dest-choice { display: flex; gap: 0.5rem; }
+.dest-btn {
+  flex: 1;
+  padding: 0.6rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+  text-align: center;
+  color: var(--text-secondary);
+  transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+.dest-btn.selected {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-muted);
+}
+.dest-note {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+.upload-float .upload-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; }
+.upload-float .upload-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+/* ── Upload dock (minimized queue) ── */
+.upload-dock {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  max-width: calc(100vw - 24px);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  z-index: 1090;
+  overflow: hidden;
+}
+.upload-dock[hidden] { display: none; }
+.upload-dock-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.5rem 0.5rem 0.9rem;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.upload-dock-head > div { display: flex; gap: 0.15rem; }
+.upload-queue { max-height: 220px; overflow-y: auto; padding: 0.5rem 0.9rem 0.7rem; }
+.upq-item { padding: 0.4rem 0 0.5rem; }
+.upq-item + .upq-item { border-top: 1px solid var(--border-subtle); }
+.upq-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.3rem;
+}
+.upq-name {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.upq-state {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.upq-item.done .upq-state { color: var(--green); }
+.upq-item.failed .upq-state { color: var(--red); }
+.upq-bar {
+  height: 4px;
+  border-radius: 3px;
+  background: var(--border-subtle);
+  overflow: hidden;
+}
+.upq-bar i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+.upq-item.done .upq-bar i { width: 100%; background: var(--green); }
+.upq-item.failed .upq-bar i { width: 100%; background: var(--red); }
+@keyframes upq-indet {
+  0% { transform: translateX(-60%); }
+  100% { transform: translateX(260%); }
+}
+.upq-item.uploading .upq-bar i {
+  width: 40%;
+  animation: upq-indet 1.1s linear infinite;
+}
+.upq-error {
+  font-size: 0.68rem;
+  color: var(--red);
+  margin-top: 0.25rem;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+/* ── Small header row for the docs views ── */
+.docs-view-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+.btn-add-docs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--accent);
+  color: #1a1200;
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.45rem 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-add-docs:hover { background: var(--accent-hover); }
+[data-theme="light"] .btn-add-docs { color: #fff; }

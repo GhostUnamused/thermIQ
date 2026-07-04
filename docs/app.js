@@ -37,12 +37,26 @@ async function initPlantSelector() {
   } catch (_) { /* selector still works with just the active client */ }
   sel.innerHTML = [...names].sort().map(
     (n) => `<option value="${escapeHtml(n)}"${n === active ? ' selected' : ''}>${escapeHtml(n)}</option>`
-  ).join('');
+  ).join('') + `<option value="__new__">＋ New plant profile…</option>`;
   // Guard against double-wiring — initUpload and initDashboard both call this
   // on the single-page shell, and duplicate listeners would double-reload.
   if (!sel.dataset.wired) {
     sel.dataset.wired = '1';
-    sel.addEventListener('change', () => { setActiveClient(sel.value); window.location.reload(); });
+    sel.addEventListener('change', () => {
+      if (sel.value === '__new__') {
+        const name = (prompt('New plant profile name (lowercase, no spaces — e.g. ntpc_lara):') || '').trim().toLowerCase();
+        if (!name || !/^[a-z0-9_]{2,40}$/.test(name)) {
+          if (name) alert('Plant names must be lowercase letters, digits, or underscores (2–40 chars).');
+          sel.value = getActiveClient(); // revert
+          return;
+        }
+        setActiveClient(name);
+        window.location.reload();
+        return;
+      }
+      setActiveClient(sel.value);
+      window.location.reload();
+    });
   }
 }
 
@@ -51,7 +65,9 @@ async function initPlantSelector() {
 function escapeHtml(str) {
   const div = document.createElement('div');
   div.textContent = str == null ? '' : String(str);
-  return div.innerHTML;
+  // textContent→innerHTML escapes & < > but not quotes — escape those too so
+  // escaped values are also safe inside double/single-quoted HTML attributes.
+  return div.innerHTML.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function generateId() {
@@ -108,11 +124,28 @@ document.addEventListener('DOMContentLoaded', () => {
 const CHATS_KEY = 'thermiq_chats_v2';
 const OLD_KEY   = 'thermiq_chat_v1';
 
+// Chat history is per plant profile — switching the header plant selector
+// switches to that plant's own chats (the page reloads on switch).
+function chatsKey() {
+  return `${CHATS_KEY}__${getActiveClient()}`;
+}
+
 function loadStore() {
   try {
-    const raw = localStorage.getItem(CHATS_KEY);
+    const raw = localStorage.getItem(chatsKey());
     if (raw) return JSON.parse(raw);
   } catch (e) { /* corrupt — fall through */ }
+
+  // Migrate the old shared (pre-per-plant) store to the current profile once.
+  try {
+    const shared = localStorage.getItem(CHATS_KEY);
+    if (shared) {
+      const parsed = JSON.parse(shared);
+      localStorage.setItem(chatsKey(), shared);
+      localStorage.removeItem(CHATS_KEY);
+      return parsed;
+    }
+  } catch (e) { /* migration failed — fall through */ }
 
   // Migrate from v1
   try {
@@ -162,7 +195,7 @@ function createFreshStore() {
 
 function saveStore(store) {
   try {
-    localStorage.setItem(CHATS_KEY, JSON.stringify(store));
+    localStorage.setItem(chatsKey(), JSON.stringify(store));
   } catch (e) {
     // Quota exceeded — try to trim oldest chat
     const ids = Object.keys(store.chats);
@@ -174,7 +207,7 @@ function saveStore(store) {
       if (store.activeId === oldest) {
         store.activeId = Object.keys(store.chats)[0];
       }
-      try { localStorage.setItem(CHATS_KEY, JSON.stringify(store)); } catch (e2) { /* give up */ }
+      try { localStorage.setItem(chatsKey(), JSON.stringify(store)); } catch (e2) { /* give up */ }
     }
   }
 }
@@ -361,8 +394,8 @@ function renderSidebar(store) {
     const chat = store.chats[id];
     const isActive = id === store.activeId;
     return `
-      <div class="chat-item${isActive ? ' active' : ''}" data-chat-id="${id}">
-        <div class="chat-item-icon">Q</div>
+      <div class="chat-item${isActive ? ' active' : ''}" data-chat-id="${id}" title="${escapeHtml(chat.title || 'New Chat')}">
+        <div class="chat-item-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
         <div class="chat-item-content">
           <div class="chat-item-title">${escapeHtml(chat.title || 'New Chat')}</div>
           <div class="chat-item-time">${formatTime(chat.updatedAt)}</div>
@@ -381,39 +414,31 @@ function renderSidebar(store) {
 
 function initSidebar() {
   const sidebar    = document.getElementById('sidebar');
-  const overlay    = document.getElementById('sidebar-overlay');
-  const toggleBtn  = document.getElementById('sidebar-toggle-btn');
+  const toggleBtn  = document.getElementById('sidebar-collapse-btn');
   const resizer    = document.getElementById('sidebar-resizer');
   const appLayout  = document.querySelector('.app-layout');
   if (!sidebar) return;
 
-  function openSidebar() {
-    sidebar.classList.add('open');
-    if (overlay) overlay.classList.add('visible');
-  }
+  // The toggle lives inside the sidebar (below the title bar). Collapsed state
+  // is a 54px icon rail — expand toggle, new chat, chat glyphs — and persists.
+  const COLLAPSE_KEY = 'thermiq_sidebar_collapsed';
 
-  function closeSidebar() {
-    sidebar.classList.remove('open');
-    if (overlay) overlay.classList.remove('visible');
+  function setCollapsed(collapsed) {
+    if (appLayout) appLayout.classList.toggle('sidebar-collapsed', collapsed);
+    if (collapsed) sidebar.style.width = ''; // rail width comes from CSS
+    try { localStorage.setItem(COLLAPSE_KEY, collapsed ? '1' : '0'); } catch (_) { }
   }
 
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
-      if (window.innerWidth <= 768) {
-        if (sidebar.classList.contains('open')) {
-          closeSidebar();
-        } else {
-          openSidebar();
-        }
-      } else {
-        if (appLayout) appLayout.classList.toggle('sidebar-collapsed');
-      }
+      const collapsed = appLayout ? appLayout.classList.contains('sidebar-collapsed') : false;
+      setCollapsed(!collapsed);
     });
   }
 
-  if (overlay) {
-    overlay.addEventListener('click', closeSidebar);
-  }
+  // Restore last state; default to the rail on small screens.
+  const saved = localStorage.getItem(COLLAPSE_KEY);
+  setCollapsed(saved === null ? window.innerWidth <= 768 : saved === '1');
 
   if (resizer) {
     let isResizing = false;
@@ -446,8 +471,8 @@ function initSidebar() {
     }
   }
 
-  // Close sidebar when switching chats on mobile
-  return { closeSidebar };
+  // Kept for callers that collapse after switching chats on small screens.
+  return { closeSidebar: () => { if (window.innerWidth <= 768) setCollapsed(true); } };
 }
 
 // ─── API call helper ─────────────────────────────────────────────────────────
@@ -613,8 +638,8 @@ function initQueryCopilot() {
     const typing = addTypingIndicator();
 
     try {
-      const clientSelect = document.getElementById('client-select');
-      const client = clientSelect ? clientSelect.value : '';
+      // Queries are always scoped to the active plant profile (header selector).
+      const client = getActiveClient();
 
       const history = chat.messages.slice(0, -1).slice(-6).map(m => ({
         role:    m.role,
@@ -763,8 +788,7 @@ function initQueryCopilot() {
         const typing = addTypingIndicator();
         sendBtn.disabled = true;
 
-        const clientSelect = document.getElementById('client-select');
-        const client = clientSelect ? clientSelect.value : '';
+        const client = getActiveClient();
         const history = chat.messages.slice(0, idx).slice(-6).map(m => ({
           role: m.role, content: m.content || '',
         }));
@@ -1046,27 +1070,37 @@ async function initDashboard() {
 // ─── Document Upload (documents.html) ────────────────────────────────────────
 
 function initUpload() {
+  const floatEl  = document.getElementById('upload-float');
   const dropZone = document.getElementById('upload-drop-zone');
-  if (!dropZone) return;
+  if (!floatEl || !dropZone) return;
 
-  const fileInput    = document.getElementById('upload-file-input');
-  const docName      = document.getElementById('upload-doc-name');
-  const clientNameEl = document.getElementById('upload-client-name');
-  const clientField  = document.getElementById('upload-client-name-field');
-  const docType      = document.getElementById('upload-doc-type');
-  const sourceUrl    = document.getElementById('upload-source-url');
-  const submitBtn    = document.getElementById('upload-submit-btn');
-  const btnText      = document.getElementById('upload-btn-text');
-  const statusEl     = document.getElementById('upload-status');
-  const fileLabel    = document.getElementById('upload-file-name');
+  const fileInput = document.getElementById('upload-file-input');
+  const docName   = document.getElementById('upload-doc-name');
+  const docType   = document.getElementById('upload-doc-type');
+  const docTypeField = document.getElementById('upload-doc-type-field');
+  const sourceUrl = document.getElementById('upload-source-url');
+  const submitBtn = document.getElementById('upload-submit-btn');
+  const btnText   = document.getElementById('upload-btn-text');
+  const statusEl  = document.getElementById('upload-status');
+  const fileLabel = document.getElementById('upload-file-name');
+  const destHint  = document.getElementById('upload-dest-hint');
+  const destNote  = document.getElementById('dest-note');
+  const destBtns  = {
+    plant: document.getElementById('dest-plant'),
+    guideline: document.getElementById('dest-guideline'),
+  };
+  const dock      = document.getElementById('upload-dock');
+  const dockTitle = document.getElementById('upload-dock-title');
+  const queueEl   = document.getElementById('upload-queue');
 
   // Must stay under Vercel's ~4.5 MB request-body cap after base64 (+33%) overhead —
   // larger files die at the platform edge with an opaque 413.
   const MAX_BYTES = 3 * 1024 * 1024; // 3 MB
   let selectedFiles = [];   // supports multiple files at once
+  let dest = 'plant';       // 'plant' | 'guideline' (both plant-scoped)
+  let uploading = false;
+  let queue = [];           // { name, status: 'queued'|'uploading'|'done'|'failed', error }
 
-  // Default the plant name to the active client, and populate the selector.
-  if (clientNameEl && !clientNameEl.value) clientNameEl.value = getActiveClient();
   initPlantSelector();
 
   // Remember the last-used Document Type so it doesn't reset on every upload.
@@ -1079,25 +1113,83 @@ function initUpload() {
     docType.addEventListener('change', () => localStorage.setItem(DOC_TYPE_KEY, docType.value));
   }
 
-  // ── Source type radio helpers ─────────────────────────────────────────────
-  function getSourceType() {
-    const checked = document.querySelector('input[name="source_type"]:checked');
-    return checked ? checked.value : 'client';
-  }
-
-  function onSourceTypeChange() {
-    const isClient = getSourceType() === 'client';
-    if (clientField) {
-      clientField.style.display = isClient ? '' : 'none';
+  // ── Destination — Plant Documents vs plant-scoped Guideline Documents ─────
+  // Both upload as source_type 'client' under the active plant, so they stay
+  // deletable and never touch the seeded CEA baseline. Guideline uploads are
+  // typed doc_type 'guideline', which is what routes them to the Guideline view.
+  function setDest(d) {
+    dest = d === 'guideline' ? 'guideline' : 'plant';
+    Object.entries(destBtns).forEach(([k, b]) => { if (b) b.classList.toggle('selected', k === dest); });
+    if (destHint) {
+      destHint.innerHTML = (dest === 'plant' ? 'Into: Plant Documents · ' : 'Into: Guideline Documents · ')
+        + `<b>${escapeHtml(getActiveClient())}</b>`;
     }
-    updateSubmitState();
+    if (destNote) {
+      destNote.textContent = dest === 'plant'
+        ? "Adds the active plant's own records (SOPs, manuals, inspection records) to the corpus being assessed."
+        : 'Adds guidelines for this plant only. The seeded CEA corpus stays fixed for every plant; guidelines you add here are deletable.';
+    }
+    if (docTypeField) docTypeField.style.display = dest === 'guideline' ? 'none' : '';
+  }
+  Object.values(destBtns).forEach((b) => { if (b) b.addEventListener('click', () => setDest(b.dataset.destChoice)); });
+  setDest('plant');
+
+  // ── Open / minimize / close / dock ─────────────────────────────────────────
+  function openUploadModal(d) {
+    setDest(d || dest);
+    floatEl.hidden = false;
+  }
+  function minimizeUpload() {
+    floatEl.hidden = true;
+    if (queue.length) { dock.hidden = false; renderQueue(); }
+  }
+  function closeUploadModal() {
+    floatEl.hidden = true;
+    if (uploading) { dock.hidden = false; renderQueue(); return; } // uploads keep running in the dock
+    resetForm();
   }
 
-  // Wire up radio buttons
-  document.querySelectorAll('input[name="source_type"]').forEach(radio => {
-    radio.addEventListener('change', onSourceTypeChange);
+  // Any element with data-upload-dest opens the panel (hub tile, +Add buttons).
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-upload-dest]');
+    if (trigger) { e.preventDefault(); openUploadModal(trigger.dataset.uploadDest); }
   });
-  onSourceTypeChange(); // set initial state
+  document.getElementById('upload-min-btn').addEventListener('click', minimizeUpload);
+  document.getElementById('upload-close-btn').addEventListener('click', closeUploadModal);
+  document.getElementById('upload-restore-btn').addEventListener('click', () => { floatEl.hidden = false; });
+  document.getElementById('upload-dock-close-btn').addEventListener('click', () => {
+    if (uploading) return; // can't dismiss the dock while uploads are in flight
+    dock.hidden = true;
+    queue = [];
+  });
+
+  // ── Draggable panel (drag by its header) ──────────────────────────────────
+  (function makeDraggable() {
+    const head = document.getElementById('upload-float-head');
+    if (!head) return;
+    let dragging = false, sx = 0, sy = 0, ox = 0, oy = 0;
+    head.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('button')) return;
+      dragging = true;
+      const r = floatEl.getBoundingClientRect();
+      ox = r.left; oy = r.top; sx = e.clientX; sy = e.clientY;
+      head.setPointerCapture(e.pointerId);
+    });
+    head.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      let left = ox + (e.clientX - sx);
+      let top  = oy + (e.clientY - sy);
+      left = Math.max(8, Math.min(left, window.innerWidth - floatEl.offsetWidth - 8));
+      top  = Math.max(8, Math.min(top, window.innerHeight - 80));
+      floatEl.style.left = `${left}px`;
+      floatEl.style.top = `${top}px`;
+      floatEl.style.right = 'auto';
+      floatEl.style.bottom = 'auto';
+    });
+    const stopDrag = () => { dragging = false; };
+    head.addEventListener('pointerup', stopDrag);
+    head.addEventListener('pointercancel', stopDrag);
+  })();
 
   // ── Status helpers ────────────────────────────────────────────────────────
   function setStatus(msg, type = 'info') {
@@ -1112,24 +1204,33 @@ function initUpload() {
   }
 
   function updateSubmitState() {
-    const sourceType = getSourceType();
-    const needsClientName = sourceType === 'client';
-    const clientNameOk = !needsClientName || (clientNameEl && clientNameEl.value.trim());
     // With multiple files each doc is named from its filename, so the single
     // Document Name field is only required when exactly one file is selected.
     const nameOk = selectedFiles.length > 1 || docName.value.trim();
-    const ready = selectedFiles.length >= 1 && nameOk && clientNameOk;
+    const ready = !uploading && selectedFiles.length >= 1 && nameOk;
     submitBtn.disabled = !ready;
     if (btnText && !submitBtn.disabled) {
       btnText.textContent = selectedFiles.length > 1
-        ? `Ingest ${selectedFiles.length} Documents`
-        : 'Ingest Document';
+        ? `Upload ${selectedFiles.length} Documents`
+        : 'Start Upload';
     }
   }
 
   // Turn a filename into a readable document name.
   function nameFromFile(file) {
     return file.name.replace(/\.pdf$/i, '').replace(/[_-]/g, ' ').trim();
+  }
+
+  function resetForm() {
+    selectedFiles = [];
+    fileInput.value = '';
+    docName.value = '';
+    if (sourceUrl) sourceUrl.value = '';
+    fileLabel.textContent = 'No files selected · PDF only · max ~3 MB each · multiple allowed';
+    dropZone.classList.remove('has-file');
+    if (btnText) btnText.textContent = 'Start Upload';
+    submitBtn.disabled = true;
+    clearStatus();
   }
 
   // ── File handling (accepts one or many) ────────────────────────────────────
@@ -1178,7 +1279,6 @@ function initUpload() {
   fileInput.addEventListener('change', () => handleFiles(fileInput.files));
 
   docName.addEventListener('input', updateSubmitState);
-  if (clientNameEl) clientNameEl.addEventListener('input', updateSubmitState);
 
   const readAsBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -1187,7 +1287,7 @@ function initUpload() {
     reader.readAsDataURL(file);
   });
 
-  async function ingestOne(file, docNameValue, sourceType, clientName) {
+  async function ingestOne(file, docNameValue, docTypeValue, clientName) {
     const base64 = await readAsBase64(file);
     const res = await fetch(`${BACKEND}/api/ingest_document`, {
       method: 'POST',
@@ -1195,9 +1295,9 @@ function initUpload() {
       body: JSON.stringify({
         pdf_base64:  base64,
         doc_name:    docNameValue,
-        doc_type:    docType.value,
+        doc_type:    docTypeValue,
         source_url:  sourceUrl.value.trim(),
-        source_type: sourceType,
+        source_type: 'client', // always plant-scoped; the seeded CEA baseline is system-managed
         client_name: clientName,
         client:      clientName, // legacy field — keep for compat
       }),
@@ -1207,67 +1307,76 @@ function initUpload() {
     return data;
   }
 
-  // ── Submit (handles one OR many files, sequentially) ────────────────────────
-  submitBtn.addEventListener('click', async () => {
-    if (!selectedFiles.length) return;
-
-    const sourceType = getSourceType();
-    const clientName = (clientNameEl ? clientNameEl.value.trim() : '').toLowerCase();
-
-    if (sourceType === 'client' && !clientName) {
-      setStatus('Please enter a Client / Plant Name (e.g. ntpc_lara) for client documents.', 'error');
-      return;
+  // ── Dock queue rendering ───────────────────────────────────────────────────
+  function renderQueue() {
+    if (!queueEl) return;
+    queueEl.innerHTML = queue.map((q) => `
+      <div class="upq-item ${q.status}">
+        <div class="upq-row">
+          <span class="upq-name">${escapeHtml(q.name)}</span>
+          <span class="upq-state">${q.status}</span>
+        </div>
+        <div class="upq-bar"><i></i></div>
+        ${q.error ? `<div class="upq-error">${escapeHtml(q.error)}</div>` : ''}
+      </div>`).join('');
+    const total = queue.length;
+    const finished = queue.filter(q => q.status === 'done' || q.status === 'failed').length;
+    const failed = queue.filter(q => q.status === 'failed').length;
+    if (dockTitle) {
+      dockTitle.textContent = uploading
+        ? `Uploading ${Math.min(finished + 1, total)}/${total}…`
+        : (total ? (failed ? `Uploads done — ${failed} failed` : 'Uploads complete') : 'Uploads');
     }
+  }
+
+  // ── Submit — panel minimizes, uploads run sequentially from the dock ───────
+  submitBtn.addEventListener('click', async () => {
+    if (!selectedFiles.length || uploading) return;
     if (selectedFiles.length === 1 && !docName.value.trim()) {
       setStatus('Please enter a Document Name.', 'error');
       return;
     }
 
-    submitBtn.disabled = true;
+    const clientName = getActiveClient();
+    const docTypeValue = dest === 'guideline' ? 'guideline' : docType.value;
+    const files = selectedFiles.slice();
+    queue = files.map((f) => ({
+      name: files.length === 1 ? docName.value.trim() : nameFromFile(f),
+      status: 'queued',
+      error: null,
+    }));
+
+    uploading = true;
+    updateSubmitState();
     clearStatus();
+    minimizeUpload();
+    dock.hidden = false;
+    renderQueue();
 
-    const sourceLabel = sourceType === 'client' ? `plant "${clientName}"` : 'guideline corpus';
-    const results = [];
-    const failures = [];
-
-    for (let i = 0; i < selectedFiles.length; i++) {
-      const file = selectedFiles[i];
-      // Single file → editable name field; multiple → derive from each filename.
-      const thisName = selectedFiles.length === 1
-        ? docName.value.trim()
-        : nameFromFile(file);
-      const counter = selectedFiles.length > 1 ? `(${i + 1}/${selectedFiles.length}) ` : '';
-      btnText.textContent = `Uploading ${i + 1}/${selectedFiles.length}…`;
-      setStatus(`${counter}Ingesting "${thisName}" into ${sourceLabel} — embedding via Jina AI…`, 'info');
-
+    for (let i = 0; i < files.length; i++) {
+      queue[i].status = 'uploading';
+      renderQueue();
       try {
-        const data = await ingestOne(file, thisName, sourceType, clientName);
-        results.push(`"${data.doc_name}": ${data.chunks_indexed} chunks / ${data.pages_parsed} pages`);
+        await ingestOne(files[i], queue[i].name, docTypeValue, clientName);
+        queue[i].status = 'done';
       } catch (err) {
-        failures.push(`"${thisName}": ${err.message}`);
+        queue[i].status = 'failed';
+        queue[i].error = err.message;
       }
+      renderQueue();
     }
 
-    // Summary
-    if (failures.length === 0) {
-      setStatus(`Ingested ${results.length} document(s) into ${sourceLabel}. ${results.join(' · ')}`, 'success');
-    } else if (results.length === 0) {
-      setStatus(`All ${failures.length} upload(s) failed. ${failures.join(' · ')}`, 'error');
-    } else {
-      setStatus(`Ingested ${results.length}, failed ${failures.length}. Failed: ${failures.join(' · ')}`, 'error');
+    uploading = false;
+    renderQueue();
+    resetForm();
+
+    // Refresh the lists + header figures with the new corpus.
+    setTimeout(() => { loadDocuments(); loadShellTicker(); }, 1200);
+
+    // All good → the dock tidies itself away after a moment.
+    if (!queue.some((q) => q.status === 'failed')) {
+      setTimeout(() => { if (!uploading) { dock.hidden = true; queue = []; renderQueue(); } }, 4000);
     }
-
-    // Reset file selection (keep plant name + doc type for convenience on repeat uploads)
-    selectedFiles = [];
-    fileInput.value = '';
-    docName.value = '';
-    if (sourceUrl) sourceUrl.value = '';
-    fileLabel.textContent = 'No files selected · PDF only · max ~3 MB each · multiple allowed';
-    dropZone.classList.remove('has-file');
-    btnText.textContent = 'Ingest Document';
-    submitBtn.disabled = true;
-
-    setTimeout(loadDocuments, 1500);
   });
 }
 
@@ -1295,111 +1404,83 @@ function formatDate(iso) {
 }
 
 async function loadDocuments() {
-  // Both bodies must exist on this page
-  const benchmarkBody = document.getElementById('benchmark-docs-body');
-  const clientBody    = document.getElementById('client-docs-body');
-  if (!benchmarkBody && !clientBody) return;
+  const bGrid = document.getElementById('benchmark-docs-grid');
+  const cGrid = document.getElementById('client-docs-grid');
+  if (!bGrid && !cGrid) return;
 
-  if (benchmarkBody) benchmarkBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">Loading…</td></tr>`;
-  if (clientBody)    clientBody.innerHTML    = `<tr><td colspan="8" class="skeleton-row">Loading…</td></tr>`;
+  if (bGrid) bGrid.innerHTML = `<div class="doc-skeleton">Loading guideline documents…</div>`;
+  if (cGrid) cGrid.innerHTML = `<div class="doc-skeleton">Loading plant documents…</div>`;
+
+  const active = getActiveClient();
+
+  // One card per document. Details live ON the card; clicking a card opens the
+  // in-app viewer (iframe of its source URL when one exists). Only http(s)
+  // source URLs are treated as viewable — source_url is user-supplied at
+  // upload time, so it stays escaped/validated (task-034 XSS posture).
+  function docCard(d, opts = {}) {
+    const typeLabel = DOC_TYPE_LABELS[d.doc_type] || (d.doc_type || '—');
+    const url = (d.source_url && /^https?:\/\//i.test(d.source_url)) ? d.source_url : '';
+    const chips = [`<span class="doc-chip">PDF</span>`];
+    if (opts.system) chips.push(`<span class="doc-chip doc-chip--system">CEA corpus</span>`);
+    if (opts.plantAdded) chips.push(`<span class="doc-chip doc-chip--plant">Added for ${escapeHtml((d.client_name || d.client || active))}</span>`);
+    const del = opts.deletable
+      ? `<button class="btn-delete-doc" data-doc-id="${escapeHtml(d.id)}" data-doc-name="${escapeHtml(d.doc_name || '')}" title="Delete document">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        </button>`
+      : '';
+    return `
+      <div class="doc-card" data-doc-view data-doc-name="${escapeHtml(d.doc_name || 'Document')}" data-doc-url="${escapeHtml(url)}">
+        <div class="doc-card-top">
+          <div class="doc-card-name">${escapeHtml(d.doc_name || '—')}</div>
+          <div class="doc-card-actions">${del}</div>
+        </div>
+        <div class="doc-card-meta">
+          <div><span class="m-label">Type</span><span class="m-val">${escapeHtml(typeLabel)}</span></div>
+          <div><span class="m-label">Chunks</span><span class="m-val">${d.chunks_indexed ?? '—'}</span></div>
+          <div><span class="m-label">Pages</span><span class="m-val">${d.pages_parsed ?? '—'}</span></div>
+          <div><span class="m-label">Ingested</span><span class="m-val">${formatDate(d.ingested_at)}</span></div>
+        </div>
+        <div class="doc-card-foot">
+          ${chips.join('')}
+          ${url ? `<a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="doc-source-link" title="Open source in new tab" onclick="event.stopPropagation()">↗</a>` : ''}
+        </div>
+      </div>`;
+  }
 
   try {
     const res  = await fetch(`${BACKEND}/api/list_documents`);
     const data = await res.json();
     const docs = data.documents || [];
 
-    const benchmarks = docs.filter(d => d.source_type === 'benchmark' || (!d.source_type && !d.client));
-    const clients    = docs.filter(d => d.source_type === 'client'    || (!d.source_type && d.client));
+    // Everything is scoped to the active plant profile (header selector).
+    const seeded = docs.filter(d => d.source_type === 'benchmark' || (!d.source_type && !d.client));
+    const mine   = docs.filter(d => (d.source_type === 'client' || (!d.source_type && d.client))
+      && ((d.client_name || d.client || '').toLowerCase() === active));
+    // Plant-added guidelines live in the Guideline view (deletable), the rest
+    // are the operational corpus in the Plant view. The seeded CEA baseline is
+    // system-managed — no delete button ever.
+    const plantGuidelines = mine.filter(d => d.doc_type === 'guideline');
+    const plantDocs       = mine.filter(d => d.doc_type !== 'guideline');
 
-    // ── Benchmark rows (no delete button) ─────────────────────────────────
-    if (benchmarkBody) {
-      if (!benchmarks.length) {
-        benchmarkBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">No guideline documents found. Run the patch script if you just migrated.</td></tr>`;
-      } else {
-        benchmarkBody.innerHTML = benchmarks.map(d => {
-          const typeLabel  = DOC_TYPE_LABELS[d.doc_type] || escapeHtml(d.doc_type || '—');
-          const sourceLink = d.source_url
-            ? `<a href="${escapeHtml(d.source_url)}" target="_blank" rel="noopener" class="doc-source-link">↗</a>`
-            : '—';
-          return `
-            <tr class="doc-row-benchmark">
-              <td class="doc-name-cell">
-                ${escapeHtml(d.doc_name || '—')}
-                <span class="doc-lock-icon" title="Guideline document — locked">Locked</span>
-              </td>
-              <td data-label="Type">${typeLabel}</td>
-              <td data-label="Chunks">${d.chunks_indexed ?? '—'}</td>
-              <td data-label="Pages">${d.pages_parsed ?? '—'}</td>
-              <td data-label="Ingested">${formatDate(d.ingested_at)}</td>
-              <td data-label="Source">${sourceLink}</td>
-              <td>
-                <button class="btn-preview-doc btn-icon-only"
-                  data-doc-name="${escapeHtml(d.doc_name || '')}"
-                  data-client="— (Guideline)"
-                  data-type="${escapeHtml(typeLabel)}"
-                  data-chunks="${d.chunks_indexed ?? '—'}"
-                  data-date="${formatDate(d.ingested_at)}"
-                  data-source="${escapeHtml(d.source_url || '')}"
-                  title="Preview details">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                </button>
-              </td>
-            </tr>`;
-        }).join('');
-      }
+    if (bGrid) {
+      const cards = [
+        ...seeded.map(d => docCard(d, { system: true })),
+        ...plantGuidelines.map(d => docCard(d, { plantAdded: true, deletable: true })),
+      ];
+      bGrid.innerHTML = cards.length
+        ? cards.join('')
+        : `<div class="doc-skeleton">No guideline documents found. Run the patch script if you just migrated.</div>`;
     }
 
-    // ── Client rows (with delete button) ──────────────────────────────────
-    if (clientBody) {
-      if (!clients.length) {
-        clientBody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No plant documents yet. Upload a plant's documents above.</td></tr>`;
-      } else {
-        clientBody.innerHTML = clients.map(d => {
-          const plantName  = d.client_name || d.client || '—';
-          const typeLabel  = DOC_TYPE_LABELS[d.doc_type] || escapeHtml(d.doc_type || '—');
-          const sourceLink = d.source_url
-            ? `<a href="${escapeHtml(d.source_url)}" target="_blank" rel="noopener" class="doc-source-link">↗</a>`
-            : '—';
-          return `
-            <tr class="doc-row-client">
-              <td class="doc-name-cell">${escapeHtml(d.doc_name || '—')}</td>
-              <td data-label="Plant"><span class="client-badge">${escapeHtml(plantName.toUpperCase())}</span></td>
-              <td data-label="Type">${typeLabel}</td>
-              <td data-label="Chunks">${d.chunks_indexed ?? '—'}</td>
-              <td data-label="Pages">${d.pages_parsed ?? '—'}</td>
-              <td data-label="Ingested">${formatDate(d.ingested_at)}</td>
-              <td data-label="Source">${sourceLink}</td>
-              <td>
-                <button class="btn-preview-doc btn-icon-only"
-                  data-doc-name="${escapeHtml(d.doc_name || '')}"
-                  data-client="${escapeHtml(plantName)}"
-                  data-type="${escapeHtml(typeLabel)}"
-                  data-chunks="${d.chunks_indexed ?? '—'}"
-                  data-date="${formatDate(d.ingested_at)}"
-                  data-source="${escapeHtml(d.source_url || '')}"
-                  title="Preview details">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-                </button>
-                <button class="btn-delete-doc"
-                  data-doc-id="${escapeHtml(d.id)}"
-                  data-doc-name="${escapeHtml(d.doc_name || '')}"
-                  data-source-type="client"
-                  title="Delete plant document">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="3 6 5 6 21 6"></polyline>
-                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                  </svg>
-                </button>
-              </td>
-            </tr>`;
-        }).join('');
-      }
+    if (cGrid) {
+      cGrid.innerHTML = plantDocs.length
+        ? plantDocs.map(d => docCard(d, { deletable: true })).join('')
+        : `<div class="doc-skeleton">No plant documents yet for "${escapeHtml(active)}". Upload this plant's documents to start the assessment.</div>`;
     }
-
   } catch (err) {
-    const msg = `Failed to load: ${escapeHtml(err.message)}`;
-    if (benchmarkBody) benchmarkBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">${msg}</td></tr>`;
-    if (clientBody)    clientBody.innerHTML    = `<tr><td colspan="8" class="skeleton-row">${msg}</td></tr>`;
+    const msg = `<div class="doc-skeleton">Failed to load: ${escapeHtml(err.message)}</div>`;
+    if (bGrid) bGrid.innerHTML = msg;
+    if (cGrid) cGrid.innerHTML = msg;
     return;
   }
 
@@ -1409,21 +1490,19 @@ async function loadDocuments() {
   // has no real document behind it, so we render it as a distinct "missing
   // document" card rather than a normal file card (not clickable-for-preview,
   // no delete button — there's nothing to preview or delete).
-  if (clientBody) {
+  if (cGrid) {
     try {
-      const gapRes = await fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(getActiveClient())}`);
+      const gapRes = await fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(active)}`);
       const gapData = await gapRes.json();
       const missingTopics = (gapData.gaps || []).filter((g) => g.coverage_status === 'gap');
       if (missingTopics.length) {
-        clientBody.insertAdjacentHTML('beforeend', missingTopics.map((g) => `
-          <tr class="doc-row-gap-flag">
-            <td colspan="8">
-              <span class="gap-flag-badge">GAP</span>
-              <div class="gap-flag-title">${escapeHtml(g.topic || g.gap_id || 'Untitled topic')}</div>
-              <div class="gap-flag-desc">${escapeHtml(g.description || 'No document on file covers this CEA-required topic.')}</div>
-              <div class="gap-flag-meta">Equipment: ${escapeHtml(g.equipment_tag || '—')} &middot; no covering document found</div>
-            </td>
-          </tr>`).join(''));
+        cGrid.insertAdjacentHTML('beforeend', missingTopics.map((g) => `
+          <div class="doc-card doc-card--gap">
+            <div><span class="gap-flag-badge">GAP</span></div>
+            <div class="gap-flag-title">${escapeHtml(g.topic || g.gap_id || 'Untitled topic')}</div>
+            <div class="gap-flag-desc">${escapeHtml(g.description || 'No document on file covers this CEA-required topic.')}</div>
+            <div class="gap-flag-meta">Equipment: ${escapeHtml(g.equipment_tag || '—')} &middot; no covering document found</div>
+          </div>`).join(''));
       }
     } catch (_) { /* gap flagging is additive — a failure here shouldn't break the doc list */ }
   }
@@ -1447,15 +1526,12 @@ async function deleteDocument(docId, docName) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
 
-    // Remove row immediately for snappy UX
-    const row = btn ? btn.closest('tr') : null;
-    if (row) row.remove();
-
-    // Check if client table is empty
-    const clientBody = document.getElementById('client-docs-body');
-    if (clientBody && !clientBody.querySelector('tr:not(.skeleton-row)')) {
-      clientBody.innerHTML = `<tr><td colspan="8" class="skeleton-row">No plant documents. Upload a plant's documents above.</td></tr>`;
-    }
+    // Remove the card immediately for snappy UX, then refresh both grids so
+    // empty states and gap flags stay correct.
+    const card = btn ? btn.closest('.doc-card') : null;
+    if (card) card.remove();
+    loadDocuments();
+    loadShellTicker();
   } catch (err) {
     alert(`Failed to delete: ${err.message}`);
     if (btn) { btn.disabled = false; btn.style.opacity = ''; }
@@ -1479,8 +1555,7 @@ async function clearPlant() {
 }
 
 function initDocumentsPage() {
-  // New page uses benchmark-docs-body / client-docs-body
-  if (!document.getElementById('benchmark-docs-body') && !document.getElementById('client-docs-body')) return;
+  if (!document.getElementById('benchmark-docs-grid') && !document.getElementById('client-docs-grid')) return;
 
   loadDocuments();
 
@@ -1490,65 +1565,63 @@ function initDocumentsPage() {
   const clearBtn = document.getElementById('clear-plant-btn');
   if (clearBtn) clearBtn.addEventListener('click', clearPlant);
 
-  // Delete button delegation — only client docs have delete buttons
+  // ── In-app document viewer ─────────────────────────────────────────────────
+  // Clicking a card opens the document itself in a popup inside the app —
+  // rendered from its source URL. Originals aren't stored server-side (only
+  // extracted text is indexed in Qdrant), so cards without a URL get an
+  // explanatory fallback instead.
+  const viewer         = document.getElementById('doc-viewer-modal');
+  const viewerTitle    = document.getElementById('viewer-title');
+  const viewerFrame    = document.getElementById('viewer-frame');
+  const viewerFallback = document.getElementById('viewer-fallback');
+  const viewerOpen     = document.getElementById('viewer-open-original');
+
+  function openViewer(name, url) {
+    if (!viewer) return;
+    viewerTitle.textContent = name || 'Document';
+    if (url && /^https?:\/\//i.test(url)) {
+      viewerFrame.src = url;
+      viewerFrame.style.display = '';
+      viewerFallback.style.display = 'none';
+      viewerOpen.href = url;
+      viewerOpen.style.display = '';
+    } else {
+      viewerFrame.src = 'about:blank';
+      viewerFrame.style.display = 'none';
+      viewerFallback.style.display = '';
+      viewerFallback.innerHTML = `<strong>${escapeHtml(name || 'This document')}</strong>
+        <span>The original file isn't stored in ThermIQ — only its extracted text is indexed for search.
+        Add a Source URL when uploading to enable in-app preview.</span>`;
+      viewerOpen.style.display = 'none';
+    }
+    viewer.classList.add('active');
+  }
+
+  function closeViewer() {
+    if (!viewer) return;
+    viewer.classList.remove('active');
+    viewerFrame.src = 'about:blank';
+  }
+
+  // Card + delete delegation
   document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.btn-delete-doc');
-    if (btn) {
-      const docId   = btn.dataset.docId;
-      const docName = btn.dataset.docName;
-      if (docId) deleteDocument(docId, docName);
+    const del = e.target.closest('.btn-delete-doc');
+    if (del) {
+      e.stopPropagation();
+      if (del.dataset.docId) deleteDocument(del.dataset.docId, del.dataset.docName);
       return;
     }
-    
-    // Preview modal delegation
-    const previewBtn = e.target.closest('.btn-preview-doc');
-    if (previewBtn) {
-      const modal = document.getElementById('doc-preview-modal');
-      if (modal) {
-        document.getElementById('modal-doc-title').textContent = previewBtn.dataset.docName || 'Document';
-        document.getElementById('modal-doc-client').textContent = previewBtn.dataset.client || '—';
-        document.getElementById('modal-doc-type').textContent = previewBtn.dataset.type || '—';
-        document.getElementById('modal-doc-chunks').textContent = previewBtn.dataset.chunks || '—';
-        document.getElementById('modal-doc-date').textContent = previewBtn.dataset.date || '—';
-        
-        const sourceUrl = previewBtn.dataset.source;
-        const sourceEl = document.getElementById('modal-doc-source');
-        // Only render as a link for http(s) URLs, and escape — source_url is
-        // user-supplied at upload time, so it must not reach innerHTML raw.
-        if (sourceUrl && /^https?:\/\//i.test(sourceUrl)) {
-          sourceEl.innerHTML = `<a href="${escapeHtml(sourceUrl)}" target="_blank" rel="noopener" class="doc-source-link">${escapeHtml(sourceUrl)} ↗</a>`;
-        } else if (sourceUrl) {
-          sourceEl.textContent = sourceUrl;
-        } else {
-          sourceEl.textContent = '—';
-        }
-        
-        modal.classList.add('active');
-      }
+    const card = e.target.closest('[data-doc-view]');
+    if (card) {
+      if (e.target.closest('a')) return; // the ↗ source link handles itself
+      openViewer(card.dataset.docName, card.dataset.docUrl || '');
     }
   });
 
-  // Modal close logic
-  const modalCloseBtn = document.getElementById('modal-close-btn');
-  const modalOverlay = document.getElementById('doc-preview-modal');
-  if (modalCloseBtn && modalOverlay) {
-    modalCloseBtn.addEventListener('click', () => modalOverlay.classList.remove('active'));
-    modalOverlay.addEventListener('click', (e) => {
-      if (e.target === modalOverlay) modalOverlay.classList.remove('active');
-    });
-  }
-
-  // Grid/List toggle logic
-  const bToggle = document.getElementById('benchmark-view-toggle');
-  const bTable = document.getElementById('benchmark-docs-table');
-  if (bToggle && bTable) {
-    bToggle.addEventListener('click', () => bTable.classList.toggle('docs-grid-view'));
-  }
-  
-  const cToggle = document.getElementById('client-view-toggle');
-  const cTable = document.getElementById('client-docs-table');
-  if (cToggle && cTable) {
-    cToggle.addEventListener('click', () => cTable.classList.toggle('docs-grid-view'));
+  const viewerCloseBtn = document.getElementById('viewer-close-btn');
+  if (viewerCloseBtn && viewer) {
+    viewerCloseBtn.addEventListener('click', closeViewer);
+    viewer.addEventListener('click', (e) => { if (e.target === viewer) closeViewer(); });
   }
 }
 
@@ -1775,7 +1848,7 @@ function initGraphView() {
           shape: n.node_type === 'OutageEvent' ? 'dot' : 'box',
           color: { border: color.border, background: color.background, highlight: color },
           borderWidth: isGapNode ? 3 : 1.5,
-          font: { color: '#e7eaee', face: 'IBM Plex Mono', size: 11 },
+          font: { color: '#e7eaee', face: 'JetBrains Mono', size: 11 },
           _raw: n,
           _isGap: isGapNode,
         };

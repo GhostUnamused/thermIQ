@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;450;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
@@ -22,20 +22,13 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="header-left">
-        <button id="sidebar-toggle-btn" class="sidebar-toggle" aria-label="Toggle sidebar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
         <a class="wordmark" data-view-target="home" href="#/">
           <span class="mark">TQ</span>
           <span class="name">THERM<span>·</span>IQ</span>
         </a>
       </div>
       <div class="shell-ticker" id="shell-ticker">
-        <select id="plant-selector" class="plant-selector" title="Active plant"></select>
+        <select id="plant-selector" class="plant-selector" title="Active plant profile"></select>
         <span class="sep">·</span>
         <span>Risk <b id="ticker-risk">—</b></span>
         <span class="sep">·</span>
@@ -82,7 +75,7 @@
       <button class="tile primary chat" type="button" data-view-target="chat">
         <div>
           <div class="tile-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
           </div>
           <div class="tile-title">Expert Copilot</div>
           <div class="tile-sub">Ask about any procedure, spec, or failure mode — cited to source, or flagged as a gap.</div>
@@ -93,7 +86,7 @@
       <button class="tile primary risk" type="button" data-view-target="graph">
         <div>
           <div class="tile-icon">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="12" cy="18" r="2.3"/><line x1="7.8" y1="7.3" x2="10.5" y2="16"/><line x1="16.2" y1="7.3" x2="13.5" y2="16"/></svg>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2.3"/><circle cx="18" cy="6" r="2.3"/><circle cx="12" cy="18" r="2.3"/><line x1="7.8" y1="7.3" x2="10.5" y2="16"/><line x1="16.2" y1="7.3" x2="13.5" y2="16"/></svg>
           </div>
           <div class="tile-title">Risk &amp; Gap Graph</div>
           <div class="tile-sub">Every gap traced to a missing edge. Every rupee traced to a real outage record.</div>
@@ -103,13 +96,13 @@
     </div>
 
     <div class="row-secondary">
-      <button class="tile secondary" type="button" data-view-target="plant" data-scroll-to="add-document">
+      <button class="tile secondary" type="button" data-upload-dest="plant">
         <div>
           <div class="tile-icon">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="M7 8l5-5 5 5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
           </div>
           <div class="tile-title">Upload Documents</div>
-          <div class="tile-sub">Add a plant's own records</div>
+          <div class="tile-sub">Plant records or guidelines</div>
         </div>
         <div class="instrument">PDF · MULTI-FILE</div>
       </button>
@@ -155,12 +148,15 @@
 
   <!-- ═══ EXPERT COPILOT (chat) ═══ -->
   <div id="view-chat" class="spa-view app-layout">
-    <!-- Sidebar overlay for mobile -->
-    <div class="sidebar-overlay" id="sidebar-overlay"></div>
-
     <!-- Chat History Sidebar -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
+        <button id="sidebar-collapse-btn" class="btn-icon-only sidebar-collapse-btn" aria-label="Toggle sidebar" title="Toggle sidebar">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+            <line x1="9" y1="3" x2="9" y2="21"></line>
+          </svg>
+        </button>
         <h2>Chats</h2>
         <button id="new-chat-btn" class="btn-new-chat btn-icon-only" aria-label="New Chat" title="New Chat">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
@@ -171,6 +167,15 @@
       </div>
       <div class="chat-list" id="chat-list">
         <!-- Populated by app.js -->
+      </div>
+      <div class="sidebar-foot">
+        <button class="sidebar-hub-btn" type="button" data-view-target="home" title="Back to hub">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span class="back-text">Back to hub</span>
+        </button>
       </div>
     </aside>
 
@@ -191,14 +196,6 @@
       </button>
 
       <div class="chat-input-area">
-        <div class="client-bar">
-          <button class="back-link" type="button" data-view-target="home">&larr; Hub</button>
-          <span class="client-label">Knowledge base:</span>
-          <select id="client-select" class="client-select">
-            <option value="">All documents</option>
-            <option value="ntpc">NTPC</option>
-          </select>
-        </div>
         <div id="suggestion-chips" class="chip-row">
           <button class="chip" data-query="What are the mandatory spares for a 500MW boiler per CEA spec?">Mandatory boiler spares</button>
           <button class="chip" data-query="Super heater tube failure emergency procedure">Superheater failure procedure</button>
@@ -267,167 +264,50 @@
   <main id="view-guideline" class="spa-view container">
     <button class="back-link" type="button" data-view-target="home">&larr; Back to hub</button>
     <div class="view-head">
-      <h2>Guideline Documents <span class="source-badge source-badge--benchmark">Yardstick — Locked</span></h2>
+      <h2>Guideline Documents</h2>
       <p class="view-sub">
         CEA standards and regulatory guidelines that define what a well-run 500MW plant <em>should</em> document
-        and maintain. These are the measuring stick — they don't change per plant, and they're locked:
-        changing them would silently change the assessment baseline for every plant.
+        and maintain — the measuring stick every plant is assessed against. The seeded CEA corpus can't be changed
+        (it's the shared baseline); guidelines you add here apply to the active plant only and can be removed.
       </p>
     </div>
 
-    <section class="table-card" id="guideline-documents">
-      <div class="docs-list-header">
-        <h2>Corpus</h2>
-        <div style="display: flex; gap: 0.5rem;">
-          <button id="benchmark-view-toggle" class="btn-icon-only" title="Toggle Grid View">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-          </button>
-          <button id="docs-refresh-btn" class="btn-ghost btn-sm" title="Refresh list">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="23 4 23 10 17 10"></polyline>
-              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-            </svg>
-            Refresh
-          </button>
-        </div>
-      </div>
-      <p class="explainer" style="margin-bottom: 1rem;">
-        Not deletable — removing a guideline document would silently change the gap assessment for every plant.
-        Seeded via <code>scripts/ingest_documents.py</code>; not uploadable from the browser.
-      </p>
-      <table class="data-table docs-grid-view" id="benchmark-docs-table">
-        <thead>
-          <tr>
-            <th>Document Name</th>
-            <th>Type</th>
-            <th>Chunks</th>
-            <th>Pages</th>
-            <th>Ingested</th>
-            <th>Source</th>
-          </tr>
-        </thead>
-        <tbody id="benchmark-docs-body">
-          <tr><td colspan="6" class="skeleton-row">Loading guideline documents…</td></tr>
-        </tbody>
-      </table>
-    </section>
+    <div class="docs-view-toolbar">
+      <button id="docs-refresh-btn" class="btn-ghost btn-sm" title="Refresh list">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10"></polyline>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+        </svg>
+        Refresh
+      </button>
+      <button class="btn-add-docs" type="button" data-upload-dest="guideline">+ Add guidelines</button>
+    </div>
+
+    <div class="doc-grid" id="benchmark-docs-grid">
+      <div class="doc-skeleton">Loading guideline documents…</div>
+    </div>
   </main>
 
   <!-- ═══ PLANT DOCUMENTS ═══ -->
   <main id="view-plant" class="spa-view container">
     <button class="back-link" type="button" data-view-target="home">&larr; Back to hub</button>
     <div class="view-head">
-      <h2>Plant Documents <span class="source-badge source-badge--client">Being Assessed</span></h2>
+      <h2>Plant Documents</h2>
       <p class="view-sub">
-        The active plant's own operational documents (SOPs, manuals, tariff petitions, inspection records).
-        These are what's being <em>measured</em> — gaps are topics the CEA guideline baseline requires that
-        these documents don't cover. Uploadable and deletable; gap scores are refreshed by the offline gap engine.
+        The active plant's own operational documents — SOPs, manuals, tariff petitions, inspection records.
+        These are what's being measured: gaps are topics the CEA baseline requires that these documents don't cover.
+        Topics with no covering document appear below as flagged <strong>GAP</strong> cards.
       </p>
     </div>
 
-    <!-- ── Upload Section ── -->
-    <section class="table-card upload-section" id="add-document">
-      <h2>Add New Document</h2>
-      <p class="upload-description">
-        Upload a PDF. Text is chunked into 400-word passages and embedded via Jina AI into Qdrant.
-        Max ~3 MB per upload (Vercel request-body cap). For larger files use <code>scripts/ingest_documents.py</code> locally.
-      </p>
+    <div class="docs-view-toolbar">
+      <button id="clear-plant-btn" class="btn-clear-plant" title="Delete ALL documents and gap scores for the active plant">Clear this plant</button>
+      <button class="btn-add-docs" type="button" data-upload-dest="plant">+ Add documents</button>
+    </div>
 
-      <!-- Web uploads are plant documents only. Guideline documents (the CEA
-           yardstick) are system-managed and seeded via scripts/ingest_documents.py
-           locally — they are intentionally NOT uploadable from the browser so the
-           assessment baseline can't be altered by anyone with the link. -->
-      <input type="hidden" name="source_type" id="source-type-client" value="client" />
-      <div class="upload-source-type-row">
-        <span class="upload-source-type-label">Uploading a Plant Document</span>
-        <p class="upload-source-type-desc">
-          This adds a specific plant's own document (SOP, manual, inspection record) to the
-          corpus being assessed. Guideline documents — the CEA yardstick — are system-managed
-          and cannot be uploaded here.
-        </p>
-      </div>
-
-      <div class="upload-form">
-        <div class="upload-row upload-row-4">
-          <label class="upload-label">
-            Document Name <span class="required">*</span>
-            <input type="text" id="upload-doc-name" class="upload-input" placeholder="e.g. Lara Unit-1 Boiler SOP 2024" />
-          </label>
-          <!-- Client name — shown only when source_type = client -->
-          <label class="upload-label" id="upload-client-name-field">
-            Client / Plant Name <span class="required">*</span>
-            <input type="text" id="upload-client-name" class="upload-input" placeholder="e.g. ntpc_lara, adani_raipur" />
-            <span class="upload-hint">Lowercase, no spaces. Used to scope gap assessments to this plant.</span>
-          </label>
-          <label class="upload-label">
-            Document Type
-            <select id="upload-doc-type" class="upload-input upload-select">
-              <option value="sop">SOP / Procedure</option>
-              <option value="manual">Manual / Handbook</option>
-              <option value="guideline">Guideline / Standard</option>
-              <option value="technical_spec">Technical Specification</option>
-              <option value="tariff_petition">Tariff Petition</option>
-              <option value="other">Other</option>
-            </select>
-          </label>
-          <label class="upload-label">
-            Source URL <span class="optional">(optional)</span>
-            <input type="url" id="upload-source-url" class="upload-input" placeholder="https://..." />
-          </label>
-        </div>
-        <div class="upload-drop-zone" id="upload-drop-zone">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="upload-icon">
-            <path d="M12 16V4m0 0L8 8m4-4 4 4" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round"/>
-          </svg>
-          <p class="drop-text">Drop PDFs here or <label for="upload-file-input" class="drop-link">browse</label></p>
-          <p class="drop-hint" id="upload-file-name">No files selected · PDF only · max ~3 MB each · multiple allowed</p>
-          <input type="file" id="upload-file-input" accept=".pdf" multiple style="display:none" />
-        </div>
-        <div class="upload-actions">
-          <button id="upload-submit-btn" class="btn-upload" disabled>
-            <span id="upload-btn-text">Ingest Document</span>
-          </button>
-        </div>
-        <div id="upload-status" class="upload-status hidden"></div>
-      </div>
-    </section>
-
-    <!-- ── Plant documents list (deletable) ── -->
-    <section class="table-card" id="plant-documents">
-      <div class="docs-list-header">
-        <h2>On File</h2>
-        <button id="client-view-toggle" class="btn-icon-only" title="Toggle Grid View">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-        </button>
-      </div>
-      <div class="plant-selector-wrap">
-        <span>Active plant is set in the header ticker.</span>
-        <button id="clear-plant-btn" class="btn-clear-plant" title="Delete ALL documents and gap scores for the active plant">Clear this plant</button>
-      </div>
-      <p class="explainer" style="margin-bottom: 1rem;">
-        Plant-specific operational documents. Gaps are measured against these.
-        Gap scores are refreshed by the offline gap engine (scripts/detect_gaps.py).
-        Topics the CEA baseline requires but no document covers appear below as flagged <strong>GAP</strong> cards.
-      </p>
-      <table class="data-table docs-grid-view" id="client-docs-table">
-        <thead>
-          <tr>
-            <th>Document Name</th>
-            <th>Plant</th>
-            <th>Type</th>
-            <th>Chunks</th>
-            <th>Pages</th>
-            <th>Ingested</th>
-            <th>Source</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="client-docs-body">
-          <tr><td colspan="8" class="skeleton-row">Loading plant documents…</td></tr>
-        </tbody>
-      </table>
-    </section>
+    <div class="doc-grid" id="client-docs-grid">
+      <div class="doc-skeleton">Loading plant documents…</div>
+    </div>
   </main>
 
   <!-- ═══ LIVE SHEET (risk table mirror) ═══ -->
@@ -534,40 +414,103 @@
     <p class="last-updated" id="last-updated"></p>
   </main>
 
-  <!-- Document Preview Modal -->
-  <div class="modal-overlay" id="doc-preview-modal">
-    <div class="modal-content">
+  <!-- ═══ In-app document viewer ═══ -->
+  <div class="modal-overlay" id="doc-viewer-modal">
+    <div class="modal-content modal-content--viewer">
       <div class="modal-header">
-        <h3 id="modal-doc-title">Document Details</h3>
-        <button class="modal-close" id="modal-close-btn" aria-label="Close">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-        </button>
+        <h3 id="viewer-title">Document</h3>
+        <div class="viewer-head-actions">
+          <a id="viewer-open-original" class="btn-ghost btn-sm" href="#" target="_blank" rel="noopener" style="display:none;">Open original ↗</a>
+          <button class="modal-close" id="viewer-close-btn" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
       </div>
-      <div class="modal-body" id="modal-doc-body">
-        <div class="modal-meta-grid">
-          <div class="modal-meta-item">
-            <span class="modal-meta-label">Plant / Client</span>
-            <span class="modal-meta-value" id="modal-doc-client">-</span>
-          </div>
-          <div class="modal-meta-item">
-            <span class="modal-meta-label">Document Type</span>
-            <span class="modal-meta-value" id="modal-doc-type">-</span>
-          </div>
-          <div class="modal-meta-item">
-            <span class="modal-meta-label">Indexed Chunks</span>
-            <span class="modal-meta-value" id="modal-doc-chunks">-</span>
-          </div>
-          <div class="modal-meta-item">
-            <span class="modal-meta-label">Ingested On</span>
-            <span class="modal-meta-value" id="modal-doc-date">-</span>
-          </div>
-        </div>
-        <div class="modal-meta-item" style="margin-top: 1rem;">
-          <span class="modal-meta-label">Source URL</span>
-          <span class="modal-meta-value" id="modal-doc-source">-</span>
-        </div>
+      <div class="viewer-body">
+        <iframe id="viewer-frame" title="Document preview" style="display:none;"></iframe>
+        <div id="viewer-fallback" class="viewer-fallback" style="display:none;"></div>
       </div>
     </div>
+  </div>
+
+  <!-- ═══ Floating upload panel ═══ -->
+  <div class="upload-float" id="upload-float" hidden>
+    <div class="upload-float-head" id="upload-float-head">
+      <div>
+        <h3>Upload Documents</h3>
+        <p id="upload-dest-hint">Into: Plant Documents · <b id="upload-dest-plant">—</b></p>
+      </div>
+      <div class="upload-float-btns">
+        <button id="upload-min-btn" class="btn-icon-only" title="Minimize" aria-label="Minimize">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        </button>
+        <button id="upload-close-btn" class="btn-icon-only" title="Close" aria-label="Close">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <div class="upload-float-body">
+      <div class="dest-choice">
+        <button class="dest-btn" id="dest-plant" type="button" data-dest-choice="plant">Plant Documents</button>
+        <button class="dest-btn" id="dest-guideline" type="button" data-dest-choice="guideline">Guideline Documents</button>
+      </div>
+      <p class="dest-note" id="dest-note">Adds the active plant's own records (SOPs, manuals, inspection records) to the corpus being assessed.</p>
+
+      <div class="upload-row-2">
+        <label class="upload-label">
+          Document Name <span class="required">*</span>
+          <input type="text" id="upload-doc-name" class="upload-input" placeholder="e.g. Unit-1 Boiler SOP 2024" />
+        </label>
+        <label class="upload-label" id="upload-doc-type-field">
+          Document Type
+          <select id="upload-doc-type" class="upload-input upload-select">
+            <option value="sop">SOP / Procedure</option>
+            <option value="manual">Manual / Handbook</option>
+            <option value="technical_spec">Technical Specification</option>
+            <option value="tariff_petition">Tariff Petition</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+      </div>
+      <label class="upload-label">
+        Source URL <span class="optional">(optional — enables in-app preview)</span>
+        <input type="url" id="upload-source-url" class="upload-input" placeholder="https://..." />
+      </label>
+
+      <div class="upload-drop-zone" id="upload-drop-zone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="upload-icon">
+          <path d="M12 16V4m0 0L8 8m4-4 4 4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round"/>
+        </svg>
+        <p class="drop-text">Drop PDFs here or <label for="upload-file-input" class="drop-link">browse</label></p>
+        <p class="drop-hint" id="upload-file-name">No files selected · PDF only · max ~3 MB each · multiple allowed</p>
+        <input type="file" id="upload-file-input" accept=".pdf" multiple style="display:none" />
+      </div>
+
+      <div class="upload-actions">
+        <span class="sync-note">Chunked · embedded via Jina AI · indexed in Qdrant</span>
+        <button id="upload-submit-btn" class="btn-upload" disabled>
+          <span id="upload-btn-text">Start Upload</span>
+        </button>
+      </div>
+      <div id="upload-status" class="upload-status hidden"></div>
+    </div>
+  </div>
+
+  <!-- ═══ Upload dock (minimized queue) ═══ -->
+  <div class="upload-dock" id="upload-dock" hidden>
+    <div class="upload-dock-head">
+      <span id="upload-dock-title">Uploads</span>
+      <div>
+        <button id="upload-restore-btn" class="btn-icon-only" title="Expand" aria-label="Expand">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+        </button>
+        <button id="upload-dock-close-btn" class="btn-icon-only" title="Dismiss" aria-label="Dismiss">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+    </div>
+    <div class="upload-queue" id="upload-queue"></div>
   </div>
 
   <footer class="site-footer">
