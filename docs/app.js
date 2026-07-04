@@ -1395,6 +1395,32 @@ async function loadDocuments() {
     const msg = `Failed to load: ${escapeHtml(err.message)}`;
     if (benchmarkBody) benchmarkBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">${msg}</td></tr>`;
     if (clientBody)    clientBody.innerHTML    = `<tr><td colspan="8" class="skeleton-row">${msg}</td></tr>`;
+    return;
+  }
+
+  // ── Flag CEA-required topics with no covering document ────────────────────
+  // Cross-references gap_analysis (per active plant) against the doc list just
+  // rendered above: any topic detect_gaps.py scored coverage_status === 'gap'
+  // has no real document behind it, so we render it as a distinct "missing
+  // document" card rather than a normal file card (not clickable-for-preview,
+  // no delete button — there's nothing to preview or delete).
+  if (clientBody) {
+    try {
+      const gapRes = await fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(getActiveClient())}`);
+      const gapData = await gapRes.json();
+      const missingTopics = (gapData.gaps || []).filter((g) => g.coverage_status === 'gap');
+      if (missingTopics.length) {
+        clientBody.insertAdjacentHTML('beforeend', missingTopics.map((g) => `
+          <tr class="doc-row-gap-flag">
+            <td colspan="8">
+              <span class="gap-flag-badge">GAP</span>
+              <div class="gap-flag-title">${escapeHtml(g.topic || g.gap_id || 'Untitled topic')}</div>
+              <div class="gap-flag-desc">${escapeHtml(g.description || 'No document on file covers this CEA-required topic.')}</div>
+              <div class="gap-flag-meta">Equipment: ${escapeHtml(g.equipment_tag || '—')} &middot; no covering document found</div>
+            </td>
+          </tr>`).join(''));
+      }
+    } catch (_) { /* gap flagging is additive — a failure here shouldn't break the doc list */ }
   }
 }
 

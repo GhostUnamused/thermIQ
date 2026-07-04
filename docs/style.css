@@ -2260,6 +2260,64 @@ body.chat-page .app-layout {
   text-transform: uppercase;
 }
 
+/* Flagged "missing document" card — a CEA-required topic with no covering
+   document (coverage_status === 'gap'). Distinct from real file cards: no
+   preview/delete actions, dashed red border, not clickable. */
+.doc-row-gap-flag {
+  border: 1px dashed var(--red) !important;
+  background: rgba(239, 68, 68, 0.06) !important;
+}
+
+.doc-row-gap-flag:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.doc-row-gap-flag td {
+  display: block !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  position: static !important;
+  font-weight: normal !important;
+  font-size: inherit !important;
+}
+
+.doc-row-gap-flag td::before {
+  content: none !important;
+}
+
+.gap-flag-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--red);
+  border: 1px solid var(--red);
+  border-radius: 4px;
+  padding: 0.1rem 0.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.gap-flag-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.gap-flag-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.gap-flag-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
 .view-toggle-btn {
   background: transparent;
   border: 1px solid var(--border);
