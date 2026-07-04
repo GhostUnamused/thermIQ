@@ -5,6 +5,13 @@
 
 ---
 
+## task-046 | 2026-07-04 | DONE
+SPA redesign round 2 shipped: Inter/JetBrains Mono site-wide, chat sidebar collapse → 54px icon rail, chat/docs fully namespaced per plant profile (`thermiq_chats_v2__<plant>`, "＋ New plant profile…" in header), upload rebuilt as a draggable floating panel with Plant/Guideline destination toggle and per-file progress dock, document tables replaced with real `.doc-card` grids + in-app viewer modal, hub tiles reworked (gradient surfaces, no side stripes).
+Click-tested live against therm-iq.vercel.app (both themes): icon rail collapse/expand, plant switch correctly swaps chats/docs/ticker (NTPC ↔ saraighat, ticker recalculates to ₹0/0 gaps for the empty profile), upload panel drag + Guideline toggle hides doc-type field, Guideline Documents cards show no delete button on seeded CEA docs, Plant Documents cards show delete buttons + dashed-red non-clickable GAP cards, in-app viewer opens with "Open original ↗" + close, light theme renders cleanly. No regressions found.
+Commit: 0c1e1d8.
+
+---
+
 ## task-040..045 | 2026-07-04 | DONE
 Full SPA rebuild shipped: `docs/index.html` is now a true single-page app (hash routing, instrument-panel restyle) covering Hub/Chat/Graph/Guideline Documents/Plant Documents/Live Sheet; old standalone pages are redirect stubs; "Benchmark/Client Plant Sources" renamed to "Guideline/Plant Documents".
 Found + fixed a real live bug while click-testing: `initGraphView()` set `shapeProperties: undefined` on non-gap nodes, breaking vis-network's option merge and crashing every graph load ("Cannot read properties of undefined (reading 'borderDashes')") — fixed by only setting the key for gap nodes. Full click-test pass (both themes) against Vercel prod confirmed all 6 views, 4 stub redirects, chat send/new/edit/export, and graph traversal all work correctly with real live data.
