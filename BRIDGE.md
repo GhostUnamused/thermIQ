@@ -245,19 +245,11 @@ Two items carried over from YC's hackathon handoff, flagged rather than silently
 
 ---
 
-### [COWORK_NOTE] neo4j-aura-instance-gone | 2026-07-04T01:00:00Z
-**From:** Claude Code
-**Blocking task-035's live acceptance criteria.** The Neo4j Aura instance backing `NEO4J_URI` (`de815806.databases.neo4j.io`) no longer exists — DNS returns NXDOMAIN ("Non-existent domain") from `nslookup`, tested from the local machine outside any sandbox, with general DNS confirmed working (`google.com` resolves fine). This isn't the "paused free-tier instance" scenario the task-035 handoff anticipated (a paused instance still resolves, it just refuses the connection) — the hostname itself is gone, meaning the Aura instance was deleted or its free trial fully expired and got torn down.
+### [DONE] task-039 | 2026-07-04T09:35:00Z
+**From:** Cowork
+**Task:** Re-verify the Neo4j Aura graph end-to-end after YC resumed the paused Aura instance. Resolves the `neo4j-aura-instance-gone` COWORK_NOTE below — the instance was paused, not deleted; task-035's NXDOMAIN diagnosis was a transient artifact of the paused state.
 
-**What's done despite this:** `api/graph_query.js` and `docs/graph.html` are both fully built, committed, and pushed (`52c46c2`) — the code is correct and will work as soon as a live Aura endpoint exists again. The 4 `NEO4J_*` Vercel production env vars were added (user-confirmed) but they now point at a dead host, so `graph_query` 500s in production until this is fixed.
-
-**What's needed (human required — CC cannot provision cloud infra accounts):**
-1. Create a new Neo4j Aura instance (or check the Aura console — the old one may be recoverable if it's just archived, not fully deleted).
-2. Update `NEO4J_URI` / `NEO4J_PASSWORD` (and username/database if they changed) in local `.env` and in Vercel production (`vercel env rm` the stale ones, `vercel env add` the new ones).
-3. Rerun `python scripts/load_graph_neo4j.py` to repopulate the new instance from scratch.
-4. Re-run the task-035 live sanity checks (`?type=gaps`, `?type=traversal&failure_mode_id=waterwall_tube_thinning`, and the human spot-check gate against `hero_traversal.py`'s output) before treating `graph.html` as demo-ready.
-
-Everything else shipped in this session (Hub UI, nav rewire, document card grid + gap-flag cards, `sheet_sync.js`) is independent of Neo4j and verified working live.
+**CC summary:** See [LOG.md](LOG.md) for full numbers (node/edge counts, gap count, traversal figures, both bugs found and fixed). Confirmed live and demo-ready: `graph.html`'s data calls now work end-to-end on production.
 
 ---
 

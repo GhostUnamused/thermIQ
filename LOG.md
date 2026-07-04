@@ -5,6 +5,13 @@
 
 ---
 
+## task-039 | 2026-07-04 | DONE
+Aura instance confirmed **resumed, not gone** (`driver.verify_connectivity()` succeeded on attempt 1 — task-035's NXDOMAIN diagnosis was the paused-instance state, not deletion). Reloaded both slices: boiler 36 nodes/60 edges, turbine 23 nodes/32 edges. `hero_traversal.py` vs `graph_query.js?type=traversal&failure_mode_id=waterwall_tube_thinning` match exactly: PARTIAL, criticality 5, 18 outages, ₹211.85 Cr, same 2 regulations (CEA STS 500MW + IBR Pressure Parts) — the sibling-generalization is confirmed a no-op for this graph. Turbine outage total (5 events) = ₹81.0 Cr exactly, matching task-032's reference figure. **Could not find any "₹22.0 Cr Gadarwara" outage anywhere in the loaded graph, `data/graph_slices/*.json`, or repo** — flagging rather than smoothing over; that reference figure from the task text doesn't correspond to current data.
+**Found + fixed a real bug** while testing locally: `graph_query.js`'s `overview` and `traversal` branches ran 3 queries via `Promise.all` on one shared Neo4j session, which the driver rejects ("Queries cannot be run directly on a session with an open transaction") — `gaps` (single query) was unaffected, which is why task-035 never caught it. Fixed with a per-query session helper (`runQueryOwnSession`). Also discovered mid-task that this Vercel project has **no GitHub integration** — `git push` does not trigger a deploy (production was serving a build from 2h earlier despite the push); deployed the fix manually via `vercel --prod` (user-confirmed both the push and the manual deploy, since both were outside the harness's default-allowed actions). Live-verified after redeploy: `?type=gaps` returns the same 9 gaps, `?type=traversal` returns the same numbers as above, both HTTP 200.
+Commits: fd38c23 (fix). Manual deploy: `dpl_JooHSuMAuojWYdsB2DuoNYaj4GN1`, aliased to therm-iq.vercel.app.
+
+---
+
 ## task-038 | 2026-07-04 | DONE
 Built `api/sheet_sync.js` — read-only CSV/JSON mirror for the future Sheets add-on; internal-fetches `api/gap_analysis.js`'s own response and reshapes it, zero duplicated Firestore/scoring logic, GET-only (no write path exists).
 Live-verified on production: real CSV rows returned for `client_name=ntpc`.
