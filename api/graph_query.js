@@ -146,6 +146,19 @@ async function runQuery(session, query, params = {}) {
   });
 }
 
+// A neo4j-driver Session only allows one query in flight at a time — running
+// several concurrently on the same session throws "Queries cannot be run
+// directly on a session with an open transaction". Each concurrent query
+// below therefore gets its own short-lived session.
+async function runQueryOwnSession(query, params = {}) {
+  const s = getDriver().session({ database: NEO4J_DATABASE });
+  try {
+    return await runQuery(s, query, params);
+  } finally {
+    await s.close();
+  }
+}
+
 function normalizeOverviewNode(row) {
   const props = { ...row.props };
   // neo4j Integer props -> plain numbers
@@ -191,8 +204,8 @@ module.exports = async (req, res) => {
 
     if (type === 'overview') {
       const [nodeRows, edgeRows] = await Promise.all([
-        runQuery(session, QUERY_OVERVIEW_NODES),
-        runQuery(session, QUERY_OVERVIEW_EDGES),
+        runQueryOwnSession(QUERY_OVERVIEW_NODES),
+        runQueryOwnSession(QUERY_OVERVIEW_EDGES),
       ]);
       const nodes = nodeRows.map(normalizeOverviewNode);
       const edges = edgeRows.map((r) => ({
@@ -216,9 +229,9 @@ module.exports = async (req, res) => {
     }
 
     const [gapRows, outageRows, regRows] = await Promise.all([
-      runQuery(session, QUERY_TRAVERSAL_GAP, { fmId }),
-      runQuery(session, QUERY_TRAVERSAL_OUTAGES, { fmId }),
-      runQuery(session, QUERY_TRAVERSAL_REGULATIONS, { fmId }),
+      runQueryOwnSession(QUERY_TRAVERSAL_GAP, { fmId }),
+      runQueryOwnSession(QUERY_TRAVERSAL_OUTAGES, { fmId }),
+      runQueryOwnSession(QUERY_TRAVERSAL_REGULATIONS, { fmId }),
     ]);
 
     if (gapRows.length === 0) {
