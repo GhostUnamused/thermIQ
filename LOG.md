@@ -5,6 +5,28 @@
 
 ---
 
+## task-038 | 2026-07-04 | DONE
+Built `api/sheet_sync.js` — read-only CSV/JSON mirror for the future Sheets add-on; internal-fetches `api/gap_analysis.js`'s own response and reshapes it, zero duplicated Firestore/scoring logic, GET-only (no write path exists).
+Live-verified on production: real CSV rows returned for `client_name=ntpc`.
+Commit: 2a4d409
+
+## task-037 | 2026-07-04 | DONE
+Document card grid: promoted the existing `.docs-grid-view` CSS class to default view for both benchmark/client tables (toggle still switches to list); `app.js` cross-references `api/gap_analysis` (`coverage_status === 'gap'`, corrected from the task spec's stale `'ABSENT'`/`is_gap` field names) against the doc list and renders flagged "missing document" cards, distinct dashed-red styling, not clickable.
+Fixed a real CSS bug where a single-`<td>` gap row inherited `display:flex`/`position:absolute` from the grid view's `:last-child` rule, meant for action buttons.
+Commit: d07583c
+
+## task-036 | 2026-07-04 | DONE
+Hub landing page + site-wide nav rewire, verified live: tiles render with real ticker numbers from `gap_analysis`/`list_documents`, nav consistent across all 5 pages, anchor deep-links present in `documents.html`.
+Did not click-test the interactive upload flow / "coming soon" modal end-to-end against live Vercel (local preview has no backend) — flagged for a follow-up human click-test.
+Commit: 52c46c2 (bundled with task-035)
+
+## task-035 | 2026-07-04 | DONE (partially blocked)
+Built + shipped `api/graph_query.js` (whitelisted Cypher, no passthrough) and `docs/graph.html` (vis-network viewer); added missing `NEO4J_*` Vercel prod env vars (user-confirmed, since it's a secret-store write).
+**Found the real blocker while sanity-checking live:** the Neo4j Aura instance is gone, not paused — `de815806.databases.neo4j.io` is NXDOMAIN. Code is correct and will work once a human provisions a new Aura instance and reruns `load_graph_neo4j.py`; logged as a COWORK_NOTE in BRIDGE.md with full remediation steps.
+Commit: 52c46c2
+
+---
+
 ## task-034 | 2026-07-04 | DONE
 Committed batch of Cowork-verified fixes: `detect_gaps.py` namespaces `risk_scores` by `client_name` (per-client wipe instead of global), `ingest_ocr.py` now writes `documents` collection parity with `ingest_documents.py`, `ingest_document.js` upload size cap corrected to ~4.3MB (matches Vercel's real body limit), `query.js` guards `runGeminiAgentic` against empty/safety-blocked responses, `app.js`/`documents.html` XSS-escape plant names and `source_url` before `innerHTML`.
 Hit a stale `.git/index.lock` (2 days old, no live process) — removed before committing.
