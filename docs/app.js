@@ -1769,18 +1769,19 @@ function initGraphView() {
       const visNodes = (overview.nodes || []).map((n) => {
         const isGapNode = n.node_type === 'FailureMode' && gapFmIds.has(n.id);
         const color = isGapNode ? GAP_COLOR : (NODE_COLORS[n.node_type] || NODE_COLORS.Role);
-        return {
+        const node = {
           id: n.id,
           label: shortLabel(n.label || n.id),
           shape: n.node_type === 'OutageEvent' ? 'dot' : 'box',
-          size: n.node_type === 'OutageEvent' ? 8 : undefined,
           color: { border: color.border, background: color.background, highlight: color },
           borderWidth: isGapNode ? 3 : 1.5,
-          shapeProperties: isGapNode ? { borderDashes: [6, 4] } : undefined,
           font: { color: '#e7eaee', face: 'IBM Plex Mono', size: 11 },
           _raw: n,
           _isGap: isGapNode,
         };
+        if (n.node_type === 'OutageEvent') node.size = 8;
+        if (isGapNode) node.shapeProperties = { borderDashes: [6, 4] };
+        return node;
       });
 
       const visEdges = (overview.edges || []).map((e) => ({
