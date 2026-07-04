@@ -253,6 +253,28 @@ Two items carried over from YC's hackathon handoff, flagged rather than silently
 
 ---
 
+### [DONE] task-040..045 | 2026-07-04T12:00:00Z — SPA rebuild (6 phases), shipped as one unit
+**From:** Cowork
+**Task:** Full SPA rebuild of the ThermIQ frontend: `docs/index.html` replaced with a true single-page app (hash routing via `showView`/`routeFromHash`, instrument-panel restyle — Space Grotesk/IBM Plex Mono, teal+amber accents, single global header ticker+plant selector). Phase-by-phase: **040** shell+routing skeleton; **041** chat.html → `#/chat` Expert Copilot view (RAG/upload logic untouched); **042** graph.html → `#/graph` Risk & Gap Graph view (`initGraphView()`, lazy-mounted); **043** documents.html → `#/guideline` + `#/plant` views with the **"Benchmark Sources"→"Guideline Documents"** / **"Client Plant Sources"→"Plant Documents"** rename (schema/element-IDs unchanged, display strings only); **044** dashboard.html folded into `#/sheet` Live Sheet view (judgment call: kept the stat strip + gap table + outages table rather than retiring them, since nothing else covers that functionality — not vetoed); **045** ship gate. All four old pages (`chat.html`, `graph.html`, `documents.html`, `dashboard.html`) are now redirect stubs to their `index.html#/view` equivalent.
+
+**CC summary:**
+1. Static checks passed: `node --check docs/app.js` OK; banned-phrase grep (`benchmark sources|client plant sources|folder`) empty; tag balance matches Cowork's counts exactly (main 6/6, div 95/95, section 6/6, button 27/27).
+2. Committed + pushed the 7-file SPA rebuild as `32752a7`.
+3. **Found + fixed a real bug live during click-testing**: `initGraphView()` in `app.js` set `shapeProperties: undefined` explicitly on every non-gap node. vis-network's box-shape renderer unconditionally reads `.borderDashes` off that option during its internal merge, and an explicit `undefined` (vs. omitting the key) broke the merge — every load of `#/graph` threw `Cannot read properties of undefined (reading 'borderDashes')` and the graph never rendered. Fixed by only setting `shapeProperties` when the node is gap-flagged (commit `a3dd821`). Both commits auto-deployed to Vercel within ~8s of push each (note: this contradicts task-039's "no GitHub integration, needs manual `vercel --prod`" finding — auto-deploy is working now, either fixed since or was transient; not treating as a blocker since it worked twice in this session).
+4. Full live click-test pass against `therm-iq.vercel.app` (both themes), post-fix:
+   - **Hub**: ticker shows real numbers (₹416.4 Cr, 19 gaps, 1,317 chunks), all tiles switch views with no full-page reload (URL changes to `#/view`, document title/JS state unchanged).
+   - **Chat**: sent a live query ("What is the turbine vibration SOP status?") — got a correct, sourced answer (₹42.4 Cr partial gap, 48% coverage) appended to the active chat; `thermiq_chats_v2` localStorage confirmed correct persistence; New Chat creates an empty session; Edit-mode opens pre-filled and Cancels cleanly; export-transcript button confirmed via source read to build a client-side `.md` blob download of the chat (no external call).
+   - **Graph** (post-fix): 58 nodes/92 edges/9 flagged gaps render with dashed-red gap styling; clicking a flagged FailureMode (`waterwall_tube_thinning`) populates the traversal panel with real ₹ outage rows, criticality, and the mandating chain — consistent with task-039's verified reference numbers.
+   - **Guideline Documents**: "YARDSTICK — LOCKED" badge, no delete buttons, correct renamed heading/corpus copy.
+   - **Plant Documents**: upload form at top; real doc cards and dashed-red "GAP" cards (e.g. Turbine Blade Inspection, Turbine Governor Valve Maintenance) render side by side correctly.
+   - **Live Sheet**: stat strip + gap-analysis table + CEA outages table render with real live numbers (₹416 Cr, 12 gaps for NTPC); LIVE badge and read-only lock note present.
+   - **Stub redirects**: `chat.html`, `graph.html`, `dashboard.html`, `documents.html#guideline-documents` all correctly land on their `index.html#/view` equivalent.
+   - **Theme toggle**: dark↔light switches cleanly across the hub and chat view, ticker/cards re-themed correctly.
+5. Marked 040–045 DONE together (shipped as one verification pass); full detail archived in [LOG.md](LOG.md).
+**Notes:** Old standalone pages remain as stubs, not deleted, per Cowork's note — `git rm` is a later call once nothing external is confirmed still linking to them.
+
+---
+
 ### Task format (Cowork uses this when writing new tasks)
 
 ```
