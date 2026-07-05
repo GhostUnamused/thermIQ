@@ -76,9 +76,9 @@ def build_url(date, report_num):
 
 
 def download_report():
-    # Try today and yesterday, and report numbers 10 then 11
-    # (both are Daily Maintenance Reports — 10 is coal/lignite/nuclear, 11 is thermal)
-    for days_back in (0, 1):
+    # CEA typically publishes 1-3 days late; try up to 5 days back to stay robust.
+    # Report numbers: 10 = coal/lignite/nuclear, 11 = thermal, 9 = broader set.
+    for days_back in range(0, 6):
         date = datetime.utcnow() - timedelta(days=days_back)
         for report_num in (10, 11, 9):
             url = build_url(date, report_num)

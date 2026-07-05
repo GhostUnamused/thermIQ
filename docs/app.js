@@ -944,6 +944,53 @@ async function loadCeaOutages(outagesBody) {
   }
 }
 
+// A plant with documents but zero risk_scores has simply never had
+// scripts/detect_gaps.py run for it (confirmed root cause of the Saraighat
+// "empty CSV" report — see BRIDGE.md task-048/049). Rather than ask for a
+// manual step, fire it automatically the moment the gap table would
+// otherwise render empty, and poll until real rows show up.
+const _gapScanPolling = new Set();
+
+async function triggerGapScanAndPoll(clientName) {
+  if (_gapScanPolling.has(clientName)) return; // already polling this client in another call
+  _gapScanPolling.add(clientName);
+
+  try {
+    await fetch(`${BACKEND}/api/trigger_gap_scan`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+      body: JSON.stringify({ client_name: clientName }),
+    });
+  } catch (_) {
+    // Dispatch call failing doesn't necessarily mean no scan is running (e.g. a
+    // prior tab already triggered one) — keep polling regardless.
+  }
+
+  const maxAttempts = 15; // ~15 × 8s ≈ 2 minutes
+  for (let i = 0; i < maxAttempts; i++) {
+    await new Promise((r) => setTimeout(r, 8000));
+    if (getActiveClient() !== clientName) break; // user switched plants — stop polling this one
+
+    try {
+      const res = await fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(clientName)}`);
+      const data = await res.json();
+      if ((data.gaps || []).length > 0) {
+        _gapScanPolling.delete(clientName);
+        if (getActiveClient() === clientName) initDashboard(); // re-render everything with real data now in place
+        return;
+      }
+    } catch (_) { /* transient fetch error — keep polling */ }
+  }
+
+  _gapScanPolling.delete(clientName);
+  if (getActiveClient() === clientName) {
+    const gapsBody = document.getElementById('gaps-table-body');
+    if (gapsBody) {
+      gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">Gap scan is taking longer than expected. Refresh in a minute, or check the "Compute Gap Scores for a Client" workflow run on GitHub Actions.</td></tr>`;
+    }
+  }
+}
+
 async function initDashboard() {
   const outagesBody = document.getElementById('outages-table-body');
   if (!outagesBody) return;
@@ -969,7 +1016,8 @@ async function initDashboard() {
       const gaps = gapData.gaps || [];
 
       if (gaps.length === 0) {
-        gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">No gap analysis data. Run the gap scanner first.</td></tr>`;
+        gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">Computing gap analysis for this plant for the first time — this can take about a minute, this page will update automatically…</td></tr>`;
+        triggerGapScanAndPoll(getActiveClient());
       } else {
         const totalRisk = gaps.reduce((sum, g) => sum + (g.risk_score_cr || 0), 0);
         // Card label is "Critical Gaps (> ₹100 Cr)" — count by ₹ risk, not status.
