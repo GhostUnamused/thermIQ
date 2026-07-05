@@ -5,6 +5,13 @@
 
 ---
 
+## task-047 | 2026-07-05 | DONE
+Committed `apps-script/Code.gs` + `appsscript.json` — Phase C2 Google Apps Script skeleton (container-bound "ThermIQ" menu: Sync Now / Enable-Disable Auto-Refresh / Set Client-Plant Name / Re-apply Protection). Pulls from the existing read-only `api/sheet_sync.js` (GET only, no write-back path anywhere in the script). Cowork live-demoed against a real Google Sheet this session: `syncNow` pulled 19 real NTPC gap rows, a single time-based auto-refresh trigger fires every 10 min without duplicating, and `Range.protect()` locks the synced block to the script owner only (file-owner-can-still-edit is expected Sheets platform behavior, not a bug — a true non-owner reject-test still needs a second test account, flagged as a follow-up before a live audience demo).
+No code changes needed on CC's side — files matched the task spec exactly (`ls apps-script/` confirmed both files present, no stray files). Nothing to redeploy: Apps Script isn't part of the Vercel/GitHub Pages pipeline.
+Commit: 5e74dc4.
+
+---
+
 ## task-046 | 2026-07-04 | DONE
 SPA redesign round 2 shipped: Inter/JetBrains Mono site-wide, chat sidebar collapse → 54px icon rail, chat/docs fully namespaced per plant profile (`thermiq_chats_v2__<plant>`, "＋ New plant profile…" in header), upload rebuilt as a draggable floating panel with Plant/Guideline destination toggle and per-file progress dock, document tables replaced with real `.doc-card` grids + in-app viewer modal, hub tiles reworked (gradient surfaces, no side stripes).
 Click-tested live against therm-iq.vercel.app (both themes): icon rail collapse/expand, plant switch correctly swaps chats/docs/ticker (NTPC ↔ saraighat, ticker recalculates to ₹0/0 gaps for the empty profile), upload panel drag + Guideline toggle hides doc-type field, Guideline Documents cards show no delete button on seeded CEA docs, Plant Documents cards show delete buttons + dashed-red non-clickable GAP cards, in-app viewer opens with "Open original ↗" + close, light theme renders cleanly. No regressions found.
