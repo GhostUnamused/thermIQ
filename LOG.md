@@ -5,6 +5,12 @@
 
 ---
 
+## task-049 | 2026-07-05 | DONE
+Three automation gaps: (1) CEA ingest was failing — GH secrets present but lookback only tried today/yesterday while CEA publishes 2-3 days late; fixed `fetch_cea_outage.py` to try up to 5 days back (July 2 data now fetches successfully). (2) Neo4j keepalive: `scripts/neo4j_keepalive.py` + `.github/workflows/neo4j-keepalive.yml` committed — GH secrets (NEO4J_*, JINA_API_KEY, QDRANT_URL, QDRANT_API_KEY) blocked by auto-mode classifier, need user to authorize and run `gh secret set` or add via GitHub UI. (3) Gap scan auto-trigger: `api/trigger_gap_scan.js` + `.github/workflows/gap-scan.yml` + `docs/app.js` committed; `GITHUB_DISPATCH_TOKEN` (GitHub PAT with Actions:write) must be added to Vercel by YC. All code at commit `02dfaf1`. Blocked: 7 GH secrets + 1 Vercel secret need human action before workflows go live.
+
+## task-048 | 2026-07-05 | DONE
+Ran `detect_gaps.py --client saraighat` — wrote 19 gap records (₹374.3 Cr total risk; 3 covered, 3 partial, 13 gaps). Verified live: `api/gap_analysis?client_name=saraighat` returns 19 rows; `api/sheet_sync?client_name=saraighat` returns CSV rows. Committed `docs/index.html` copy fix (stale "add-on pending" → correct C2 shipped copy). Commit `c2dcebe`.
+
 ## task-047 | 2026-07-05 | DONE
 Committed `apps-script/Code.gs` + `appsscript.json` — Phase C2 Google Apps Script skeleton (container-bound "ThermIQ" menu: Sync Now / Enable-Disable Auto-Refresh / Set Client-Plant Name / Re-apply Protection). Pulls from the existing read-only `api/sheet_sync.js` (GET only, no write-back path anywhere in the script). Cowork live-demoed against a real Google Sheet this session: `syncNow` pulled 19 real NTPC gap rows, a single time-based auto-refresh trigger fires every 10 min without duplicating, and `Range.protect()` locks the synced block to the script owner only (file-owner-can-still-edit is expected Sheets platform behavior, not a bug — a true non-owner reject-test still needs a second test account, flagged as a follow-up before a live audience demo).
 No code changes needed on CC's side — files matched the task spec exactly (`ls apps-script/` confirmed both files present, no stray files). Nothing to redeploy: Apps Script isn't part of the Vercel/GitHub Pages pipeline.

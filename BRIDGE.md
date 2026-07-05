@@ -285,6 +285,76 @@ Two items carried over from YC's hackathon handoff, flagged rather than silently
 
 ---
 
+### [DONE] task-048 | 2026-07-05T17:15:00Z
+**From:** Cowork
+**Task:** Fix "Live Sheet CSV feed downloads empty" reported by YC. **Root cause confirmed, not a code bug:** the `saraighat` plant profile has 3 documents ingested (1,317... actually 5 chunks — see `api/list_documents` output below) but **zero rows in `risk_scores`** for `client_name=saraighat`, because `scripts/detect_gaps.py --client saraighat` was flagged as a TODO back in task-033 and never actually run. `api/sheet_sync` and `api/gap_analysis` both correctly return zero rows for a client with no computed gap scores — confirmed live: `curl .../api/gap_analysis?client_name=saraighat` → `{"gaps":[],"total_risk_cr":0,"gap_count":0}`, while the same call with `client_name=ntpc` returns full real data (19 gaps, ₹416.4 Cr). Switching the header plant selector to NTPC in the live UI immediately shows 19 rows and a populated CSV — proves the button/endpoint/UI wiring all work correctly.
+
+**Files already edited by Cowork (DO NOT re-edit — just commit):**
+- `docs/index.html` — one-line copy fix: the Live Sheet section's caption said "Google Sheets add-on: pending (Phase C2)" which is now stale since C2 shipped this session (see task-047 above). Changed to: "Google Sheets sync script: built (apps-script/Code.gs — paste into a Sheet's Extensions → Apps Script to enable ThermIQ → Sync Now)". Purely a text change, no logic touched.
+
+**CC must do:**
+1. Run gap detection for the missing client (this is the actual fix — needs local Firestore credentials from `.env`, which is why this is a CC task and not something Cowork runs itself per project policy):
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+python scripts/detect_gaps.py --client saraighat
+```
+2. Verify live: `curl "https://therm-iq.vercel.app/api/gap_analysis?client_name=saraighat"` should now return `gap_count > 0` and a non-zero `total_risk_cr` (matching whatever `detect_gaps.py` computes from the 3 ingested SOPs vs the 19-item benchmark). Also spot check `curl "https://therm-iq.vercel.app/api/sheet_sync?client_name=saraighat"` returns CSV rows, not just the header line.
+3. Commit + push the docs/index.html copy fix:
+```bash
+git add docs/index.html
+git commit -m "fix: update stale 'Google Sheets add-on pending' copy on Live Sheet view now that C2 shipped"
+git push origin main
+```
+
+**Notes:**
+- This is a one-off backfill for the one plant (`saraighat`) that's missing scores today — `ntpc` is fine and doesn't need re-running. If more plants get onboarded in the future via `documents.html` uploads, remember `detect_gaps.py --client <name>` is a required manual step after ingestion, not automatic — might be worth a follow-up task to either automate it (trigger from `ingest_document.js` after the last file in a batch) or at minimum surface a "gap scores not yet computed" state in the UI instead of silently showing 0 rows, since that's what actually confused YC here.
+
+---
+
+### [DONE] task-049 | 2026-07-05T18:00:00Z
+**From:** Cowork
+**Task:** Three automation gaps YC flagged after seeing the Saraighat "no gap data" screen: (1) CEA outages table not actually refreshing, (2) Neo4j Aura at risk of auto-pausing again, (3) new plant profiles never get gap-scored without a manual `detect_gaps.py` run. Cowork investigated all three, built what's buildable without touching secrets, and designed the rest — CC needs to wire up GitHub/Vercel secrets and verify live, since none of this is possible from Cowork's sandbox (no `gh` auth, `api.github.com` is proxy-blocked from Cowork's network).
+
+**1 — CEA outages stale (~11 days as of this writing). Root cause not fully confirmed — needs CC to check GitHub Actions run history, something Cowork's sandbox can't reach.**
+`.github/workflows/cea-ingest.yml` already exists, looks correctly configured (daily cron `30 0 * * *`, calls `scripts/fetch_cea_outage.py`, references `secrets.FIREBASE_*`). Confirmed live that `cea_outages` data is genuinely stale (dates topped out around 2026-06-23/24 in the UI). Two most likely causes, in order:
+  - GitHub repo secrets `FIREBASE_PROJECT_ID` / `FIREBASE_PRIVATE_KEY` / `FIREBASE_CLIENT_EMAIL` were never actually added under **Settings → Secrets and variables → Actions** on GitHub (these are separate from Vercel's env vars — a different secret store entirely, easy to have only configured one and not the other).
+  - `fetch_cea_outage.py`'s URL-guessing logic (`build_url()`) or report-number fallback (10/11/9) stopped matching CEA's actual file naming and every run has been silently failing at the download step.
+**CC must do:**
+  1. Check the workflow's run history at `https://github.com/GhostUnamused/thermIQ/actions/workflows/cea-ingest.yml` — is it running at all, and if so, what's failing?
+  2. If GH secrets are missing, add them (`gh secret set FIREBASE_PROJECT_ID`, etc., reading values from local `.env` — do not print values into chat).
+  3. If secrets are fine but the download step is failing, `python scripts/fetch_cea_outage.py` locally to see the actual error and fix `build_url()`/`download_report()` against whatever CEA's current file pattern really is.
+  4. Trigger a manual run (`workflow_dispatch` already exists on this workflow) and confirm `cea_outages` timestamps update.
+
+**2 — Neo4j Aura keep-alive (built, needs secrets + a run).** AuraDB Free auto-pauses after 72 hours idle and permanently deletes after 90 days paused (confirmed via Neo4j's own support docs — this is exactly what task-035/039 already ran into once). Cowork wrote:
+  - `scripts/neo4j_keepalive.py` — runs one trivial `MATCH (n) RETURN count(n)` query, exits non-zero on failure so a broken run shows up red in GitHub instead of silently rotting.
+  - `.github/workflows/neo4j-keepalive.yml` — daily cron `0 6 * * *`, plus `workflow_dispatch` for an on-demand check.
+  - `scripts/requirements.txt` — added `neo4j==5.28.1`.
+**CC must do:**
+  1. Add GH repo secrets `NEO4J_URI`, `NEO4J_USERNAME`, `NEO4J_PASSWORD`, `NEO4J_DATABASE` (same values already in Vercel prod per task-035 / local `.env`).
+  2. Commit + push the 3 files above, then manually trigger the workflow once to confirm it connects.
+
+**3 — Gap scanner never runs for new plant profiles (the actual Saraighat bug, now designed for full automation per YC's explicit steer: "automate it, the moment someone clicks the tab, no extra button").** Cowork built:
+  - `.github/workflows/gap-scan.yml` — new `workflow_dispatch`-only workflow, takes a `client_name` input, runs `python scripts/detect_gaps.py --client <name>`. Needs the same `FIREBASE_*` + new `JINA_API_KEY` / `QDRANT_URL` / `QDRANT_API_KEY` GH secrets as detect_gaps.py's own env reads require.
+  - `api/trigger_gap_scan.js` — new Vercel endpoint (`POST`, `X-Ingest-Key` guarded, same pattern as `clear_client.js`). Fires the GitHub Actions dispatch API for `gap-scan.yml` with `client_name`. A `gap_scan_jobs/{client_name}` Firestore flag (5-min self-expiring) stops duplicate dispatches if two tabs/reloads race. **Needs a `GITHUB_DISPATCH_TOKEN` Vercel env var — a GitHub PAT scoped to this repo with Actions:write permission.** Cowork did not and should not create this token (credential creation needs YC's own GitHub account action) — YC needs to generate a fine-grained PAT (Settings → Developer settings → Personal access tokens → scope: this repo only, permission: Actions read/write) and hand it to CC to add as a Vercel secret, or add it directly to Vercel themselves.
+  - `docs/app.js` — `initDashboard()`'s gap table no longer shows "No gap analysis data. Run the gap scanner first." When `gap_analysis` returns zero rows, it now shows "Computing gap analysis for this plant for the first time…" and calls the new `triggerGapScanAndPoll(clientName)` function, which POSTs the trigger endpoint and polls `/api/gap_analysis` every 8s for up to ~2 minutes, then calls `initDashboard()` again once real rows appear (no page reload, no button — matches YC's ask exactly: it fires the moment the tab is viewed with no prior scan). `node --check docs/app.js` passed.
+**CC must do:**
+  1. Get the GitHub PAT from YC (or ask them to add it directly to Vercel) — **do not generate this token yourself, and do not ask YC to paste a raw token value into chat with Cowork or CC; have them add it straight into the Vercel dashboard's env var UI if at all possible.**
+  2. Add it to Vercel as `GITHUB_DISPATCH_TOKEN` (production + any preview envs that need it).
+  3. Add the GH repo secrets `JINA_API_KEY`, `QDRANT_URL`, `QDRANT_API_KEY` (FIREBASE_* likely already needed for item 1 above too).
+  4. `node --check api/trigger_gap_scan.js && node --check docs/app.js`, then commit + push:
+```bash
+git add .github/workflows/gap-scan.yml .github/workflows/neo4j-keepalive.yml scripts/neo4j_keepalive.py scripts/requirements.txt api/trigger_gap_scan.js docs/app.js
+git commit -m "feat: auto-trigger gap scan for unscored plants on tab view; add Neo4j keep-alive automation"
+git push origin main
+```
+  5. **Live-verify the full loop, this is the part that actually matters:** clear or use a client with no risk_scores (Saraighat still needs its backfill from task-048 — either that already ran, in which case use a fresh test `client_name`, or verify against Saraighat before task-048's manual backfill lands), load its Live Sheet / gap table in a real browser, confirm the "Computing…" message appears, a `gap-scan.yml` run kicks off in GitHub Actions within a few seconds, and the table populates with real rows within ~2 minutes without any manual step.
+
+**Notes:**
+- All three items share one theme: things that were designed as one-off manual Python scripts during earlier hackathon phases now need to be either scheduled (outages, Neo4j) or event-triggered (gap scan) — and every path for that runs through GitHub Actions + GitHub/Vercel secrets, which is exactly the boundary Cowork can't cross from its sandbox (no `gh` auth, and `api.github.com` is blocked by Cowork's network allowlist — confirmed via a direct `curl` test, 403 from the proxy).
+- Cowork intentionally did **not** attempt to port `detect_gaps.py`'s scoring logic into JS (one of the options YC didn't pick) — reusing the exact same Python engine avoids any risk of the two scoring paths drifting apart, which was explicitly the reason the old `api/recompute_gaps.js` twin got retired.
+
+---
+
 ### Task format (Cowork uses this when writing new tasks)
 
 ```
