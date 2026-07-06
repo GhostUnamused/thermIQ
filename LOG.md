@@ -5,6 +5,18 @@
 
 ---
 
+## task-050 | 2026-07-06 | DONE
+Live Sheet section shows two buttons: primary "Open Google Sheet ↗" linking to the demo sheet, secondary "Download CSV" keeping the raw `api/sheet_sync` feed. Added `.sheet-actions-buttons` + `.btn-sheet-csv--secondary` CSS. Commit: f2c31c5
+
+## task-051 | 2026-07-06 | DONE
+Total Risk Exposure now sums only CEA-outage-backed (quantified) rows — assumed-default gaps excluded from headline ₹ figure. Unquantifiable+undocumented topics rendered in a new "Documentation Needed" section with upload links. Chunks-indexed ticker scoped to benchmark + active client's own docs only (no longer the whole-collection total). `node --check docs/app.js` passed. Commit: f2c31c5
+
+## task-052 | 2026-07-06 | DONE
+Live Sheet button href changed from `/edit` to `/copy` — Google's native copy-to-Drive prompt, visitors get their own Sheet+bound-script copy. Label updated to "Get Your Own Live Sheet ↗". Sharing-permission caveat (must be "Anyone with link: Viewer") unchanged — requires YC to flip in Drive. Commit: f2c31c5
+
+## task-053 | 2026-07-06 | DONE
+Verification recap confirming task-051/052 are the correct shape. No new code. `node --check docs/app.js` passed independently. All changes shipped in f2c31c5.
+
 ## task-049 | 2026-07-05 | DONE
 Three automation gaps: (1) CEA ingest was failing — GH secrets present but lookback only tried today/yesterday while CEA publishes 2-3 days late; fixed `fetch_cea_outage.py` to try up to 5 days back (July 2 data now fetches successfully). (2) Neo4j keepalive: `scripts/neo4j_keepalive.py` + `.github/workflows/neo4j-keepalive.yml` committed — GH secrets (NEO4J_*, JINA_API_KEY, QDRANT_URL, QDRANT_API_KEY) blocked by auto-mode classifier, need user to authorize and run `gh secret set` or add via GitHub UI. (3) Gap scan auto-trigger: `api/trigger_gap_scan.js` + `.github/workflows/gap-scan.yml` + `docs/app.js` committed; `GITHUB_DISPATCH_TOKEN` (GitHub PAT with Actions:write) must be added to Vercel by YC. All code at commit `02dfaf1`. Blocked: 7 GH secrets + 1 Vercel secret need human action before workflows go live.
 

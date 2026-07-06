@@ -355,6 +355,89 @@ git push origin main
 
 ---
 
+### [DONE] task-050 | 2026-07-05T18:30:00Z
+**From:** Cowork
+**Task:** YC pushed back correctly: the Live Sheet section's button downloaded a raw CSV, not an actual Google Sheet — reasonable complaint, since C2 (task-047) built a real live-synced Google Sheet this session and the web UI never linked to it. Fixed the UI; **flagging one thing Cowork deliberately did NOT touch.**
+
+**Files already edited by Cowork (DO NOT re-edit — just commit):**
+- `docs/index.html` — Live Sheet section now shows two actions: a primary **"Open Google Sheet ↗"** button linking directly to the real demo sheet (`https://docs.google.com/spreadsheets/d/1H0xyG6u9QoOSw13Ado-hKkw_qEzwl7X5uqPHYuYyHI8/edit` — the same "ThermIQ Live Sync Demo" sheet from task-047, live-syncing NTPC data every 10 min via the bound Apps Script), and a secondary **"Download CSV"** link keeping the old `api/sheet_sync` raw-feed behavior for anyone who wants machine-readable data instead of the Sheet UI.
+- `docs/style.css` — added `.sheet-actions-buttons` (flex wrapper) and `.btn-sheet-csv--secondary` (outline variant) so the two buttons don't fight the existing `space-between` layout.
+
+**Known limitation, not fixed — needs YC's own action, not CC's:**
+The linked Google Sheet's sharing is currently **"Restricted — only people with access can open with the link"** (verified live via the Share dialog; owner is `yaminichandrakj@gmail.com`, no other people/link-access granted). Anyone else who clicks "Open Google Sheet ↗" — a judge, a teammate, anyone not signed into that exact Google account — will hit a request-access wall, not the live data. **Cowork did not change this** — modifying sharing/access controls on an existing resource is something Cowork's guardrails require the account owner to do directly, not something to automate on their behalf. **If YC wants this link to work for anyone:** open the Sheet → Share → General access → change "Restricted" to "Anyone with the link" → Viewer. Until that happens, this button is really only useful for YC's own demo walkthroughs, not for judges clicking around unattended.
+
+Also worth remembering: this Sheet always shows whichever plant its own Apps Script menu ("ThermIQ → Set Client / Plant Name") is currently set to (NTPC by default) — it does **not** follow the web app's plant-selector dropdown the way `api/sheet_sync`'s CSV feed does via `?client_name=`. A Sheet is one fixed Drive document with its own script state, not a parameterized API response, so "one URL, many plants" isn't achievable with this architecture without provisioning a separate Sheet per plant.
+
+**CC must do:**
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+git add docs/index.html docs/style.css
+git commit -m "feat: Live Sheet section links to the real synced Google Sheet, not just the raw CSV feed"
+git push origin main
+```
+No functional verification needed beyond a visual check post-deploy (two buttons render side by side, both open in a new tab) — the sharing-permission caveat above is not something CC can resolve either.
+
+---
+
+### [DONE] task-051 | 2026-07-05T19:15:00Z
+**From:** Cowork
+**Task:** Two more issues YC flagged from the gap-analysis screen (screenshots): (1) the header ticker's "chunks indexed" number never changed when switching plants, and (2) the scoring methodology was silently blending real, CEA-outage-backed risk numbers with flat assumed-default guesses into one "Total Risk Exposure" figure — YC's exact words: "what if they didn't upload it because they never had a problem, don't completely assume something... risk exposure should be calculated with only what we have." Both fixed in the frontend/API-consumption layer only — **`scripts/detect_gaps.py` (the single source of scoring truth) was deliberately not touched**, so nothing about how the Python engine computes or stores numbers changed, only how the web UI aggregates and presents what's already in Firestore.
+
+**Files already edited by Cowork (DO NOT re-edit — just commit):**
+- `docs/app.js` — `loadShellTicker()`: chunks-indexed was summing `chunks_indexed` across every document from every client plus the benchmark corpus, always landing on the same total (1,317) no matter which plant was selected. Now scoped to `source_type === 'benchmark'` (shared CEA corpus every plant is measured against) **plus only the active client's own docs**.
+- `docs/app.js` — `initDashboard()`'s gap-analysis block: every one of the 19 benchmark topics has a `linked_outages` count from `detect_gaps.py` (real CEA forced-outage records for that equipment type) — `linked_outages > 0` means the risk figure is `derived_from_N_CEA_outage_records`; `linked_outages === 0` means it fell back to `consequence_method: "assumed_default_no_outage_data"` (a flat ₹6.0 Cr assumption, per `DEFAULT_CONSEQUENCE_CR` in `detect_gaps.py`). Split gaps into `quantified` (real data) vs `needsDocs` (no outage data AND not yet covered by a plant document): **Total Risk Exposure and the Critical Gaps (>₹100 Cr) count now only sum `quantified` rows** — an assumed-default guess no longer inflates the headline ₹ figure. The main ranked table now only shows `quantified` rows too.
+- `docs/app.js` — new `renderDocsNeededSection(needsDocs)` function populates a new bottom table listing every topic that's both unquantifiable (no real outage data) and undocumented, each with an "Upload document ↗" link to `documents.html#add-document` instead of a fabricated risk number.
+- `docs/index.html` — added the new "Documentation Needed — Risk Not Yet Quantifiable" `<section id="docs-needed-section">` (hidden by default, shown only when there are rows to list) between the Knowledge Gap Analysis table and the CEA Outages table. Added one line to the existing table's explainer text making the new exclusion explicit rather than silent.
+- `node --check docs/app.js` passed (verified against the actual live file content via the Read tool — Cowork's bash sandbox is showing a stale, truncated mount of this specific file after edits, a known issue per `feedback_cowork_sandbox_mount_staleness.md`; the real file, confirmed via direct read to its true end at line 2026, is complete and correctly closed. CC should re-run `node --check docs/app.js` itself once it has a fresh checkout, as an independent confirmation.).
+
+**What Cowork intentionally left alone:**
+- A topic with `linked_outages === 0` but `coverage_status === 'covered'` (plant DID document it, there's just no national outage-rate data for that equipment category) is neither in the ranked risk table nor the new Documentation Needed list — it's not a gap at all, so it only shows up in the "Covered Areas" count. That's correct: no action item, no fabricated price.
+- `scripts/detect_gaps.py` itself is unchanged. It still computes and stores `consequence_method`/`linked_outages`/`risk_score_cr` for all 19 topics regardless of data availability — that raw audit trail is valuable and shouldn't be lost. The UI now just uses those existing fields to decide what to headline vs. what to flag as unpriced, rather than the Python script needing to change what it computes.
+
+**CC must do:**
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+node --check docs/app.js && echo OK   # independent re-check, see note above on Cowork's stale sandbox mount
+git add docs/app.js docs/index.html
+git commit -m "fix: Total Risk Exposure counts only CEA-outage-backed numbers, not assumed defaults; unquantifiable gaps get an upload prompt instead of a fabricated price; chunks-indexed ticker scoped to active plant"
+git push origin main
+```
+Live-verify post-deploy: switch the plant selector between NTPC and Saraighat, confirm "chunks indexed" actually changes; confirm Total Risk Exposure drops from whatever it showed before (it was including assumed-default rows); confirm a "Documentation Needed" section appears at the bottom of the Live Sheet view with real topic rows and working "Upload document" links.
+
+---
+
+### [DONE] task-052 | 2026-07-06T00:00:00Z
+**From:** Cowork
+**Task:** YC didn't want the Live Sheet button opening a Sheet owned by his personal account — asked if a Sheet could be opened "without an owner." Google Drive has no ownerless-file concept and Shared Drives need paid Workspace (not available to a personal Gmail), so a true ownerless Sheet isn't possible. Instead, used Google's built-in **`/copy` URL trick**: appending `/copy` instead of `/edit` to a Sheet's URL makes Google prompt any visitor to save their own copy to their own Drive — confirmed via Google's own docs that a copy of a container-bound-script spreadsheet **includes a copy of the bound Apps Script**, so each visitor ends up with their own independent Sheet + script, live-syncing under their own account, not YC's.
+
+**Files already edited by Cowork (DO NOT re-edit — just commit):**
+- `docs/index.html` — Live Sheet button href changed from `.../edit` to `.../copy` on the existing demo sheet (`1H0xyG6u9QoOSw13Ado-hKkw_qEzwl7X5uqPHYuYyHI8`), label changed from "Open Google Sheet ↗" to "Get Your Own Live Sheet ↗", and the caption text now explains the copy-to-your-own-Drive behavior instead of implying it opens YC's live sheet directly.
+
+**CC must do:**
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+git add docs/index.html
+git commit -m "feat: Live Sheet button uses Google's /copy URL so each visitor gets their own Sheet+script copy, not YC's"
+git push origin main
+```
+
+**Caveats YC should know (not fixable in code — inherent to how Google Apps Script security works):**
+1. The template sheet's sharing must be at least **"Anyone with the link: Viewer"** for the `/copy` prompt to work for people outside YC's own account — this is a sharing-settings change Cowork's guardrails require YC to make himself (Cowork does not modify sharing/access controls). Currently it's "Restricted" per task-050's note. Until YC flips this, the button still only works for YC's own account.
+2. Whoever copies the sheet still has to click through Apps Script's own one-time OAuth authorization the first time they run "ThermIQ → Sync Now" in their copy (same friction Cowork hit demoing this originally) — this is Google's script-authorization model, not something any code change can skip.
+3. The copied script's `CONFIG.DEFAULT_CLIENT` is still hardcoded to `'ntpc'` — a copier can change which plant it syncs via the existing "ThermIQ → Set Client / Plant Name" menu item (already built in `apps-script/Code.gs`), but it won't auto-match whatever plant they were viewing on the web app when they clicked the button.
+
+**Notes:** This is a materially smaller lift than a full "create Sheets + deploy Apps Script into a stranger's account via OAuth" build (which would need a registered Google Cloud OAuth app, possible Google verification review for sensitive scopes, and still wouldn't remove caveat #2 above) — recommended this over that heavier option given the ~July 20 deadline.
+
+---
+
+### [DONE] task-053 | 2026-07-06T00:05:00Z
+**From:** Cowork
+**Task:** Re-confirming task-051's three fixes are still the right shape after re-reading YC's original complaint closely (chunks/gaps ticker not plant-specific; "assumed default" gaps stated with false confidence; no upload prompt for unquantifiable gaps; risk exposure should use only real data). No new code changes this task — this is a verification/status recap for CC since YC repeated the same concerns; task-051 already contains the actual diff. Treat this as confirmation, not new work, unless CC's independent `node --check docs/app.js` (per task-051's note on Cowork's stale sandbox mount) turns up something Cowork's read-based review missed.
+
+**CC must do:** Nothing beyond what task-051 and task-052 already specify — just make sure both are committed together (they touch adjacent but non-overlapping regions of `docs/index.html`) and do the task-051 live-verification checklist (plant switch shows different chunk/gap counts; Total Risk Exposure drops; Documentation Needed section appears with real rows).
+
+---
+
 ### Task format (Cowork uses this when writing new tasks)
 
 ```
