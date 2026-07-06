@@ -3087,6 +3087,12 @@ body[data-view="chat"] #sidebar-toggle-btn { display: flex; }
 }
 .btn-sheet-csv:hover { background: var(--accent-hover); text-decoration: none; }
 [data-theme="light"] .btn-sheet-csv { color: #fff; }
+.sheet-actions-buttons { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.btn-sheet-csv--secondary {
+  background: transparent; color: var(--text-muted); border-color: var(--border);
+}
+.btn-sheet-csv--secondary:hover { background: var(--surface-hover); color: var(--text-primary); }
+[data-theme="light"] .btn-sheet-csv--secondary { color: var(--text-muted); }
 
 /* Headings inside migrated view content pick up the display face */
 .spa-view .page-title, .spa-view .table-card h2 { font-family: var(--font-display); }

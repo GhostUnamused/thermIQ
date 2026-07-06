@@ -381,8 +381,38 @@
         Risk Score = Criticality (1–5, sourced) × Consequence (₹ Cr) × Exposure (0–1)<br />
         Consequence derived from: CEA forced-outage records × ₹5.0/kWh (LBNL/Ember 2024 India coal fleet avg)<br />
         Exposure = 1 − best vector similarity score (how poorly the corpus covers this area)<br />
-        Data sources: CEA Daily Outage Reports, ThermIQ Qdrant knowledge base scan
+        Data sources: CEA Daily Outage Reports, ThermIQ Qdrant knowledge base scan<br />
+        <b>Total Risk Exposure above only includes topics with real CEA outage history for their equipment type</b> —
+        topics with no national outage data for their equipment appear in "Documentation Needed" below instead of
+        being priced with an assumed default.
       </p>
+    </section>
+
+    <!-- ── Documentation Needed (topics we can't responsibly price) ── -->
+    <section class="table-card" id="docs-needed-section" style="display:none">
+      <div class="docs-list-header">
+        <h2>Documentation Needed — Risk Not Yet Quantifiable</h2>
+      </div>
+      <p class="explainer" style="margin-top:0">
+        These topics have no CEA-wide forced-outage history for their equipment type, so we can't responsibly assign
+        a ₹ figure — that's not the same as assuming there's no risk, and it's not the same as assuming there is one
+        either. A missing document here does not mean this plant has had a real incident; it may simply mean the
+        plant has never had a problem in this area. Upload the relevant procedure to document coverage, or leave as
+        a known open item.
+      </p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Equipment</th>
+            <th>Topic</th>
+            <th>Plant Coverage</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="docs-needed-table-body">
+          <tr><td colspan="4" class="skeleton-row">Loading…</td></tr>
+        </tbody>
+      </table>
     </section>
 
     <!-- ── CEA Outages ── -->
@@ -407,8 +437,11 @@
     </section>
 
     <div class="sheet-actions">
-      <span class="sync-note">Feed: api/sheet_sync (CSV, read-only) · Google Sheets sync script: built (apps-script/Code.gs — paste into a Sheet's Extensions → Apps Script to enable ThermIQ → Sync Now)</span>
-      <a class="btn-sheet-csv" id="sheet-csv-link" href="#" target="_blank" rel="noopener">Open CSV Feed ↗</a>
+      <span class="sync-note">Get your own live-synced Google Sheet — Google prompts you to save a copy to your own Drive, auto-refreshing every 10 min via the attached Apps Script · raw feed also available as CSV</span>
+      <div class="sheet-actions-buttons">
+        <a class="btn-sheet-csv" id="sheet-google-link" href="https://docs.google.com/spreadsheets/d/1H0xyG6u9QoOSw13Ado-hKkw_qEzwl7X5uqPHYuYyHI8/copy" target="_blank" rel="noopener">Get Your Own Live Sheet ↗</a>
+        <a class="btn-sheet-csv btn-sheet-csv--secondary" id="sheet-csv-link" href="#" target="_blank" rel="noopener">Download CSV</a>
+      </div>
     </div>
 
     <p class="last-updated" id="last-updated"></p>

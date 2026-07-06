@@ -991,6 +991,42 @@ async function triggerGapScanAndPoll(clientName) {
   }
 }
 
+// Topics with no CEA outage history for their equipment type AND no plant
+// documentation covering them: we genuinely don't know the cost of a gap
+// here, so instead of pricing it with the flat assumed-default fallback,
+// list it plainly with an upload prompt. A missing document does not mean a
+// real incident risk exists — it may just mean this plant never had a
+// problem in that area.
+function renderDocsNeededSection(needsDocs) {
+  const section = document.getElementById('docs-needed-section');
+  const body = document.getElementById('docs-needed-table-body');
+  if (!section || !body) return;
+
+  if (!needsDocs.length) {
+    section.style.display = 'none';
+    return;
+  }
+
+  section.style.display = '';
+  body.innerHTML = needsDocs.map((g) => {
+    const covInfo = COVERAGE_LABELS[g.coverage_status] || COVERAGE_LABELS.gap;
+    return `
+      <tr>
+        <td>${escapeHtml(g.equipment_tag || '—')}</td>
+        <td>
+          <div class="gap-desc">${escapeHtml(g.description || g.topic || '—')}</div>
+        </td>
+        <td>
+          <div class="cov-status ${covInfo.cls}">
+            <span class="cov-dot"></span>
+            <span class="cov-label">${covInfo.text}</span>
+          </div>
+        </td>
+        <td><a class="btn-sheet-csv btn-sheet-csv--secondary" href="documents.html#add-document" style="white-space:nowrap">Upload document ↗</a></td>
+      </tr>`;
+  }).join('');
+}
+
 async function initDashboard() {
   const outagesBody = document.getElementById('outages-table-body');
   if (!outagesBody) return;
@@ -1019,9 +1055,24 @@ async function initDashboard() {
         gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">Computing gap analysis for this plant for the first time — this can take about a minute, this page will update automatically…</td></tr>`;
         triggerGapScanAndPoll(getActiveClient());
       } else {
-        const totalRisk = gaps.reduce((sum, g) => sum + (g.risk_score_cr || 0), 0);
-        // Card label is "Critical Gaps (> ₹100 Cr)" — count by ₹ risk, not status.
-        const over100Count = gaps.filter(g => (g.risk_score_cr || 0) > 100).length;
+        // "linked_outages > 0" means this topic's ₹ figure comes from real CEA
+        // forced-outage records for that equipment type. "0" means detect_gaps.py
+        // fell back to a flat assumed default (consequence_method:
+        // "assumed_default_no_outage_data") because no national outage history
+        // exists for that equipment category — that is NOT the same thing as "this
+        // plant has a real problem here." A plant with no document on a topic may
+        // simply never have had an issue there. So: only real, sourced numbers get
+        // summed into the headline Total Risk Exposure / Critical Gaps stats and
+        // the ranked table; everything else is a documentation gap with an unknown
+        // (not assumed-zero, not assumed-nonzero) cost, listed separately below
+        // with an upload prompt instead of a fabricated ₹ figure.
+        const quantified  = gaps.filter(g => (g.linked_outages || 0) > 0);
+        const needsDocs   = gaps.filter(g => (g.linked_outages || 0) === 0 && g.coverage_status !== 'covered');
+
+        const totalRisk = quantified.reduce((sum, g) => sum + (g.risk_score_cr || 0), 0);
+        // Card label is "Critical Gaps (> ₹100 Cr)" — count by ₹ risk, not status,
+        // and only among quantified rows (consistent with the total above).
+        const over100Count = quantified.filter(g => (g.risk_score_cr || 0) > 100).length;
         const coveredCount = gaps.filter(g => g.coverage_status === 'covered').length;
         const gapCount     = gaps.filter(g => g.coverage_status === 'gap').length;
 
@@ -1030,7 +1081,12 @@ async function initDashboard() {
         if (coveredEl)    coveredEl.textContent      = coveredCount;
         if (gapsCountEl)  gapsCountEl.textContent    = `${gapCount}`;
 
-        gapsBody.innerHTML = gaps.map((g, i) => {
+        renderDocsNeededSection(needsDocs);
+
+        if (quantified.length === 0) {
+          gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">No topics with real CEA outage history for this plant's equipment yet — see "Documentation Needed" below for everything still unassessed.</td></tr>`;
+        } else {
+        gapsBody.innerHTML = quantified.map((g, i) => {
           const covInfo  = COVERAGE_LABELS[g.coverage_status] || COVERAGE_LABELS.gap;
           const badge    = riskBadgeClass(g.risk_score_cr);
           const typeLabel = GAP_TYPE_LABELS[g.gap_type] || escapeHtml(g.gap_type || '—');
@@ -1100,6 +1156,7 @@ async function initDashboard() {
               </td>
             </tr>`;
         }).join('');
+        }
       }
     } catch (err) {
       if (gapsBody) gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">Failed to load gap analysis: ${escapeHtml(err.message)}</td></tr>`;
@@ -1756,7 +1813,13 @@ async function loadShellTicker() {
     const docs = d.documents || [];
     const guidelineCount = docs.filter((doc) => doc.source_type === 'benchmark').length;
     const plantCount = docs.filter((doc) => doc.source_type === 'client' && (doc.client_name || doc.client || '').toLowerCase() === client).length;
-    const totalChunks = docs.reduce((s, doc) => s + (Number(doc.chunks_indexed) || 0), 0);
+    // Scoped to what's actually relevant to the active plant: its own docs plus
+    // the shared CEA guideline corpus every plant is benchmarked against — NOT
+    // every other plant's chunks too (was previously summing across all clients,
+    // so this number never changed when switching plants — YC caught this).
+    const totalChunks = docs
+      .filter((doc) => doc.source_type === 'benchmark' || ((doc.client_name || doc.client || '').toLowerCase() === client))
+      .reduce((s, doc) => s + (Number(doc.chunks_indexed) || 0), 0);
     set('tile-guideline-count', `${guidelineCount} DOCS`);
     set('tile-plant-count', `${plantCount} DOCS`);
     if (totalChunks > 0) {
