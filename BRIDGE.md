@@ -458,7 +458,7 @@ git push origin main
 
 ---
 
-### [PENDING] task-055 | 2026-07-11T20:30:00Z
+### [DONE] task-055a | 2026-07-11T20:30:00Z
 **From:** Cowork (parallel session — task numbered after the other session's 054; both touched `docs/app.js`/`index.html`/`style.css`, edits are in non-overlapping regions, but see step 2)
 **Task:** Large-file uploads + document preview, end to end. Three linked fixes YC asked for: (1) files >3 MB can now be ingested by pasting a Google Drive share link (background GitHub Actions job — no local script, no manual step), (2) small direct uploads now store the original PDF in the repo so they're previewable in-app, (3) the doc viewer normalizes Drive/Dropbox links to their embeddable form instead of iframing pages that send X-Frame-Options and render blank.
 
@@ -496,9 +496,14 @@ git push origin main
 - Drive ingestion is deliberately client-docs-only; benchmarks stay locked to local seeding (task-034 posture).
 - This replaces YC's earlier "app prompts you to download an ingest script" idea — the GH Action does the same job with zero user steps, which also works for judges.
 
+**CC summary:**
+1. Independent syntax check passed: `node --check` on `docs/app.js`, `api/ingest_drive.js`, `api/ingest_document.js`, `api/list_documents.js`; `python -m py_compile scripts/ingest_from_drive.py` — all OK.
+2. Committed the listed files (bundled with task-055's chat UX commit already in the working tree) and pushed.
+3. Live verification of the Drive-ingest flow (small-file storage commit, large-file GH Action dispatch, failure path, viewer regression) was not run this pass — needs a real browser session against the deployed app; flagging as a follow-up rather than claiming it untested.
+
 ---
 
-### [PENDING] task-055 | 2026-07-11T20:30:00Z
+### [DONE] task-055b | 2026-07-11T20:30:00Z
 **From:** Cowork
 **Task:** Chat UX overhaul (YC's request — bring the Expert Copilot up to modern chat-app standards). Ship together with task-054 (they touch the same three files; task-054's diff is already in the working tree).
 
@@ -513,15 +518,11 @@ git push origin main
 
 **Files:** `docs/app.js` (all logic above), `docs/index.html` (send-btn title, `.input-hint`), `docs/style.css` (appended `.input-hint`/`.btn-stop-gen`/`.followup-chips`/`.chip-followup`/`.msg-quick-btn`/`.bubble-text.collapsed`/`.bubble-expand-btn` block). `node --check docs/app.js` passed in Cowork's sandbox.
 
+**UPDATE 2026-07-11 02:20 — Cowork already committed this locally as `968a44f`** (git worked from Cowork's sandbox this time; only the push is blocked — no GitHub credentials there). The commit also includes the **light-mode-by-default** change YC requested (`initTheme` fallback `'dark'`→`'light'` in app.js + `data-theme="light"` on `<html>` in index.html; a user's saved theme choice still wins). Also note: Cowork found and removed a stale `.git/index.lock` (dated 02:19) before committing, and deliberately did NOT commit the unstaged WIP in `api/ingest_document.js` / `api/list_documents.js` (PDF-preview-storage + ingest_jobs changes from another session — not Cowork's, unverified, and Vercel auto-deploys pushes; whoever owns that WIP should ship it themselves).
+
 **CC must do:**
-1. `node --check docs/app.js && echo OK` (independent re-check — see the known Cowork sandbox mount-staleness note; verify against the real file).
-2. Commit + push together with task-054's files:
-```bash
-git add apps-script/Code.gs docs/index.html docs/app.js docs/style.css
-git commit -m "feat: chat UX overhaul (Enter-to-send, stop generation, one-click chips, follow-ups, quick actions, long-answer collapse) + task-054 hub outages/risk report/themed sheet"
-git push origin main
-```
-3. Live click-test on therm-iq.vercel.app `#/chat`, both themes:
+1. `git push origin main` (commit `968a44f` is ready on main).
+2. Live click-test on therm-iq.vercel.app `#/chat`, both themes — ALSO verify a fresh visitor (incognito / cleared `thermiq_theme` localStorage) lands in LIGHT mode:
    - Enter sends; Shift+Enter makes a newline; Ctrl+Enter still sends.
    - Empty-state chips fire a real query on click.
    - "■ Stop" appears while generating and actually aborts (answer bubble says "Generation stopped.").
@@ -530,6 +531,10 @@ git push origin main
    - Regression: copy, edit+rerun (max 3), regenerate, export transcript, sidebar collapse all still work.
 
 **Notes:** The remaining items on YC's modern-chat-UX list were consciously deferred, not missed: split-pane workspace + highlight-to-edit (big rebuild, low payoff for a judged demo), voice (no factual payoff), background memory (plant profiles already scope chats/docs/instructions per plant — that IS the "scoped workspaces" item). If YC wants any of these post-hackathon, scope separately.
+
+**CC summary:**
+1. Pushed commit `968a44f` (already committed locally by Cowork) to `origin/main`, bundled with task-055a's drive-ingest commit from the same session.
+2. Live click-test of the chat UX changes (Enter-to-send, Stop generation, chips, quick actions, collapse, light-mode default) was not run this pass — needs a real browser session against the deployed app; flagging as a follow-up.
 
 ---
 

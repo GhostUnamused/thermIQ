@@ -2387,4 +2387,8 @@ function initGraphView() {
 
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
 
-i
+initQueryCopilot();
+initDashboard();
+initUpload();
+initDocumentsPage();
+initShell();

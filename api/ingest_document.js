@@ -191,8 +191,46 @@ module.exports = async (req, res) => {
       });
     }
 
-    // 2 — Chunk
     const docSlug = doc_name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
+
+    // 1.5 — Store the original PDF so it's previewable in-app.
+    // Originals were previously discarded (only extracted text was indexed),
+    // which is why locally-uploaded docs had no preview. Now: commit the PDF
+    // into docs/uploads/ via the GitHub Contents API — GitHub Pages + Vercel
+    // both serve /docs as the site root, so the file gets a stable public URL.
+    // Only when the uploader didn't supply their own source_url; non-fatal on
+    // failure (ingestion still succeeds, just without a preview).
+    // Requires GITHUB_DISPATCH_TOKEN to have Contents: read/write on the repo.
+    let resolvedSourceUrl = source_url;
+    if (!resolvedSourceUrl && process.env.GITHUB_DISPATCH_TOKEN) {
+      try {
+        const storedName = `${docSlug}_${Date.now()}.pdf`;
+        const ghRes = await fetch(
+          `https://api.github.com/repos/GhostUnamused/thermIQ/contents/docs/uploads/${storedName}`,
+          {
+            method: 'PUT',
+            headers: {
+              'Authorization': `Bearer ${process.env.GITHUB_DISPATCH_TOKEN}`,
+              'Accept': 'application/vnd.github+json',
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              message: `chore: store uploaded document ${doc_name}`,
+              content: pdf_base64,
+            }),
+          }
+        );
+        if (ghRes.ok) {
+          resolvedSourceUrl = `https://therm-iq.vercel.app/uploads/${storedName}`;
+        } else {
+          console.error(`PDF store to repo failed (${ghRes.status}): ${await ghRes.text()}`);
+        }
+      } catch (storeErr) {
+        console.error('PDF store to repo failed:', storeErr.message);
+      }
+    }
+
+    // 2 — Chunk
     const chunks = chunkText(text, docSlug);
     if (!chunks.length) {
       return res.status(422).json({ error: 'No chunks generated.' });
@@ -221,7 +259,7 @@ module.exports = async (req, res) => {
       payload: {
         chunk_id:       chunk.chunk_id,
         source_doc:     doc_name,
-        source_url,
+        source_url:     resolvedSourceUrl,
         doc_type,
         client:         docClient,
         // source_type / client_name: the two new fields that power gap detection filtering
@@ -255,7 +293,7 @@ module.exports = async (req, res) => {
       doc_name,
       doc_type,
       client:         docClient,
-      source_url,
+      source_url:     resolvedSourceUrl,
       source_type,
       client_name:    resolvedClientName,
       chunks_indexed: chunks.length,
@@ -271,6 +309,7 @@ module.exports = async (req, res) => {
       success:        true,
       doc_name,
       doc_type,
+      source_url:     resolvedSourceUrl,
       source_type,
       client_name:    resolvedClientName,
       chunks_indexed: chunks.length,

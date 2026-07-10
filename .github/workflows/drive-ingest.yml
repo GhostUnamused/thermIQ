@@ -1,0 +1,31 @@
+name: Ingest Document from Google Drive
+# Dispatched by api/ingest_drive.js when a user submits a Drive share link for
+# a file too large for the direct upload path (Vercel ~4.5 MB body cap).
+# Only the Firestore job_id crosses the dispatch boundary — all other metadata
+# (file id, doc name, type, client) is read from ingest_jobs/{job_id}, which
+# keeps user-supplied strings out of shell interpolation entirely.
+on:
+  workflow_dispatch:
+    inputs:
+      job_id:
+        description: 'ingest_jobs/{job_id} Firestore document to process'
+        required: true
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r scripts/requirements.txt gdown
+      - run: python scripts/ingest_from_drive.py
+        env:
+          INGEST_JOB_ID: ${{ github.event.inputs.job_id }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_PRIVATE_KEY: ${{ secrets.FIREBASE_PRIVATE_KEY }}
+          FIREBASE_CLIENT_EMAIL: ${{ secrets.FIREBASE_CLIENT_EMAIL }}
+          JINA_API_KEY: ${{ secrets.JINA_API_KEY }}
+          QDRANT_URL: ${{ secrets.QDRANT_URL }}
+          QDRANT_API_KEY: ${{ secrets.QDRANT_API_KEY }}
