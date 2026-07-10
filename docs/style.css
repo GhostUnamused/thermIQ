@@ -3506,3 +3506,47 @@ body { letter-spacing: 0.005em; }
 }
 .btn-add-docs:hover { background: var(--accent-hover); }
 [data-theme="light"] .btn-add-docs { color: #fff; }
+
+/* ═══ Hub CEA outage strip (marquee + expandable full history) ═══ */
+.hub-outages { margin-top: 1.6rem; }
+.hub-outages-bar {
+  display: flex; align-items: center; gap: 0.9rem; width: 100%;
+  background: var(--surface, rgba(255,255,255,0.03));
+  border: 1px solid var(--border, rgba(255,255,255,0.09));
+  border-radius: 10px;
+  padding: 0.55rem 0.95rem;
+  color: var(--text, inherit);
+  font: inherit; cursor: pointer; text-align: left;
+  transition: border-color 0.15s;
+}
+.hub-outages-bar:hover { border-color: var(--accent, #14b8a6); }
+.hub-outages-label {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+  color: var(--accent, #14b8a6); white-space: nowrap;
+}
+.hub-outage-marquee { flex: 1; overflow: hidden; position: relative; min-width: 0; }
+.hub-outage-track {
+  display: inline-flex; align-items: center; gap: 1.1rem;
+  white-space: nowrap; will-change: transform;
+  animation: hub-outage-scroll 45s linear infinite;
+  font-size: 0.8rem; color: var(--text-muted, #9aa4b8);
+}
+.hub-outages-bar:hover .hub-outage-track { animation-play-state: paused; }
+@keyframes hub-outage-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.hub-outage-track .tick-item b { color: var(--text, inherit); }
+.hub-outage-track .tick-loss { color: #ef4444; font-weight: 700; }
+.hub-outage-track .tick-sep { color: var(--accent, #14b8a6); font-size: 0.55rem; margin: 0 1.1rem; }
+.hub-outages-chev {
+  color: var(--text-muted, #9aa4b8); font-size: 0.8rem;
+  transition: transform 0.2s;
+}
+.hub-outages-bar.open .hub-outages-chev { transform: rotate(180deg); }
+.hub-outages-panel { margin-top: 0.8rem; }
+.hub-outages-panel .table-card { max-height: 30rem; overflow-y: auto; }
+@media (prefers-reduced-motion: reduce) {
+  .hub-outage-track { animation: none; }
+}

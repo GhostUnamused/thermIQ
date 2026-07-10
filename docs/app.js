@@ -906,6 +906,10 @@ function riskBadgeClass(riskScoreCr) {
 }
 
 // ── CEA Outages loader (runs independently — not blocked by gap analysis fetch) ──
+// Renders BOTH the hub marquee strip (latest events, scrolling) and the full
+// history table inside the expandable panel. Cached for the Risk Report.
+let _ceaOutagesCache = null;
+
 async function loadCeaOutages(outagesBody) {
   try {
     const controller = new AbortController();
@@ -914,8 +918,10 @@ async function loadCeaOutages(outagesBody) {
       const response = await fetch(`${BACKEND}/api/cea_outage`, { signal: controller.signal });
       clearTimeout(timeout);
       const data = await response.json();
-      const outages = (data.outages || []).slice(0, 10);
+      const outages = data.outages || [];
+      _ceaOutagesCache = outages;
 
+      // Full history in the expandable panel (not just 10 — the panel scrolls).
       outagesBody.innerHTML = '';
       outages.forEach(outage => {
         const row = document.createElement('tr');
@@ -934,6 +940,8 @@ async function loadCeaOutages(outagesBody) {
       if (!outages.length) {
         outagesBody.innerHTML = `<tr><td colspan="7" class="skeleton-row">No outage data yet.</td></tr>`;
       }
+
+      renderOutageMarquee_(outages);
     } catch (fetchErr) {
       clearTimeout(timeout);
       throw fetchErr;
@@ -941,7 +949,43 @@ async function loadCeaOutages(outagesBody) {
   } catch (err) {
     const msg = err.name === 'AbortError' ? 'Timed out loading outages.' : `Failed to load outages: ${escapeHtml(err.message)}`;
     outagesBody.innerHTML = `<tr><td colspan="7" class="skeleton-row">${msg}</td></tr>`;
+    const track = document.getElementById('hub-outage-track');
+    if (track) track.innerHTML = `<span class="tick-item">Outage feed unavailable</span>`;
   }
+}
+
+// Hub strip: latest events as one seamlessly-looping marquee row.
+function renderOutageMarquee_(outages) {
+  const track = document.getElementById('hub-outage-track');
+  if (!track) return;
+  const latest = outages.slice(0, 12);
+  if (!latest.length) {
+    track.innerHTML = `<span class="tick-item">No recent CEA forced outages on record</span>`;
+    return;
+  }
+  const items = latest.map(o => `
+    <span class="tick-item">
+      <b>${escapeHtml(o.station)}</b> U${escapeHtml(o.unit)}
+      · ${escapeHtml(o.equipment_tag)}
+      · <span class="tick-loss">₹${escapeHtml(o.revenue_lost_est_cr)} Cr</span>
+      · ${escapeHtml(o.date_out)}
+    </span>`).join('<span class="tick-sep">◆</span>');
+  // Duplicate content so the CSS translateX(-50%) loop is seamless.
+  track.innerHTML = items + '<span class="tick-sep">◆</span>' + items + '<span class="tick-sep">◆</span>';
+}
+
+// Expand/collapse the full-history panel under the hub strip.
+function initHubOutagesToggle() {
+  const toggle = document.getElementById('hub-outages-toggle');
+  const panel  = document.getElementById('hub-outages-panel');
+  if (!toggle || !panel) return;
+  toggle.addEventListener('click', () => {
+    const open = panel.hasAttribute('hidden');
+    if (open) panel.removeAttribute('hidden'); else panel.setAttribute('hidden', '');
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.classList.toggle('open', open);
+    if (open) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
 }
 
 // A plant with documents but zero risk_scores has simply never had
@@ -1197,6 +1241,8 @@ function initUpload() {
   const dock      = document.getElementById('upload-dock');
   const dockTitle = document.getElementById('upload-dock-title');
   const queueEl   = document.getElementById('upload-queue');
+  const driveUrlInput = document.getElementById('upload-drive-url');
+  const driveNote     = document.getElementById('upload-drive-note');
 
   // Must stay under Vercel's ~4.5 MB request-body cap after base64 (+33%) overhead —
   // larger files die at the platform edge with an opaque 413.
@@ -1308,16 +1354,23 @@ function initUpload() {
     statusEl.textContent = '';
   }
 
+  function driveUrlValue() {
+    return driveUrlInput ? driveUrlInput.value.trim() : '';
+  }
+
   function updateSubmitState() {
     // With multiple files each doc is named from its filename, so the single
-    // Document Name field is only required when exactly one file is selected.
-    const nameOk = selectedFiles.length > 1 || docName.value.trim();
-    const ready = !uploading && selectedFiles.length >= 1 && nameOk;
+    // Document Name field is only required when exactly one file is selected —
+    // or when a Drive link is supplied (the link carries no usable filename).
+    const hasDrive = !!driveUrlValue();
+    const nameOk = (selectedFiles.length > 1 && !hasDrive) || docName.value.trim();
+    const ready = !uploading && (selectedFiles.length >= 1 || hasDrive) && nameOk;
     submitBtn.disabled = !ready;
     if (btnText && !submitBtn.disabled) {
-      btnText.textContent = selectedFiles.length > 1
-        ? `Upload ${selectedFiles.length} Documents`
-        : 'Start Upload';
+      const n = selectedFiles.length + (hasDrive ? 1 : 0);
+      btnText.textContent = hasDrive && !selectedFiles.length
+        ? 'Queue Drive Ingest'
+        : (n > 1 ? `Upload ${n} Documents` : 'Start Upload');
     }
   }
 
@@ -1331,6 +1384,8 @@ function initUpload() {
     fileInput.value = '';
     docName.value = '';
     if (sourceUrl) sourceUrl.value = '';
+    if (driveUrlInput) driveUrlInput.value = '';
+    if (driveNote) driveNote.hidden = true;
     fileLabel.textContent = 'No files selected · PDF only · max ~3 MB each · multiple allowed';
     dropZone.classList.remove('has-file');
     if (btnText) btnText.textContent = 'Start Upload';
@@ -1345,14 +1400,27 @@ function initUpload() {
 
     const accepted = [];
     const skipped = [];
+    const tooBig = [];
     for (const file of incoming) {
       if (!file.name.toLowerCase().endsWith('.pdf')) { skipped.push(`${file.name} (not a PDF)`); continue; }
-      if (file.size > MAX_BYTES) { skipped.push(`${file.name} (>3 MB)`); continue; }
+      if (file.size > MAX_BYTES) { tooBig.push(file.name); skipped.push(`${file.name} (>3 MB)`); continue; }
       accepted.push(file);
     }
 
+    // Files over the direct-upload cap can still be ingested via a Drive link —
+    // point the user there instead of just rejecting them.
+    if (driveNote) {
+      if (tooBig.length) {
+        driveNote.hidden = false;
+        driveNote.textContent = `${tooBig.join(', ')} exceed${tooBig.length === 1 ? 's' : ''} the 3 MB direct-upload limit. Upload the file to your Google Drive, set sharing to "Anyone with the link", and paste the link above — it will be ingested in the background (one link at a time).`;
+      } else {
+        driveNote.hidden = true;
+      }
+    }
+
     if (!accepted.length) {
-      setStatus(`No files added. ${skipped.join('; ')}`, 'error');
+      setStatus(`No files added directly. ${skipped.join('; ')}`, tooBig.length ? 'info' : 'error');
+      updateSubmitState();
       return;
     }
     clearStatus();
@@ -1384,6 +1452,7 @@ function initUpload() {
   fileInput.addEventListener('change', () => handleFiles(fileInput.files));
 
   docName.addEventListener('input', updateSubmitState);
+  if (driveUrlInput) driveUrlInput.addEventListener('input', updateSubmitState);
 
   const readAsBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -1412,6 +1481,25 @@ function initUpload() {
     return data;
   }
 
+  // Large files: hand the Drive share link to /api/ingest_drive, which queues
+  // a background GitHub Actions job (download → chunk → embed → index). The
+  // Documents grid shows a "processing" card and polls until it lands.
+  async function ingestDriveLink(driveUrl, docNameValue, docTypeValue, clientName) {
+    const res = await fetch(`${BACKEND}/api/ingest_drive`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+      body: JSON.stringify({
+        drive_url:   driveUrl,
+        doc_name:    docNameValue,
+        doc_type:    docTypeValue,
+        client_name: clientName,
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || (!data.queued && !data.already_running)) throw new Error(data.error || `Server error ${res.status}`);
+    return data;
+  }
+
   // ── Dock queue rendering ───────────────────────────────────────────────────
   function renderQueue() {
     if (!queueEl) return;
@@ -1436,8 +1524,9 @@ function initUpload() {
 
   // ── Submit — panel minimizes, uploads run sequentially from the dock ───────
   submitBtn.addEventListener('click', async () => {
-    if (!selectedFiles.length || uploading) return;
-    if (selectedFiles.length === 1 && !docName.value.trim()) {
+    const driveUrl = driveUrlValue();
+    if ((!selectedFiles.length && !driveUrl) || uploading) return;
+    if ((selectedFiles.length === 1 || driveUrl) && !docName.value.trim()) {
       setStatus('Please enter a Document Name.', 'error');
       return;
     }
@@ -1446,10 +1535,15 @@ function initUpload() {
     const docTypeValue = dest === 'guideline' ? 'guideline' : docType.value;
     const files = selectedFiles.slice();
     queue = files.map((f) => ({
-      name: files.length === 1 ? docName.value.trim() : nameFromFile(f),
+      // When a Drive link is present, the Document Name field belongs to the
+      // Drive doc — direct files fall back to their filenames.
+      name: files.length === 1 && !driveUrl ? docName.value.trim() : nameFromFile(f),
       status: 'queued',
       error: null,
     }));
+    if (driveUrl) {
+      queue.push({ name: `${docName.value.trim()} (Drive)`, status: 'queued', error: null, drive: true });
+    }
 
     uploading = true;
     updateSubmitState();
@@ -1458,12 +1552,18 @@ function initUpload() {
     dock.hidden = false;
     renderQueue();
 
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < queue.length; i++) {
       queue[i].status = 'uploading';
       renderQueue();
       try {
-        await ingestOne(files[i], queue[i].name, docTypeValue, clientName);
-        queue[i].status = 'done';
+        if (queue[i].drive) {
+          const r = await ingestDriveLink(driveUrl, docName.value.trim(), docTypeValue, clientName);
+          queue[i].status = 'done';
+          queue[i].error = r.already_running ? 'Already queued for this plant.' : null;
+        } else {
+          await ingestOne(files[i], queue[i].name, docTypeValue, clientName);
+          queue[i].status = 'done';
+        }
       } catch (err) {
         queue[i].status = 'failed';
         queue[i].error = err.message;
@@ -1506,6 +1606,18 @@ function formatDate(iso) {
       day: 'numeric', month: 'short', year: 'numeric',
     });
   } catch { return iso; }
+}
+
+// Single re-poll timer while Drive-ingest jobs are in flight — guards against
+// stacking multiple timers when loadDocuments is called repeatedly.
+let _docsPollTimer = null;
+function scheduleDocsPoll() {
+  if (_docsPollTimer) return;
+  _docsPollTimer = setTimeout(() => {
+    _docsPollTimer = null;
+    loadDocuments();
+    loadShellTicker();
+  }, 10000);
 }
 
 async function loadDocuments() {
@@ -1577,10 +1689,42 @@ async function loadDocuments() {
         : `<div class="doc-skeleton">No guideline documents found. Run the patch script if you just migrated.</div>`;
     }
 
+    // In-flight Drive ingestions for this plant render as "processing" cards;
+    // failed ones surface their error instead of vanishing silently. While any
+    // job is queued/processing, the list re-polls itself until the real doc
+    // record supersedes the job card.
+    const myJobs = (data.jobs || []).filter(j => (j.client_name || '').toLowerCase() === active);
+    const jobCard = (j) => {
+      const failed = j.status === 'failed';
+      return `
+      <div class="doc-card doc-card--job${failed ? ' doc-card--job-failed' : ''}">
+        <div class="doc-card-top">
+          <div class="doc-card-name">${escapeHtml(j.doc_name || 'Document')}</div>
+        </div>
+        <div class="doc-card-meta">
+          <div><span class="m-label">Source</span><span class="m-val">Google Drive</span></div>
+          <div><span class="m-label">Status</span><span class="m-val">${failed ? 'FAILED' : (j.status === 'processing' ? 'Indexing…' : 'Queued…')}</span></div>
+        </div>
+        <div class="doc-card-foot">
+          ${failed
+            ? `<span class="doc-chip doc-chip--plant">${escapeHtml((j.error || 'Ingestion failed').slice(0, 160))}</span>`
+            : `<span class="doc-chip">Background ingest · typically 1–3 min</span>`}
+        </div>
+      </div>`;
+    };
+
     if (cGrid) {
-      cGrid.innerHTML = plantDocs.length
-        ? plantDocs.map(d => docCard(d, { deletable: true })).join('')
+      const cards = [
+        ...myJobs.map(jobCard),
+        ...plantDocs.map(d => docCard(d, { deletable: true })),
+      ];
+      cGrid.innerHTML = cards.length
+        ? cards.join('')
         : `<div class="doc-skeleton">No plant documents yet for "${escapeHtml(active)}". Upload this plant's documents to start the assessment.</div>`;
+    }
+
+    if (myJobs.some(j => j.status === 'queued' || j.status === 'processing')) {
+      scheduleDocsPoll();
     }
   } catch (err) {
     const msg = `<div class="doc-skeleton">Failed to load: ${escapeHtml(err.message)}</div>`;
@@ -1841,8 +1985,155 @@ function initShell() {
   });
   window.addEventListener('hashchange', routeFromHash);
 
+  initHubOutagesToggle();
+  const reportBtn = document.getElementById('risk-report-btn');
+  if (reportBtn) reportBtn.addEventListener('click', generateRiskReport);
+
   loadShellTicker();
   routeFromHash();
+}
+
+// ─── One-click Risk Report (print → save as PDF) ─────────────────────────────
+// Uses the SAME data and aggregation rules as the Live Sheet view: only
+// CEA-outage-backed rows are priced into the headline; unquantifiable topics
+// are listed as documentation needed, never given a fabricated ₹ figure.
+async function generateRiskReport() {
+  const btn = document.getElementById('risk-report-btn');
+  const client = getActiveClient();
+  if (btn) { btn.disabled = true; btn.textContent = 'Building report…'; }
+
+  try {
+    const [gapRes, docRes] = await Promise.all([
+      fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(client)}`),
+      fetch(`${BACKEND}/api/list_documents`),
+    ]);
+    const gapData = await gapRes.json();
+    const docData = await docRes.json();
+    const gaps = gapData.gaps || [];
+    if (!gaps.length) throw new Error('No gap analysis data for this plant yet.');
+
+    const quantified = gaps.filter(g => (g.linked_outages || 0) > 0)
+      .sort((a, b) => (b.risk_score_cr || 0) - (a.risk_score_cr || 0));
+    const needsDocs  = gaps.filter(g => (g.linked_outages || 0) === 0 && g.coverage_status !== 'covered');
+    const covered    = gaps.filter(g => g.coverage_status === 'covered');
+    const totalRisk  = quantified.reduce((s, g) => s + (g.risk_score_cr || 0), 0);
+    const gapCount   = gaps.filter(g => g.coverage_status === 'gap').length;
+    const partialCount = gaps.filter(g => g.coverage_status === 'partial').length;
+
+    const docs = (docData.documents || []).filter(d =>
+      d.source_type === 'client' && (d.client_name || d.client || '').toLowerCase() === client);
+
+    const outages = (_ceaOutagesCache || []).slice(0, 10);
+
+    const esc = escapeHtml;
+    const covLabel = { covered: 'Covered', partial: 'Partial', gap: 'Gap' };
+    const covColor = { covered: '#22c55e', partial: '#f59e0b', gap: '#ef4444' };
+
+    const gapRows = quantified.map((g, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${esc(g.equipment_tag || '—')}</td>
+        <td>${esc(g.description || g.topic || '—')}<div class="src">${esc(g.criticality_source || '')}</div></td>
+        <td><span class="cov" style="background:${covColor[g.coverage_status] || '#ef4444'}">${covLabel[g.coverage_status] || 'Gap'}</span><div class="src">${Math.round((g.best_match_score || 0) * 100)}% doc match</div></td>
+        <td>${g.criticality_score || '—'}/5</td>
+        <td>${g.linked_outages || 0}</td>
+        <td class="num">₹${(g.risk_score_cr || 0).toFixed(1)} Cr</td>
+      </tr>`).join('');
+
+    const needRows = needsDocs.map(g => `
+      <tr>
+        <td>${esc(g.equipment_tag || '—')}</td>
+        <td>${esc(g.description || g.topic || '—')}</td>
+        <td><span class="cov" style="background:${covColor[g.coverage_status] || '#ef4444'}">${covLabel[g.coverage_status] || 'Gap'}</span></td>
+      </tr>`).join('');
+
+    const outageRows = outages.map(o => `
+      <tr>
+        <td>${esc(o.station)} U${esc(o.unit)}</td>
+        <td>${esc(o.equipment_tag)}</td>
+        <td>${esc(o.failure_reason_raw)}</td>
+        <td class="num">₹${esc(o.revenue_lost_est_cr)} Cr</td>
+        <td>${esc(o.date_out)}</td>
+      </tr>`).join('');
+
+    const now = new Date();
+    const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
+<title>ThermIQ Risk Report — ${esc(client.toUpperCase())}</title>
+<style>
+  @page { margin: 18mm 14mm; }
+  * { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Inter, Arial, sans-serif; color: #1a2233; margin: 0; font-size: 11.5px; line-height: 1.45; }
+  .band { background: #0d1321; color: #fff; padding: 22px 26px; }
+  .band h1 { margin: 0; font-size: 20px; letter-spacing: 0.04em; }
+  .band h1 b { color: #14b8a6; }
+  .band .meta { color: #9aa4b8; margin-top: 6px; font-size: 11px; }
+  .wrap { padding: 20px 26px; }
+  .stats { display: flex; gap: 12px; margin: 14px 0 22px; }
+  .stat { flex: 1; border: 1px solid #d7dbe3; border-radius: 8px; padding: 12px 14px; }
+  .stat .v { font-size: 20px; font-weight: 700; }
+  .stat .l { color: #6b7280; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+  .orange { color: #f59e0b; } .red { color: #ef4444; } .green { color: #22c55e; }
+  h2 { font-size: 14px; border-bottom: 2px solid #0d1321; padding-bottom: 5px; margin: 26px 0 10px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: #141b2e; color: #fff; text-align: left; padding: 6px 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+  td { padding: 6px 8px; border-bottom: 1px solid #e5e8ef; vertical-align: top; }
+  td.num { text-align: right; font-weight: 700; white-space: nowrap; }
+  .cov { color: #fff; font-weight: 700; font-size: 9.5px; padding: 2px 7px; border-radius: 9px; text-transform: uppercase; }
+  .src { color: #6b7280; font-size: 9.5px; margin-top: 2px; }
+  .note { background: #f4f6fa; border-left: 3px solid #14b8a6; padding: 10px 12px; font-size: 10.5px; color: #3c4557; margin: 14px 0; }
+  .foot { color: #6b7280; font-size: 9.5px; margin-top: 26px; border-top: 1px solid #d7dbe3; padding-top: 8px; }
+  tr { page-break-inside: avoid; }
+</style></head><body>
+  <div class="band">
+    <h1>THERM<b>IQ</b> — Knowledge Risk Report</h1>
+    <div class="meta">Plant profile: <b style="color:#fff">${esc(client.toUpperCase())}</b> &nbsp;·&nbsp; Generated ${now.toLocaleString()} &nbsp;·&nbsp; ${docs.length} plant document(s) on file &nbsp;·&nbsp; Benchmark: 19-topic CEA guideline baseline</div>
+  </div>
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="v orange">₹${Math.round(totalRisk)} Cr</div><div class="l">Total quantified risk exposure</div></div>
+      <div class="stat"><div class="v red">${gapCount}</div><div class="l">Undocumented topics (gaps)</div></div>
+      <div class="stat"><div class="v">${partialCount}</div><div class="l">Partially documented</div></div>
+      <div class="stat"><div class="v green">${covered.length}</div><div class="l">Covered areas</div></div>
+    </div>
+
+    <div class="note"><b>Methodology.</b> Risk = Criticality (1–5, sourced from CEA forced-outage frequency and CERC penalty rules) × Consequence (₹ Cr, derived from real CEA forced-outage records × ₹5.0/kWh, LBNL/Ember 2024 India coal fleet avg) × Exposure (1 − best plant-document match score). <b>Only topics with real CEA outage history for their equipment type are priced</b>; everything else is listed under Documentation Needed with no assumed ₹ figure.</div>
+
+    <h2>Ranked Knowledge Gaps — Quantified (${quantified.length})</h2>
+    <table>
+      <thead><tr><th>#</th><th>Equipment</th><th>Gap</th><th>Coverage</th><th>Crit.</th><th>CEA Outages</th><th>Risk</th></tr></thead>
+      <tbody>${gapRows || '<tr><td colspan="7">None</td></tr>'}</tbody>
+    </table>
+
+    <h2>Documentation Needed — Not Yet Quantifiable (${needsDocs.length})</h2>
+    <p style="color:#6b7280;font-size:10.5px;margin:4px 0 8px">No CEA-wide forced-outage history exists for these equipment types, so no ₹ figure is assigned. A missing document here is a known open item, not an assumed incident risk.</p>
+    <table>
+      <thead><tr><th>Equipment</th><th>Topic</th><th>Coverage</th></tr></thead>
+      <tbody>${needRows || '<tr><td colspan="3">None — all topics quantified or covered</td></tr>'}</tbody>
+    </table>
+
+    ${outageRows ? `
+    <h2>Recent CEA Forced Outages (fleet-wide, latest 10)</h2>
+    <table>
+      <thead><tr><th>Station</th><th>Equipment</th><th>Failure reason</th><th>Revenue impact</th><th>Date</th></tr></thead>
+      <tbody>${outageRows}</tbody>
+    </table>` : ''}
+
+    <div class="foot">
+      Generated by ThermIQ — Industrial Knowledge Intelligence · therm-iq.vercel.app · Data sources: CEA Daily Outage Reports (npp.gov.in), plant document corpus (Qdrant vector scan), Neo4j knowledge graph. Scoring engine: scripts/detect_gaps.py (single source of truth). All figures trace to cited records; assumptions are labelled.
+    </div>
+  </div>
+  <script>window.addEventListener('load', function(){ setTimeout(function(){ window.print(); }, 300); });</script>
+</body></html>`;
+
+    const w = window.open('', '_blank');
+    if (!w) throw new Error('Popup blocked — allow popups for this site and retry.');
+    w.document.write(html);
+    w.document.close();
+  } catch (err) {
+    alert('Could not build the risk report: ' + err.message);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Generate Risk Report (PDF)'; }
+  }
 }
 
 // ─── Risk & Gap Graph view (moved from graph.html — logic unchanged) ─────────

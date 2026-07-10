@@ -144,6 +144,37 @@
     <p class="explainer">
       Formula: risk_score_cr = criticality_score × consequence_cr × exposure_score. Data sources: CEA Daily Outage Reports, ThermIQ Qdrant knowledge base scan, Neo4j knowledge graph.
     </p>
+
+    <!-- ── Live CEA forced-outage strip (click to expand full history) ── -->
+    <section class="hub-outages" id="hub-outages">
+      <button class="hub-outages-bar" id="hub-outages-toggle" type="button" aria-expanded="false" title="Click to show the full outage history">
+        <span class="hub-outages-label"><span class="live-dot"></span>CEA&nbsp;OUTAGES</span>
+        <span class="hub-outage-marquee"><span class="hub-outage-track" id="hub-outage-track"><span class="tick-item">Loading live CEA forced-outage feed…</span></span></span>
+        <span class="hub-outages-chev" aria-hidden="true">▾</span>
+      </button>
+      <div class="hub-outages-panel" id="hub-outages-panel" hidden>
+        <div class="table-card">
+          <h2>Forced Outages — Live CEA Data (full history)</h2>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Station</th>
+                <th>Unit</th>
+                <th>MW Lost</th>
+                <th>Equipment</th>
+                <th>Failure Reason</th>
+                <th>Revenue Impact (₹ Cr)</th>
+                <th>Date</th>
+              </tr>
+            </thead>
+            <tbody id="outages-table-body">
+              <tr><td colspan="7" class="skeleton-row">Loading outages...</td></tr>
+            </tbody>
+          </table>
+          <p class="explainer">Source: CEA Daily Outage Reports (npp.gov.in), refreshed daily. Revenue impact estimated at ₹5.0/kWh (LBNL/Ember 2024 India coal fleet avg).</p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <!-- ═══ EXPERT COPILOT (chat) ═══ -->
@@ -415,30 +446,10 @@
       </table>
     </section>
 
-    <!-- ── CEA Outages ── -->
-    <section class="table-card">
-      <h2>Recent Forced Outages — Live CEA Data</h2>
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Station</th>
-            <th>Unit</th>
-            <th>MW Lost</th>
-            <th>Equipment</th>
-            <th>Failure Reason</th>
-            <th>Revenue Impact (₹ Cr)</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody id="outages-table-body">
-          <tr><td colspan="7" class="skeleton-row">Loading outages...</td></tr>
-        </tbody>
-      </table>
-    </section>
-
     <div class="sheet-actions">
       <span class="sync-note">Get your own live-synced Google Sheet — Google prompts you to save a copy to your own Drive, auto-refreshing every 10 min via the attached Apps Script · raw feed also available as CSV</span>
       <div class="sheet-actions-buttons">
+        <button class="btn-sheet-csv" id="risk-report-btn" type="button" title="Branded executive report of this plant's quantified gaps — opens print dialog, save as PDF">Generate Risk Report (PDF)</button>
         <a class="btn-sheet-csv" id="sheet-google-link" href="https://docs.google.com/spreadsheets/d/1H0xyG6u9QoOSw13Ado-hKkw_qEzwl7X5uqPHYuYyHI8/copy" target="_blank" rel="noopener">Get Your Own Live Sheet ↗</a>
         <a class="btn-sheet-csv btn-sheet-csv--secondary" id="sheet-csv-link" href="#" target="_blank" rel="noopener">Download CSV</a>
       </div>
@@ -462,6 +473,7 @@
       <div class="viewer-body">
         <iframe id="viewer-frame" title="Document preview" style="display:none;"></iframe>
         <div id="viewer-fallback" class="viewer-fallback" style="display:none;"></div>
+        <p id="viewer-embed-hint" class="viewer-embed-hint" style="display:none;">Preview blank? Some sites block embedding — use "Open original ↗" above.</p>
       </div>
     </div>
   </div>
@@ -519,6 +531,12 @@
         <p class="drop-hint" id="upload-file-name">No files selected · PDF only · max ~3 MB each · multiple allowed</p>
         <input type="file" id="upload-file-input" accept=".pdf" multiple style="display:none" />
       </div>
+
+      <label class="upload-label" id="upload-drive-field">
+        Large file (over 3 MB)? Paste a Google Drive link <span class="optional">(Share → Anyone with the link → Viewer)</span>
+        <input type="url" id="upload-drive-url" class="upload-input" placeholder="https://drive.google.com/file/d/…/view" />
+      </label>
+      <p class="dest-note" id="upload-drive-note" hidden></p>
 
       <div class="upload-actions">
         <span class="sync-note">Chunked · embedded via Jina AI · indexed in Qdrant</span>
