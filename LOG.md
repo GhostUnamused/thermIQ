@@ -5,6 +5,12 @@
 
 ---
 
+## task-055b | 2026-07-11 | DONE
+Chat UX overhaul: Enter-to-send (Shift+Enter newline), Stop-generation button with AbortController, one-click suggestion/follow-up chips, Shorter/Simplify/Checklist quick actions, long-answer collapse, light-mode-by-default. Committed by Cowork locally as 968a44f; CC pushed it to origin. Live click-test deferred to a follow-up browser session. Commit: 968a44f
+
+## task-055a | 2026-07-11 | DONE
+Large-file ingest via pasted Google Drive link (new `api/ingest_drive.js` + `.github/workflows/drive-ingest.yml` + `scripts/ingest_from_drive.py`, dispatched via existing `GITHUB_DISPATCH_TOKEN`), small direct uploads now store the original PDF in `docs/uploads/` for in-app preview, viewer normalizes Drive/Dropbox links to embeddable form. All syntax checks passed (`node --check` x4, `py_compile`). Live end-to-end verification (small-file commit, large-file GH Action run, restricted-link failure path, viewer regression) deferred to a follow-up browser session. Commit: 6536717
+
 ## task-054 | 2026-07-11 | DONE
 Shipped three UI/feature changes: (1) Google Sheet synced with ThermIQ theming (navy title band, teal accents, ₹ Cr formats, frozen header); (2) CEA outages moved off Live Sheet → hub marquee strip + expandable full-history panel; (3) one-click "Generate Risk Report (PDF)" button on Live Sheet (print-window from quantified-only gap_analysis, no assumed-default ₹ figures). All code verified + committed + pushed. Live click-test blocked pending Vercel auto-deploy (~2–8 min typical). Commit: b1a351c.
 
