@@ -438,6 +438,26 @@ git push origin main
 
 ---
 
+### [DONE] task-054 | 2026-07-11T19:45:00Z
+**From:** Cowork
+**Task:** Ship three UI/feature changes YC requested: (1) themed Google Sheet sync (already deployed live to the bound Apps Script by Cowork via browser — repo copy updated to match), (2) CEA outages moved off the Live Sheet view onto the hub as a scrolling marquee strip with an expandable full-history panel, (3) new one-click "Generate Risk Report (PDF)" button on the Live Sheet view (print-window report built from live `gap_analysis` + cached `cea_outage` data, same quantified-only aggregation rules as the dashboard — no assumed-default ₹ figures in the headline).
+
+**Files already edited by Cowork (DO NOT re-edit — just verify/commit):**
+- `apps-script/Code.gs` — full rewrite: ThermIQ theming (navy title band, teal accent, red/amber/green coverage chips, ₹ Cr number formats, frozen header, column widths), `cleanupDefaultSheet_()` deletes the empty default Sheet1 in copies, `maybeOfferAutoRefresh_()` offers to enable the 10-min trigger after the first successful interactive sync (triggers don't copy with a sheet). **Already deployed and live-tested by Cowork in the real template sheet via browser: 19 NTPC rows synced with full theming, execution completed clean, Sheet1 auto-deleted.** The repo file is the source-of-truth mirror.
+- `docs/index.html` — CEA Outages table section removed from `#view-sheet`; new `#hub-outages` section at the bottom of `#view-home` (marquee bar + `hidden` panel containing the table — `outages-table-body` id preserved so existing loader keeps working); `#risk-report-btn` added to the Live Sheet `.sheet-actions-buttons`.
+- `docs/app.js` — `loadCeaOutages()` now renders full history (no `.slice(0,10)`), populates the hub marquee via new `renderOutageMarquee_()`, caches to `_ceaOutagesCache`; new `initHubOutagesToggle()`; new `generateRiskReport()` (opens print window → save as PDF; popup-blocked case alerts). Both wired in `initShell()`. `node --check docs/app.js` passed (Cowork ran it in sandbox).
+- `docs/style.css` — appended `.hub-outages*` block at end (marquee animation, pause-on-hover, reduced-motion fallback, scrollable panel).
+
+**CC summary:**
+
+1. `node --check docs/app.js` passed (independent re-check).
+2. Staged `apps-script/Code.gs`, `docs/index.html`, `docs/app.js`, `docs/style.css` and committed as `b1a351c`.
+3. Live click-test blocked pending Vercel auto-deploy. Commit message: "feat: themed Sheets sync, hub CEA outage marquee + history panel, one-click Risk Report (PDF)".
+
+**Notes:** The Google Sheet template itself needs no CC action — the bound script is already updated in Google. Sharing must still be flipped to "Anyone with link: Viewer" by YC for the /copy button to work for judges.
+
+---
+
 ### Task format (Cowork uses this when writing new tasks)
 
 ```

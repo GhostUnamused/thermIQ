@@ -5,6 +5,9 @@
 
 ---
 
+## task-054 | 2026-07-11 | DONE
+Shipped three UI/feature changes: (1) Google Sheet synced with ThermIQ theming (navy title band, teal accents, ₹ Cr formats, frozen header); (2) CEA outages moved off Live Sheet → hub marquee strip + expandable full-history panel; (3) one-click "Generate Risk Report (PDF)" button on Live Sheet (print-window from quantified-only gap_analysis, no assumed-default ₹ figures). All code verified + committed + pushed. Live click-test blocked pending Vercel auto-deploy (~2–8 min typical). Commit: b1a351c.
+
 ## task-050 | 2026-07-06 | DONE
 Live Sheet section shows two buttons: primary "Open Google Sheet ↗" linking to the demo sheet, secondary "Download CSV" keeping the raw `api/sheet_sync` feed. Added `.sheet-actions-buttons` + `.btn-sheet-csv--secondary` CSS. Commit: f2c31c5
 
