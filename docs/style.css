@@ -3550,3 +3550,93 @@ body { letter-spacing: 0.005em; }
 @media (prefers-reduced-motion: reduce) {
   .hub-outage-track { animation: none; }
 }
+
+/* ─── Drive ingest: processing job cards + viewer embed hint (task-054) ────── */
+.doc-card--job {
+  border-style: dashed;
+  opacity: 0.85;
+}
+.doc-card--job .doc-card-name::after {
+  content: '';
+  display: inline-block;
+  width: 0.55em; height: 0.55em;
+  margin-left: 0.5em;
+  border-radius: 50%;
+  background: var(--accent, #f5a623);
+  animation: jobPulse 1.2s ease-in-out infinite;
+  vertical-align: middle;
+}
+.doc-card--job-failed { border-color: #d9534f; opacity: 1; }
+.doc-card--job-failed .doc-card-name::after { animation: none; background: #d9534f; }
+@keyframes jobPulse { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .doc-card--job .doc-card-name::after { animation: none; }
+}
+.viewer-embed-hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.72rem;
+  color: var(--text-muted, #9aa4b8);
+  text-align: center;
+}
+
+/* ═══ Chat UX round 2: input hint, stop, follow-ups, quick actions, collapse ═══ */
+.input-hint {
+  text-align: right;
+  font-size: 0.68rem;
+  color: var(--text-muted, #9aa4b8);
+  margin-top: 0.3rem;
+  user-select: none;
+}
+.btn-stop-gen {
+  margin-left: 0.8rem;
+  background: transparent;
+  border: 1px solid var(--border, rgba(255,255,255,0.15));
+  border-radius: 6px;
+  color: #ef4444;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.btn-stop-gen:hover { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.followup-chips {
+  display: flex; flex-wrap: wrap; gap: 0.45rem;
+  margin: 0.35rem 0 0.9rem 0.2rem;
+}
+.chip-followup {
+  background: transparent;
+  border: 1px dashed var(--accent, #14b8a6);
+  border-radius: 999px;
+  color: var(--accent, #14b8a6);
+  font-size: 0.74rem;
+  padding: 0.28rem 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.chip-followup:hover { background: var(--accent, #14b8a6); color: #0d1321; }
+.msg-quick-btn {
+  font-size: 0.68rem !important;
+  padding: 0.12rem 0.5rem !important;
+  border-radius: 6px;
+  width: auto !important;
+}
+.bubble-text.collapsed {
+  max-height: 320px;
+  overflow: hidden;
+  position: relative;
+  -webkit-mask-image: linear-gradient(to bottom, #000 75%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 75%, transparent 100%);
+}
+.bubble-expand-btn {
+  display: block;
+  margin: 0.3rem 0 0.2rem;
+  background: transparent;
+  border: none;
+  color: var(--accent, #14b8a6);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.2rem 0;
+}
+.bubble-expand-btn:hover { text-decoration: underline; }

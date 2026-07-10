@@ -99,7 +99,8 @@ function truncate(str, len) {
 const THEME_KEY = 'thermiq_theme';
 
 function initTheme() {
-  const saved = localStorage.getItem(THEME_KEY) || 'dark';
+  // Default is LIGHT for first-time visitors (per YC); a saved choice still wins.
+  const saved = localStorage.getItem(THEME_KEY) || 'light';
   document.documentElement.setAttribute('data-theme', saved);
 }
 
@@ -311,7 +312,13 @@ function renderMessages(messages, editIdx = null) {
       const regenBtnHtml = canRegen
         ? `<button class="msg-action-btn msg-regen-btn" data-regen-idx="${idx}" title="Regenerate response">${regenIcon}</button>`
         : '';
-      actionsHtml = `<div class="msg-actions">${timestampHtml}${copyBtn}${regenBtnHtml}</div>`;
+      // Quick actions — one-click refinements of the latest answer, no typing.
+      const isLast = idx === messages.length - 1;
+      const quickActions = isLast && !msg.content?.startsWith('**Error:**') ? `
+        <button class="msg-action-btn msg-quick-btn" data-quick="Rewrite your previous answer at half the length. Keep every ₹ figure and every source citation." title="Condense the answer">Shorter</button>
+        <button class="msg-action-btn msg-quick-btn" data-quick="Explain your previous answer in plain language for a newly joined plant operator. Keep the citations." title="Plain-language version">Simplify</button>
+        <button class="msg-action-btn msg-quick-btn" data-quick="Turn your previous answer into a numbered, step-by-step action checklist for the plant team. Keep the citations." title="Convert to checklist">Checklist</button>` : '';
+      actionsHtml = `<div class="msg-actions">${timestampHtml}${copyBtn}${regenBtnHtml}${quickActions}</div>`;
     }
 
     if (msg.role === 'user') {
@@ -332,12 +339,23 @@ function renderMessages(messages, editIdx = null) {
 
     // Assistant bubble
     const isFallback = msg.model_used && !msg.model_used.startsWith('gemini');
+    // Progressive disclosure: collapse very long answers behind a fade + toggle.
+    const isLong = (msg.content || '').length > 1500;
+    // Contextual follow-up chips under the newest answer — guide the next step.
+    const isLastAssistant = idx === messages.length - 1 && !msg.content?.startsWith('**Error:**');
+    const followups = isLastAssistant ? `
+      <div class="followup-chips">
+        <button class="chip chip-followup" data-followup="What is the quantified ₹ crore risk exposure related to this topic for this plant?">₹ risk for this topic</button>
+        <button class="chip chip-followup" data-followup="Which CEA or IBR regulation mandates this, and what does it require?">Which regulation mandates this?</button>
+        <button class="chip chip-followup" data-followup="Is this topic covered, partially covered, or a gap in this plant's own documentation?">Is this documented at this plant?</button>
+      </div>` : '';
     return `<div class="chat-bubble assistant-bubble">
-      <div class="bubble-text">${DOMPurify.sanitize(marked.parse(msg.content || ''))}</div>
+      <div class="bubble-text${isLong ? ' collapsed' : ''}">${DOMPurify.sanitize(marked.parse(msg.content || ''))}</div>
+      ${isLong ? `<button class="bubble-expand-btn" type="button" data-expand>Show full answer ▾</button>` : ''}
       ${sourcesHtml(msg.sources)}
       ${isFallback ? `<div class="bubble-meta">↩ fallback via ${escapeHtml(msg.model_used)}</div>` : ''}
       ${actionsHtml}
-    </div>`;
+    </div>${followups}`;
   }).join('');
 
   // Scroll to latest
@@ -350,7 +368,8 @@ function addTypingIndicator() {
   const div = document.createElement('div');
   div.className = 'chat-bubble assistant-bubble typing-bubble';
   div.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>'
-    + '<span class="typing-status">Searching knowledge base…</span>';
+    + '<span class="typing-status">Searching knowledge base…</span>'
+    + '<button class="btn-stop-gen" type="button" title="Stop generating">■ Stop</button>';
   messagesEl.appendChild(div);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 
@@ -477,11 +496,12 @@ function initSidebar() {
 
 // ─── API call helper ─────────────────────────────────────────────────────────
 
-async function callAPI(query, history, client) {
+async function callAPI(query, history, client, signal) {
   const res = await fetch(`${BACKEND}/api/query`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ query, client: client || '', history }),
+    signal,
   });
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
@@ -499,6 +519,7 @@ function initQueryCopilot() {
 
   let store = loadStore();
   let activeEditIdx = null;
+  let currentAbort = null; // in-flight request controller — the Stop button aborts it
   const sidebarControls = initSidebar();
 
   function refresh() {
@@ -536,12 +557,10 @@ function initQueryCopilot() {
     inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
   });
 
-  // ── Chip clicks → populate input ──
-  document.querySelectorAll('.chip').forEach(chip => {
+  // ── Suggestion chip clicks → send immediately (one-click, no typing) ──
+  document.querySelectorAll('#suggestion-chips .chip').forEach(chip => {
     chip.addEventListener('click', () => {
-      inputEl.value = chip.dataset.query || '';
-      inputEl.dispatchEvent(new Event('input'));
-      inputEl.focus();
+      if (chip.dataset.query) submit(chip.dataset.query);
     });
   });
 
@@ -610,14 +629,20 @@ function initQueryCopilot() {
   }
 
   // ── Submit query ──
-  async function submit() {
-    const query = inputEl.value.trim();
+  // Accepts an optional override string so suggestion chips, follow-up chips,
+  // and quick actions can send without touching the textarea.
+  async function submit(overrideQuery) {
+    const fromInput = typeof overrideQuery !== 'string';
+    const query = (fromInput ? inputEl.value : overrideQuery).trim();
     if (!query || sendBtn.disabled) return;
 
     // Reset input
-    inputEl.value = '';
-    inputEl.style.height = 'auto';
+    if (fromInput) {
+      inputEl.value = '';
+      inputEl.style.height = 'auto';
+    }
     sendBtn.disabled = true;
+    currentAbort = new AbortController();
 
     const chat = getActiveChat(store);
     if (!chat) return;
@@ -657,9 +682,10 @@ function initQueryCopilot() {
           if (attempt > 1 && typing) {
             typing.innerHTML = `<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span> <em style="margin-left:8px;font-size:0.75rem;color:var(--text-muted)">Synthesizing... (Attempt ${attempt}/${maxAttempts})</em>`;
           }
-          answerData = await callAPI(query, history, client);
+          answerData = await callAPI(query, history, client, currentAbort && currentAbort.signal);
           success = true;
         } catch (err) {
+          if (err.name === 'AbortError') throw err; // user hit Stop — never retry
           if (attempt === maxAttempts) throw err;
           // Wait 1 second before retrying
           await new Promise(r => setTimeout(r, 1000));
@@ -678,11 +704,14 @@ function initQueryCopilot() {
     } catch (err) {
       chat.messages.push({
         role: 'assistant',
-        content: `**Error:** ${err.message}${err.message.includes('504') ? ' (Timeout)' : ''}\n\nThe server timed out or failed to respond after multiple attempts. Please try again.`,
+        content: err.name === 'AbortError'
+          ? '_Generation stopped._'
+          : `**Error:** ${err.message}${err.message.includes('504') ? ' (Timeout)' : ''}\n\nThe server timed out or failed to respond after multiple attempts. Please try again.`,
         sources: [],
         ts: Date.now(),
       });
     } finally {
+      currentAbort = null;
       chat.updatedAt = Date.now();
       if (typing) {
         if (typing._typingInterval) clearInterval(typing._typingInterval);
@@ -695,9 +724,10 @@ function initQueryCopilot() {
     }
   }
 
-  sendBtn.addEventListener('click', submit);
+  sendBtn.addEventListener('click', () => submit());
+  // Enter sends; Shift+Enter inserts a newline (Ctrl/Cmd+Enter still works).
   inputEl.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
       e.preventDefault();
       submit();
     }
@@ -707,6 +737,30 @@ function initQueryCopilot() {
   // (messagesEl is already defined for the scroll-bottom handler)
   if (messagesEl) {
     messagesEl.addEventListener('click', async (e) => {
+      // Stop generation (button lives inside the typing indicator)
+      const stopBtn = e.target.closest('.btn-stop-gen');
+      if (stopBtn) {
+        if (currentAbort) currentAbort.abort();
+        return;
+      }
+
+      // Expand/collapse a long answer
+      const expandBtn = e.target.closest('[data-expand]');
+      if (expandBtn) {
+        const bubbleText = expandBtn.previousElementSibling;
+        if (bubbleText) {
+          const collapsed = bubbleText.classList.toggle('collapsed');
+          expandBtn.textContent = collapsed ? 'Show full answer ▾' : 'Collapse answer ▴';
+        }
+        return;
+      }
+
+      // Follow-up chip / quick action → send as a new prompt, no typing needed
+      const followBtn = e.target.closest('[data-followup]');
+      if (followBtn) { submit(followBtn.dataset.followup); return; }
+      const quickBtn = e.target.closest('[data-quick]');
+      if (quickBtn) { submit(quickBtn.dataset.quick); return; }
+
       // Copy
       const copyBtn = e.target.closest('[data-copy-idx]');
       if (copyBtn) {
@@ -1386,7 +1440,7 @@ function initUpload() {
     if (sourceUrl) sourceUrl.value = '';
     if (driveUrlInput) driveUrlInput.value = '';
     if (driveNote) driveNote.hidden = true;
-    fileLabel.textContent = 'No files selected · PDF only · max ~3 MB each · multiple allowed';
+    fileLabel.textContent = 'No files selected · PDF only · max ~3 MB each · larger files via Drive link below';
     dropZone.classList.remove('has-file');
     if (btnText) btnText.textContent = 'Start Upload';
     submitBtn.disabled = true;
@@ -1824,24 +1878,47 @@ function initDocumentsPage() {
   const viewerFrame    = document.getElementById('viewer-frame');
   const viewerFallback = document.getElementById('viewer-fallback');
   const viewerOpen     = document.getElementById('viewer-open-original');
+  const viewerHint     = document.getElementById('viewer-embed-hint');
+
+  // Most "preview is failing" cases are sites sending X-Frame-Options/CSP
+  // frame-ancestors, which makes a plain iframe render silently blank.
+  // Normalize known providers to their embeddable form:
+  //  - Google Drive share links → the officially embeddable /preview URL
+  //  - Dropbox share links → ?raw=1 (direct file, which iframes fine for PDFs)
+  // Everything else passes through unchanged, with a visible hint that a
+  // blank pane means the source blocks embedding (Open original still works).
+  function toEmbeddableUrl(url) {
+    const drive = url.match(/^https:\/\/drive\.google\.com\/(?:file\/d\/([A-Za-z0-9_-]{10,})|(?:open|uc)\?(?:[^#]*&)?id=([A-Za-z0-9_-]{10,}))/i);
+    if (drive) return `https://drive.google.com/file/d/${drive[1] || drive[2]}/preview`;
+    const docsG = url.match(/^https:\/\/docs\.google\.com\/(document|spreadsheets|presentation)\/d\/([A-Za-z0-9_-]{10,})/i);
+    if (docsG) return `https://docs.google.com/${docsG[1]}/d/${docsG[2]}/preview`;
+    if (/^https:\/\/(www\.)?dropbox\.com\/.+/i.test(url)) return url.replace(/([?&])dl=0/, '$1raw=1');
+    return url;
+  }
 
   function openViewer(name, url) {
     if (!viewer) return;
     viewerTitle.textContent = name || 'Document';
     if (url && /^https?:\/\//i.test(url)) {
-      viewerFrame.src = url;
+      const embedUrl = toEmbeddableUrl(url);
+      viewerFrame.src = embedUrl;
       viewerFrame.style.display = '';
       viewerFallback.style.display = 'none';
       viewerOpen.href = url;
       viewerOpen.style.display = '';
+      // The hint only matters for third-party pages we couldn't normalize —
+      // Drive /preview and direct PDFs embed reliably.
+      if (viewerHint) viewerHint.style.display = (embedUrl === url && !/\.pdf(\?|#|$)/i.test(url)) ? '' : 'none';
     } else {
       viewerFrame.src = 'about:blank';
       viewerFrame.style.display = 'none';
       viewerFallback.style.display = '';
       viewerFallback.innerHTML = `<strong>${escapeHtml(name || 'This document')}</strong>
-        <span>The original file isn't stored in ThermIQ — only its extracted text is indexed for search.
-        Add a Source URL when uploading to enable in-app preview.</span>`;
+        <span>No stored original for this document — only its extracted text is indexed for search.
+        Documents uploaded from now on keep a preview copy automatically; older ones can be
+        re-uploaded (or given a Source URL) to enable in-app preview.</span>`;
       viewerOpen.style.display = 'none';
+      if (viewerHint) viewerHint.style.display = 'none';
     }
     viewer.classList.add('active');
   }
@@ -2310,8 +2387,4 @@ function initGraphView() {
 
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
 
-initQueryCopilot();
-initDashboard();
-initUpload();
-initDocumentsPage();
-initShell();
+i

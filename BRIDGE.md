@@ -458,6 +458,81 @@ git push origin main
 
 ---
 
+### [PENDING] task-055 | 2026-07-11T20:30:00Z
+**From:** Cowork (parallel session — task numbered after the other session's 054; both touched `docs/app.js`/`index.html`/`style.css`, edits are in non-overlapping regions, but see step 2)
+**Task:** Large-file uploads + document preview, end to end. Three linked fixes YC asked for: (1) files >3 MB can now be ingested by pasting a Google Drive share link (background GitHub Actions job — no local script, no manual step), (2) small direct uploads now store the original PDF in the repo so they're previewable in-app, (3) the doc viewer normalizes Drive/Dropbox links to their embeddable form instead of iframing pages that send X-Frame-Options and render blank.
+
+**Files changed by Cowork (DO NOT re-edit — verify + commit):**
+- `api/ingest_drive.js` — NEW. POST, X-Ingest-Key guarded, client docs only. Extracts the Drive file ID from the pasted share link, writes `ingest_jobs/{job_id}` to Firestore (status: queued), dispatches `.github/workflows/drive-ingest.yml` via the same `GITHUB_DISPATCH_TOKEN` pattern as `trigger_gap_scan.js`. Only `job_id` crosses the dispatch boundary — all user strings stay in Firestore, so nothing user-supplied is shell-interpolated in the workflow. Dedupe uses a single-field Firestore query + JS filter (deliberately avoids a composite index).
+- `.github/workflows/drive-ingest.yml` — NEW. `workflow_dispatch(job_id)`, installs `scripts/requirements.txt` + `gdown`, runs `scripts/ingest_from_drive.py`. Reuses exactly gap-scan.yml's GH secrets (FIREBASE_*, JINA_API_KEY, QDRANT_URL, QDRANT_API_KEY) — no new secrets.
+- `scripts/ingest_from_drive.py` — NEW. Reads the job record, downloads via gdown (handles Drive's large-file confirm page), checks `%PDF-` magic bytes (a restricted link downloads an HTML error page — caught with a clear "is it shared as Anyone-with-the-link?" message), then runs the CANONICAL `scripts/ingest_documents.py` as a subprocess — zero engine drift. Job status queued→processing→done|failed(error recorded). `source_url` = Drive `/preview` URL, so in-app preview comes free.
+- `api/ingest_document.js` — when a small direct upload has no user-supplied source_url, the PDF (already in hand as base64) is committed to `docs/uploads/<slug>_<ts>.pdf` via the GitHub Contents API; `source_url` becomes `https://therm-iq.vercel.app/uploads/...`. Non-fatal on failure (ingest still succeeds, just no preview). Chunk payloads, documents record, and response all carry the resolved URL.
+- `api/list_documents.js` — response now also returns `jobs` (queued/processing/failed ingest_jobs; failed ones age out after 24 h; a jobs read failure is swallowed so the doc list never breaks).
+- `docs/app.js` — upload panel accepts a Drive link (one at a time) alongside/instead of direct files; >3 MB files now point the user at the Drive path instead of being flatly rejected; the Drive item joins the same dock queue; Plant Documents grid renders pulsing "Queued…/Indexing…" job cards (failed jobs show their error inline) and self-polls every 10 s via a single guarded timer until jobs resolve; viewer gains `toEmbeddableUrl()` (Drive→`/file/d/ID/preview`, Google Docs/Sheets/Slides→`/preview`, Dropbox→`raw=1`) plus a "preview blank? the source blocks embedding" hint for unnormalizable third-party pages; stale "original isn't stored" fallback copy updated.
+- `docs/index.html` — Drive-link input + guidance note in the upload panel, `#viewer-embed-hint` element in the viewer, drop-zone hint copy.
+- `docs/style.css` — appended `.doc-card--job` / `.doc-card--job-failed` / `.viewer-embed-hint` block at end of file.
+
+**CC must do:**
+1. **Token permission check — RESOLVED, no action needed:** YC confirmed (2026-07-11) the existing `GITHUB_DISPATCH_TOKEN` in Vercel already has **Contents: Read and write** in addition to Actions. The small-upload storage path and Drive dispatch should both work as-is. If the small-file live-verify below nonetheless shows no commit landing in `docs/uploads/`, re-check the token's repo access/permissions before debugging code.
+2. Independent syntax check — Cowork's bash mount went stale on `docs/app.js` mid-session again (mount showed 2,182 lines; the real file is 2,339, verified complete via direct read). Also note the other session's task-054 edited the same three frontend files this session; confirm a clean working tree merge (both sessions' regions are disjoint — upload panel/viewer here vs. outage marquee/report button there):
+```bash
+node --check docs/app.js && node --check api/ingest_drive.js && node --check api/ingest_document.js && node --check api/list_documents.js && python -m py_compile scripts/ingest_from_drive.py && echo OK
+```
+3. Commit + push (explicit files, per standing hygiene note):
+```bash
+git add api/ingest_drive.js api/ingest_document.js api/list_documents.js scripts/ingest_from_drive.py .github/workflows/drive-ingest.yml docs/app.js docs/index.html docs/style.css BRIDGE.md
+git commit -m "feat: large-file ingest via Google Drive link (background GH Action), stored originals with in-app preview, viewer embed-URL normalization"
+git push origin main
+```
+4. Live-verify after deploy:
+   - **Small file:** upload a <3 MB PDF with no Source URL → a commit lands in `docs/uploads/`, the doc card's ↗ points at `https://therm-iq.vercel.app/uploads/...`, and after the ~30 s redeploy the card previews the PDF in-app.
+   - **Large file:** put a >3 MB PDF in any Drive, share "Anyone with the link → Viewer", paste the link with a Document Name → a `drive-ingest.yml` run starts, the grid shows the pulsing job card, and within ~3 min the real doc card replaces it with a working Drive preview.
+   - **Failure path:** paste a RESTRICTED Drive link → job card flips to FAILED with the sharing-permission message instead of hanging.
+   - **Viewer regression:** open an older doc whose source_url is a plain `drive.google.com/file/d/…/view` link → now renders via `/preview` instead of a blank iframe.
+
+**Notes:**
+- Each small-file upload creates one repo commit → one Vercel/Pages redeploy. Fine at hackathon volume; the preview URL just 404s during the ~30 s deploy window.
+- `delete_document` removes chunks + Firestore record but NOT the stored PDF in `docs/uploads/` (harmless orphan; future cleanup task if repo size ever matters).
+- Drive ingestion is deliberately client-docs-only; benchmarks stay locked to local seeding (task-034 posture).
+- This replaces YC's earlier "app prompts you to download an ingest script" idea — the GH Action does the same job with zero user steps, which also works for judges.
+
+---
+
+### [PENDING] task-055 | 2026-07-11T20:30:00Z
+**From:** Cowork
+**Task:** Chat UX overhaul (YC's request — bring the Expert Copilot up to modern chat-app standards). Ship together with task-054 (they touch the same three files; task-054's diff is already in the working tree).
+
+**What changed (all edited by Cowork — DO NOT re-edit, just verify/commit):**
+- **Enter now sends; Shift+Enter inserts a newline** (was Ctrl/Cmd+Enter only — YC's direct complaint). Ctrl/Cmd+Enter still works. IME composition guarded (`e.isComposing`). Send button title + new `.input-hint` line under the input say so.
+- **Stop generation**: typing indicator now has a red "■ Stop" button; `submit()` creates an `AbortController`, `callAPI()` accepts a `signal`, retry loop never retries an abort, aborted runs render "_Generation stopped._"
+- **One-click suggestion chips**: the empty-state chips now SEND immediately instead of just populating the textarea (selector scoped to `#suggestion-chips .chip` so dashboard `.chip` elements are untouched).
+- **Contextual follow-up chips** under the newest assistant answer: "₹ risk for this topic" / "Which regulation mandates this?" / "Is this documented at this plant?" — each sends a full prompt on click.
+- **Quick actions** on the newest assistant message: Shorter / Simplify / Checklist — one-click re-prompts that preserve citations (multi-turn history already flows to the backend, so "your previous answer" resolves correctly).
+- **Progressive disclosure**: answers >1500 chars render collapsed to 320px with a fade mask + "Show full answer ▾" toggle.
+- `submit()` refactored to `submit(overrideQuery)` so chips/quick-actions send without touching the textarea; `sendBtn` click handler wrapped (`() => submit()`) so the event object can't leak in as an override.
+
+**Files:** `docs/app.js` (all logic above), `docs/index.html` (send-btn title, `.input-hint`), `docs/style.css` (appended `.input-hint`/`.btn-stop-gen`/`.followup-chips`/`.chip-followup`/`.msg-quick-btn`/`.bubble-text.collapsed`/`.bubble-expand-btn` block). `node --check docs/app.js` passed in Cowork's sandbox.
+
+**CC must do:**
+1. `node --check docs/app.js && echo OK` (independent re-check — see the known Cowork sandbox mount-staleness note; verify against the real file).
+2. Commit + push together with task-054's files:
+```bash
+git add apps-script/Code.gs docs/index.html docs/app.js docs/style.css
+git commit -m "feat: chat UX overhaul (Enter-to-send, stop generation, one-click chips, follow-ups, quick actions, long-answer collapse) + task-054 hub outages/risk report/themed sheet"
+git push origin main
+```
+3. Live click-test on therm-iq.vercel.app `#/chat`, both themes:
+   - Enter sends; Shift+Enter makes a newline; Ctrl+Enter still sends.
+   - Empty-state chips fire a real query on click.
+   - "■ Stop" appears while generating and actually aborts (answer bubble says "Generation stopped.").
+   - After an answer: three dashed follow-up chips render and send on click; Shorter/Simplify/Checklist appear in the newest answer's action row and work.
+   - A long answer (>1500 chars) renders collapsed with a working expand/collapse toggle.
+   - Regression: copy, edit+rerun (max 3), regenerate, export transcript, sidebar collapse all still work.
+
+**Notes:** The remaining items on YC's modern-chat-UX list were consciously deferred, not missed: split-pane workspace + highlight-to-edit (big rebuild, low payoff for a judged demo), voice (no factual payoff), background memory (plant profiles already scope chats/docs/instructions per plant — that IS the "scoped workspaces" item). If YC wants any of these post-hackathon, scope separately.
+
+---
+
 ### Task format (Cowork uses this when writing new tasks)
 
 ```
