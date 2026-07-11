@@ -373,6 +373,10 @@ function renderMessages(messages, editIdx = null) {
 
   // Scroll to latest
   messagesEl.scrollTop = messagesEl.scrollHeight;
+
+  // Chat → Graph: if the newest answer mentions a known failure mode, offer a
+  // "View in graph →" chip (async, fire-and-forget — no await in this path).
+  injectGraphLinkChips();
 }
 
 function addTypingIndicator() {
@@ -1138,6 +1142,108 @@ function renderDocsNeededSection(needsDocs) {
   }).join('');
 }
 
+// ─── What-if Simulator (client-side only — never writes to Firestore/Qdrant) ──
+// Toggling "Simulate fix" on a gap row previews the headline ₹ exposure with
+// that topic treated as documented (its exposure term → 0, so its risk_score_cr
+// drops out of the total). Pure display math on data already fetched; the real
+// scoring engine (scripts/detect_gaps.py) is untouched. Everything simulated is
+// labeled SIMULATION and resets on plant switch / reload / Reset button.
+let _simFixed = new Set();          // sim keys (gap topic ids) currently toggled "fixed"
+let _simQuantified = [];            // the quantified rows currently rendered
+let _simReal = { totalRisk: 0, over100Count: 0 };  // real headline numbers to restore
+
+function simTopicKey(g) { return String(g.topic || g.gap_id || g.description || ''); }
+
+function toggleSimFix(key) {
+  if (_simFixed.has(key)) _simFixed.delete(key);
+  else _simFixed.add(key);
+  applySimulation();
+}
+
+function resetSimulation() {
+  _simFixed.clear();
+  applySimulation();
+}
+
+function applySimulation() {
+  const active = _simFixed.size > 0;
+
+  // Row styling + button state
+  document.querySelectorAll('#gaps-table-body tr[data-sim-key]').forEach((tr) => {
+    const fixed = _simFixed.has(tr.getAttribute('data-sim-key'));
+    tr.classList.toggle('gap-row--simfixed', fixed);
+    const btn = tr.querySelector('.sim-fix-btn');
+    if (btn) {
+      btn.textContent = fixed ? '↩ Undo simulated fix' : '⚡ Simulate fix';
+      btn.classList.toggle('sim-fix-btn--active', fixed);
+    }
+  });
+
+  // Recompute the two headline cards that derive from quantified risk
+  const removedRisk = _simQuantified
+    .filter((g) => _simFixed.has(simTopicKey(g)))
+    .reduce((s, g) => s + (g.risk_score_cr || 0), 0);
+  const simTotal = Math.max(0, _simReal.totalRisk - removedRisk);
+  const simOver100 = _simQuantified
+    .filter((g) => !_simFixed.has(simTopicKey(g)) && (g.risk_score_cr || 0) > 100).length;
+
+  const totalRiskEl = document.getElementById('total-risk');
+  const criticalEl  = document.getElementById('critical-gaps-count');
+  if (totalRiskEl) {
+    totalRiskEl.innerHTML = active
+      ? `₹${Math.round(simTotal)} Cr<span class="sim-card-note">SIMULATION · real: ₹${Math.round(_simReal.totalRisk)} Cr</span>`
+      : `₹${Math.round(_simReal.totalRisk)} Cr`;
+  }
+  if (criticalEl) {
+    criticalEl.innerHTML = active
+      ? `${simOver100}<span class="sim-card-note">SIMULATION · real: ${_simReal.over100Count}</span>`
+      : `${_simReal.over100Count}`;
+  }
+
+  renderSimStrip();
+}
+
+function renderSimStrip() {
+  const strip = document.getElementById('sim-strip');
+  if (!strip) return;
+  if (!_simQuantified.length) { strip.hidden = true; return; }
+  strip.hidden = false;
+
+  // Always-on hook: what closing the biggest gaps would be worth
+  const top3 = [..._simQuantified]
+    .sort((a, b) => (b.risk_score_cr || 0) - (a.risk_score_cr || 0))
+    .slice(0, 3);
+  const top3Risk = top3.reduce((s, g) => s + (g.risk_score_cr || 0), 0);
+  const pct = _simReal.totalRisk > 0 ? Math.round((top3Risk / _simReal.totalRisk) * 100) : 0;
+  const top3El = document.getElementById('sim-top3-text');
+  if (top3El) top3El.textContent =
+    `Closing the top ${top3.length} gaps removes ₹${top3Risk.toFixed(1)} Cr (${pct}%) of quantified exposure.`;
+
+  const active = _simFixed.size > 0;
+  const badge = document.getElementById('sim-badge');
+  const text  = document.getElementById('sim-strip-text');
+  const reset = document.getElementById('sim-reset-btn');
+  if (badge) badge.hidden = !active;
+  if (text) {
+    if (active) {
+      const removedRisk = _simQuantified
+        .filter((g) => _simFixed.has(simTopicKey(g)))
+        .reduce((s, g) => s + (g.risk_score_cr || 0), 0);
+      const simTotal = Math.max(0, _simReal.totalRisk - removedRisk);
+      text.textContent = `${_simFixed.size} gap${_simFixed.size > 1 ? 's' : ''} marked as fixed — ₹${removedRisk.toFixed(1)} Cr removed, simulated exposure ₹${Math.round(simTotal)} Cr. Display only; no data was changed.`;
+    } else {
+      text.textContent = 'What-if: toggle "Simulate fix" on any gap row to preview the ₹ impact of closing it.';
+    }
+  }
+  if (reset) {
+    reset.hidden = !active;
+    if (!reset.dataset.wired) {
+      reset.dataset.wired = '1';
+      reset.addEventListener('click', resetSimulation);
+    }
+  }
+}
+
 async function initDashboard() {
   const outagesBody = document.getElementById('outages-table-body');
   if (!outagesBody) return;
@@ -1164,6 +1270,9 @@ async function initDashboard() {
 
       if (gaps.length === 0) {
         gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">Computing gap analysis for this plant for the first time — this can take about a minute, this page will update automatically…</td></tr>`;
+        _simFixed.clear();
+        _simQuantified = [];
+        renderSimStrip();
         triggerGapScanAndPoll(getActiveClient());
       } else {
         // "linked_outages > 0" means this topic's ₹ figure comes from real CEA
@@ -1194,8 +1303,15 @@ async function initDashboard() {
 
         renderDocsNeededSection(needsDocs);
 
+        // What-if simulator: capture real headline numbers, reset any prior
+        // simulation (plant switch / re-render always starts from real state).
+        _simFixed.clear();
+        _simQuantified = quantified;
+        _simReal = { totalRisk, over100Count };
+
         if (quantified.length === 0) {
           gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">No topics with real CEA outage history for this plant's equipment yet — see "Documentation Needed" below for everything still unassessed.</td></tr>`;
+          renderSimStrip();
         } else {
         gapsBody.innerHTML = quantified.map((g, i) => {
           const covInfo  = COVERAGE_LABELS[g.coverage_status] || COVERAGE_LABELS.gap;
@@ -1234,7 +1350,7 @@ async function initDashboard() {
             : '';
 
           return `
-            <tr class="gap-row gap-row--${g.coverage_status}">
+            <tr class="gap-row gap-row--${g.coverage_status}" data-sim-key="${escapeHtml(simTopicKey(g))}">
               <td>${i + 1}</td>
               <td>${escapeHtml(g.equipment_tag || '—')}</td>
               <td class="gap-desc-cell">
@@ -1264,9 +1380,14 @@ async function initDashboard() {
                   crit ${g.criticality_score || '?'} × ₹${(g.consequence_cr || 0).toFixed(1)} Cr × ${(g.exposure_score || 0).toFixed(2)} exp<br>
                   ${conLabel}
                 </div>
+                <div class="sim-fix-wrap">
+                  <button class="sim-fix-btn" type="button" onclick="toggleSimFix('${escapeHtml(simTopicKey(g))}')">⚡ Simulate fix</button>
+                  <span class="sim-delta">−₹${(g.risk_score_cr || 0).toFixed(1)} Cr if closed</span>
+                </div>
               </td>
             </tr>`;
         }).join('');
+        renderSimStrip();
         }
       }
     } catch (err) {
@@ -2116,6 +2237,92 @@ let _graphViewStarted = false;
 let _graphNetwork = null;
 let _graphDatasets = null; // { nodes, edges } vis.DataSet refs for theme restyling
 
+// ─── Chat ↔ Graph linking (FEATURE_PLAN #2) ──────────────────────────────────
+// _graphFocusNode is set by initGraphView() once the network exists — it
+// selects + zooms to a node and opens its side panel. If a chip is clicked
+// before the graph has ever been mounted, the target id parks in
+// _graphPendingFocus and initGraphView() consumes it after first render.
+let _graphFocusNode = null;
+let _graphPendingFocus = null;
+let _graphGapIndexPromise = null; // cached fetch of graph_query?type=gaps
+
+function loadGraphGapIndex() {
+  if (!_graphGapIndexPromise) {
+    _graphGapIndexPromise = fetch(`${BACKEND}/api/graph_query?type=gaps`)
+      .then((r) => (r.ok ? r.json() : { gaps: [] }))
+      .then((d) => d.gaps || [])
+      .catch(() => { _graphGapIndexPromise = null; return []; });
+  }
+  return _graphGapIndexPromise;
+}
+
+// Navigate to the graph view focused on one failure mode.
+function openGraphFocused(fmId) {
+  if (_graphFocusNode) {
+    showView('graph');
+    // Let the view become visible before animating focus (vis-network can't
+    // measure inside display:none).
+    setTimeout(() => _graphFocusNode(fmId), 120);
+  } else {
+    _graphPendingFocus = fmId;
+    showView('graph'); // lazy-mounts initGraphView, which consumes the pending id
+  }
+}
+
+// After an answer renders, keyword-match it against the graph's known failure
+// modes and append "View in graph →" chips for any mentioned. Async — the gap
+// index is one cached fetch; injection targets the last assistant bubble only.
+async function injectGraphLinkChips() {
+  const messagesEl = document.getElementById('chat-messages');
+  if (!messagesEl) return;
+  const bubbles = messagesEl.querySelectorAll('.chat-bubble.assistant-bubble:not(.typing-bubble)');
+  const last = bubbles[bubbles.length - 1];
+  if (!last || last.querySelector('.graph-link-chips')) return;
+
+  const gaps = await loadGraphGapIndex();
+  if (!gaps.length) return;
+  // Re-check the bubble is still in the DOM and still chip-free (a re-render
+  // or a newer answer may have landed while the index was loading).
+  if (!last.isConnected || last.querySelector('.graph-link-chips')) return;
+
+  const answerText = (last.querySelector('.bubble-text')?.textContent || '').toLowerCase();
+  if (!answerText) return;
+
+  const seen = new Set();
+  const matches = gaps.filter((g) => {
+    if (!g.failure_mode_id || seen.has(g.failure_mode_id)) return false;
+    const label = (g.failure_mode || '').toLowerCase();
+    const idPhrase = g.failure_mode_id.replace(/_/g, ' ').toLowerCase();
+    const hit = (label && answerText.includes(label)) || answerText.includes(idPhrase);
+    if (hit) seen.add(g.failure_mode_id);
+    return hit;
+  }).slice(0, 3);
+  if (!matches.length) return;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'followup-chips graph-link-chips';
+  matches.forEach((g) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'chip chip-followup chip-graph-link';
+    btn.textContent = `View "${g.failure_mode || g.failure_mode_id}" in graph →`;
+    btn.addEventListener('click', () => openGraphFocused(g.failure_mode_id));
+    wrap.appendChild(btn);
+  });
+  last.appendChild(wrap);
+}
+
+// Prefill the chat input with a question and switch to the chat view.
+function askThermiqAbout(question) {
+  showView('chat');
+  const inputEl = document.getElementById('chat-input');
+  if (inputEl) {
+    inputEl.value = question;
+    inputEl.focus();
+    inputEl.dispatchEvent(new Event('input', { bubbles: true })); // resize autogrow if wired
+  }
+}
+
 // Restyle an already-rendered graph for the active theme (labels + edges).
 function refreshGraphTheme() {
   if (!_graphDatasets) return;
@@ -2180,8 +2387,14 @@ function showView(name, opts = {}) {
 }
 
 function routeFromHash() {
-  const name = (location.hash || '').replace(/^#\/?/, '');
+  const raw = (location.hash || '').replace(/^#\/?/, '');
+  // Support a deep-link query on the graph view: #/graph?focus=<failure_mode_id>
+  const [name, queryStr] = raw.split('?');
   showView(name || 'home');
+  if (name === 'graph' && queryStr) {
+    const focus = new URLSearchParams(queryStr).get('focus');
+    if (focus) openGraphFocused(focus);
+  }
 }
 
 async function loadShellTicker() {
@@ -2421,6 +2634,22 @@ function initGraphView() {
     return r.json();
   }
 
+  // Graph → Chat: every panel gets an "Ask ThermIQ about this" button that
+  // pre-fills the Expert Copilot with a question about the clicked node.
+  // Built as a real DOM node + listener (not inline onclick) so labels with
+  // quotes can't break out of an attribute.
+  function appendAskButton(el, label, nodeType, equipment) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn-ask-thermiq';
+    btn.textContent = 'Ask ThermIQ about this →';
+    const q = nodeType === 'FailureMode'
+      ? `For the failure mode "${label}"${equipment ? ` on ${equipment}` : ''}: what do our documents say about prevention and response, and what is the quantified ₹ crore risk exposure?`
+      : `What do our documents and risk registry say about "${label}"?`;
+    btn.addEventListener('click', () => askThermiqAbout(q));
+    el.appendChild(btn);
+  }
+
   function renderPanelNode(node) {
     emptyEl.style.display = 'none';
     contentEl.style.display = 'block';
@@ -2433,6 +2662,7 @@ function initGraphView() {
       <h3>${escapeHtml(node.label || node.id)}</h3>
       ${rows}
     `;
+    appendAskButton(contentEl, node.label || node.id, node.node_type);
   }
 
   async function renderPanelTraversal(fmId) {
@@ -2476,6 +2706,7 @@ function initGraphView() {
         <h4>Mandating regulation(s)</h4>
         <ul class="panel-reg-list">${regList}</ul>
       `;
+      appendAskButton(contentEl, g.failure_mode || fmId, 'FailureMode', g.equipment);
     } catch (e) {
       contentEl.innerHTML = `<div class="panel-badge gap">Error</div><p>${escapeHtml(e.message)}</p>`;
     }
@@ -2553,6 +2784,24 @@ function initGraphView() {
           renderPanelNode(node);
         }
       });
+
+      // Chat → Graph deep-link support: expose a focus hook, and consume any
+      // focus request that was queued before the graph first mounted.
+      _graphFocusNode = (fmId) => {
+        if (!data.nodes.get(fmId)) return; // unknown node — ignore quietly
+        network.selectNodes([fmId]);
+        network.focus(fmId, { scale: 1.3, animation: { duration: 600, easingFunction: 'easeInOutQuad' } });
+        const node = nodesById[fmId];
+        if (!node) return;
+        if (node.node_type === 'FailureMode' && gapFmIds.has(fmId)) renderPanelTraversal(fmId);
+        else renderPanelNode(node);
+      };
+      if (_graphPendingFocus) {
+        const pending = _graphPendingFocus;
+        _graphPendingFocus = null;
+        // Give the physics layout a moment to settle before zooming in.
+        setTimeout(() => _graphFocusNode(pending), 700);
+      }
     } catch (e) {
       statusEl.textContent = `Failed to load graph: ${e.message}`;
     }

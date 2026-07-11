@@ -595,6 +595,49 @@ git push origin main
 
 ---
 
+### [PENDING] task-057 | 2026-07-11T23:30:00Z
+**From:** Cowork
+**Task:** Ship FEATURE_PLAN.md Tier-1 items #1 (What-if Simulator) and #2 (Chat↔Graph linking). Both frontend-only — no backend/API/Python changes, no new endpoints (Vercel function count unchanged at 12).
+
+**What was built (all edited by Cowork — DO NOT re-edit, just verify/commit):**
+
+*#1 What-if Simulator (Live Sheet view):*
+- Every quantified gap row gets a "⚡ Simulate fix" toggle + "−₹X.X Cr if closed" delta hint in the Risk Score cell. Toggling recalculates the Total Risk Exposure and Critical Gaps (>₹100 Cr) cards live, each showing an orange "SIMULATION · real: ₹Y Cr" note while active. Simulated rows grey out with strikethrough. Pure display math on already-fetched data — `scripts/detect_gaps.py` untouched, zero writes anywhere.
+- New always-on strip between the summary cards and the gap table: "Closing the top 3 gaps removes ₹X Cr (N%) of quantified exposure." When a simulation is active it adds a SIMULATION badge, running totals ("N gaps marked fixed — ₹X Cr removed…"), and a "Reset simulation" button. Simulation auto-resets on plant switch / re-render.
+- Functions: `simTopicKey/toggleSimFix/resetSimulation/applySimulation/renderSimStrip` in `docs/app.js` (above `initDashboard`); state captured inside `initDashboard`'s success branch; empty/zero-row branches hide the strip.
+
+*#2 Chat↔Graph linking:*
+- Chat→Graph: after each newest assistant answer renders, `injectGraphLinkChips()` keyword-matches the answer text against the graph's known failure modes (one cached fetch of `graph_query?type=gaps`) and appends up to 3 "View in graph →" chips. Clicking one switches to `#/graph`, zooms/selects that node (`network.focus` + `selectNodes`), and opens its traversal panel. Also works as a shareable deep link: `#/graph?focus=<failure_mode_id>` (parsed in `routeFromHash`).
+- Graph→Chat: both side panels (gap traversal + plain node) now end with an "Ask ThermIQ about this →" button that switches to `#/chat` with a pre-filled question about that node (DOM listener, not inline onclick — labels with quotes can't break out).
+- Plumbing: `_graphFocusNode` hook exposed at the end of `initGraphView`'s `init()`; `_graphPendingFocus` queues a focus requested before the graph first mounts (consumed after a 700ms settle).
+
+**Files changed by Cowork:** `docs/app.js` (sim module + initDashboard wiring + row template; chat↔graph module + renderMessages hook + routeFromHash + initGraphView additions), `docs/index.html` (`#sim-strip` section in `#view-sheet`), `docs/style.css` (two appended blocks at end: What-if Simulator, Chat↔Graph).
+
+**CC must do:**
+1. **Syntax check FIRST — Cowork's bash mount went stale on `docs/app.js` again** (mount shows 2,415 lines; the real file is 2,820, verified complete via direct Read to EOF — bootstrap calls intact at the end). All new code blocks passed `node --check` in isolation, but the full file was NOT machine-checked by Cowork. If it fails, report the error in your summary instead of guessing a fix:
+```bash
+node --check docs/app.js && echo OK
+```
+2. Commit + push (explicit files):
+```bash
+git add docs/app.js docs/index.html docs/style.css BRIDGE.md
+git commit -m "feat: what-if simulator on gap table (live ₹ recompute, SIMULATION-labeled) + chat<->graph linking (answer chips, graph focus deep-link, ask-ThermIQ panel button)"
+git push origin main
+```
+3. Live click-test after deploy (both themes), report each:
+   - **Sim:** `#/sheet` for NTPC → strip shows the top-3 line with a real ₹ figure; toggle "Simulate fix" on the top gap → Total Risk Exposure drops by exactly that row's ₹, orange SIMULATION notes appear on both cards, row greys/strikes, strip shows running totals + Reset; Reset restores real numbers; switching plant selector also resets.
+   - **Sim edge:** a plant with zero quantified rows (fresh profile) → no strip, no errors.
+   - **Chat→Graph:** ask "What is the turbine high vibration SOP status?" → answer should mention the failure mode → a "View … in graph →" chip appears under the bubble; clicking lands on `#/graph` zoomed to that node with the traversal panel open (₹ figures populated). Direct URL test: open `…/index.html#/graph?focus=waterwall_tube_thinning` fresh → graph loads then auto-focuses that node.
+   - **Graph→Chat:** click any node → panel ends with "Ask ThermIQ about this →"; clicking lands on `#/chat` with the question pre-filled in the input (not sent).
+   - **Regression:** graph still renders clean on plain `#/graph` (no focus param); gap-node click still opens traversal; chat follow-up chips/quick actions/collapse still work (renderMessages was touched — one added call at the end).
+
+**Notes:**
+- Chip matching uses the graph's failure-mode labels (e.g. "Turbine High Vibration"), NOT the 19 detect_gaps topic ids — the two id spaces differ (`turbine_vibration_response` vs `turbine_high_vibration`), and only failure_mode_ids exist as graph nodes, so matching on graph labels guarantees every chip lands on a real node.
+- `graph_query?type=gaps` result is cached in a module promise — one extra request per page load, only after the first assistant answer.
+- Next up per FEATURE_PLAN: #3 demo tour, #4 ingest status, #5 empty states (Tier 2). The pending live click-tests from tasks 054/055a/055b are still open — this task's click-test pass is a good moment to clear those too.
+
+---
+
 ### Task format (Cowork uses this when writing new tasks)
 
 ```

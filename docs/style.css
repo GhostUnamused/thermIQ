@@ -3703,3 +3703,95 @@ body { letter-spacing: 0.005em; }
   padding: 0.45rem 0.8rem; cursor: pointer; transition: background 0.15s;
 }
 .btn-sync-drive:hover { background: var(--accent-muted); }
+
+/* ═══ What-if Simulator (2026-07-11, FEATURE_PLAN #1) ═══ */
+
+.sim-strip {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.75rem; flex-wrap: wrap;
+  background: var(--bg-card, var(--bg-alt));
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: 0.6rem 0.9rem;
+  margin: 0 0 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+.sim-strip-left { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.sim-strip-right { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.sim-badge {
+  background: var(--orange, #f59e0b);
+  color: #0d1321;
+  border-radius: 6px;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.18rem 0.5rem;
+}
+.sim-strip-top3 { font-weight: 600; color: var(--text); }
+
+.sim-fix-wrap { display: flex; align-items: center; gap: 0.45rem; margin-top: 0.35rem; flex-wrap: wrap; }
+.sim-fix-btn {
+  background: transparent;
+  border: 1px dashed var(--accent, #14b8a6);
+  border-radius: 999px;
+  color: var(--accent, #14b8a6);
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.18rem 0.6rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.sim-fix-btn:hover { background: var(--accent, #14b8a6); color: #0d1321; }
+.sim-fix-btn--active {
+  border-style: solid;
+  border-color: var(--orange, #f59e0b);
+  color: var(--orange, #f59e0b);
+  background: transparent;
+}
+.sim-fix-btn--active:hover { background: rgba(245, 158, 11, 0.12); color: var(--orange, #f59e0b); }
+.sim-delta { font-size: 0.68rem; color: var(--text-muted); white-space: nowrap; }
+
+/* A row simulated as fixed: visibly "done", clearly not real data */
+.gap-row--simfixed { opacity: 0.55; }
+.gap-row--simfixed .gap-desc { text-decoration: line-through; }
+.gap-row--simfixed .risk-badge { filter: grayscale(1); }
+
+/* Small SIMULATION note inside the summary cards while sim is active */
+.sim-card-note {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--orange, #f59e0b);
+  margin-top: 0.15rem;
+}
+
+/* ═══ Chat ↔ Graph linking (2026-07-11, FEATURE_PLAN #2) ═══ */
+
+/* "View in graph →" chips under an answer that mentions a known failure mode */
+.graph-link-chips { margin-top: 0.5rem; }
+.chip-graph-link {
+  border-style: solid;
+  font-weight: 600;
+}
+
+/* "Ask ThermIQ about this →" button in the graph side panel */
+.btn-ask-thermiq {
+  display: block;
+  margin-top: 0.9rem;
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--accent, #14b8a6);
+  border-radius: 8px;
+  color: var(--accent, #14b8a6);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-ask-thermiq:hover { background: var(--accent, #14b8a6); color: #0d1321; }
