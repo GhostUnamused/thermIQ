@@ -5,6 +5,9 @@
 
 ---
 
+## task-056 | 2026-07-11 | DONE
+Round-3 feature batch: Drive folder ingest+sync, multi-format uploads (docx/xlsx/csv/txt/gdocs), AI relevance gate (Gemini, fails open, override checkbox), delete-profile action, failed-job dismiss, navy dark theme, theme-aware graph, resizable upload panel, live-sheet toolbar moved to top bar. Added missing `GEMINI_API_KEY` GitHub secret (user-confirmed first). First deploy failed — 13 `api/*.js` files exceeded Vercel Hobby's 12-Serverless-Functions cap; fixed by removing the dead `api/ingest_trigger.js` stub, redeployed clean. DOM/JS-level live verification confirmed: multi-format file accept, Drive textarea, relevance checkbox, panel resize, delete-profile/sync-drive buttons, navy `--bg`, graph theme functions, top-bar sheet actions, hover-pause removed from marquee. End-to-end flows (real relevance-gate reject, folder sync add/remove, gdoc ingest, failed-job dismiss) not exercised — needs real test files/Drive links. Commits: ea21fef, cd5f3c2, 090444c.
+
 ## task-055b | 2026-07-11 | DONE
 Chat UX overhaul: Enter-to-send (Shift+Enter newline), Stop-generation button with AbortController, one-click suggestion/follow-up chips, Shorter/Simplify/Checklist quick actions, long-answer collapse, light-mode-by-default. Committed by Cowork locally as 968a44f; CC pushed it to origin. Live click-test deferred to a follow-up browser session. Commit: 968a44f
 
