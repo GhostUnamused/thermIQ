@@ -117,6 +117,11 @@ module.exports = async (req, res) => {
     const body = req.body || {};
     const {
       pdf_base64,
+      // Format-aware fields (2026-07-11): file_base64 + file_ext supersede
+      // pdf_base64 (kept for compat). Supported: pdf, docx, xlsx, csv, txt.
+      file_base64,
+      file_ext = 'pdf',
+      skip_relevance_check = false,
       doc_name,
       doc_type = 'manual',
       source_url = '',
@@ -129,9 +134,14 @@ module.exports = async (req, res) => {
       client_name = '',
     } = body;
     const docClient = client.trim().toLowerCase();
+    const contentBase64 = file_base64 || pdf_base64;
+    const ext = (file_ext || 'pdf').toString().toLowerCase().replace(/^\./, '');
 
-    if (!pdf_base64 || !doc_name) {
-      return res.status(400).json({ error: 'Missing required fields: pdf_base64, doc_name' });
+    if (!contentBase64 || !doc_name) {
+      return res.status(400).json({ error: 'Missing required fields: file_base64 (or pdf_base64), doc_name' });
+    }
+    if (!['pdf', 'docx', 'xlsx', 'csv', 'txt'].includes(ext)) {
+      return res.status(400).json({ error: `Unsupported file type ".${ext}". Supported: PDF, DOCX, XLSX, CSV, TXT.` });
     }
 
     // Validate source_type — this is the critical new field
@@ -159,36 +169,94 @@ module.exports = async (req, res) => {
     }
 
     // Check size (base64 string length as proxy for byte size)
-    if (pdf_base64.length > MAX_BASE64_BYTES) {
+    if (contentBase64.length > MAX_BASE64_BYTES) {
       return res.status(413).json({
-        error: 'PDF too large. Maximum ~3 MB (Vercel request-body cap). Use local ingest script for larger files.',
+        error: 'File too large. Maximum ~3 MB (Vercel request-body cap). Use a Google Drive link for larger files.',
       });
     }
 
-    // 1 — Decode and parse PDF (via unpdf — no worker, serverless-safe)
-    const pdfBuffer = Buffer.from(pdf_base64, 'base64');
+    // 1 — Decode and extract text (format-aware)
+    const fileBuffer = Buffer.from(contentBase64, 'base64');
     let text = '';
     let numPages = 0;
     try {
-      const { getDocumentProxy, extractText } = await import('unpdf');
-      const data = new Uint8Array(pdfBuffer);
-      const pdf = await getDocumentProxy(data);
-      numPages = pdf.numPages;
-      const extracted = await extractText(pdf, { mergePages: true });
-      // unpdf returns { totalPages, text } where text is a string when mergePages:true,
-      // or an array of per-page strings otherwise. Handle both defensively.
-      text = Array.isArray(extracted.text) ? extracted.text.join('\n') : (extracted.text || '');
-      if (typeof extracted.totalPages === 'number') numPages = extracted.totalPages;
-    } catch (pdfErr) {
+      if (ext === 'pdf') {
+        // unpdf — no worker, serverless-safe
+        const { getDocumentProxy, extractText } = await import('unpdf');
+        const pdf = await getDocumentProxy(new Uint8Array(fileBuffer));
+        numPages = pdf.numPages;
+        const extracted = await extractText(pdf, { mergePages: true });
+        text = Array.isArray(extracted.text) ? extracted.text.join('\n') : (extracted.text || '');
+        if (typeof extracted.totalPages === 'number') numPages = extracted.totalPages;
+      } else if (ext === 'docx') {
+        const mammoth = require('mammoth');
+        const result = await mammoth.extractRawText({ buffer: fileBuffer });
+        text = result.value || '';
+        numPages = Math.max(1, Math.ceil(text.split(/\s+/).length / 500)); // ~pages estimate
+      } else if (ext === 'xlsx' || ext === 'csv') {
+        const XLSX = require('xlsx');
+        const wb = XLSX.read(fileBuffer, { type: 'buffer' });
+        const parts = [];
+        wb.SheetNames.forEach((name) => {
+          const csv = XLSX.utils.sheet_to_csv(wb.Sheets[name], { blankrows: false });
+          if (csv.trim()) parts.push(`[Sheet: ${name}]\n${csv}`);
+        });
+        text = parts.join('\n\n');
+        numPages = wb.SheetNames.length;
+      } else { // txt
+        text = fileBuffer.toString('utf-8');
+        numPages = Math.max(1, Math.ceil(text.split(/\s+/).length / 500));
+      }
+    } catch (parseErr) {
       return res.status(422).json({
-        error: `PDF parse failed: ${pdfErr.message}. File may be corrupted, encrypted, or image-based.`,
+        error: `${ext.toUpperCase()} parse failed: ${parseErr.message}. File may be corrupted, encrypted, or image-based.`,
       });
     }
 
     if (text.trim().length < 100) {
       return res.status(422).json({
-        error: 'Could not extract meaningful text from PDF. Check if the file is scanned/image-based.',
+        error: `Could not extract meaningful text from this ${ext.toUpperCase()} file. If it's a scanned/image-based PDF, run it through OCR first or ingest via Drive link.`,
       });
+    }
+
+    // 1.2 — AI relevance gate: screen the document BEFORE indexing so unrelated
+    // uploads (e.g. a hackathon handbook) never pollute the knowledge base.
+    // Uses Gemini Flash on the first ~6k chars. Fails OPEN (a screening outage
+    // must not block legitimate uploads); explicit rejections return 422 with
+    // the model's reason and a hint about the override checkbox.
+    if (!skip_relevance_check && process.env.GEMINI_API_KEY) {
+      try {
+        const sample = text.slice(0, 6000);
+        const gRes = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text:
+                `You are a gatekeeper for a thermal power plant knowledge base (SOPs, equipment manuals, CEA/CERC regulations, tariff petitions, inspection & maintenance records, outage reports, plant engineering).\n` +
+                `Decide if the following document belongs in that knowledge base. Industrial/engineering/energy-sector documents count as relevant; generic unrelated content (event handbooks, marketing, fiction, recipes, unrelated coursework) does not.\n` +
+                `Respond with ONLY a JSON object: {"relevant": true|false, "reason": "<one short sentence>"}\n\n` +
+                `Document name: ${doc_name}\n\nDocument text sample:\n${sample}` }] }],
+              generationConfig: { temperature: 0, maxOutputTokens: 100, responseMimeType: 'application/json' },
+            }),
+          }
+        );
+        if (gRes.ok) {
+          const gData = await gRes.json();
+          const raw = gData?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+          const verdict = JSON.parse(raw);
+          if (verdict && verdict.relevant === false) {
+            return res.status(422).json({
+              error: `Rejected by relevance screening: ${verdict.reason || 'not related to thermal power plant operations'}. ` +
+                `If this is a legitimate plant document, tick "Skip AI relevance check" and upload again.`,
+              rejected_by_screening: true,
+            });
+          }
+        }
+      } catch (screenErr) {
+        console.error('relevance screening skipped (non-fatal):', screenErr.message);
+      }
     }
 
     const docSlug = doc_name.toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '');
@@ -204,7 +272,7 @@ module.exports = async (req, res) => {
     let resolvedSourceUrl = source_url;
     if (!resolvedSourceUrl && process.env.GITHUB_DISPATCH_TOKEN) {
       try {
-        const storedName = `${docSlug}_${Date.now()}.pdf`;
+        const storedName = `${docSlug}_${Date.now()}.${ext}`;
         const ghRes = await fetch(
           `https://api.github.com/repos/GhostUnamused/thermIQ/contents/docs/uploads/${storedName}`,
           {
@@ -216,7 +284,7 @@ module.exports = async (req, res) => {
             },
             body: JSON.stringify({
               message: `chore: store uploaded document ${doc_name}`,
-              content: pdf_base64,
+              content: contentBase64,
             }),
           }
         );

@@ -74,6 +74,18 @@ module.exports = async (req, res) => {
     });
     await riskBatch.commit();
 
+    // 3.5 — ingest jobs (queued/processing/failed Drive cards) + Drive sync
+    // registration for this client. Without this, "Clear this plant" left
+    // failed job cards behind (YC hit this on 2026-07-11).
+    const jobsSnap = await db.collection('ingest_jobs').where('client_name', '==', clientName).get();
+    let jobsRemoved = 0;
+    if (!jobsSnap.empty) {
+      const jobsBatch = db.batch();
+      jobsSnap.docs.forEach((d) => { jobsBatch.delete(d.ref); jobsRemoved += 1; });
+      await jobsBatch.commit();
+    }
+    await db.collection('drive_sync').doc(clientName).delete().catch(() => {});
+
     // 4 — counters
     const metaUpdate = { total_chunks_indexed: FieldValue.increment(-chunksRemoved) };
     if (docNamesRemoved.length) metaUpdate.documents_ingested = FieldValue.arrayRemove(...docNamesRemoved);
@@ -82,7 +94,8 @@ module.exports = async (req, res) => {
     return res.status(200).json({
       success: true, client_name: clientName,
       documents_removed: docNamesRemoved.length, chunks_removed: chunksRemoved,
-      risk_scores_removed: riskRemoved, message: `Cleared all data for plant "${clientName}".`,
+      risk_scores_removed: riskRemoved, ingest_jobs_removed: jobsRemoved,
+      message: `Cleared all data for plant "${clientName}".`,
     });
   } catch (e) {
     console.error('clear_client error:', e);

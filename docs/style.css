@@ -6,35 +6,38 @@
 
 /* ─── Theme Tokens (ONE block each — no more overrides) ─────────────────── */
 
+/* Refined navy — mirrors the light theme's professionalism, keeps the
+   navy/orange brand identity. Surfaces are blue-tinted slate rather than
+   flat black; borders are slate-tinted for a softer, less "AI-template" feel. */
 [data-theme="dark"] {
-  --bg:              #09090b;
-  --bg-secondary:    #111113;
-  --surface:         #18181b;
-  --surface-hover:   #1f1f23;
-  --border:          rgba(255, 255, 255, 0.08);
-  --border-subtle:   rgba(255, 255, 255, 0.05);
+  --bg:              #0a0f1c;
+  --bg-secondary:    #0d1424;
+  --surface:         #111a2e;
+  --surface-hover:   #17223a;
+  --border:          rgba(148, 163, 184, 0.14);
+  --border-subtle:   rgba(148, 163, 184, 0.08);
   --accent:          #f59e0b;
   --accent-hover:    #fbbf24;
   --accent-muted:    rgba(245, 158, 11, 0.12);
   --accent-strong:   rgba(245, 158, 11, 0.22);
-  --text-primary:    #fafafa;
-  --text-secondary:  #a1a1aa;
-  --text-muted:      #52525b;
+  --text-primary:    #f1f5f9;
+  --text-secondary:  #94a3b8;
+  --text-muted:      #64748b;
   --red:             #f87171;
   --amber:           #fbbf24;
   --green:           #4ade80;
   --blue:            #60a5fa;
   --orange:          #f59e0b;
-  --glass-bg:        rgba(9, 9, 11, 0.95);
-  --glass-border:    rgba(255, 255, 255, 0.08);
-  --sidebar-bg:      #0e0e10;
-  --input-bg:        #18181b;
-  --user-bubble-bg:  #27272a;
-  --user-bubble-text:#fafafa;
-  --overlay:         rgba(0, 0, 0, 0.65);
-  --scrollbar-thumb: rgba(255, 255, 255, 0.12);
+  --glass-bg:        rgba(10, 15, 28, 0.94);
+  --glass-border:    rgba(148, 163, 184, 0.12);
+  --sidebar-bg:      #0c1222;
+  --input-bg:        #111a2e;
+  --user-bubble-bg:  #1b2740;
+  --user-bubble-text:#f1f5f9;
+  --overlay:         rgba(2, 6, 16, 0.65);
+  --scrollbar-thumb: rgba(148, 163, 184, 0.2);
   --scrollbar-track: transparent;
-  --row-stripe:      rgba(255, 255, 255, 0.02);
+  --row-stripe:      rgba(148, 163, 184, 0.03);
   color-scheme: dark;
 }
 
@@ -3324,17 +3327,34 @@ body { letter-spacing: 0.005em; }
   position: fixed;
   top: 84px;
   right: 28px;
-  width: 400px;
+  width: 420px;
+  min-width: 360px;
+  min-height: 380px;
   max-width: calc(100vw - 24px);
   max-height: calc(100vh - 110px);
-  overflow-y: auto;
-  background: var(--bg);
+  overflow: auto;
+  resize: both; /* user-resizable — grab the bottom-right corner */
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 14px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
   z-index: 1100;
   display: flex;
   flex-direction: column;
+}
+/* visible resize affordance in the corner */
+.upload-float::after {
+  content: '';
+  position: sticky;
+  bottom: 4px;
+  align-self: flex-end;
+  margin: -14px 6px 4px 0;
+  width: 10px; height: 10px;
+  border-right: 2px solid var(--text-muted);
+  border-bottom: 2px solid var(--text-muted);
+  border-radius: 1px;
+  opacity: 0.6;
+  pointer-events: none;
 }
 .upload-float[hidden] { display: none; }
 .upload-float-head {
@@ -3358,9 +3378,10 @@ body { letter-spacing: 0.005em; }
   color: var(--text-muted);
 }
 .upload-float-btns { display: flex; gap: 0.2rem; flex-shrink: 0; }
-.upload-float-body { padding: 0.9rem 1rem 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
-.upload-float-body .upload-label { font-size: 0.72rem; }
-.upload-float-body .upload-drop-zone { padding: 1.1rem 0.8rem; }
+.upload-float-body { padding: 1rem 1.1rem 1.1rem; display: flex; flex-direction: column; gap: 0.85rem; flex: 1; }
+.upload-float-body .upload-label { font-size: 0.72rem; display: flex; flex-direction: column; gap: 0.3rem; }
+.upload-float-body .upload-input { width: 100%; }
+.upload-float-body .upload-drop-zone { padding: 1.2rem 0.8rem; }
 
 .dest-choice { display: flex; gap: 0.5rem; }
 .dest-btn {
@@ -3532,7 +3553,6 @@ body { letter-spacing: 0.005em; }
   animation: hub-outage-scroll 45s linear infinite;
   font-size: 0.8rem; color: var(--text-muted, #9aa4b8);
 }
-.hub-outages-bar:hover .hub-outage-track { animation-play-state: paused; }
 @keyframes hub-outage-scroll {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
@@ -3640,3 +3660,46 @@ body { letter-spacing: 0.005em; }
   padding: 0.2rem 0;
 }
 .bubble-expand-btn:hover { text-decoration: underline; }
+
+/* ═══ Round 3 (2026-07-11): sheet toolbar, job-card actions, profile delete ═══ */
+
+/* Live Sheet — primary actions live at the top next to the LIVE badge */
+.live-status .live-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+.live-status .btn-sheet-csv { font-size: 0.72rem; padding: 0.38rem 0.75rem; }
+
+/* Failed Drive-ingest cards: dismiss + open-link actions */
+.doc-card--job-failed .doc-card-actions { display: flex; gap: 0.3rem; }
+.btn-dismiss-job {
+  background: transparent; border: 1px solid var(--border); border-radius: 6px;
+  color: var(--text-muted); cursor: pointer; padding: 0.15rem 0.4rem;
+  font-size: 0.72rem; line-height: 1;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn-dismiss-job:hover { border-color: var(--red); color: var(--red); }
+
+/* Danger buttons in the docs toolbar */
+.btn-clear-plant, .btn-delete-profile {
+  background: transparent; border: 1px solid var(--red); border-radius: 8px;
+  color: var(--red); font-family: inherit; font-size: 0.78rem; font-weight: 600;
+  padding: 0.45rem 0.8rem; cursor: pointer; transition: background 0.15s;
+}
+.btn-clear-plant:hover, .btn-delete-profile:hover { background: rgba(239, 68, 68, 0.08); }
+
+/* Drive links textarea inside the upload panel */
+.upload-input.upload-textarea {
+  min-height: 56px; resize: vertical; font-family: inherit; line-height: 1.45;
+}
+.upload-check {
+  display: flex; align-items: center; gap: 0.45rem;
+  font-size: 0.72rem; color: var(--text-muted); cursor: pointer; user-select: none;
+}
+.upload-check input { accent-color: var(--accent); cursor: pointer; }
+
+/* Sync Drive folder button */
+.btn-sync-drive {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: transparent; border: 1px solid var(--accent); border-radius: 8px;
+  color: var(--accent); font-family: inherit; font-size: 0.78rem; font-weight: 600;
+  padding: 0.45rem 0.8rem; cursor: pointer; transition: background 0.15s;
+}
+.btn-sync-drive:hover { background: var(--accent-muted); }

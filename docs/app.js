@@ -109,6 +109,19 @@ function toggleTheme() {
   const next = current === 'dark' ? 'light' : 'dark';
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem(THEME_KEY, next);
+  // The knowledge-graph canvas paints its own colors — restyle it for the new theme.
+  if (typeof refreshGraphTheme === 'function') refreshGraphTheme();
+}
+
+// Node label / edge colors the vis-network canvas should use for the current
+// theme. The canvas doesn't see CSS variables, so these are resolved in JS.
+function graphThemeColors() {
+  const light = document.documentElement.getAttribute('data-theme') === 'light';
+  return {
+    font:      light ? '#1e293b' : '#e7eaee',
+    edge:      light ? 'rgba(15, 23, 42, 0.30)' : 'rgba(255, 255, 255, 0.18)',
+    edgeLabel: light ? '#64748b' : '#8b94a3',
+  };
 }
 
 // Apply theme immediately (before DOM loads)
@@ -1408,29 +1421,55 @@ function initUpload() {
     statusEl.textContent = '';
   }
 
-  function driveUrlValue() {
-    return driveUrlInput ? driveUrlInput.value.trim() : '';
-  }
-
   function updateSubmitState() {
-    // With multiple files each doc is named from its filename, so the single
-    // Document Name field is only required when exactly one file is selected —
-    // or when a Drive link is supplied (the link carries no usable filename).
-    const hasDrive = !!driveUrlValue();
-    const nameOk = (selectedFiles.length > 1 && !hasDrive) || docName.value.trim();
-    const ready = !uploading && (selectedFiles.length >= 1 || hasDrive) && nameOk;
+    // Document Name is only required when exactly ONE direct file is selected
+    // and no Drive links are present. Multi-file uploads name each doc from its
+    // filename; Drive links are named by the ingest worker (from Drive metadata)
+    // unless a name is supplied.
+    const links = driveLinks();
+    const badLinks = links.filter(l => !l.kind);
+    const nameOk = selectedFiles.length !== 1 || links.length > 0 || docName.value.trim();
+    const ready = !uploading && !badLinks.length && (selectedFiles.length >= 1 || links.length >= 1) && nameOk;
     submitBtn.disabled = !ready;
+    if (badLinks.length) {
+      setStatus(`Not a recognizable Drive/Docs link: ${badLinks.map(l => l.url).join(' · ').slice(0, 140)}`, 'error');
+    } else if (statusEl.textContent.startsWith('Not a recognizable')) {
+      clearStatus();
+    }
     if (btnText && !submitBtn.disabled) {
-      const n = selectedFiles.length + (hasDrive ? 1 : 0);
-      btnText.textContent = hasDrive && !selectedFiles.length
-        ? 'Queue Drive Ingest'
+      const n = selectedFiles.length + links.length;
+      btnText.textContent = links.length && !selectedFiles.length
+        ? (links.some(l => l.kind === 'folder') ? 'Queue Drive Ingest + Sync' : 'Queue Drive Ingest')
         : (n > 1 ? `Upload ${n} Documents` : 'Start Upload');
     }
   }
 
   // Turn a filename into a readable document name.
   function nameFromFile(file) {
-    return file.name.replace(/\.pdf$/i, '').replace(/[_-]/g, ' ').trim();
+    return file.name.replace(/\.(pdf|docx|xlsx|csv|txt)$/i, '').replace(/[_-]/g, ' ').trim();
+  }
+
+  // Formats the direct-upload endpoint can parse server-side.
+  const ALLOWED_EXT = ['pdf', 'docx', 'xlsx', 'csv', 'txt'];
+  function fileExt(name) {
+    const m = (name || '').toLowerCase().match(/\.([a-z0-9]+)$/);
+    return m ? m[1] : '';
+  }
+
+  const skipRelevanceEl = document.getElementById('upload-skip-relevance');
+  function skipRelevance() { return !!(skipRelevanceEl && skipRelevanceEl.checked); }
+
+  // ── Google Drive links: one or many, files / folders / native Google Docs ──
+  function classifyDriveLink(url) {
+    if (/drive\.google\.com\/drive\/(?:u\/\d+\/)?folders\/[A-Za-z0-9_-]{10,}/i.test(url)) return 'folder';
+    if (/docs\.google\.com\/(document|spreadsheets|presentation)\/d\/[A-Za-z0-9_-]{10,}/i.test(url)) return 'gdoc';
+    if (/drive\.google\.com\//i.test(url)) return 'file';
+    return null;
+  }
+  function driveLinks() {
+    const raw = driveUrlInput ? driveUrlInput.value : '';
+    return raw.split(/[\n,]+/).map(s => s.trim()).filter(Boolean)
+      .map(url => ({ url, kind: classifyDriveLink(url) }));
   }
 
   function resetForm() {
@@ -1440,7 +1479,8 @@ function initUpload() {
     if (sourceUrl) sourceUrl.value = '';
     if (driveUrlInput) driveUrlInput.value = '';
     if (driveNote) driveNote.hidden = true;
-    fileLabel.textContent = 'No files selected · PDF only · max ~3 MB each · larger files via Drive link below';
+    if (skipRelevanceEl) skipRelevanceEl.checked = false;
+    fileLabel.textContent = 'No files selected · PDF, Word, Excel, CSV or TXT · max ~3 MB each · larger files via Drive below';
     dropZone.classList.remove('has-file');
     if (btnText) btnText.textContent = 'Start Upload';
     submitBtn.disabled = true;
@@ -1456,7 +1496,7 @@ function initUpload() {
     const skipped = [];
     const tooBig = [];
     for (const file of incoming) {
-      if (!file.name.toLowerCase().endsWith('.pdf')) { skipped.push(`${file.name} (not a PDF)`); continue; }
+      if (!ALLOWED_EXT.includes(fileExt(file.name))) { skipped.push(`${file.name} (unsupported — PDF, DOCX, XLSX, CSV, TXT only)`); continue; }
       if (file.size > MAX_BYTES) { tooBig.push(file.name); skipped.push(`${file.name} (>3 MB)`); continue; }
       accepted.push(file);
     }
@@ -1466,7 +1506,7 @@ function initUpload() {
     if (driveNote) {
       if (tooBig.length) {
         driveNote.hidden = false;
-        driveNote.textContent = `${tooBig.join(', ')} exceed${tooBig.length === 1 ? 's' : ''} the 3 MB direct-upload limit. Upload the file to your Google Drive, set sharing to "Anyone with the link", and paste the link above — it will be ingested in the background (one link at a time).`;
+        driveNote.textContent = `${tooBig.join(', ')} exceed${tooBig.length === 1 ? 's' : ''} the 3 MB direct-upload limit. Upload the file(s) to your Google Drive, set sharing to "Anyone with the link", and paste the link(s) above — they will be ingested in the background.`;
       } else {
         driveNote.hidden = true;
       }
@@ -1517,17 +1557,24 @@ function initUpload() {
 
   async function ingestOne(file, docNameValue, docTypeValue, clientName) {
     const base64 = await readAsBase64(file);
+    const ext = fileExt(file.name);
     const res = await fetch(`${BACKEND}/api/ingest_document`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
       body: JSON.stringify({
-        pdf_base64:  base64,
+        // pdf_base64 kept for backend compat; file_base64/file_ext are the
+        // format-aware fields (PDF, DOCX, XLSX, CSV, TXT).
+        pdf_base64:  ext === 'pdf' ? base64 : undefined,
+        file_base64: base64,
+        file_ext:    ext,
+        file_name:   file.name,
         doc_name:    docNameValue,
         doc_type:    docTypeValue,
         source_url:  sourceUrl.value.trim(),
         source_type: 'client', // always plant-scoped; the seeded CEA baseline is system-managed
         client_name: clientName,
         client:      clientName, // legacy field — keep for compat
+        skip_relevance_check: skipRelevance(),
       }),
     });
     const data = await res.json().catch(() => ({}));
@@ -1535,22 +1582,33 @@ function initUpload() {
     return data;
   }
 
-  // Large files: hand the Drive share link to /api/ingest_drive, which queues
-  // a background GitHub Actions job (download → chunk → embed → index). The
-  // Documents grid shows a "processing" card and polls until it lands.
-  async function ingestDriveLink(driveUrl, docNameValue, docTypeValue, clientName) {
+  // Drive ingestion: hand a share link (file, folder, or native Google Doc) to
+  // /api/ingest_drive, which queues a background GitHub Actions job
+  // (download → chunk → embed → index). Folders ingest every supported file
+  // inside and register for one-click re-sync. The Documents grid shows a
+  // "processing" card and polls until it lands.
+  async function ingestDriveLink(driveUrl, kind, docNameValue, docTypeValue, clientName) {
     const res = await fetch(`${BACKEND}/api/ingest_drive`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
       body: JSON.stringify({
         drive_url:   driveUrl,
-        doc_name:    docNameValue,
+        link_kind:   kind,             // 'file' | 'folder' | 'gdoc'
+        doc_name:    docNameValue,     // optional — worker falls back to Drive filename
         doc_type:    docTypeValue,
         client_name: clientName,
+        skip_relevance_check: skipRelevance(),
       }),
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok || (!data.queued && !data.already_running)) throw new Error(data.error || `Server error ${res.status}`);
+    // Folder links register a sync source — remember it so the "Sync Drive
+    // folder" button appears for this plant.
+    if (kind === 'folder') {
+      try { localStorage.setItem(`thermiq_drive_folder__${clientName}`, driveUrl); } catch (_) {}
+      const syncBtn = document.getElementById('sync-drive-btn');
+      if (syncBtn) syncBtn.hidden = false;
+    }
     return data;
   }
 
@@ -1578,9 +1636,9 @@ function initUpload() {
 
   // ── Submit — panel minimizes, uploads run sequentially from the dock ───────
   submitBtn.addEventListener('click', async () => {
-    const driveUrl = driveUrlValue();
-    if ((!selectedFiles.length && !driveUrl) || uploading) return;
-    if ((selectedFiles.length === 1 || driveUrl) && !docName.value.trim()) {
+    const links = driveLinks().filter(l => l.kind);
+    if ((!selectedFiles.length && !links.length) || uploading) return;
+    if (selectedFiles.length === 1 && !links.length && !docName.value.trim()) {
       setStatus('Please enter a Document Name.', 'error');
       return;
     }
@@ -1588,16 +1646,22 @@ function initUpload() {
     const clientName = getActiveClient();
     const docTypeValue = dest === 'guideline' ? 'guideline' : docType.value;
     const files = selectedFiles.slice();
+    const KIND_LABEL = { file: 'Drive file', folder: 'Drive folder', gdoc: 'Google Doc' };
     queue = files.map((f) => ({
-      // When a Drive link is present, the Document Name field belongs to the
-      // Drive doc — direct files fall back to their filenames.
-      name: files.length === 1 && !driveUrl ? docName.value.trim() : nameFromFile(f),
+      name: files.length === 1 && !links.length ? docName.value.trim() : nameFromFile(f),
       status: 'queued',
       error: null,
     }));
-    if (driveUrl) {
-      queue.push({ name: `${docName.value.trim()} (Drive)`, status: 'queued', error: null, drive: true });
-    }
+    links.forEach((l, i) => {
+      // The Document Name field only names a single Drive file link; folders
+      // and multi-link batches are named by the worker from Drive metadata.
+      const givenName = (links.length === 1 && l.kind !== 'folder' && !files.length) ? docName.value.trim() : '';
+      queue.push({
+        name: givenName ? `${givenName} (${KIND_LABEL[l.kind]})` : `${KIND_LABEL[l.kind]} ${links.length > 1 ? i + 1 : ''}`.trim(),
+        status: 'queued', error: null, drive: l,
+        givenName,
+      });
+    });
 
     uploading = true;
     updateSubmitState();
@@ -1611,7 +1675,8 @@ function initUpload() {
       renderQueue();
       try {
         if (queue[i].drive) {
-          const r = await ingestDriveLink(driveUrl, docName.value.trim(), docTypeValue, clientName);
+          const l = queue[i].drive;
+          const r = await ingestDriveLink(l.url, l.kind, queue[i].givenName, docTypeValue, clientName);
           queue[i].status = 'done';
           queue[i].error = r.already_running ? 'Already queued for this plant.' : null;
         } else {
@@ -1750,10 +1815,14 @@ async function loadDocuments() {
     const myJobs = (data.jobs || []).filter(j => (j.client_name || '').toLowerCase() === active);
     const jobCard = (j) => {
       const failed = j.status === 'failed';
+      const link = (j.drive_url && /^https?:\/\//i.test(j.drive_url)) ? j.drive_url : '';
       return `
       <div class="doc-card doc-card--job${failed ? ' doc-card--job-failed' : ''}">
         <div class="doc-card-top">
           <div class="doc-card-name">${escapeHtml(j.doc_name || 'Document')}</div>
+          ${failed ? `<div class="doc-card-actions">
+            <button class="btn-dismiss-job" data-job-id="${escapeHtml(j.id)}" title="Dismiss this failed upload">✕ Dismiss</button>
+          </div>` : ''}
         </div>
         <div class="doc-card-meta">
           <div><span class="m-label">Source</span><span class="m-val">Google Drive</span></div>
@@ -1763,6 +1832,7 @@ async function loadDocuments() {
           ${failed
             ? `<span class="doc-chip doc-chip--plant">${escapeHtml((j.error || 'Ingestion failed').slice(0, 160))}</span>`
             : `<span class="doc-chip">Background ingest · typically 1–3 min</span>`}
+          ${link ? `<a href="${escapeHtml(link)}" target="_blank" rel="noopener" class="doc-source-link" title="Open the original Drive link" onclick="event.stopPropagation()">↗</a>` : ''}
         </div>
       </div>`;
     };
@@ -1843,7 +1913,7 @@ async function deleteDocument(docId, docName) {
 
 async function clearPlant() {
   const cn = getActiveClient();
-  if (!confirm(`Delete ALL documents and gap scores for plant "${cn}"?\n\nRemoves its Qdrant chunks, document records, and risk scores. Guideline documents untouched. Cannot be undone.`)) return;
+  if (!confirm(`Delete ALL documents and gap scores for plant "${cn}"?\n\nRemoves its Qdrant chunks, document records, pending/failed Drive jobs, and risk scores. Guideline documents untouched. Cannot be undone.`)) return;
   try {
     const res = await fetch(`${BACKEND}/api/clear_client`, {
       method: 'POST',
@@ -1857,6 +1927,77 @@ async function clearPlant() {
   } catch (err) { alert(`Failed to clear plant: ${err.message}`); }
 }
 
+// Delete the profile entirely: server-side wipe (same as clearPlant) PLUS this
+// browser's local state for the profile (chat history, Drive sync link), then
+// fall back to the default profile so the deleted name drops out of the selector.
+async function deleteProfile() {
+  const cn = getActiveClient();
+  if (!confirm(`Delete the entire plant profile "${cn}"?\n\nRemoves ALL of its data — documents, chunks, risk scores, pending Drive jobs — plus this browser's chat history for it. Cannot be undone.`)) return;
+  try {
+    const res = await fetch(`${BACKEND}/api/clear_client`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+      body: JSON.stringify({ client_name: cn }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
+  } catch (err) {
+    if (!confirm(`Server-side wipe failed (${err.message}).\n\nRemove the profile locally anyway?`)) return;
+  }
+  try {
+    localStorage.removeItem(`thermiq_chats_v2__${cn}`);
+    localStorage.removeItem(`thermiq_drive_folder__${cn}`);
+  } catch (_) {}
+  setActiveClient(cn === 'ntpc' ? 'ntpc' : 'ntpc');
+  alert(`Profile "${cn}" deleted.`);
+  window.location.reload();
+}
+
+// One-click Drive folder re-sync — re-queues the saved folder link; the worker
+// diffs the folder against what's already ingested (adds new, removes deleted).
+async function syncDriveFolder() {
+  const cn = getActiveClient();
+  const folderUrl = localStorage.getItem(`thermiq_drive_folder__${cn}`);
+  const btn = document.getElementById('sync-drive-btn');
+  if (!folderUrl) { if (btn) btn.hidden = true; return; }
+  if (btn) { btn.disabled = true; btn.textContent = 'Syncing…'; }
+  try {
+    const res = await fetch(`${BACKEND}/api/ingest_drive`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+      body: JSON.stringify({ drive_url: folderUrl, link_kind: 'folder', doc_type: 'manual', client_name: cn, sync: true }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || (!data.queued && !data.already_running)) throw new Error(data.error || `Server error ${res.status}`);
+    alert(data.already_running
+      ? 'A sync for this folder is already running — the document list updates when it finishes.'
+      : 'Folder sync queued — new files will be ingested and removed files deleted (typically 1–3 min).');
+    loadDocuments();
+  } catch (err) {
+    alert(`Sync failed: ${err.message}`);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '⟳ Sync Drive folder'; }
+  }
+}
+
+async function dismissJob(jobId, btn) {
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.4'; }
+  try {
+    const res = await fetch(`${BACKEND}/api/delete_job`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+      body: JSON.stringify({ job_id: jobId }),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
+    const card = btn ? btn.closest('.doc-card') : null;
+    if (card) card.remove();
+  } catch (err) {
+    alert(`Failed to dismiss: ${err.message}`);
+    if (btn) { btn.disabled = false; btn.style.opacity = ''; }
+  }
+}
+
 function initDocumentsPage() {
   if (!document.getElementById('benchmark-docs-grid') && !document.getElementById('client-docs-grid')) return;
 
@@ -1867,6 +2008,15 @@ function initDocumentsPage() {
 
   const clearBtn = document.getElementById('clear-plant-btn');
   if (clearBtn) clearBtn.addEventListener('click', clearPlant);
+
+  const delProfileBtn = document.getElementById('delete-profile-btn');
+  if (delProfileBtn) delProfileBtn.addEventListener('click', deleteProfile);
+
+  const syncBtn = document.getElementById('sync-drive-btn');
+  if (syncBtn) {
+    syncBtn.hidden = !localStorage.getItem(`thermiq_drive_folder__${getActiveClient()}`);
+    syncBtn.addEventListener('click', syncDriveFolder);
+  }
 
   // ── In-app document viewer ─────────────────────────────────────────────────
   // Clicking a card opens the document itself in a popup inside the app —
@@ -1937,6 +2087,12 @@ function initDocumentsPage() {
       if (del.dataset.docId) deleteDocument(del.dataset.docId, del.dataset.docName);
       return;
     }
+    const dismiss = e.target.closest('.btn-dismiss-job');
+    if (dismiss) {
+      e.stopPropagation();
+      if (dismiss.dataset.jobId) dismissJob(dismiss.dataset.jobId, dismiss);
+      return;
+    }
     const card = e.target.closest('[data-doc-view]');
     if (card) {
       if (e.target.closest('a')) return; // the ↗ source link handles itself
@@ -1958,6 +2114,24 @@ function initDocumentsPage() {
 const SPA_VIEWS = ['home', 'chat', 'graph', 'guideline', 'plant', 'sheet'];
 let _graphViewStarted = false;
 let _graphNetwork = null;
+let _graphDatasets = null; // { nodes, edges } vis.DataSet refs for theme restyling
+
+// Restyle an already-rendered graph for the active theme (labels + edges).
+function refreshGraphTheme() {
+  if (!_graphDatasets) return;
+  const c = graphThemeColors();
+  _graphDatasets.nodes.update(
+    _graphDatasets.nodes.getIds().map((id) => ({ id, font: { color: c.font, face: 'JetBrains Mono', size: 11 } }))
+  );
+  _graphDatasets.edges.update(
+    _graphDatasets.edges.getIds().map((id) => ({
+      id,
+      font: { size: 8, color: c.edgeLabel, strokeWidth: 0, align: 'middle' },
+      color: { color: c.edge, highlight: '#f59e0b' },
+    }))
+  );
+  if (_graphNetwork) _graphNetwork.redraw();
+}
 
 function isSpaShell() {
   return !!document.getElementById('view-home');
@@ -2318,6 +2492,7 @@ function initGraphView() {
       const nodesById = {};
       (overview.nodes || []).forEach((n) => { nodesById[n.id] = n; });
 
+      const themeColors = graphThemeColors();
       const visNodes = (overview.nodes || []).map((n) => {
         const isGapNode = n.node_type === 'FailureMode' && gapFmIds.has(n.id);
         const color = isGapNode ? GAP_COLOR : (NODE_COLORS[n.node_type] || NODE_COLORS.Role);
@@ -2327,7 +2502,7 @@ function initGraphView() {
           shape: n.node_type === 'OutageEvent' ? 'dot' : 'box',
           color: { border: color.border, background: color.background, highlight: color },
           borderWidth: isGapNode ? 3 : 1.5,
-          font: { color: '#e7eaee', face: 'JetBrains Mono', size: 11 },
+          font: { color: themeColors.font, face: 'JetBrains Mono', size: 11 },
           _raw: n,
           _isGap: isGapNode,
         };
@@ -2341,8 +2516,8 @@ function initGraphView() {
         to: e.target,
         arrows: 'to',
         label: e.rel_type.replace(/_/g, ' '),
-        font: { size: 8, color: '#8b94a3', strokeWidth: 0, align: 'middle' },
-        color: { color: 'rgba(255,255,255,0.18)', highlight: '#f59e0b' },
+        font: { size: 8, color: themeColors.edgeLabel, strokeWidth: 0, align: 'middle' },
+        color: { color: themeColors.edge, highlight: '#f59e0b' },
         smooth: { type: 'continuous' },
       }));
 
@@ -2351,6 +2526,7 @@ function initGraphView() {
         nodes: new vis.DataSet(visNodes),
         edges: new vis.DataSet(visEdges),
       };
+      _graphDatasets = data;
       const options = {
         physics: {
           solver: 'forceAtlas2Based',

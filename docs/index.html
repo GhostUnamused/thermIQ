@@ -104,7 +104,7 @@
           <div class="tile-title">Upload Documents</div>
           <div class="tile-sub">Plant records or guidelines</div>
         </div>
-        <div class="instrument">PDF · MULTI-FILE</div>
+        <div class="instrument">PDF · DOCX · XLSX · DRIVE</div>
       </button>
 
       <button class="tile secondary" type="button" data-view-target="guideline">
@@ -333,7 +333,9 @@
     </div>
 
     <div class="docs-view-toolbar">
+      <button id="delete-profile-btn" class="btn-delete-profile" title="Delete this plant profile entirely — all documents, gap scores, pending Drive jobs, and local chat history">Delete profile</button>
       <button id="clear-plant-btn" class="btn-clear-plant" title="Delete ALL documents and gap scores for the active plant">Clear this plant</button>
+      <button id="sync-drive-btn" class="btn-sync-drive" type="button" hidden title="Re-scan the linked Google Drive folder — new files are ingested, removed files are deleted">⟳ Sync Drive folder</button>
       <button class="btn-add-docs" type="button" data-upload-dest="plant">+ Add documents</button>
     </div>
 
@@ -355,7 +357,11 @@
 
     <div class="live-status">
       <span class="left"><span class="live-dot"></span>LIVE</span>
-      <span class="right">Reads api/gap_analysis on load · refreshed every page load</span>
+      <div class="live-actions">
+        <a class="btn-sheet-csv" id="sheet-google-link" href="https://docs.google.com/spreadsheets/d/1H0xyG6u9QoOSw13Ado-hKkw_qEzwl7X5uqPHYuYyHI8/copy" target="_blank" rel="noopener" title="Google prompts you to save a copy to your own Drive — it auto-refreshes every 10 min via the attached Apps Script">Open Synced Sheet ↗</a>
+        <button class="btn-sheet-csv btn-sheet-csv--secondary" id="risk-report-btn" type="button" title="Branded executive report of this plant's quantified gaps — opens print dialog, save as PDF">Risk Report (PDF)</button>
+        <a class="btn-sheet-csv btn-sheet-csv--secondary" id="sheet-csv-link" href="#" target="_blank" rel="noopener">CSV</a>
+      </div>
     </div>
     <div class="lock-note">🔒 Read-only — risk scores always trace back to real outage records in Neo4j and Firestore. Edits in Sheets never write back.</div>
 
@@ -448,12 +454,7 @@
     </section>
 
     <div class="sheet-actions">
-      <span class="sync-note">Get your own live-synced Google Sheet — Google prompts you to save a copy to your own Drive, auto-refreshing every 10 min via the attached Apps Script · raw feed also available as CSV</span>
-      <div class="sheet-actions-buttons">
-        <button class="btn-sheet-csv" id="risk-report-btn" type="button" title="Branded executive report of this plant's quantified gaps — opens print dialog, save as PDF">Generate Risk Report (PDF)</button>
-        <a class="btn-sheet-csv" id="sheet-google-link" href="https://docs.google.com/spreadsheets/d/1H0xyG6u9QoOSw13Ado-hKkw_qEzwl7X5uqPHYuYyHI8/copy" target="_blank" rel="noopener">Get Your Own Live Sheet ↗</a>
-        <a class="btn-sheet-csv btn-sheet-csv--secondary" id="sheet-csv-link" href="#" target="_blank" rel="noopener">Download CSV</a>
-      </div>
+      <span class="sync-note">Synced sheet auto-refreshes every 10 min via the attached Apps Script · raw feed also available as CSV — actions at the top of this view</span>
     </div>
 
     <p class="last-updated" id="last-updated"></p>
@@ -528,19 +529,24 @@
           <path d="M12 16V4m0 0L8 8m4-4 4 4" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" stroke-linecap="round"/>
         </svg>
-        <p class="drop-text">Drop PDFs here or <label for="upload-file-input" class="drop-link">browse</label></p>
-        <p class="drop-hint" id="upload-file-name">No files selected · PDF only · max ~3 MB each · larger files via Drive link below</p>
-        <input type="file" id="upload-file-input" accept=".pdf" multiple style="display:none" />
+        <p class="drop-text">Drop files here or <label for="upload-file-input" class="drop-link">browse</label></p>
+        <p class="drop-hint" id="upload-file-name">No files selected · PDF, Word, Excel, CSV or TXT · max ~3 MB each · larger files via Drive below</p>
+        <input type="file" id="upload-file-input" accept=".pdf,.docx,.xlsx,.csv,.txt" multiple style="display:none" />
       </div>
 
       <label class="upload-label" id="upload-drive-field">
-        Large file (over 3 MB)? Paste a Google Drive link <span class="optional">(Share → Anyone with the link → Viewer)</span>
-        <input type="url" id="upload-drive-url" class="upload-input" placeholder="https://drive.google.com/file/d/…/view" />
+        Google Drive links — file, folder, or Google Doc <span class="optional">(one per line · Share → Anyone with the link)</span>
+        <textarea id="upload-drive-url" class="upload-input upload-textarea" placeholder="https://drive.google.com/file/d/…/view&#10;https://drive.google.com/drive/folders/…&#10;https://docs.google.com/document/d/…"></textarea>
       </label>
       <p class="dest-note" id="upload-drive-note" hidden></p>
 
+      <label class="upload-check" title="Every upload is screened by AI for relevance to thermal power plant operations before indexing. Tick this only if a legitimate document is being wrongly rejected.">
+        <input type="checkbox" id="upload-skip-relevance" />
+        Skip AI relevance check for this upload
+      </label>
+
       <div class="upload-actions">
-        <span class="sync-note">Chunked · embedded via Jina AI · indexed in Qdrant</span>
+        <span class="sync-note">AI-screened · chunked · embedded via Jina AI · indexed in Qdrant</span>
         <button id="upload-submit-btn" class="btn-upload" disabled>
           <span id="upload-btn-text">Start Upload</span>
         </button>

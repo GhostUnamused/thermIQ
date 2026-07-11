@@ -538,6 +538,62 @@ git push origin main
 
 ---
 
+### [DONE] task-056 | 2026-07-11T22:30:00Z
+**From:** Cowork
+**Task:** Ship YC's round-3 feedback batch (10 items, all edited by Cowork): resizable/polished upload panel · Drive **folder** ingestion with one-click re-sync (adds new files, deletes removed ones) · multiple Drive links at once · multi-format ingestion (PDF/DOCX/XLSX/CSV/TXT + native Google Docs/Sheets/Slides) · AI relevance gate before indexing (Gemini screens every client upload; override checkbox) · Delete-profile action + failed-Drive-job dismiss + clear_client now wipes ingest_jobs (fixes the FAILED card surviving "Clear this plant") · Live Sheet actions moved to the top bar ("Open Synced Sheet ↗") · marquee hover-pause removed · dark theme refined to navy (keeps orange accent) · knowledge-graph canvas now theme-aware (labels/edges were unreadable in light mode).
+
+**Files changed by Cowork (DO NOT re-edit — verify + commit):**
+- `docs/style.css` — upload panel `resize: both` + min sizes + corner affordance + spacing; hover-pause rule deleted; dark tokens → navy family (`#0a0f1c/#111a2e`, slate-tinted borders/text); appended round-3 block (live-status actions, `.btn-dismiss-job`, `.btn-delete-profile`, `.btn-sync-drive`, `.upload-textarea`, `.upload-check`).
+- `docs/index.html` — Live Sheet actions moved into `.live-status` top bar (renamed "Open Synced Sheet ↗" / "Risk Report (PDF)" / "CSV"; bottom `.sheet-actions` reduced to a note); upload panel: file input accepts `.pdf,.docx,.xlsx,.csv,.txt`, Drive field is now a multi-line textarea (files/folders/Google Docs), new "Skip AI relevance check" checkbox; Plant Documents toolbar gains `#delete-profile-btn` + hidden `#sync-drive-btn`; hub upload tile chip text updated.
+- `docs/app.js` — multi-ext file handling; `driveLinks()` parses multiple links and classifies file/folder/gdoc; `ingestOne` sends `file_base64/file_ext/skip_relevance_check`; `ingestDriveLink` sends `link_kind` + remembers folder URLs per plant (localStorage `thermiq_drive_folder__<client>`); submit loop queues every link; `deleteProfile()`, `syncDriveFolder()`, `dismissJob()` + toolbar wiring + `.btn-dismiss-job` delegation; failed job cards show Drive ↗ link + Dismiss; graph: `graphThemeColors()`/`refreshGraphTheme()` make vis-network labels/edges theme-aware and restyle live on theme toggle (`_graphDatasets` kept).
+- `api/ingest_document.js` — accepts `file_base64`+`file_ext` (pdf/docx/xlsx/csv/txt; mammoth for docx, SheetJS for xlsx/csv), keeps `pdf_base64` compat; **Gemini relevance gate** before chunking (client docs, fails open on API errors, 422 + `rejected_by_screening` on rejection, `skip_relevance_check` override); stored uploads keep their real extension.
+- `api/ingest_drive.js` — `parseDriveLink()` handles file/folder/gdoc links; `doc_name` optional (worker names from Drive metadata); job carries `link_kind/gdoc_type/sync/skip_relevance_check/doc_name_given`; folder links upsert `drive_sync/{client}` registration.
+- `api/delete_job.js` — NEW: dismiss an ingest_jobs record (X-Ingest-Key guarded).
+- `api/clear_client.js` — also deletes this client's `ingest_jobs` + `drive_sync` registration; response includes `ingest_jobs_removed`.
+- `package.json` — added `mammoth` + `xlsx`.
+- `scripts/ingest_documents.py` — format-aware `extract_document()` (pdf/docx/xlsx/csv/txt), `relevance_check()` via Gemini REST (exit code 3 on rejection; env `THERMIQ_SKIP_RELEVANCE`/`GEMINI_API_KEY`), Drive provenance fields (`THERMIQ_DRIVE_FILE_ID`/`THERMIQ_ORIGIN_FOLDER_ID` env → `drive_file_id`/`origin_folder_id` on the documents record).
+- `scripts/ingest_from_drive.py` — REWRITTEN: handles file (keeps Drive filename), gdoc (public export endpoint: Docs→pdf, Sheets→xlsx, Slides→pdf), folder (`gdown.download_folder`, ingests every supported file, dedupes by doc_name, records `folder_summary` on the job); `sync=true` diffs against `origin_folder_id` docs and deletes removed ones from Qdrant+Firestore; per-file relevance rejections don't fail whole folder runs.
+- `scripts/requirements.txt` — added `python-docx==1.1.2`.
+- `.github/workflows/drive-ingest.yml` — passes `GEMINI_API_KEY` secret to the worker.
+
+**CC must do:**
+1. **Syntax check FIRST — Cowork's sandbox mount was stale on every edited file this session, so these were NOT machine-checked by Cowork.** If anything fails, report the error in your summary instead of guessing at a fix:
+```bash
+node --check docs/app.js && node --check api/ingest_document.js && node --check api/ingest_drive.js && node --check api/delete_job.js && node --check api/clear_client.js && python -m py_compile scripts/ingest_documents.py scripts/ingest_from_drive.py && echo OK
+```
+2. `npm install` (pulls mammoth + xlsx into the lockfile).
+3. Add GitHub repo secret `GEMINI_API_KEY` if not present (`gh secret set GEMINI_API_KEY`, value from local `.env`) — the Drive worker's relevance gate needs it; it fails open without it. Vercel already has it (query.js uses it).
+4. Commit + push (explicit files):
+```bash
+git add docs/app.js docs/index.html docs/style.css api/ingest_document.js api/ingest_drive.js api/delete_job.js api/clear_client.js package.json package-lock.json scripts/ingest_documents.py scripts/ingest_from_drive.py scripts/requirements.txt .github/workflows/drive-ingest.yml BRIDGE.md
+git commit -m "feat: Drive folder ingest+sync, multi-format uploads (docx/xlsx/csv/txt/gdocs), AI relevance gate, delete profile, navy dark theme, theme-aware graph, resizable upload panel, live-sheet toolbar"
+git push origin main
+```
+5. Live-verify after deploy (report each):
+   - Upload panel is resizable (bottom-right corner) and accepts a .docx.
+   - Upload an obviously unrelated PDF (e.g. hackathon handbook) WITHOUT the skip checkbox → rejected with the screening reason; WITH the checkbox → ingests.
+   - Paste a shared Drive **folder** link → all supported files inside ingest; "⟳ Sync Drive folder" button appears; delete one file from the folder in Drive, click Sync → that doc disappears from Plant Documents.
+   - Paste a native Google Doc link → ingests via export.
+   - Fail a Drive job (restricted link) → FAILED card has ↗ link + working Dismiss; then "Clear this plant" on a plant with a failed job → no FAILED card remains.
+   - "Delete profile" removes the plant and lands back on ntpc.
+   - Live Sheet: buttons now at top next to LIVE badge; marquee no longer pauses on hover.
+   - Dark mode is navy (not black); `#/graph` labels readable in BOTH themes and restyle instantly on toggle.
+
+**Notes:**
+- Light-mode default was already shipped in `968a44f` (task-055b) — no action, YC just hadn't seen it deployed.
+- Folder sync identity is doc_name-based (gdown gives filenames, not file IDs) — renaming a file in Drive re-ingests it under the new name and sync-deletes the old one. Acceptable for the demo; noted for later.
+- Relevance gate fails OPEN by design (screening outage must not block uploads).
+- `sheet-actions-buttons` CSS class is now unused in index.html — left in style.css, harmless.
+
+**CC summary:**
+1. Independent syntax check (Cowork's sandbox mount was stale, so this was the first real check): `node --check` on `docs/app.js`, `api/ingest_document.js`, `api/ingest_drive.js`, `api/delete_job.js`, `api/clear_client.js`, and `python -m py_compile` on `scripts/ingest_documents.py`, `scripts/ingest_from_drive.py` — all passed clean.
+2. `npm install` pulled `mammoth` + `xlsx` into `package-lock.json` (32 packages added).
+3. `GEMINI_API_KEY` was missing from GitHub repo secrets (only Firebase/Neo4j/Jina/Qdrant were present) — asked the user for confirmation before writing a secret-store value (per this session's safety rules), got explicit yes, then added it via `gh secret set GEMINI_API_KEY --repo GhostUnamused/thermIQ` from the local `.env` value. Without this the Drive worker's relevance gate would fail open silently (acceptable per design, but now it actually screens).
+4. Committed the exact file list from the task spec (`docs/app.js`, `docs/index.html`, `docs/style.css`, `api/ingest_document.js`, `api/ingest_drive.js`, `api/delete_job.js` (new file), `api/clear_client.js`, `package.json`, `package-lock.json`, `scripts/ingest_documents.py`, `scripts/ingest_from_drive.py`, `scripts/requirements.txt`, `.github/workflows/drive-ingest.yml`, `BRIDGE.md`) and pushed to `main`. Left `STATUS.md`, `data/graph_slices/*_spotcheck_mcq.md`, and `test_plant_docs/` untracked per standing hygiene notes.
+5. Live-verification of the 8 checklist items (resizable panel, relevance gate accept/reject, folder ingest+sync, gdoc ingest, failed-job dismiss, delete-profile, live-sheet toolbar reposition, navy dark mode + theme-aware graph) was **not run this pass** — needs a real browser session against the deployed app once Vercel finishes redeploying. Flagging as a follow-up, not claiming it tested.
+
+---
+
 ### Task format (Cowork uses this when writing new tasks)
 
 ```
