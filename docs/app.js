@@ -21,23 +21,36 @@ function getActiveClient() {
 function setActiveClient(name) {
   localStorage.setItem(ACTIVE_CLIENT_KEY, (name || 'ntpc').trim().toLowerCase());
 }
+// Display form of a stored plant id: "ntpc_lara" → "Ntpc Lara"
+function plantDisplayName(n) {
+  return String(n || '').replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 async function initPlantSelector() {
   const sel = document.getElementById('plant-selector');
   if (!sel) return;
   const active = getActiveClient();
   const names = new Set([active]);
+  const docCounts = {};
   try {
     const r = await fetch(`${BACKEND}/api/list_documents`);
     const d = await r.json();
     (d.documents || []).forEach((doc) => {
       if (doc.source_type === 'client' && (doc.client_name || doc.client)) {
-        names.add((doc.client_name || doc.client).toLowerCase());
+        const n = (doc.client_name || doc.client).toLowerCase();
+        names.add(n);
+        docCounts[n] = (docCounts[n] || 0) + 1;
       }
     });
   } catch (_) { /* selector still works with just the active client */ }
-  sel.innerHTML = [...names].sort().map(
-    (n) => `<option value="${escapeHtml(n)}"${n === active ? ' selected' : ''}>${escapeHtml(n)}</option>`
-  ).join('') + `<option value="__new__">＋ New plant profile…</option>`;
+  sel.innerHTML = [...names].sort().map((n) => {
+    const count = docCounts[n] || 0;
+    const label = `${plantDisplayName(n)}${count ? ` · ${count} doc${count > 1 ? 's' : ''}` : ''}`;
+    return `<option value="${escapeHtml(n)}"${n === active ? ' selected' : ''}>${escapeHtml(label)}</option>`;
+  }).join('')
+    + `<option disabled>──────────</option>`
+    + `<option value="__new__">＋ New plant profile…</option>`
+    + `<option value="__delete__">− Delete “${escapeHtml(plantDisplayName(active))}”…</option>`;
   // Guard against double-wiring — initUpload and initDashboard both call this
   // on the single-page shell, and duplicate listeners would double-reload.
   if (!sel.dataset.wired) {
@@ -52,6 +65,11 @@ async function initPlantSelector() {
         }
         setActiveClient(name);
         window.location.reload();
+        return;
+      }
+      if (sel.value === '__delete__') {
+        sel.value = getActiveClient(); // revert the visible selection first
+        deleteProfile();               // confirms before doing anything destructive
         return;
       }
       setActiveClient(sel.value);
@@ -280,6 +298,38 @@ function sourcesHtml(sources) {
     </details>`;
 }
 
+// Empty-state helper (FEATURE_PLAN #5): if the active plant has no documents
+// of its own yet, say so honestly on the chat's empty screen — answers will be
+// benchmark-only — and offer the upload panel. Doc-count check is cached per
+// plant so this costs at most one list_documents fetch per plant switch.
+let _chatEmptyDocsCheck = { client: null, hasDocs: null };
+async function decorateChatEmptyState() {
+  const empty = document.querySelector('#chat-messages .chat-empty');
+  if (!empty || empty.querySelector('.chat-empty-nodocs')) return;
+  const client = getActiveClient();
+  try {
+    if (_chatEmptyDocsCheck.client !== client) {
+      const r = await fetch(`${BACKEND}/api/list_documents`);
+      const d = await r.json();
+      const docs = d.documents || [];
+      _chatEmptyDocsCheck = {
+        client,
+        hasDocs: docs.some((doc) => doc.source_type === 'client'
+          && ((doc.client_name || doc.client || '').toLowerCase() === client)),
+      };
+    }
+    if (_chatEmptyDocsCheck.hasDocs) return;
+    // Re-query after the await — a message may have rendered meanwhile.
+    const target = document.querySelector('#chat-messages .chat-empty');
+    if (!target || target.querySelector('.chat-empty-nodocs')) return;
+    const note = document.createElement('div');
+    note.className = 'chat-empty-nodocs';
+    note.innerHTML = `No documents uploaded for <b>${escapeHtml(client)}</b> yet — answers will draw on the CEA/IBR guideline corpus only. `
+      + `<button class="btn-add-docs" type="button" data-upload-dest="plant">+ Upload plant documents</button>`;
+    target.appendChild(note);
+  } catch (_) { /* cosmetic only — never block the chat on this */ }
+}
+
 function renderMessages(messages, editIdx = null) {
   const messagesEl = document.getElementById('chat-messages');
   const chipsEl    = document.getElementById('suggestion-chips');
@@ -293,6 +343,7 @@ function renderMessages(messages, editIdx = null) {
         <p class="chat-empty-text">Search procedures, equipment specifications, CEA compliance, outage context, and maintenance records.</p>
       </div>`;
     if (chipsEl) chipsEl.style.display = 'flex';
+    decorateChatEmptyState(); // async — adds a "no plant docs yet" note + upload CTA if applicable
     return;
   }
 
@@ -1137,7 +1188,7 @@ function renderDocsNeededSection(needsDocs) {
             <span class="cov-label">${covInfo.text}</span>
           </div>
         </td>
-        <td><a class="btn-sheet-csv btn-sheet-csv--secondary" href="documents.html#add-document" style="white-space:nowrap">Upload document ↗</a></td>
+        <td><button class="btn-sheet-csv btn-sheet-csv--secondary" type="button" data-upload-dest="plant" style="white-space:nowrap">Upload document ↗</button></td>
       </tr>`;
   }).join('');
 }
@@ -1269,7 +1320,11 @@ async function initDashboard() {
       const gaps = gapData.gaps || [];
 
       if (gaps.length === 0) {
-        gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">Computing gap analysis for this plant for the first time — this can take about a minute, this page will update automatically…</td></tr>`;
+        gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">
+          Computing gap analysis for this plant for the first time — this can take about a minute, this page will update automatically…<br>
+          <span class="skeleton-cta">Meanwhile, the more of this plant's own documents are in, the truer the score:
+          <button class="btn-add-docs" type="button" data-upload-dest="plant">+ Add documents</button></span>
+        </td></tr>`;
         _simFixed.clear();
         _simQuantified = [];
         renderSimStrip();
@@ -1406,6 +1461,10 @@ async function initDashboard() {
 
 // ─── Document Upload (documents.html) ────────────────────────────────────────
 
+// Set by initUpload() — lets code outside its closure (e.g. the Drive-sync
+// fallback) open the upload panel, optionally with folder-link instructions.
+let _openUploadPanel = null;
+
 function initUpload() {
   const floatEl  = document.getElementById('upload-float');
   const dropZone = document.getElementById('upload-drop-zone');
@@ -1488,8 +1547,40 @@ function initUpload() {
     resetForm();
   }
 
+  // Openable from outside this closure. opts.driveFolderHint: show step-by-step
+  // instructions for linking a Drive folder (used when "Sync Drive folder" is
+  // clicked on a plant that has no folder linked yet).
+  _openUploadPanel = (d, opts = {}) => {
+    openUploadModal(d);
+    if (opts.driveFolderHint) {
+      if (driveNote) {
+        driveNote.hidden = false;
+        driveNote.classList.add('dest-note--attn');
+        driveNote.innerHTML = '<b>No Drive folder is linked to this plant yet.</b> '
+          + 'Put all of this plant’s documents into one Google Drive folder, set its sharing to '
+          + '“Anyone with the link — Viewer”, and paste the folder link above. '
+          + 'Every supported file inside will be ingested, and future “⟳ Sync Drive folder” clicks '
+          + 're-scan the same folder — new files added, removed files deleted.';
+      }
+      if (driveUrlInput) {
+        setTimeout(() => {
+          driveUrlInput.focus();
+          driveUrlInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 80);
+      }
+    } else if (driveNote && driveNote.classList.contains('dest-note--attn')) {
+      // Normal opens don't keep the folder-linking lesson around.
+      driveNote.classList.remove('dest-note--attn');
+      driveNote.hidden = true;
+    }
+  };
+
   // Any element with data-upload-dest opens the panel (hub tile, +Add buttons).
+  // data-drive-folder-hint opens it with the "link a Drive folder" instructions
+  // (empty-state CTA, Drive-sync fallback).
   document.addEventListener('click', (e) => {
+    const hintTrigger = e.target.closest('[data-drive-folder-hint]');
+    if (hintTrigger) { e.preventDefault(); _openUploadPanel('plant', { driveFolderHint: true }); return; }
     const trigger = e.target.closest('[data-upload-dest]');
     if (trigger) { e.preventDefault(); openUploadModal(trigger.dataset.uploadDest); }
   });
@@ -1965,7 +2056,15 @@ async function loadDocuments() {
       ];
       cGrid.innerHTML = cards.length
         ? cards.join('')
-        : `<div class="doc-skeleton">No plant documents yet for "${escapeHtml(active)}". Upload this plant's documents to start the assessment.</div>`;
+        : `<div class="docs-empty">
+            <div class="docs-empty-icon">⬆</div>
+            <h3>No plant documents yet for “${escapeHtml(active)}”</h3>
+            <p>ThermIQ measures this plant against the CEA benchmark using its own SOPs, manuals and inspection records — nothing is assessed until they're added.</p>
+            <div class="docs-empty-btns">
+              <button class="btn-add-docs" type="button" data-upload-dest="plant">+ Add documents</button>
+              <button class="btn-sync-drive" type="button" data-drive-folder-hint>Link a Drive folder with all the files</button>
+            </div>
+          </div>`;
     }
 
     if (myJobs.some(j => j.status === 'queued' || j.status === 'processing')) {
@@ -2080,7 +2179,13 @@ async function syncDriveFolder() {
   const cn = getActiveClient();
   const folderUrl = localStorage.getItem(`thermiq_drive_folder__${cn}`);
   const btn = document.getElementById('sync-drive-btn');
-  if (!folderUrl) { if (btn) btn.hidden = true; return; }
+  if (!folderUrl) {
+    // Nothing linked yet — turn the click into an onboarding moment: open the
+    // upload panel with instructions to link a Drive folder holding all files.
+    if (_openUploadPanel) _openUploadPanel('plant', { driveFolderHint: true });
+    else alert('No Drive folder is linked to this plant yet. Open "+ Add documents" and paste a Google Drive folder link (shared as "Anyone with the link — Viewer") containing all of this plant\'s files.');
+    return;
+  }
   if (btn) { btn.disabled = true; btn.textContent = 'Syncing…'; }
   try {
     const res = await fetch(`${BACKEND}/api/ingest_drive`, {
@@ -2135,7 +2240,12 @@ function initDocumentsPage() {
 
   const syncBtn = document.getElementById('sync-drive-btn');
   if (syncBtn) {
-    syncBtn.hidden = !localStorage.getItem(`thermiq_drive_folder__${getActiveClient()}`);
+    // Always visible: with a linked folder it re-syncs; without one it opens
+    // the upload panel with instructions to link a folder of all the files.
+    syncBtn.hidden = false;
+    if (!localStorage.getItem(`thermiq_drive_folder__${getActiveClient()}`)) {
+      syncBtn.title = 'No Drive folder linked yet — click for instructions to link one folder holding all of this plant\'s documents';
+    }
     syncBtn.addEventListener('click', syncDriveFolder);
   }
 
@@ -2280,24 +2390,38 @@ async function injectGraphLinkChips() {
   if (!last || last.querySelector('.graph-link-chips')) return;
 
   const gaps = await loadGraphGapIndex();
-  if (!gaps.length) return;
   // Re-check the bubble is still in the DOM and still chip-free (a re-render
   // or a newer answer may have landed while the index was loading).
   if (!last.isConnected || last.querySelector('.graph-link-chips')) return;
 
-  const answerText = (last.querySelector('.bubble-text')?.textContent || '').toLowerCase();
-  if (!answerText) return;
+  // LLM prose varies ("turbine high-vibration" vs "turbine high vibration"),
+  // so a naive substring check misses real mentions (bug found live in
+  // task-057's click-test). Normalize BOTH sides: lowercase, strip all
+  // punctuation/hyphens to single spaces, pad with spaces so matches stay
+  // word-aligned. Match against the ANSWER plus the USER'S QUESTION — someone
+  // who asked "show boiler tube failure in the graph" deserves the chip even
+  // if the answer paraphrases the term.
+  const norm = (s) => ` ${String(s || '').toLowerCase().replace(/[^a-z0-9]+/gi, ' ').trim()} `;
+  const answerNorm = norm(last.querySelector('.bubble-text')?.textContent);
+  const userBubbles = messagesEl.querySelectorAll('.chat-bubble.user-bubble .bubble-text');
+  const userNorm = norm(userBubbles.length ? userBubbles[userBubbles.length - 1].textContent : '');
+  const searchNorm = answerNorm + userNorm;
+  if (searchNorm.trim() === '') return;
 
   const seen = new Set();
   const matches = gaps.filter((g) => {
     if (!g.failure_mode_id || seen.has(g.failure_mode_id)) return false;
-    const label = (g.failure_mode || '').toLowerCase();
-    const idPhrase = g.failure_mode_id.replace(/_/g, ' ').toLowerCase();
-    const hit = (label && answerText.includes(label)) || answerText.includes(idPhrase);
+    const label = norm(g.failure_mode);
+    const idPhrase = norm(g.failure_mode_id.replace(/_/g, ' '));
+    const hit = (label.trim() !== '' && searchNorm.includes(label)) || searchNorm.includes(idPhrase);
     if (hit) seen.add(g.failure_mode_id);
     return hit;
   }).slice(0, 3);
-  if (!matches.length) return;
+
+  // Explicit ask ("link me to the graph", "show this in the graph") always
+  // gets a way in — even when no specific failure mode matched.
+  const wantsGraph = / graph | knowledge map | network view /.test(userNorm);
+  if (!matches.length && !wantsGraph) return;
 
   const wrap = document.createElement('div');
   wrap.className = 'followup-chips graph-link-chips';
@@ -2309,6 +2433,14 @@ async function injectGraphLinkChips() {
     btn.addEventListener('click', () => openGraphFocused(g.failure_mode_id));
     wrap.appendChild(btn);
   });
+  if (!matches.length && wantsGraph) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'chip chip-followup chip-graph-link';
+    btn.textContent = 'Open the Risk & Gap Graph →';
+    btn.addEventListener('click', () => showView('graph'));
+    wrap.appendChild(btn);
+  }
   last.appendChild(wrap);
 }
 
@@ -2328,7 +2460,7 @@ function refreshGraphTheme() {
   if (!_graphDatasets) return;
   const c = graphThemeColors();
   _graphDatasets.nodes.update(
-    _graphDatasets.nodes.getIds().map((id) => ({ id, font: { color: c.font, face: 'JetBrains Mono', size: 11 } }))
+    _graphDatasets.nodes.getIds().map((id) => ({ id, font: { color: c.font, face: 'Inter', size: 11 } }))
   );
   _graphDatasets.edges.update(
     _graphDatasets.edges.getIds().map((id) => ({
@@ -2437,6 +2569,165 @@ async function loadShellTicker() {
   } catch (_) { /* tiles keep their placeholders */ }
 }
 
+// ─── Demo / onboarding tour (FEATURE_PLAN #3) ────────────────────────────────
+// Hand-rolled 4-step overlay (no library): hub tiles → sample question →
+// gap row + simulate → graph traversal. First visit auto-starts it
+// (localStorage flag `thermiq_tour_done`); the header "?" button relaunches;
+// `?demo=1` in the URL forces it for judges. Steps whose target is missing
+// (e.g. an empty plant profile) are skipped gracefully.
+function initDemoTour() {
+  if (!isSpaShell()) return;
+
+  const TOUR_KEY = 'thermiq_tour_done';
+  const STEPS = [
+    {
+      view: 'home', target: '.row-primary',
+      title: 'Welcome to ThermIQ',
+      body: 'Every knowledge gap at this plant is priced as ₹ crore of operational risk. These two tiles are the hero tools — the Expert Copilot and the Risk & Gap Graph. The ticker above shows the live ₹ exposure for the selected plant.',
+    },
+    {
+      view: 'chat', target: '#suggestion-chips', fallback: '#chat-input',
+      title: 'Ask the Expert Copilot',
+      body: 'Click any sample question — it sends immediately and is answered from CEA/IBR guidelines plus this plant\'s own documents, with sources. When an answer mentions a failure mode, a "View in graph →" chip appears under it.',
+    },
+    {
+      view: 'sheet', target: '#sim-strip', fallback: '#gaps-table', delay: 400,
+      title: 'Gaps, priced — and a what-if',
+      body: 'Each gap row is priced from real CEA forced-outage records (never assumed defaults). Toggle "⚡ Simulate fix" on any row to watch the headline ₹ exposure drop live — clearly labeled SIMULATION, nothing is written.',
+    },
+    {
+      view: 'graph', target: '#graph-canvas', delay: 700,
+      title: 'Trace any risk end-to-end',
+      body: 'The knowledge graph ties equipment → failure modes → procedures → real ₹ outages → the regulation that mandates the fix. Click a red-dashed node for the full traversal, then "Ask ThermIQ about this →" to jump back into chat.',
+    },
+  ];
+
+  let ring = null, card = null, activeTarget = null, activeIdx = -1;
+
+  function destroyTour() {
+    if (ring) ring.remove();
+    if (card) card.remove();
+    ring = card = activeTarget = null;
+    activeIdx = -1;
+    window.removeEventListener('resize', onReflow);
+    window.removeEventListener('scroll', onReflow, true);
+  }
+
+  function finishTour() {
+    try { localStorage.setItem(TOUR_KEY, '1'); } catch (_) {}
+    destroyTour();
+  }
+
+  function onReflow() {
+    if (activeTarget && activeIdx >= 0 && ring) positionAround(activeTarget);
+  }
+
+  function ensureEls() {
+    if (ring && card) return;
+    ring = document.createElement('div');
+    ring.className = 'tour-ring';
+    card = document.createElement('div');
+    card.className = 'tour-card';
+    document.body.appendChild(ring);
+    document.body.appendChild(card);
+    window.addEventListener('resize', onReflow);
+    window.addEventListener('scroll', onReflow, true);
+  }
+
+  function positionAround(target) {
+    const pad = 8;
+    const r = target.getBoundingClientRect();
+    ring.style.left   = `${Math.max(4, r.left - pad)}px`;
+    ring.style.top    = `${Math.max(4, r.top - pad)}px`;
+    ring.style.width  = `${Math.min(window.innerWidth - 8, r.width + pad * 2)}px`;
+    ring.style.height = `${r.height + pad * 2}px`;
+
+    // Card below the target if there's room, otherwise above; clamp into view.
+    const cw = Math.min(380, window.innerWidth - 24);
+    card.style.width = `${cw}px`;
+    const ch = card.offsetHeight || 180;
+    let top = r.bottom + pad + 10;
+    if (top + ch > window.innerHeight - 12) top = Math.max(12, r.top - pad - ch - 10);
+    let left = Math.min(Math.max(12, r.left), window.innerWidth - cw - 12);
+    card.style.top  = `${top}px`;
+    card.style.left = `${left}px`;
+  }
+
+  function renderCard(i) {
+    const step = STEPS[i];
+    card.innerHTML = '';
+    const badge = document.createElement('div');
+    badge.className = 'tour-step-badge';
+    badge.textContent = `Step ${i + 1} of ${STEPS.length}`;
+    const h = document.createElement('h4');
+    h.textContent = step.title;
+    const p = document.createElement('p');
+    p.textContent = step.body;
+    const row = document.createElement('div');
+    row.className = 'tour-card-btns';
+    const skip = document.createElement('button');
+    skip.type = 'button';
+    skip.className = 'tour-btn tour-btn-skip';
+    skip.textContent = 'Skip tour';
+    skip.addEventListener('click', finishTour);
+    row.appendChild(skip);
+    if (i > 0) {
+      const back = document.createElement('button');
+      back.type = 'button';
+      back.className = 'tour-btn';
+      back.textContent = '← Back';
+      back.addEventListener('click', () => showStep(i - 1, -1));
+      row.appendChild(back);
+    }
+    const next = document.createElement('button');
+    next.type = 'button';
+    next.className = 'tour-btn tour-btn-next';
+    next.textContent = i === STEPS.length - 1 ? 'Finish ✓' : 'Next →';
+    next.addEventListener('click', () => (i === STEPS.length - 1 ? finishTour() : showStep(i + 1, 1)));
+    row.appendChild(next);
+    card.appendChild(badge);
+    card.appendChild(h);
+    card.appendChild(p);
+    card.appendChild(row);
+  }
+
+  function showStep(i, dir = 1) {
+    if (i < 0) i = 0;
+    if (i >= STEPS.length) return finishTour();
+    const step = STEPS[i];
+    ensureEls();
+    showView(step.view);
+    setTimeout(() => {
+      let target = document.querySelector(step.target);
+      const visible = (el) => el && (el.offsetParent !== null || getComputedStyle(el).position === 'fixed') && !el.hidden;
+      if (!visible(target) && step.fallback) target = document.querySelector(step.fallback);
+      if (!visible(target)) {
+        // Target missing (empty plant, data not loaded) — skip in the
+        // direction of travel rather than stranding the visitor.
+        return showStep(i + dir, dir);
+      }
+      activeIdx = i;
+      activeTarget = target;
+      renderCard(i);
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => positionAround(target), 300);
+    }, step.delay || 200);
+  }
+
+  function startTour() {
+    destroyTour();
+    showStep(0, 1);
+  }
+
+  const launchBtn = document.getElementById('tour-launch-btn');
+  if (launchBtn) launchBtn.addEventListener('click', startTour);
+
+  const forced = new URLSearchParams(location.search).get('demo') === '1';
+  let done = false;
+  try { done = !!localStorage.getItem(TOUR_KEY); } catch (_) {}
+  if (forced || !done) setTimeout(startTour, 900); // let the shell ticker/tiles paint first
+}
+
 function initShell() {
   if (!isSpaShell()) return;
 
@@ -2455,6 +2746,7 @@ function initShell() {
 
   loadShellTicker();
   routeFromHash();
+  initDemoTour();
 }
 
 // ─── One-click Risk Report (print → save as PDF) ─────────────────────────────
@@ -2733,7 +3025,7 @@ function initGraphView() {
           shape: n.node_type === 'OutageEvent' ? 'dot' : 'box',
           color: { border: color.border, background: color.background, highlight: color },
           borderWidth: isGapNode ? 3 : 1.5,
-          font: { color: themeColors.font, face: 'JetBrains Mono', size: 11 },
+          font: { color: themeColors.font, face: 'Inter', size: 11 },
           _raw: n,
           _isGap: isGapNode,
         };
@@ -2769,6 +3061,17 @@ function initGraphView() {
       };
       const network = new vis.Network(container, data, options);
       _graphNetwork = network;
+
+      // The force simulation used to run forever — the graph slowly drifted
+      // out of frame and never sat still. Let physics compute the initial
+      // layout, then freeze it and fit everything into view. Dragged nodes
+      // stay where they're put afterwards.
+      const freezeLayout = () => {
+        network.setOptions({ physics: { enabled: false } });
+        network.fit({ animation: { duration: 400, easingFunction: 'easeInOutQuad' } });
+      };
+      network.once('stabilizationIterationsDone', freezeLayout);
+      setTimeout(freezeLayout, 6000); // hard stop even if stabilization never reports done
 
       statusEl.textContent = `${overview.node_count} nodes · ${overview.edge_count} edges · ${gapsData.gap_count} flagged gaps`;
 
