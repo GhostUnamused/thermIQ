@@ -102,14 +102,17 @@ ET AI Hackathon/
 │   ├── app.js                     ← all frontend logic
 │   └── style.css                  ← dark navy/orange theme
 ├── api/                            ← Vercel functions (the live backend)
-│   ├── _cors.js                   ← shared CORS helper (not an endpoint)
+│   ├── _cors.js                   ← shared CORS helper (not an endpoint, doesn't count toward the function cap)
 │   ├── query.js                   ← Jina → Qdrant → Gemini RAG (+ NIM/OpenRouter fallback)
 │   ├── gap_analysis.js            ← Firestore risk_scores reader
 │   ├── cea_outage.js              ← Firestore cea_outages reader
-│   ├── ingest_document.js         ← authenticated PDF upload → Qdrant + Firestore
+│   ├── ingest_document.js         ← authenticated PDF/DOCX/XLSX/CSV/TXT upload → Qdrant + Firestore
+│   ├── ingest_drive.js            ← Drive link/folder ingest → dispatches drive-ingest.yml
+│   ├── delete_job.js              ← dismiss an ingest_jobs record
 │   ├── list_documents.js / delete_document.js / clear_client.js
-│   └── ingest_trigger.js          ← stub (ingestion is local only)
-│   (recompute_gaps.js is RETIRED — returns 410; pending git rm)
+│   ├── graph_query.js             ← Neo4j read-only whitelisted-query endpoint
+│   ├── sheet_sync.js              ← CSV mirror of gap_analysis for the Sheets add-on
+│   └── trigger_gap_scan.js        ← dispatches gap-scan.yml for unscored plants
 └── scripts/
     ├── ingest_documents.py        ← PDF → chunks → Jina → Qdrant (text PDFs)
     ├── ingest_ocr.py              ← OCR ingest for scanned/image PDFs
@@ -120,13 +123,15 @@ ET AI Hackathon/
 > **Gap scoring has ONE source of truth: `scripts/detect_gaps.py`** (19 items,
 > criticality 1-5, writes `risk_scores` with `topic`/`coverage_status`/`client_score`).
 > The dashboard and `api/query.js` read this shape. The old JS twin
-> `api/recompute_gaps.js` drifted (1-10 scale, different schema) and is retired.
+> `api/recompute_gaps.js` drifted (1-10 scale, different schema) and was retired/removed.
 
 ## Deploy instructions (for Claude Code)
 
 **Frontend** — push to `main`, GitHub Actions deploys `/docs` to GitHub Pages automatically. Vercel also redeploys `/docs` as its root on every push.
 
 **Backend** — push to `main`, Vercel auto-deploys from `api/*.js` (no Netlify involved — that backend no longer exists).
+
+> **Vercel Hobby plan caps a deployment at 12 Serverless Functions** — each file directly under `api/` (excluding `_cors.js`, a shared helper, not a route) counts as one. Currently at the cap. Adding a new `api/*.js` endpoint requires retiring or merging an existing one first, or the deploy fails with `exceeded_serverless_functions_per_deployment` (a hard error, not a warning — check `vercel inspect --logs <url>` or the Vercel dashboard if a deploy shows Error status with no visible build failure).
 
 **After any file change**, always:
 ```bash
