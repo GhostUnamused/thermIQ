@@ -3715,8 +3715,8 @@ body { letter-spacing: 0.005em; }
 /* ═══ What-if Simulator (2026-07-11, FEATURE_PLAN #1) ═══ */
 
 .sim-strip {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 0.75rem; flex-wrap: wrap;
+  display: flex; flex-direction: column; align-items: stretch;
+  gap: 0.4rem;
   background: var(--bg-card, var(--bg-alt));
   border: 1px dashed var(--border);
   border-radius: 10px;
@@ -3725,6 +3725,8 @@ body { letter-spacing: 0.005em; }
   font-size: 0.8rem;
   color: var(--text-muted);
 }
+.sim-strip-top { font-size: 0.78rem; color: var(--text); }
+.sim-strip-bottom { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; }
 .sim-strip-left { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
 .sim-strip-right { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
 .sim-badge {
@@ -3736,7 +3738,22 @@ body { letter-spacing: 0.005em; }
   letter-spacing: 0.08em;
   padding: 0.18rem 0.5rem;
 }
-.sim-strip-top3 { font-weight: 600; color: var(--text); }
+
+/* Priority rank chip on each gap row — the closure-order recommendation */
+.priority-row { display: flex; align-items: center; gap: 0.3rem; margin-top: 0.35rem; }
+.priority-chip {
+  display: inline-block;
+  font-size: 0.66rem; font-weight: 700; letter-spacing: 0.02em;
+  padding: 0.12rem 0.45rem; border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.priority-chip--top {
+  border-color: var(--accent, #14b8a6);
+  color: var(--accent, #14b8a6);
+  background: var(--accent-muted, rgba(20, 184, 166, 0.1));
+}
 
 .sim-fix-wrap { display: flex; align-items: center; gap: 0.45rem; margin-top: 0.35rem; flex-wrap: wrap; }
 .sim-fix-btn {
@@ -3767,7 +3784,7 @@ body { letter-spacing: 0.005em; }
 .gap-row--simfixed .gap-desc { text-decoration: line-through; }
 .gap-row--simfixed .risk-badge { filter: grayscale(1); }
 
-/* Small SIMULATION note inside the summary cards while sim is active */
+/* Small "PLAN PREVIEW" note inside the summary cards while a closure plan is active */
 .sim-card-note {
   display: block;
   font-size: 0.62rem;

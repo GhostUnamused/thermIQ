@@ -988,6 +988,7 @@ const GAP_TIPS = {
   criticality: "<b>How critical this topic is</b>, on a 1–5 scale. Set from CEA forced-outage frequency data and CERC penalty rules — not opinion. 5 = a leading cause of full-unit trips.",
   match: "<b>How well your plant's own uploaded documents cover this topic</b>, measured by semantic search. 100% = fully documented, 0% = nothing on file.",
   mttr: "<b>Typical days to repair if this fails</b> (mean time to repair). Shown for context — it does not change the risk score.",
+  priority: "<b>Recommended closure order</b> — not just ₹ size. Blends four things already shown on this row: ₹ exposure (45% weight), failure severity (20%), how well-evidenced the number is — real CEA outage records score higher than an assumed default (20%) — and how close your plant already is to full coverage, i.e. how little work is likely left (15%). No cost/effort figures are invented; every input is a number already computed elsewhere on this page.",
 };
 
 // Renders a small circular info icon. Shows its tooltip on hover, keyboard
@@ -1193,14 +1194,41 @@ function renderDocsNeededSection(needsDocs) {
   }).join('');
 }
 
-// ─── What-if Simulator (client-side only — never writes to Firestore/Qdrant) ──
-// Toggling "Simulate fix" on a gap row previews the headline ₹ exposure with
-// that topic treated as documented (its exposure term → 0, so its risk_score_cr
-// drops out of the total). Pure display math on data already fetched; the real
-// scoring engine (scripts/detect_gaps.py) is untouched. Everything simulated is
-// labeled SIMULATION and resets on plant switch / reload / Reset button.
+// ─── Gap Closure Prioritization ──────────────────────────────────────────────
+// The gaps table is sorted by ₹ magnitude alone (matches the Sheet/CSV mirror —
+// left untouched). But "biggest ₹ number" isn't the same as "fix this first":
+// a smaller gap with a more severe failure mode, real outage evidence behind
+// it, and a plant that's already 80% of the way to covering it is often the
+// better next move. computePriority() blends those four already-sourced
+// signals into one score, purely client-side, purely for ranking — it changes
+// no risk_score_cr and writes nothing.
+const PRIORITY_WEIGHTS = { risk: 0.45, criticality: 0.20, confidence: 0.20, quickWin: 0.15 };
+
+function computePriority(g, maxRisk) {
+  const riskNorm = maxRisk > 0 ? (g.risk_score_cr || 0) / maxRisk : 0;
+  const criticalityNorm = (g.criticality_score || 0) / 5;
+  const derived = (g.consequence_method || '').startsWith('derived');
+  // Evidence strength: a derived ₹ figure backed by more real CEA outage
+  // records is a firmer basis for prioritizing than an assumed default —
+  // an assumed default gets a flat, low, non-zero confidence.
+  const confidenceNorm = derived ? Math.min(1, (g.linked_outages || 0) / 5) : 0.3;
+  const quickWinNorm = g.best_match_score || 0;
+  const score = PRIORITY_WEIGHTS.risk * riskNorm
+              + PRIORITY_WEIGHTS.criticality * criticalityNorm
+              + PRIORITY_WEIGHTS.confidence * confidenceNorm
+              + PRIORITY_WEIGHTS.quickWin * quickWinNorm;
+  return { score, riskNorm, criticalityNorm, confidenceNorm, quickWinNorm, derived };
+}
+
+// ─── What-if Closure Plan (client-side only — never writes to Firestore/Qdrant) ──
+// Ticking "+ Add to closure plan" on a gap row previews the headline ₹ exposure
+// with that topic treated as documented (its exposure term → 0, so its
+// risk_score_cr drops out of the total). Pure display math on data already
+// fetched; the real scoring engine (scripts/detect_gaps.py) is untouched.
+// Resets on plant switch / reload / Reset button.
 let _simFixed = new Set();          // sim keys (gap topic ids) currently toggled "fixed"
-let _simQuantified = [];            // the quantified rows currently rendered
+let _simQuantified = [];            // the quantified rows currently rendered (₹-sorted, priority-tagged)
+let _simPriorityOrder = [];         // same rows, sorted by _priority.score descending
 let _simReal = { totalRisk: 0, over100Count: 0 };  // real headline numbers to restore
 
 function simTopicKey(g) { return String(g.topic || g.gap_id || g.description || ''); }
@@ -1225,7 +1253,7 @@ function applySimulation() {
     tr.classList.toggle('gap-row--simfixed', fixed);
     const btn = tr.querySelector('.sim-fix-btn');
     if (btn) {
-      btn.textContent = fixed ? '↩ Undo simulated fix' : '⚡ Simulate fix';
+      btn.textContent = fixed ? '✓ In closure plan' : '+ Add to closure plan';
       btn.classList.toggle('sim-fix-btn--active', fixed);
     }
   });
@@ -1242,12 +1270,12 @@ function applySimulation() {
   const criticalEl  = document.getElementById('critical-gaps-count');
   if (totalRiskEl) {
     totalRiskEl.innerHTML = active
-      ? `₹${Math.round(simTotal)} Cr<span class="sim-card-note">SIMULATION · real: ₹${Math.round(_simReal.totalRisk)} Cr</span>`
+      ? `₹${Math.round(simTotal)} Cr<span class="sim-card-note">PLAN PREVIEW · real: ₹${Math.round(_simReal.totalRisk)} Cr</span>`
       : `₹${Math.round(_simReal.totalRisk)} Cr`;
   }
   if (criticalEl) {
     criticalEl.innerHTML = active
-      ? `${simOver100}<span class="sim-card-note">SIMULATION · real: ${_simReal.over100Count}</span>`
+      ? `${simOver100}<span class="sim-card-note">PLAN PREVIEW · real: ${_simReal.over100Count}</span>`
       : `${_simReal.over100Count}`;
   }
 
@@ -1260,15 +1288,18 @@ function renderSimStrip() {
   if (!_simQuantified.length) { strip.hidden = true; return; }
   strip.hidden = false;
 
-  // Always-on hook: what closing the biggest gaps would be worth
-  const top3 = [..._simQuantified]
-    .sort((a, b) => (b.risk_score_cr || 0) - (a.risk_score_cr || 0))
-    .slice(0, 3);
-  const top3Risk = top3.reduce((s, g) => s + (g.risk_score_cr || 0), 0);
-  const pct = _simReal.totalRisk > 0 ? Math.round((top3Risk / _simReal.totalRisk) * 100) : 0;
-  const top3El = document.getElementById('sim-top3-text');
-  if (top3El) top3El.textContent =
-    `Closing the top ${top3.length} gaps removes ₹${top3Risk.toFixed(1)} Cr (${pct}%) of quantified exposure.`;
+  // Recommended closure order — top gaps by *priority* score (₹ + severity +
+  // evidence strength + how close to done), which is deliberately not just
+  // the biggest ₹ figures. This is the actual recommendation.
+  const order = _simPriorityOrder.length ? _simPriorityOrder : _simQuantified;
+  const topN = order.slice(0, Math.min(3, order.length));
+  const topNRisk = topN.reduce((s, g) => s + (g.risk_score_cr || 0), 0);
+  const topNPct = _simReal.totalRisk > 0 ? Math.round((topNRisk / _simReal.totalRisk) * 100) : 0;
+  const recEl = document.getElementById('sim-recommended-text');
+  if (recEl) {
+    const names = topN.map((g) => `#${g._priorityRank} ${g.equipment_tag || (g.description || 'gap').slice(0, 40)}`).join('  →  ');
+    recEl.innerHTML = `<b>Recommended closure order:</b> ${escapeHtml(names)} — clears ₹${topNRisk.toFixed(1)} Cr (${topNPct}%) of quantified exposure.`;
+  }
 
   const active = _simFixed.size > 0;
   const badge = document.getElementById('sim-badge');
@@ -1277,13 +1308,27 @@ function renderSimStrip() {
   if (badge) badge.hidden = !active;
   if (text) {
     if (active) {
-      const removedRisk = _simQuantified
-        .filter((g) => _simFixed.has(simTopicKey(g)))
-        .reduce((s, g) => s + (g.risk_score_cr || 0), 0);
+      const selected = _simQuantified.filter((g) => _simFixed.has(simTopicKey(g)));
+      const n = selected.length;
+      const removedRisk = selected.reduce((s, g) => s + (g.risk_score_cr || 0), 0);
       const simTotal = Math.max(0, _simReal.totalRisk - removedRisk);
-      text.textContent = `${_simFixed.size} gap${_simFixed.size > 1 ? 's' : ''} marked as fixed — ₹${removedRisk.toFixed(1)} Cr removed, simulated exposure ₹${Math.round(simTotal)} Cr. Display only; no data was changed.`;
+      const removedPct = _simReal.totalRisk > 0 ? Math.round((removedRisk / _simReal.totalRisk) * 100) : 0;
+
+      // Efficiency check: for the same count of gaps, how does this pick's ₹
+      // removed compare to grabbing the N largest ₹ figures outright (the
+      // table's own ₹-sorted order, so no extra sort needed)?
+      const idealRisk = _simQuantified.slice(0, n).reduce((s, g) => s + (g.risk_score_cr || 0), 0);
+      let efficiencyNote = '';
+      if (idealRisk > removedRisk + 0.05) {
+        const effPct = idealRisk > 0 ? Math.round((removedRisk / idealRisk) * 100) : 100;
+        efficiencyNote = ` Picking the ${n} largest ₹ gaps instead would clear ₹${idealRisk.toFixed(1)} Cr — this pick captures ${effPct}% of that, trading some ₹ for higher-priority items.`;
+      } else {
+        efficiencyNote = ' This pick also captures the most ₹ possible for that many gaps.';
+      }
+
+      text.textContent = `${n} gap${n > 1 ? 's' : ''} marked to close — ₹${removedRisk.toFixed(1)} Cr (${removedPct}%) would clear, leaving ₹${Math.round(simTotal)} Cr.${efficiencyNote} Display only; no data changed.`;
     } else {
-      text.textContent = 'What-if: toggle "Simulate fix" on any gap row to preview the ₹ impact of closing it.';
+      text.textContent = 'Rows are ranked "Priority #" by ₹ size, severity, evidence strength, and closeness to done — not ₹ alone. Click "+ Add to closure plan" on any row to preview its ₹ impact and test a combination.';
     }
   }
   if (reset) {
@@ -1327,6 +1372,7 @@ async function initDashboard() {
         </td></tr>`;
         _simFixed.clear();
         _simQuantified = [];
+        _simPriorityOrder = [];
         renderSimStrip();
         triggerGapScanAndPoll(getActiveClient());
       } else {
@@ -1358,10 +1404,19 @@ async function initDashboard() {
 
         renderDocsNeededSection(needsDocs);
 
-        // What-if simulator: capture real headline numbers, reset any prior
-        // simulation (plant switch / re-render always starts from real state).
+        // Rank quantified gaps by closure priority (not just ₹ size — see
+        // computePriority above). Table row order stays ₹-sorted to match the
+        // Sheet/CSV mirror; each row just gets tagged with its priority rank.
+        const maxRisk = quantified.reduce((m, g) => Math.max(m, g.risk_score_cr || 0), 0);
+        quantified.forEach((g) => { g._priority = computePriority(g, maxRisk); });
+        const priorityOrder = [...quantified].sort((a, b) => b._priority.score - a._priority.score);
+        priorityOrder.forEach((g, idx) => { g._priorityRank = idx + 1; });
+
+        // What-if closure plan: capture real headline numbers, reset any prior
+        // plan (plant switch / re-render always starts from real state).
         _simFixed.clear();
         _simQuantified = quantified;
+        _simPriorityOrder = priorityOrder;
         _simReal = { totalRisk, over100Count };
 
         if (quantified.length === 0) {
@@ -1435,8 +1490,11 @@ async function initDashboard() {
                   crit ${g.criticality_score || '?'} × ₹${(g.consequence_cr || 0).toFixed(1)} Cr × ${(g.exposure_score || 0).toFixed(2)} exp<br>
                   ${conLabel}
                 </div>
+                <div class="priority-row">
+                  <span class="priority-chip ${g._priorityRank <= 3 ? 'priority-chip--top' : ''}">Priority #${g._priorityRank}</span>${infoIcon(GAP_TIPS.priority)}
+                </div>
                 <div class="sim-fix-wrap">
-                  <button class="sim-fix-btn" type="button" onclick="toggleSimFix('${escapeHtml(simTopicKey(g))}')">⚡ Simulate fix</button>
+                  <button class="sim-fix-btn" type="button" onclick="toggleSimFix('${escapeHtml(simTopicKey(g))}')">+ Add to closure plan</button>
                   <span class="sim-delta">−₹${(g.risk_score_cr || 0).toFixed(1)} Cr if closed</span>
                 </div>
               </td>
@@ -2592,8 +2650,8 @@ function initDemoTour() {
     },
     {
       view: 'sheet', target: '#sim-strip', fallback: '#gaps-table', delay: 400,
-      title: 'Gaps, priced — and a what-if',
-      body: 'Each gap row is priced from real CEA forced-outage records (never assumed defaults). Toggle "⚡ Simulate fix" on any row to watch the headline ₹ exposure drop live — clearly labeled SIMULATION, nothing is written.',
+      title: 'Gaps, priced — and ranked by what to fix first',
+      body: 'Each gap row is priced from real CEA forced-outage records (never assumed defaults) and tagged "Priority #" — a rank that blends ₹ size, failure severity, evidence strength, and how close your plant already is to full coverage, not ₹ alone. Click "+ Add to closure plan" on any row to watch the headline ₹ exposure drop live — clearly labeled preview, nothing is written.',
     },
     {
       view: 'graph', target: '#graph-canvas', delay: 700,

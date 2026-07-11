@@ -402,15 +402,19 @@
       </div>
     </section>
 
-    <!-- ── What-if simulation strip (client-side only, never writes data) ── -->
+    <!-- ── Closure priority + what-if strip (client-side only, never writes data) ── -->
     <section class="sim-strip" id="sim-strip" hidden>
-      <div class="sim-strip-left">
-        <span class="sim-badge" id="sim-badge" hidden>SIMULATION</span>
-        <span class="sim-strip-text" id="sim-strip-text"></span>
+      <div class="sim-strip-top">
+        <span class="sim-recommended-text" id="sim-recommended-text"></span>
       </div>
-      <div class="sim-strip-right">
-        <span class="sim-strip-top3" id="sim-top3-text"></span>
-        <button class="btn-sheet-csv btn-sheet-csv--secondary" id="sim-reset-btn" type="button" hidden>Reset simulation</button>
+      <div class="sim-strip-bottom">
+        <div class="sim-strip-left">
+          <span class="sim-badge" id="sim-badge" hidden>PLAN PREVIEW</span>
+          <span class="sim-strip-text" id="sim-strip-text"></span>
+        </div>
+        <div class="sim-strip-right">
+          <button class="btn-sheet-csv btn-sheet-csv--secondary" id="sim-reset-btn" type="button" hidden>Reset plan</button>
+        </div>
       </div>
     </section>
 
