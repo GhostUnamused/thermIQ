@@ -5,6 +5,9 @@
 
 ---
 
+## task-057 | 2026-07-11 | DONE
+FEATURE_PLAN Tier-1 #1 (What-if Simulator on Live Sheet gap table) + #2 (Chat↔Graph linking), both frontend-only, no new API endpoints. Live-verified against therm-iq.vercel.app: sim toggle drops Total Risk Exposure by exactly the fixed row's ₹ (₹367→₹324 Cr on NTPC), Reset restores real numbers; `#/graph?focus=<id>` deep link auto-opens the traversal panel; graph node's "Ask ThermIQ about this →" pre-fills chat correctly; plain `#/graph` unaffected. **Bug found (not fixed):** Chat→Graph "View in graph →" answer chips don't render when the LLM hyphenates a compound failure-mode label (e.g. answer said "turbine high-vibration", graph label is "Turbine High Vibration" space-separated) — `injectGraphLinkChips()`'s plain `.includes()` substring match is too brittle for LLM prose variance; needs punctuation-normalized or token-based matching. Logged as a follow-up. Commit: c2ebb10
+
 ## task-056 | 2026-07-11 | DONE
 Round-3 feature batch: Drive folder ingest+sync, multi-format uploads (docx/xlsx/csv/txt/gdocs), AI relevance gate (Gemini, fails open, override checkbox), delete-profile action, failed-job dismiss, navy dark theme, theme-aware graph, resizable upload panel, live-sheet toolbar moved to top bar. Added missing `GEMINI_API_KEY` GitHub secret (user-confirmed first). First deploy failed — 13 `api/*.js` files exceeded Vercel Hobby's 12-Serverless-Functions cap; fixed by removing the dead `api/ingest_trigger.js` stub, redeployed clean. DOM/JS-level live verification confirmed: multi-format file accept, Drive textarea, relevance checkbox, panel resize, delete-profile/sync-drive buttons, navy `--bg`, graph theme functions, top-bar sheet actions, hover-pause removed from marquee. End-to-end flows (real relevance-gate reject, folder sync add/remove, gdoc ingest, failed-job dismiss) not exercised — needs real test files/Drive links. Commits: ea21fef, cd5f3c2, 090444c.
 
