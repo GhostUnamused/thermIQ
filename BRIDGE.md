@@ -649,6 +649,177 @@ git push origin main
 
 ---
 
+### [DONE] task-058 | 2026-07-12T01:00:00Z
+**From:** Cowork (same session as task-057; all edits additive, different regions of the same three files)
+**Task:** FEATURE_PLAN Tier-2 items #3 (demo/onboarding tour) and #5 (empty states), a YC-requested Drive-sync fallback, and the fix for the chip-matching bug CC found in task-057's click-test.
+
+**What was built (all edited by Cowork — DO NOT re-edit, just verify/commit):**
+
+*task-057 bug fix (chat→graph chips):*
+- `injectGraphLinkChips()` now normalizes BOTH sides before matching — lowercase, all punctuation/hyphens collapsed to single spaces, space-padded for word alignment. `"turbine high-vibration"` now matches label `"Turbine High Vibration"` (verified in node: hyphenated → true, unrelated text → false, id-phrase path → true). This was exactly CC's suggested fix from the task-057 summary.
+
+*#3 Demo / onboarding tour:*
+- Hand-rolled 4-step spotlight tour, zero deps: hub tiles → chat sample chips → Live Sheet sim strip/gap table → graph canvas. Spotlight = fixed ring with a 9999px box-shadow (dims everything else; ring is pointer-events:none so the highlighted control stays clickable). Tooltip card with Step n/4, Back/Next/Skip, flips above/below the target, repositions on resize/scroll.
+- Auto-starts on first visit (`localStorage: thermiq_tour_done`), relaunchable via the new "?" header button (`#tour-launch-btn`), `?demo=1` URL forces it for judges. Steps with missing/hidden targets are skipped in the direction of travel.
+- `initDemoTour()` in `docs/app.js`, called at the end of `initShell()`.
+
+*#5 Empty states:*
+- Plant Documents grid, zero docs: dashed invitation card with "+ Add documents" and "Link a Drive folder with all the files" CTAs (replaces the plain text line).
+- Live Sheet "Computing gap analysis…" row now carries a "+ Add documents" CTA.
+- Chat empty screen: if the active plant has 0 client docs, an honest note appears ("answers will draw on the CEA/IBR guideline corpus only") with an upload button — `decorateChatEmptyState()`, cached per plant; plant switch reloads the page so it can't go stale.
+- "Documentation Needed" upload link fixed: was a stale pre-SPA `documents.html#add-document` href, now a `data-upload-dest` button that opens the panel directly.
+
+*Drive-sync fallback (YC request):*
+- `#sync-drive-btn` always visible now. With a linked folder → real sync as before. Without one → opens the upload panel, focuses the Drive-links textarea, shows highlighted instructions (`.dest-note--attn`): put all the plant's documents into ONE Drive folder, share "Anyone with the link — Viewer", paste the folder link; future "⟳ Sync" clicks re-scan it (add new, delete removed).
+- Plumbing: `_openUploadPanel(dest, {driveFolderHint})` hook exposed from `initUpload()`; `[data-drive-folder-hint]` click delegation; `syncDriveFolder()`'s no-folder path opens the panel instead of hiding the button.
+
+**Files changed by Cowork:** `docs/app.js`, `docs/index.html` ("?" tour button in header-actions), `docs/style.css` (appended blocks: attn note, tour, empty states).
+
+**CC must do:**
+1. Syntax check (Cowork's mount still stale — real file verified complete via direct read, ends line 3,071+ with the bootstrap block; all new code passed `node --check` in isolation):
+```bash
+node --check docs/app.js && echo OK
+```
+2. Commit + push (explicit files):
+```bash
+git add docs/app.js docs/index.html docs/style.css BRIDGE.md
+git commit -m "feat: 4-step demo tour (?demo=1, header ? relaunch), purposeful empty states, drive-sync folder-link fallback; fix: punctuation-insensitive chat->graph chip matching"
+git push origin main
+```
+3. Live click-test after deploy:
+   - **Chip fix (re-test task-057's failure):** ask "What is the turbine high vibration SOP status?" on ntpc → the "View … in graph →" chip should now appear even when the answer hyphenates the term; clicking still focuses the node.
+   - **Tour:** incognito or `?demo=1` → auto-starts on hub; Next walks all 4 steps with the ring on real elements (both themes); Skip sets flag (no restart on reload); header "?" relaunches; on an empty plant the sheet step skips gracefully.
+   - **Empty states:** throwaway plant → Plant Documents shows the invitation card; its Drive button opens the panel with highlighted folder instructions + focused textarea; chat empty screen shows the benchmark-only note; Live Sheet "Computing…" row shows the upload CTA.
+   - **Sync fallback:** plant with no linked folder → button visible, opens instructions; plant WITH linked folder → still queues a real sync (regression).
+   - **Regression:** plain "+ Add documents" opens the panel WITHOUT the folder note; tour cleans up fully after Finish/Skip (no stray `.tour-ring`/`.tour-card` in DOM); sim + graph focus from task-057 still work.
+
+**Notes:**
+- Tour deliberately doesn't block clicks — Next always re-runs showView so it recovers if a judge wanders mid-tour.
+- Tier-2 #4 (ingest status) is mostly shipped via task-055a's job cards + polling; the remaining "document still indexing" note near the chat input is queued for next session.
+
+**CC summary:**
+1. Independent syntax check: `node --check docs/app.js` passed (bundled with task-059, same commit — same three files, additive edits per Cowork's note).
+2. Committed `docs/app.js`, `docs/index.html`, `docs/style.css`, `BRIDGE.md` together with task-059 and pushed as `6000b5a`.
+3. **Live-verified on therm-iq.vercel.app post-deploy** (confirmed via `/app.js` fetch showing `thermiq_tour_done` marker before proceeding):
+   - Chip fix — **PASS:** asked "What is the turbine high vibration SOP status?" on ntpc, got a real answer, and the "View "Turbine High Vibration" in graph →" chip rendered (task-057's bug is fixed); clicking it switched to `#/graph` and correctly focused/opened the traversal panel for that node.
+   - Tour — **PASS:** `?demo=1` auto-started on the hub; walked all 4 steps (hub → chat chips → Live Sheet → graph) via Next, each step landing on the right view; Finish cleared `localStorage.thermiq_tour_done` to `"1"` and left no stray `.tour-ring`/`.tour-card` in the DOM.
+   - Drive-sync fallback — **PASS:** on ntpc (no linked Drive folder), clicking the sync button opened the upload panel and added `.dest-note--attn` to the Drive-folder note (confirmed via DOM diff before/after click).
+   - Empty-state / `_openUploadPanel` plumbing — verified present and wired via source read (`docs/app.js:1371,1524,1608-1644,2090-2122,2243-2244`), not exercised against an actual zero-doc plant this pass (would require creating throwaway Firestore data); flagging as not live-tested rather than claiming full coverage.
+4. No regressions observed in sim strip, chat follow-up chips/quick actions, or graph rendering during this pass.
+
+---
+
+### [DONE] task-059 | 2026-07-12T01:40:00Z
+**From:** Cowork (ship AFTER 058 — same three files, additive edits; fine to commit together if 058 hasn't shipped yet)
+**Task:** YC's round-4 feedback (screenshots of the hub tagline + plant dropdown): (1) kill the mono/uppercase "AI terminal" typography everywhere, (2) nicer plant dropdown with title-case names, doc counts, and a Delete-profile action next to New-profile, (3) chat→graph chips now honor an explicit "link me to the graph" ask, (4) graph no longer drifts — physics freezes after layout.
+
+**What was built (all edited by Cowork — DO NOT re-edit, just verify/commit):**
+
+*Typography (docs/style.css, docs/index.html, docs/app.js):*
+- Every `"JetBrains Mono"` font-family in style.css replaced with `"Inter", Arial, sans-serif` (global replace, ~20 rules: ticker, tagline, tiles, back-links, live-status, doc chips/labels, graph panel, upload panel, wordmark). `code` re-pinned to Consolas so actual code in answers stays monospace.
+- `text-transform: uppercase` + wide letter-spacing removed from sentence-like chrome: hub tagline, header ticker, plant selector, tile instrument lines, upload-panel subtitle, gap-flag meta. Tiny status badges (LIVE, GAP, coverage chips, table headers) keep small-caps — standard professional dashboard pattern, reads fine in a sans.
+- Graph node labels: vis-network `font.face` switched `'JetBrains Mono'` → `'Inter'` (both initial render and `refreshGraphTheme`).
+- JetBrains Mono dropped from the Google Fonts link (one less request).
+
+*Plant dropdown (docs/app.js + style.css):*
+- Options now display "Ntpc · 19 docs" style: title-cased via new `plantDisplayName()`, per-plant doc count from the same `list_documents` fetch it already made. Values stay lowercase ids — nothing downstream changes.
+- New "− Delete “<Active Plant>”…" option right under "＋ New plant profile…" (separator between plants and actions). Selecting it reverts the visible selection first, then calls the existing `deleteProfile()` (which double-confirms). No new deletion path — same guarded function as the toolbar button.
+- Selector restyled: custom chevron (appearance:none + inline SVG), larger padding, rounded, accent border on hover/focus, no more all-caps.
+
+*Chat→graph explicit ask (docs/app.js):*
+- `injectGraphLinkChips()` now matches failure modes against the answer PLUS the user's last question (both normalized). If the user explicitly asked for the graph (` graph `, `knowledge map`, `network view` in the question) and no specific failure mode matched, a generic "Open the Risk & Gap Graph →" chip renders instead of nothing. (YC hit this live: "link me to the graph" produced no chip because only the answer text was scanned.)
+
+*Graph drift (docs/app.js):*
+- Root cause of "keeps rotating / never stays in frame": forceAtlas2 physics ran forever. Now `stabilizationIterationsDone` → `physics: {enabled:false}` + animated `fit()`, with a 6s hard-stop fallback. Dragged nodes stay put; `network.focus()` deep-links still work with physics off.
+
+**CC must do:**
+1. Syntax check (all new blocks passed `node --check` in isolation; full-file check is yours):
+```bash
+node --check docs/app.js && echo OK
+```
+2. Commit + push (with 058's files if not yet shipped — identical file list):
+```bash
+git add docs/app.js docs/index.html docs/style.css BRIDGE.md
+git commit -m "style: professional Inter typography (no mono/all-caps chrome); feat: richer plant dropdown w/ delete action; fix: chat->graph chip on explicit ask; fix: freeze graph physics after stabilization"
+git push origin main
+```
+3. Live click-test after deploy:
+   - **Typography:** hub tagline and header ticker render sentence-case Inter (no mono anywhere in chrome, both themes); code blocks inside a chat answer still monospace.
+   - **Dropdown:** options show "Ntpc · N docs" style names; separator visible; "＋ New plant profile…" still works; "− Delete …" prompts the existing double-confirm and cancel leaves the selection unchanged; custom chevron renders (no double native arrow — check Windows Chrome + Edge).
+   - **Chat→graph:** ask "link me to the graph for boiler tube failure" → failure-mode chip appears; ask "show me the graph" (no failure mode) → generic "Open the Risk & Gap Graph →" chip appears and switches view.
+   - **Graph:** after load, layout settles within a few seconds and STOPS moving; whole graph fits in frame; dragging a node doesn't restart the drift; `#/graph?focus=waterwall_tube_thinning` still zooms correctly.
+4. If 058 already shipped when you get here, re-run only its chip regression quickly — this task rewrote `injectGraphLinkChips` again on top of 058's normalization fix (the normalization is preserved inside the new version).
+
+**Notes:**
+- The dropdown stays a native `<select>` (styled) — a full custom dropdown component was judged not worth the regression risk this close to the deadline. If YC wants per-option delete buttons/icons later, that's the upgrade path.
+- `plantDisplayName()` is display-only; every API call, localStorage key, and Firestore doc id still uses the lowercase id.
+
+**CC summary:**
+1. Independent syntax check: `node --check docs/app.js` passed (same commit as task-058, `6000b5a`).
+2. Committed together with task-058 (identical file list) and pushed.
+3. **Live-verified on therm-iq.vercel.app post-deploy:**
+   - Typography — **PASS:** confirmed via computed styles, `getComputedStyle(taglineEl).fontFamily` → `"Inter, Arial, sans-serif"`, same for the plant `<select>`; `textTransform: "none"` on the selector; no `JetBrains` string anywhere in the live page HTML.
+   - Dropdown — **PASS:** options render "Ntpc · 4 docs" / "Saraighat · 3 docs" (title-cased, real per-plant doc counts), separator + "＋ New plant profile…" + "− Delete "Ntpc"…" present; selecting Delete triggered the expected double-confirm dialog (stubbed `window.confirm` to return false), and the select value reverted to `"ntpc"` afterward — cancel path leaves the active plant unchanged, confirmed no delete fired.
+   - Chat→graph explicit ask — **PASS:** asked "show me the graph" (no failure-mode match) → the generic "Open the Risk & Gap Graph →" chip rendered and, on click, switched to `#/graph`.
+   - Graph physics freeze — **PASS:** captured the graph canvas `toDataURL()` twice 2.5s apart post-load; byte-identical, confirming physics stopped and the layout is no longer drifting.
+4. No regressions found in the chat quick-actions, sim strip, or graph traversal panel during this pass.
+
+---
+
+### [DONE] task-060 | 2026-07-11T15:00:00Z
+**From:** Cowork
+**Task:** YC's feedback: "the simulate fix button feels kind of useless because it just subtracts the actual cost, its a basic calculator and it acts like its doing something different." Confirmed — `toggleSimFix`/`applySimulation` in the old code did exactly that: click a row, subtract its `risk_score_cr` from the total, call it "SIMULATION." Asked YC what to do about it; answer: turn it into a real prioritization tool that's "not just based on cost... but if thats too hard or ambiguous to develop better remove it." Built the prioritization version rather than removing the feature — every input is a number already computed elsewhere on the row, nothing fabricated.
+
+**What was built (all edited by Cowork — DO NOT re-edit, just verify/commit):**
+
+*Priority scoring (docs/app.js):*
+- New `computePriority(g, maxRisk)` — a weighted composite of four already-sourced signals per gap: ₹ magnitude relative to the worst gap this plant (45%), failure severity `criticality_score/5` (20%), evidence strength — real CEA outage records (`linked_outages`, capped at 5) if `consequence_method` is `derived*`, else a flat low 0.3 for an assumed default (20%) — and how close the plant already is to full coverage via `best_match_score` (15%). Weights live in `PRIORITY_WEIGHTS`, both the weights and the four raw factors are shown in a tooltip (`GAP_TIPS.priority`), so the rank is auditable, not a black box.
+- In `initDashboard()`, every quantified gap gets `_priority` + `_priorityRank` attached. The table's row order is **unchanged** (still ₹-sorted, matching the Sheets/CSV mirror) — only a "Priority #N" chip is added per row, plus a top-of-strip "Recommended closure order" line built from the priority-sorted sequence (`_simPriorityOrder`).
+
+*Renamed the what-if part (it's still there, just honestly framed now):*
+- Button: "⚡ Simulate fix" → "+ Add to closure plan" / "✓ In closure plan".
+- Badge: "SIMULATION" → "PLAN PREVIEW" (strip badge + the two summary-card notes).
+- `renderSimStrip()` rewritten: when the user has ticked gaps, it now also reports an **efficiency comparison** — how much ₹ their pick removes vs. grabbing the N largest ₹ gaps outright (the table's own order, no extra sort needed) — so picking a smaller/higher-priority gap over a bigger one is visible as a real tradeoff, not hidden.
+- `docs/index.html` — `#sim-strip` restructured into two rows (`sim-strip-top` for the recommendation line, `sim-strip-bottom` for the existing badge/text/reset), new `#sim-recommended-text` element, removed the now-unused `#sim-top3-text`.
+- `docs/style.css` — `.priority-chip`/`.priority-chip--top`/`.priority-row` added; `.sim-strip` restructured to `flex-direction: column` with new `.sim-strip-top`/`.sim-strip-bottom`; dead `.sim-strip-top3` rule left in place harmlessly (unused, not worth a risky removal this close to the deadline) — fine to delete in a later cleanup pass if CC wants.
+- Demo tour (`initDemoTour()` step 3) copy updated to describe priority ranking instead of "Simulate fix"/"SIMULATION".
+
+**CC must do:**
+1. Syntax check (Cowork's bash sandbox mount is showing a stale/truncated read of `docs/app.js` again — known issue, see `feedback_cowork_sandbox_mount_staleness.md` — so Cowork verified correctness via direct Read-tool inspection of every edited region instead, not `node --check`. CC should run the real check on a fresh checkout as independent confirmation):
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+node --check docs/app.js && echo OK
+```
+2. Commit + push:
+```bash
+git add docs/app.js docs/index.html docs/style.css BRIDGE.md
+git commit -m "feat: replace ₹-subtraction 'Simulate fix' with a transparent closure-priority ranking + efficiency comparison"
+git push origin main
+```
+3. Live click-test after deploy, Live Sheet view (`#/sheet`):
+   - Every quantified gap row shows a "Priority #N" chip; hovering/tapping its (i) icon shows the four-factor tooltip.
+   - The strip above the table shows a "Recommended closure order: #1 ... → #2 ... → #3 ..." line with a ₹/% figure, even before anything is ticked.
+   - Ticking "+ Add to closure plan" on 2-3 rows (not necessarily the top-3 by ₹) updates the button to "✓ In closure plan", greys out those rows, updates Total Risk Exposure / Critical Gaps cards with a "PLAN PREVIEW" note, and the strip text reports the efficiency comparison sentence (differs depending on whether the picked rows are or aren't the N largest by raw ₹).
+   - "Reset plan" clears everything back to real numbers.
+   - Re-run the demo tour (`?demo=1`) and confirm step 3's copy matches the new feature, not the old one.
+
+**Notes:**
+- Deliberately did not invent a "cost to fix" or "effort" number — this codebase's whole premise (see the `linked_outages`/`assumed_default` distinction already in `initDashboard`) is refusing to fabricate figures it can't source, and a made-up effort/cost metric would violate that same principle. Every priority input is a number the app already computes and displays elsewhere on the row.
+- If this still doesn't land with YC after a live look, the fallback YC pre-approved is straightforward removal of the whole what-if strip — not a further redesign — since they said as much when asked.
+
+**CC summary:**
+1. Independent syntax check: `node --check docs/app.js` passed.
+2. Committed `docs/app.js`, `docs/index.html`, `docs/style.css` and pushed as `47e789a` (separately from task-058/059's `6000b5a`, since this diff landed in the working tree mid-session, after those two were already pushed).
+3. **Live-verified on therm-iq.vercel.app post-deploy** (first fetch of `/app.js` showed stale cached content despite `computePriority`/`In closure plan` being present server-side — a hard `location.reload(true)` was needed before the new code actually ran client-side; noting this in case a future session sees "deployed but old behavior" and assumes the push failed):
+   - Priority chips — **PASS:** all 15 quantified gap rows show a "Priority #N" chip; chip order is independent of the table's ₹-sort (e.g. table row 6 showed "Priority #9", row 7 showed "Priority #6"), confirming the table stays ₹-sorted while ranking is separate.
+   - Recommended closure order — **PASS:** strip showed "Recommended closure order: #1 Turbine → #2 Turbine → #3 Boiler — clears ₹110.5 Cr (30%) of quantified exposure." before anything was ticked.
+   - Closure plan toggle — **PASS:** ticked two non-top-3-by-₹ rows (Priority #9 and #6); both flipped to "✓ In closure plan"; Total Risk Exposure dropped ₹367 Cr → ₹313 Cr with "PLAN PREVIEW · real: ₹367 Cr"; strip updated to "2 gaps marked to close — ₹53.3 Cr (15%) would clear... Picking the 2 largest ₹ gaps instead would clear ₹80.5 Cr — this pick captures 66% of that, trading some ₹ for higher-priority items" — the efficiency-comparison sentence works and correctly frames the tradeoff.
+   - Reset plan — **PASS:** restored `total-risk` to the real ₹367 Cr with no PLAN PREVIEW note.
+   - Tour copy — **PASS:** step 3 title reads "Gaps, priced — and ranked by what to fix first" (confirmed via source read of `initDemoTour()`), matching the new feature rather than the old "Simulate fix" wording.
+4. No regressions observed in the rest of the Live Sheet view (stat cards, CEA outages table) during this pass.
+
+---
+
 ### Task format (Cowork uses this when writing new tasks)
 
 ```
