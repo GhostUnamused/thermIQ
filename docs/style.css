@@ -3794,14 +3794,20 @@ body { letter-spacing: 0.005em; }
   margin-top: 0.15rem;
 }
 
-/* ═══ Chat ↔ Graph linking (2026-07-11, FEATURE_PLAN #2) ═══ */
+/* ═══ Chat ↔ Graph linking (2026-07-11, FEATURE_PLAN #2 · restyled 2026-07-11) ═══ */
 
-/* "View in graph →" chips under an answer that mentions a known failure mode */
-.graph-link-chips { margin-top: 0.5rem; }
+/* "View in graph ↗" chip — merged into the same .followup-chips row as the
+   ₹/regulation/coverage chips (see injectGraphLinkChips in app.js), so it
+   reads as one row of next-step chips rather than a second, louder block
+   competing for attention. Solid fill (vs. the dashed outline used for
+   "ask this question" chips) is the only differentiator — same size, same
+   weight, same family — signaling "this navigates" without shouting. */
+.graph-link-chips { margin-top: 0.35rem; }
 .chip-graph-link {
   border-style: solid;
-  font-weight: 600;
+  background: var(--accent-muted, rgba(245, 158, 11, 0.12));
 }
+.chip-graph-link:hover { background: var(--accent, #f59e0b); color: #0d1321; }
 
 /* "Ask ThermIQ about this →" button in the graph side panel */
 .btn-ask-thermiq {
@@ -3832,37 +3838,49 @@ body { letter-spacing: 0.005em; }
 
 /* ═══ Demo / onboarding tour (2026-07-11, FEATURE_PLAN #3) ═══ */
 
-/* Spotlight ring — the huge box-shadow dims everything around the target.
-   pointer-events: none so the highlighted control stays clickable. */
+/* Spotlight ring — the huge box-shadow dims everything around the target,
+   using the theme's own --overlay token so it's a dark navy scrim in dark
+   mode and a soft slate scrim in light mode (not a hardcoded black flash).
+   pointer-events: none so the highlighted control stays clickable.
+   Both ring and card start at opacity:0 and only fade in once JS has
+   measured the real target and positioned them (see positionAround() in
+   app.js) — otherwise the 9999px box-shadow paints a full-screen dark
+   overlay for the ~200-900ms before the first target is found, which reads
+   as an unwanted flash before "Step 1" appears. */
 .tour-ring {
   position: fixed;
   z-index: 4000;
-  border: 2px solid var(--accent, #14b8a6);
+  border: 2px solid var(--accent);
   border-radius: 12px;
-  box-shadow: 0 0 0 9999px rgba(6, 10, 20, 0.62);
+  box-shadow: 0 0 0 9999px var(--overlay);
   pointer-events: none;
-  transition: left 0.25s ease, top 0.25s ease, width 0.25s ease, height 0.25s ease;
+  opacity: 0;
+  transition: left 0.25s ease, top 0.25s ease, width 0.25s ease, height 0.25s ease, opacity 0.2s ease;
 }
+.tour-ring.tour-visible { opacity: 1; }
 
 .tour-card {
   position: fixed;
   z-index: 4001;
-  background: var(--bg-card, var(--bg-alt, #111a2e));
+  background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 0.9rem 1rem 0.8rem;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-  transition: left 0.25s ease, top 0.25s ease;
+  opacity: 0;
+  pointer-events: none;
+  transition: left 0.25s ease, top 0.25s ease, opacity 0.2s ease;
 }
-.tour-card h4 { margin: 0.25rem 0 0.35rem; font-size: 0.95rem; color: var(--text); }
+.tour-card.tour-visible { opacity: 1; pointer-events: auto; }
+.tour-card h4 { margin: 0.25rem 0 0.35rem; font-size: 0.95rem; color: var(--text-primary); }
 .tour-card p  { margin: 0 0 0.7rem; font-size: 0.78rem; line-height: 1.5; color: var(--text-muted); }
 .tour-step-badge {
   display: inline-block;
   font-size: 0.62rem;
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: var(--accent, #14b8a6);
-  border: 1px solid var(--accent, #14b8a6);
+  color: var(--accent);
+  border: 1px solid var(--accent);
   border-radius: 999px;
   padding: 0.12rem 0.5rem;
 }
@@ -3871,7 +3889,7 @@ body { letter-spacing: 0.005em; }
   background: transparent;
   border: 1px solid var(--border);
   border-radius: 8px;
-  color: var(--text);
+  color: var(--text-primary);
   font-family: inherit;
   font-size: 0.74rem;
   font-weight: 600;
@@ -3879,15 +3897,16 @@ body { letter-spacing: 0.005em; }
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s, color 0.15s;
 }
-.tour-btn:hover { border-color: var(--accent, #14b8a6); }
+.tour-btn:hover { border-color: var(--accent); }
 .tour-btn-next {
-  background: var(--accent, #14b8a6);
-  border-color: var(--accent, #14b8a6);
-  color: #0d1321;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #1a1200;
 }
+[data-theme="light"] .tour-btn-next { color: #fff; }
 .tour-btn-next:hover { filter: brightness(1.1); }
 .tour-btn-skip { margin-right: auto; border: none; color: var(--text-muted); }
-.tour-btn-skip:hover { color: var(--text); text-decoration: underline; }
+.tour-btn-skip:hover { color: var(--text-primary); text-decoration: underline; }
 
 /* ═══ Empty states (2026-07-11, FEATURE_PLAN #5) ═══ */
 

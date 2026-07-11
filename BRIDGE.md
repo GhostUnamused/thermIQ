@@ -820,6 +820,99 @@ git push origin main
 
 ---
 
+### [DONE] task-061 | 2026-07-11T16:15:00Z
+**From:** Cowork
+**Task:** YC's feedback on a screenshot: the "Open the Risk & Gap Graph →" chip and its accompanying chat answer are ugly and "doesn't feel integrated like how it is in claude." Also asked for ↑/↓ arrow-key history recall in the chat input.
+
+**Root cause of the ugliness, confirmed from code (not just visual guessing):** asking "link me to graph" hits the RAG pipeline, whichever model answers (Gemini → NIM → OpenRouter fallback cascade) has no real concept of "open a view for the user," so it produces a generic refusal ("I apologize, but I cannot provide a link to a graph. I am a text-based AI…") — that's the actual assistant message text in the screenshot, not app copy. On top of that, `injectGraphLinkChips()` was appending its chip **inside** `.chat-bubble`, but `.msg-actions` (the timestamp/copy/regen row) is `position: absolute; bottom: -24px` pinned to that same bubble's bottom edge — so adding content inside the bubble pushed the anchor down and the actions row visually rendered *below* the graph chip instead of right after the text, exactly matching the broken stacking in the screenshot.
+
+**What was built (all edited by Cowork — DO NOT re-edit, just verify/commit):**
+
+*Fix 1 — kill the broken LLM apology (docs/app.js):*
+- New `isPureGraphNavRequest(q)` — narrow regex match (a navigation verb near the word "graph", message under 50 chars) so only genuine "take me to the graph" asks are caught; a longer message that happens to mention "graph" still goes through RAG normally.
+- `submit()` now checks this **before** calling the backend at all — on a match it pushes a short, deterministic, friendly assistant line ("Here you go — the Risk & Gap Graph traces every equipment failure mode to its real ₹ outage history and the regulation that mandates fixing it.") and returns, skipping the API round-trip entirely. No model in the fallback cascade ever gets asked to do something it can't.
+
+*Fix 2 — chip placement bug (docs/app.js):*
+- `injectGraphLinkChips()` no longer appends inside `.chat-bubble`. It now merges the graph chip(s) into the **existing** `.followup-chips` sibling row (the same row as the ₹/regulation/coverage chips), prepended so navigation leads. Falls back to inserting a new sibling row via `insertAdjacentElement('afterend', ...)` only if no follow-up row exists (e.g. an error message). This fully avoids the `.msg-actions` absolute-positioning collision — root cause fixed, not just papered over with CSS.
+
+*Fix 3 — visual integration (docs/style.css):*
+- `.chip-graph-link` no longer has `font-weight: 600` (was reading as a bold standalone CTA/ad banner). Now solid-filled at low opacity (`var(--accent-muted)`) vs. the dashed-outline "ask this question" chips — same size, same row, same family, just enough visual difference to signal "this navigates" without shouting.
+- Button label icon changed from `→` to `↗` (mirrors the arrow already used elsewhere for external/navigate actions in this app, e.g. "Open Google Sheet ↗").
+
+*Feature — arrow-key message history (docs/app.js):*
+- `initQueryCopilot()` gained `historyIdx`/`historyDraft` closure state. ↑ recalls the active chat's previously **sent** (user-role) messages, most recent first, mirroring shell/CLI history; ↓ steps forward and restores the original in-progress draft once you cycle past the newest. Only takes over when the caret is at the field's start/end (or a recall is already mid-cycle), so normal cursor movement inside a longer multi-line draft is never hijacked. Resets on send, New Chat, chat switch, and any real typing (a dedicated `input` listener — the recall's own writes never fire a native `input` event, so they don't self-cancel).
+
+**CC must do:**
+1. Syntax check (Cowork verified via direct Read-tool inspection of every edited region — the bash sandbox mount was showing a stale/truncated read again this session, known issue):
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+node --check docs/app.js && echo OK
+```
+2. Commit + push:
+```bash
+git add docs/app.js docs/style.css BRIDGE.md
+git commit -m "fix: skip RAG round-trip for pure graph-nav asks (no more broken 'I'm a text-based AI' reply); merge graph chip into the follow-up row instead of colliding with msg-actions; feat: arrow-key chat history recall"
+git push origin main
+```
+3. Live click-test after deploy, Chat view:
+   - Send "link me to graph" (or "show me the graph", "open the graph") — should get an **instant** friendly reply (no RAG delay/typing indicator) plus a single, calm "Open the Risk & Gap Graph ↗" chip in the same row position the ₹-risk/regulation/coverage chips normally occupy; clicking it opens `#/graph`.
+   - Send a real question that happens to mention a known failure mode (e.g. "what's the status of turbine vibration response?") — confirm the "View '<failure mode>' in graph ↗" chip still appears, now merged into the same row as the 3 standard follow-up chips, not a separate block below the action-icons row.
+   - Hover an assistant bubble — confirm the timestamp/copy/regen/Shorter/Simplify/Checklist row renders directly under the text with no visual overlap or gap-collision, regardless of whether a graph chip is present.
+   - In the chat input: type nothing, press ↑ — recalls your last sent message; press ↑ again — recalls the one before; press ↓ — steps forward; press ↓ past the newest — returns to an empty box. Type a fresh partial draft, press ↑ then ↓ back to the start — confirms the original draft is preserved, not lost. Switch chats or send a message mid-recall — confirms the cycle resets cleanly (no stale index errors).
+
+**Notes:**
+- `isPureGraphNavRequest`'s regex is intentionally narrow (verb-near-"graph", ≤50 chars) specifically so it doesn't accidentally swallow real questions like "does the graph show boiler tube failures" — those still go through RAG normally since `wantsGraph` (a separate, looser check inside `injectGraphLinkChips`) still catches them for chip purposes without skipping the actual answer.
+- Did not touch `api/query.js`'s system prompt — the frontend short-circuit is a more reliable fix than trying to prompt-tune every model in the Gemini→NIM→OpenRouter fallback cascade to handle a request none of them can actually fulfill.
+
+**CC summary:**
+1. Verified all three pieces present in `docs/app.js`: `isPureGraphNavRequest` (line ~2526), the `historyIdx`/`historyDraft` arrow-key recall state and handlers (~591-881), and the merged-chip logic. `node --check docs/app.js` passed.
+2. Committed together with task-062 below (both edit `docs/app.js`, per Cowork's own note to bundle or sequence them) — see task-062's summary for the shared commit hash.
+3. Static verification only; live click-testing (RAG-skip on graph-nav phrasing, chip row placement, arrow-key history cycling) still needs a human/browser pass post-deploy.
+
+---
+
+### [DONE] task-062 | 2026-07-11T14:35:00Z
+**From:** Cowork
+**Task:** Three fixes YC asked for directly: (1) the demo tour flashes a full-screen dark overlay for ~0.2-1s before Step 1 actually appears, reading as "something shows then it auto-advances without waiting", (2) the tour card renders as a hardcoded near-black box in **both** themes (breaks the light theme badly), (3) the "Open Synced Sheet" button on the hub forces a "Make a copy" prompt every time instead of opening the live doc, so other viewers never see the real synced data.
+
+**Root causes, confirmed from code:**
+1. **Tour flash:** `initDemoTour()`'s `showStep()` calls `ensureEls()` (appends `.tour-ring`/`.tour-card` to `document.body`) synchronously, then only sets their `left/top/width/height` inside a `setTimeout` (200-900ms later, depending on the step's `delay`). `.tour-ring`'s CSS uses `box-shadow: 0 0 0 9999px <overlay-color>` to dim everything outside the spotlight — with no position set yet, that box-shadow still darkens the entire viewport immediately, before the real target is found. It then jumps/transitions into place once the timeout resolves, reading as an unwanted flash before "Step 1" appears.
+2. **Tour black-box-in-both-themes:** `.tour-card`'s background was `var(--bg-card, var(--bg-alt, #111a2e))` — **`--bg-card` and `--bg-alt` don't exist anywhere in this project's token system** (it uses `--surface`), so the fallback `#111a2e` (dark navy) always wins, in light theme too. Same issue on `.tour-ring`'s backdrop, which was a hardcoded `rgba(6, 10, 20, 0.62)` instead of the theme-aware `--overlay` token that already exists for exactly this purpose (dark: `rgba(2,6,16,0.65)`, light: `rgba(15,23,42,0.25)`). A few other tour rules used `var(--text)` (also undefined; harmless here since `color` inherits, but cleaned up to `var(--text-primary)` for clarity).
+3. **Sheet button:** `docs/index.html`'s `#sheet-google-link` href ends in `/copy` (added deliberately in task-052 as a workaround for the sheet's "Restricted" sharing — each visitor was meant to get their own live copy). But the button's label ("Open Synced Sheet ↗") and tooltip never matched that behavior, and **task-054's note confirms the sheet's sharing was still "Restricted" as of the most recent session** — meaning the `/copy` prompt doesn't even work for anyone outside YC's own account (Google requires "Anyone with the link: Viewer" at minimum for `/copy` to succeed for others), so in practice it was just friction for YC himself with no actual benefit for other viewers.
+
+**Files already edited by Cowork (DO NOT re-edit — just verify/commit):**
+- `docs/style.css` — `.tour-ring`/`.tour-card` now start at `opacity: 0` (plus `pointer-events: none` on the card) and only reveal via a new `.tour-visible` class; `.tour-ring`'s backdrop is now `var(--overlay)` instead of a hardcoded rgba; `.tour-card`'s background is now `var(--surface)`; `var(--text)` → `var(--text-primary)`; `.tour-btn-next` gets a light-theme text-color override (`[data-theme="light"] .tour-btn-next { color: #fff; }`) matching the existing `.btn-sheet-csv` pattern for accent-colored buttons.
+- `docs/app.js` — `positionAround()` (inside `initDemoTour()`) now adds the `.tour-visible` class to both `ring` and `card` right after setting their real coordinates, so they only fade in once genuinely positioned — no more full-screen flash.
+- `docs/index.html` — `#sheet-google-link` href changed from `.../copy` back to `.../edit?usp=sharing` (plain direct link to the live doc); tooltip text updated to describe opening the live shared sheet directly instead of the copy-to-your-Drive behavior. Label ("Open Synced Sheet ↗") is unchanged and now actually matches what the link does.
+
+**CC must do:**
+1. Syntax check (Cowork's bash sandbox showed its usual stale/truncated mount of `docs/app.js` after editing — known issue, see `feedback_cowork_sandbox_mount_staleness.md` — verified correctness via direct Read-tool inspection of the one added block instead. CC should run the real check on a fresh checkout):
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+node --check docs/app.js && echo OK
+```
+2. Commit + push (only these 3 files — task-061 above is a separate, larger diff already sitting in the same working tree; if it's still PENDING when you get here, do it first/together since both touch `docs/app.js`, or keep them as two commits, your call, just don't lose either):
+```bash
+git add docs/app.js docs/style.css docs/index.html BRIDGE.md
+git commit -m "fix: demo tour no longer flashes full-screen dark overlay before Step 1; fix: tour card themed correctly in light mode (was hardcoded near-black); fix: Open Synced Sheet button opens the live doc directly instead of forcing a copy prompt"
+git push origin main
+```
+3. Live click-test after deploy:
+   - Demo tour: hard-refresh with `?demo=1`, confirm no dark screen appears before the Step 1 spotlight/card fade in together over the actual target (should feel instant + smooth, no flash-then-jump).
+   - Demo tour in **light theme**: confirm the card background is white/light (`--surface`), not a dark navy box.
+   - Live Sheet view: click "Open Synced Sheet ↗" — should open the actual doc directly in a new tab, no "Make a copy" prompt.
+
+**Notes — one thing CC cannot fix, needs YC directly:**
+Even with the `/copy` removal, other viewers (judges, teammates) still won't be able to see live data unless YC changes the Google Sheet's own sharing setting. Per task-050/052/054, it's currently **"Restricted — only people with access can open with the link."** YC needs to: open the Sheet → **Share** → **General access** → change **"Restricted"** to **"Anyone with the link"** → **Viewer**. This is safe to do — the 10-minute auto-refresh trigger runs under YC's own account regardless of who's viewing, so Viewer-only access doesn't break the sync, it just lets others actually see it. This is a Google Drive permission, not something either Cowork or CC can change on YC's behalf.
+
+**CC summary:**
+1. Verified all three fixes present: `.tour-visible` opacity-gated reveal + `--overlay` token usage in `docs/style.css` (lines ~3850-3907), `positionAround()` adding `.tour-visible` in `docs/app.js` (~2834-2835), and `#sheet-google-link` pointing at `.../edit?usp=sharing` in `docs/index.html:368`. `node --check docs/app.js` passed.
+2. Committed task-061 + task-062 together as one push (both touch `docs/app.js`, no conflict between the two diffs — confirmed by reading both regions directly).
+3. Reminder carried forward for YC: the Google Sheet's sharing is still "Restricted" — the button now points at the right URL, but it only helps other viewers once YC flips **Share → General access → Anyone with the link → Viewer**, which is a Google Drive permission change CC cannot make on YC's behalf.
+4. Static verification only; live click-testing (tour flash/theme in browser, sheet link opening the live doc without a copy prompt) still needs a human/browser pass post-deploy.
+
+---
+
 ### Task format (Cowork uses this when writing new tasks)
 
 ```

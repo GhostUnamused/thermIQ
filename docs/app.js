@@ -588,6 +588,8 @@ function initQueryCopilot() {
   let store = loadStore();
   let activeEditIdx = null;
   let currentAbort = null; // in-flight request controller — the Stop button aborts it
+  let historyIdx = null;   // ↑/↓ recall position into this chat's sent messages; null = not browsing
+  let historyDraft = '';   // whatever was typed before history browsing started, restored on ↓ past the newest
   const sidebarControls = initSidebar();
 
   function refresh() {
@@ -636,6 +638,7 @@ function initQueryCopilot() {
   if (newChatBtn) {
     newChatBtn.addEventListener('click', () => {
       activeEditIdx = null;
+      historyIdx = null;
       const id = generateId();
       store.chats[id] = {
         id,
@@ -687,6 +690,7 @@ function initQueryCopilot() {
         const id = chatItem.dataset.chatId;
         if (id !== store.activeId) {
           activeEditIdx = null;
+          historyIdx = null;
           store.activeId = id;
           saveStore(store);
           refresh();
@@ -710,10 +714,10 @@ function initQueryCopilot() {
       inputEl.style.height = 'auto';
     }
     sendBtn.disabled = true;
-    currentAbort = new AbortController();
+    historyIdx = null; // a new message invalidates any in-progress ↑/↓ recall
 
     const chat = getActiveChat(store);
-    if (!chat) return;
+    if (!chat) { sendBtn.disabled = false; return; }
 
     // Add user message
     chat.messages.push({ role: 'user', content: query, ts: Date.now() });
@@ -724,9 +728,33 @@ function initQueryCopilot() {
     }
 
     chat.updatedAt = Date.now();
+
+    // A pure "take me to the graph" ask doesn't need a RAG round-trip — asking
+    // whichever model answers (Gemini → NIM → OpenRouter) to handle a request
+    // it has no real capability for is exactly how a broken "I'm a text-based
+    // AI, I cannot provide a link" reply happened live. Answer it directly.
+    if (isPureGraphNavRequest(query)) {
+      chat.messages.push({
+        role: 'assistant',
+        content: 'Here you go — the Risk & Gap Graph traces every equipment failure mode to its real ₹ outage history and the regulation that mandates fixing it.',
+        sources: [],
+        model_used: null,
+        ts: Date.now(),
+      });
+      chat.updatedAt = Date.now();
+      saveStore(store);
+      renderMessages(chat.messages);
+      renderSidebar(store);
+      sendBtn.disabled = false;
+      inputEl.focus();
+      return;
+    }
+
     saveStore(store);
     renderMessages(chat.messages);
     renderSidebar(store);
+
+    currentAbort = new AbortController();
 
     const typing = addTypingIndicator();
 
@@ -793,13 +821,64 @@ function initQueryCopilot() {
   }
 
   sendBtn.addEventListener('click', () => submit());
+
+  // ↑/↓ recall previously sent messages in this chat, most recent first —
+  // shell/CLI-style history. Only takes over when the caret sits at the
+  // field's edge (or a recall is already in progress), so normal cursor
+  // movement inside a longer multi-line draft is never hijacked.
+  function setInputValue(text) {
+    inputEl.value = text;
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
+    const end = inputEl.value.length;
+    inputEl.setSelectionRange(end, end);
+  }
+  function sentMessageHistory() {
+    const chat = getActiveChat(store);
+    return chat ? chat.messages.filter((m) => m.role === 'user').map((m) => m.content) : [];
+  }
+
   // Enter sends; Shift+Enter inserts a newline (Ctrl/Cmd+Enter still works).
   inputEl.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) {
       e.preventDefault();
       submit();
+      return;
+    }
+
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+      const atStart = inputEl.selectionStart === 0 && inputEl.selectionEnd === 0;
+      const atEnd = inputEl.selectionStart === inputEl.value.length && inputEl.selectionEnd === inputEl.value.length;
+      const midRecall = historyIdx !== null;
+
+      if (e.key === 'ArrowUp' && (atStart || midRecall)) {
+        const hist = sentMessageHistory();
+        if (hist.length) {
+          e.preventDefault();
+          if (historyIdx === null) { historyDraft = inputEl.value; historyIdx = hist.length; }
+          historyIdx = Math.max(0, historyIdx - 1);
+          setInputValue(hist[historyIdx]);
+        }
+        return;
+      }
+      if (e.key === 'ArrowDown' && midRecall && atEnd) {
+        e.preventDefault();
+        const hist = sentMessageHistory();
+        historyIdx += 1;
+        if (historyIdx >= hist.length) {
+          historyIdx = null;
+          setInputValue(historyDraft);
+        } else {
+          setInputValue(hist[historyIdx]);
+        }
+        return;
+      }
     }
   });
+
+  // Any manual edit exits history-recall mode (our own recall writes never
+  // fire a native 'input' event, so this only triggers on real typing).
+  inputEl.addEventListener('input', () => { historyIdx = null; });
 
   // ── Message action delegation (copy / edit / rerun / cancel) ──
   // (messagesEl is already defined for the scroll-bottom handler)
@@ -2437,20 +2516,48 @@ function openGraphFocused(fmId) {
   }
 }
 
+// A pure "take me to the graph" ask doesn't need a RAG round-trip — and
+// handing it to whichever model answers (Gemini → NIM → OpenRouter, each
+// with its own idea of "I have no visual capability") is exactly how YC hit
+// a broken "I'm a text-based AI, I cannot provide a link" reply live. Short,
+// narrowly-scoped requests only (verb near "graph", under 50 chars) — a
+// longer message that happens to mention "graph" is far more likely a real
+// question the RAG pipeline should actually answer.
+function isPureGraphNavRequest(q) {
+  const s = String(q || '').trim().toLowerCase();
+  if (!s || s.length > 50) return false;
+  const verb = '(?:link|take|show|open|go|navigate|bring)';
+  return new RegExp(`\\b${verb}\\b.{0,20}\\bgraph\\b`).test(s)
+      || new RegExp(`\\bgraph\\b.{0,20}\\b${verb}\\b`).test(s);
+}
+
 // After an answer renders, keyword-match it against the graph's known failure
 // modes and append "View in graph →" chips for any mentioned. Async — the gap
 // index is one cached fetch; injection targets the last assistant bubble only.
+//
+// These chips are always merged into the SAME row as the ₹/regulation/
+// coverage follow-up chips (a sibling of the bubble), never appended inside
+// the bubble itself — `.msg-actions` is pinned to the bubble's own bottom
+// edge via `position: absolute; bottom: -24px`, so adding content inside the
+// bubble pushes that anchor down and it visually collides with whatever
+// renders next. Keeping chips as siblings avoids that entirely and reads as
+// one coherent "next step" row instead of a second, differently-styled block.
 async function injectGraphLinkChips() {
   const messagesEl = document.getElementById('chat-messages');
   if (!messagesEl) return;
   const bubbles = messagesEl.querySelectorAll('.chat-bubble.assistant-bubble:not(.typing-bubble)');
   const last = bubbles[bubbles.length - 1];
-  if (!last || last.querySelector('.graph-link-chips')) return;
+  if (!last) return;
+  const existingRow = () => {
+    const sib = last.nextElementSibling;
+    return sib && sib.classList.contains('followup-chips') ? sib : null;
+  };
+  if (existingRow()?.querySelector('.chip-graph-link')) return;
 
   const gaps = await loadGraphGapIndex();
   // Re-check the bubble is still in the DOM and still chip-free (a re-render
   // or a newer answer may have landed while the index was loading).
-  if (!last.isConnected || last.querySelector('.graph-link-chips')) return;
+  if (!last.isConnected || existingRow()?.querySelector('.chip-graph-link')) return;
 
   // LLM prose varies ("turbine high-vibration" vs "turbine high vibration"),
   // so a naive substring check misses real mentions (bug found live in
@@ -2481,25 +2588,35 @@ async function injectGraphLinkChips() {
   const wantsGraph = / graph | knowledge map | network view /.test(userNorm);
   if (!matches.length && !wantsGraph) return;
 
-  const wrap = document.createElement('div');
-  wrap.className = 'followup-chips graph-link-chips';
+  const chips = [];
   matches.forEach((g) => {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'chip chip-followup chip-graph-link';
-    btn.textContent = `View "${g.failure_mode || g.failure_mode_id}" in graph →`;
+    btn.textContent = `View "${g.failure_mode || g.failure_mode_id}" in graph ↗`;
     btn.addEventListener('click', () => openGraphFocused(g.failure_mode_id));
-    wrap.appendChild(btn);
+    chips.push(btn);
   });
   if (!matches.length && wantsGraph) {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'chip chip-followup chip-graph-link';
-    btn.textContent = 'Open the Risk & Gap Graph →';
+    btn.textContent = 'Open the Risk & Gap Graph ↗';
     btn.addEventListener('click', () => showView('graph'));
-    wrap.appendChild(btn);
+    chips.push(btn);
   }
-  last.appendChild(wrap);
+
+  // Lead with the navigation chip(s) — the row's existing ₹/regulation/
+  // coverage chips, if any, follow after.
+  const row = existingRow();
+  if (row) {
+    [...chips].reverse().forEach((btn) => row.prepend(btn));
+  } else {
+    const wrap = document.createElement('div');
+    wrap.className = 'followup-chips graph-link-chips';
+    chips.forEach((btn) => wrap.appendChild(btn));
+    last.insertAdjacentElement('afterend', wrap);
+  }
 }
 
 // Prefill the chat input with a question and switch to the chat view.
@@ -2709,6 +2826,13 @@ function initDemoTour() {
     let left = Math.min(Math.max(12, r.left), window.innerWidth - cw - 12);
     card.style.top  = `${top}px`;
     card.style.left = `${left}px`;
+
+    // Ring/card start at opacity:0 (see .tour-ring / .tour-card in
+    // style.css) so the 9999px spotlight box-shadow can't paint a
+    // full-screen dark flash before we know where the target actually is.
+    // Reveal only now that real coordinates are set.
+    ring.classList.add('tour-visible');
+    card.classList.add('tour-visible');
   }
 
   function renderCard(i) {
