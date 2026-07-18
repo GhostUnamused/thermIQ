@@ -5,6 +5,9 @@
 
 ---
 
+## task-063 | 2026-07-12 | DONE
+Replaced the shared Apps Script Google Sheet ("Open Synced Sheet") with a per-plant themed .xlsx export generated client-side via ExcelJS (lazy-loaded from cdnjs on first click) — no Google account, OAuth, or new Vercel function needed. `downloadExcelReport()` fetches `api/gap_analysis?client_name=<active>` and builds a themed workbook (title band, navy header, coverage-status color chips, ₹ Cr / % / x-of-5 formats) as `thermiq_<client>_risk_<date>.xlsx`. `apps-script/Code.gs` and the old shared sheet are deprecated but left in place for reference. `node --check docs/app.js` passed; live click-testing (download rendering correctly per-plant in Excel/LibreOffice) still needed. Commit: 7e7e235
+
 ## task-062 | 2026-07-11 | DONE
 Fixed 3 YC-flagged UI bugs: demo tour's full-screen dark flash before Step 1 (root cause: `.tour-ring`'s `box-shadow: 0 0 0 9999px` rendered before position was set; fixed with an opacity-gated `.tour-visible` class added only after real coordinates land); tour card rendering as hardcoded near-black in both themes (root cause: `--bg-card`/`--bg-alt` tokens don't exist in this project — fixed by switching to the real `--surface`/`--overlay` tokens); "Open Synced Sheet" forcing a "Make a copy" prompt for everyone (href changed from `.../copy` to `.../edit?usp=sharing`). Static verification only (grep-confirmed all 3 code changes present, `node --check docs/app.js` passed) — live click-testing still needed. Reminder for YC: the Google Sheet's sharing is still "Restricted", so other viewers still need YC to flip Share → Anyone with the link → Viewer for the fixed button to actually help them. Commit: 4eae9e4 (bundled with task-061).
 
