@@ -5,6 +5,9 @@
 
 ---
 
+## task-064 | 2026-07-18 | DONE (validation only, nothing shipped)
+Dry-ran the new evidence-graded gap engine `scripts/detect_gaps_v4.py` (per-item consequence, Gemini-adjudicated coverage, A/B/C evidence grades, failure/regulatory tranche split) against `ntpc`, no Firestore writes. Grade distribution 3A/9B/7C — most items are class-derived or expert/regulatory, an honest finding given real CEA record volume. Gemini coverage adjudication ran live for 18/19 items (1 fell back cleanly on a live 429). 9/17 failure items flagged for consequence divergence >2.5x, dominated by 2 outliers (generator_stator_winding 17.9x, turbine_blade_inspection 10.1x) whose MW/MTTR assumptions need a human review. Failure-tranche total ₹2,223.3 Cr vs v3's ₹416.4 Cr headline — a ~5.3x jump explained by those 2 outliers plus v4 fixing v3's degenerate per-tag-averaged consequence. v3 untouched, no readers/app.js edited; v4 script committed (pure addition, unreferenced) pending a separate swap-in decision. Commit: (see BRIDGE.md task-064 for full numbers)
+
 ## task-063 | 2026-07-12 | DONE
 Replaced the shared Apps Script Google Sheet ("Open Synced Sheet") with a per-plant themed .xlsx export generated client-side via ExcelJS (lazy-loaded from cdnjs on first click) — no Google account, OAuth, or new Vercel function needed. `downloadExcelReport()` fetches `api/gap_analysis?client_name=<active>` and builds a themed workbook (title band, navy header, coverage-status color chips, ₹ Cr / % / x-of-5 formats) as `thermiq_<client>_risk_<date>.xlsx`. `apps-script/Code.gs` and the old shared sheet are deprecated but left in place for reference. `node --check docs/app.js` passed; live click-testing (download rendering correctly per-plant in Excel/LibreOffice) still needed. Commit: 7e7e235
 

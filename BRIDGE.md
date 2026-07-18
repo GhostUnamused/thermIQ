@@ -947,6 +947,56 @@ git push origin main
 
 ---
 
+### [DONE] task-064 | 2026-07-18T14:00:00Z
+**From:** Cowork
+**Task:** VALIDATE (do not yet ship) a rewritten gap-scoring engine `scripts/detect_gaps_v4.py`. This is the response to YC's push that the v3 engine's ₹-risk logic is "hardcoded not dynamic" and must be "true and useful, not noise that won't last in production." v4 is written as a **new, non-destructive file** — v3 (`scripts/detect_gaps.py`) stays the live engine until v4's dry-run output is validated by a human. **Cowork cannot run this itself: this sandbox's network can't reach Firestore (proxy blocks it) or Gemini.** CC has local `.env` + real network, so CC must run the dry-run and report numbers back before anything is swapped in.
+
+**What v4 changes vs v3 (context for judging the output):**
+1. **Criticality** stays expert-assigned but the `criticality_method` lie (`"derived_from_CEA_outage_frequency"`) is deleted — relabelled `"expert_assigned_CEA_CERC_justified"` with an explicit note that criticality of a failure *mode* is domain-stable and must NOT be frequency-derived (a rare-catastrophic mode like stator failure must stay 5 at n=1). Each item now also carries a live `outage_evidence` block (real CEA frequency+severity for its `failure_category`) + an `outage_evidence_agreement` flag — the fixed number is now cross-checked against real data.
+2. **Consequence** is no longer degenerate (v3 gave every item in an equipment_tag the identical tag-average ₹). v4 computes a **per-item** figure from an explicit physical model: `mw_impact_mw × mttr_hrs × ₹5/kWh`, each with a stated `mw_impact_basis`, then cross-validates against the real CEA category mean and stores `consequence_divergence_ratio`.
+3. **Exposure** is no longer `1 − cosine` multiplied into rupees (false precision). v4 retrieves client chunks then has **Gemini adjudicate** covered/partial/absent WITH a cited quote + confidence (`coverage_verdict`/`coverage_quote`/`coverage_confidence`/`coverage_method`), mapped to exposure {0.15/0.5/1.0}. Falls back to a threshold verdict, honestly labelled, if Gemini is unavailable.
+4. **Evidence grades A/B/C** on every item, and the register is split into two **tranches**: `failure` (rupee-costed) and `regulatory` (spares list, RLA — ranked by unitless `compliance_priority`, NOT summed into the ₹ total). Fixes v3's category error of adding documentation-risk rupees to outage-risk rupees.
+
+**Files changed by Cowork:** `scripts/detect_gaps_v4.py` (NEW — v3 untouched).
+
+**CC must do (validation only — no ship, no Firestore write, no reader edits):**
+1. Compile check: `python -m py_compile scripts/detect_gaps_v4.py && echo OK`
+2. Dry-run against a plant that has real client docs AND full CEA data (ntpc):
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+python scripts/detect_gaps_v4.py --client ntpc --dry-run
+```
+   The `--dry-run` writes NO Firestore data; it prints the register and dumps `scripts/detect_gaps_v4_dryrun.json`.
+3. Report back in your CC summary, so YC/Cowork can judge before swapping:
+   - **Grade distribution** (how many items landed A / B / C). This is the honesty check — it reveals how many of the 19 modes CEA data can actually back. If almost everything is B/C, that's a true finding we must surface, not hide.
+   - The printed per-`failure_category` record counts + annual_freq + mean ₹ (the engine prints these on load). Confirms whether `MIN_RECORDS_FOR_GRADE_A = 12` is a sane threshold for the real data volume, or needs tuning.
+   - Whether **Gemini coverage adjudication actually ran** (`coverage_method: llm_adjudicated`) or fell back (`similarity_threshold_fallback`) — i.e. is `GEMINI_API_KEY`/`GOOGLE_API_KEY` present in `.env`? Paste 2–3 example `coverage_verdict` + `coverage_quote` values so we can eyeball whether the LLM verdicts are sensible.
+   - Any **consequence divergence flags** the run prints (derived vs CEA-category-mean off >2.5×) — these tell us if a `mw_impact_mw`/MTTR assumption is off and needs correction.
+   - The failure-tranche total vs v3's current headline (₹416.4 Cr for ntpc per task-051) — expect it to differ; that's fine, we want to know by how much and why.
+4. **Do NOT** run without `--dry-run`, **do NOT** edit `scripts/detect_gaps.py`, **do NOT** touch any `api/*.js` reader or `docs/app.js` yet. Swap-in is a separate task after YC reviews these numbers.
+
+**Notes:**
+- Known follow-up (NOT this task): when v4 does ship, `docs/app.js` `initDashboard()`'s quantified-vs-needsDocs split (task-051) keys off `linked_outages`/`consequence_method`; v4's tranche/`evidence_grade` fields supersede that logic, so the frontend split must be updated in the swap task, and the dashboard should surface `evidence_grade` + `coverage_quote` (the whole point is showing the audit trail). Flagging so it isn't missed later.
+- v4 keeps every backward-compatible Firestore field name v3 wrote (`risk_score_cr`, `criticality_score`, `consequence_cr`, `coverage_status`, `topic`, `client_name`, `client_score`, etc.) so existing readers won't break even if it does ship — it only ADDS fields.
+- If `GEMINI_API_KEY` isn't in `.env` under that name, check what `api/query.js` uses for its Gemini calls and tell us the env var name so we can align it (the code already tries `GEMINI_API_KEY` then `GOOGLE_API_KEY`).
+
+**CC summary (validation only — nothing shipped, no Firestore writes, v3/api/app.js untouched):**
+1. `python -m py_compile scripts/detect_gaps_v4.py` → OK. `.env` has `GEMINI_API_KEY` (+ 2 fallback keys) so the LLM adjudication path was live, not the fallback-only path.
+2. Ran `python scripts/detect_gaps_v4.py --client ntpc --dry-run` (had to force `PYTHONIOENCODING=utf-8` — Windows console cp1252 can't print ₹, a local-terminal issue only, not a script bug). No Firestore writes; wrote `scripts/detect_gaps_v4_dryrun.json` (left untracked, it's a scratch artifact).
+3. **Grade distribution:** A=3, B=9, C=7 (of 19 items: 17 failure-tranche + 2 regulatory). Honesty check confirmed — most items are class-derived (B) or expert/regulatory (C), only 3 have enough CEA records (`MIN_RECORDS_FOR_GRADE_A=12`) to be fully data-derived. That's a real, worth-surfacing finding, not a bug.
+4. **CEA category counts on load:** `unclassified=267 (f19.76/yr, ₹10.78 Cr)`, `tube_failure=65 (f4.81/yr, ₹14.79 Cr)`, `vibration=4 (f0.3/yr, ₹18.9 Cr)`, `pump_failure=2 (f0.15/yr, ₹23.4 Cr)`. `vibration`/`pump_failure` have only 2-4 records each — `MIN_RECORDS_FOR_GRADE_A=12` looks sane relative to `tube_failure`'s 65 but is unreachable for the thinner categories at current CEA volume; worth flagging to YC/Cowork as a data-volume ceiling, not a threshold bug.
+5. **Gemini coverage adjudication ran live** (`coverage_method: llm_adjudicated`) for 18/19 items; exactly 1 item (`air_preheater_maintenance`) hit a live `429 Too Many Requests` from `generativelanguage.googleapis.com` mid-run and correctly fell back to `similarity_threshold_fallback`, labelled honestly rather than silently. Sample verdicts/quotes (all grounded in real ingested SOP text, not fabricated):
+   - *Boiler Waterwall Inspection* → `partial`, confidence 0.8: "Corrosion mapping of water wall tubes in Boiler... RFET (Remote Field Electromagnetic Testing) Technique to be used..."
+   - *Superheater Maintenance* → `partial`, confidence 0.8: "QLIMS database having details on IBR welders' qualification, skill and performance rating can partly substitute..."
+   - *Boiler Startup Procedure* → `partial`, confidence 0.9: "HRSG warming is required to offer Freeze protection, startup holds and mitigate HP Drum/Piping Fatigue."
+6. **Consequence divergence flags (>2.5×, derived vs CEA-category-mean):** 9 of 17 failure items flagged — largest outliers `generator_stator_winding` (derived ₹270.0 Cr vs CEA ₹15.07 Cr, 17.9×) and `turbine_blade_inspection` (derived ₹126.0 Cr vs CEA ₹12.53 Cr, 10.1×). Both stem from `unclassified`/`tube_failure` CEA categories not having a matching high-severity bucket for stator/blade failure specifically — the `mw_impact_mw`/MTTR assumption for those two items is the thing to sanity-check with YC before shipping, not a code bug in the divergence check itself.
+7. **Failure-tranche total: ₹2,223.3 Cr** vs v3's current headline ₹416.4 Cr (task-051) for the same client — a ~5.3× jump, driven mostly by the two divergence outliers above plus v4 no longer averaging consequence across an entire `equipment_tag` (v3's degenerate per-tag-average masked the highest-severity items). Regulatory tranche (2 items, `cea_mandatory_spares` priority 4.0 + `rm_life_extension_criteria` priority 3.0) is correctly kept separate and unitless, not summed into the ₹ figure — fixes v3's category error.
+8. **Not done (out of scope per task):** no Firestore write, no edit to `scripts/detect_gaps.py`/any `api/*.js`/`docs/app.js`. `scripts/detect_gaps_v4.py` itself was committed to git (pure addition, nothing reads it yet, so this isn't a ship) so it's version-controlled pending the swap decision.
+
+**Recommendation for YC/Cowork's review:** the grade distribution and coverage-quote grounding look solid and honest. The ₹2,223.3 Cr headline is dominated by 2 divergence-flagged items (stator winding, turbine blade) whose `mw_impact_mw`/MTTR assumptions should be reviewed before this becomes the new headline number — everything else in the register looks directionally reasonable next to v3.
+
+---
+
 ### Task format (Cowork uses this when writing new tasks)
 
 ```
