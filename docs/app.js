@@ -2704,6 +2704,140 @@ function routeFromHash() {
   }
 }
 
+// Excel export — builds a themed .xlsx in the browser from the same
+// api/gap_analysis data the Live Sheet view renders. This replaces both the
+// old shared Apps Script Google Sheet (one doc, one client, trigger-based
+// sync, Restricted sharing) and the /copy-template idea: no Google account,
+// no OAuth, no sharing settings — every user gets a real spreadsheet of the
+// ACTIVE plant's data instantly. It is a snapshot at download time; the
+// in-app Live Sheet view remains the live version.
+// ExcelJS is lazy-loaded from CDN on first click (not on page load).
+const EXCELJS_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js';
+
+function loadExcelJS_() {
+  return new Promise((resolve, reject) => {
+    if (window.ExcelJS) return resolve(window.ExcelJS);
+    const s = document.createElement('script');
+    s.src = EXCELJS_CDN;
+    s.onload = () => resolve(window.ExcelJS);
+    s.onerror = () => reject(new Error('Excel library failed to load'));
+    document.head.appendChild(s);
+  });
+}
+
+// Palette mirrors the retired apps-script/Code.gs THEME (instrument-panel look).
+const XLSX_THEME = {
+  NAVY_DARK: 'FF0D1321', NAVY: 'FF141B2E', TEAL: 'FF14B8A6',
+  RED: 'FFEF4444', AMBER: 'FFF59E0B', GREEN: 'FF22C55E',
+  RED_TINT: 'FFFDECEC', AMBER_TINT: 'FFFEF5E7', GREEN_TINT: 'FFEAFAF0',
+  WHITE: 'FFFFFFFF',
+};
+
+async function downloadExcelReport(btn) {
+  const client = getActiveClient();
+  const original = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Building…';
+  try {
+    const [ExcelJS, resp] = await Promise.all([
+      loadExcelJS_(),
+      fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(client)}`),
+    ]);
+    const data = await resp.json();
+    const gaps = data.gaps || [];
+    if (!gaps.length) throw new Error('No gap data for this plant yet');
+
+    const wb = new ExcelJS.Workbook();
+    const ws = wb.addWorksheet('ThermIQ Risk', { views: [{ state: 'frozen', ySplit: 3 }] });
+
+    const COLS = [
+      { key: 'gap_id',            label: 'Gap ID',              width: 24 },
+      { key: 'topic',             label: 'Topic',               width: 34 },
+      { key: 'equipment_tag',     label: 'Equipment',           width: 16 },
+      { key: 'coverage_status',   label: 'Coverage',            width: 12 },
+      { key: 'criticality_score', label: 'Criticality (/5)',    width: 15 },
+      { key: 'consequence_cr',    label: 'Consequence (Rs Cr)', width: 19 },
+      { key: 'risk_score_cr',     label: 'Risk (Rs Cr)',        width: 14 },
+      { key: 'client_score',      label: 'Doc Coverage',        width: 14 },
+      { key: 'description',       label: 'Description',         width: 64 },
+    ];
+    COLS.forEach((c, i) => { ws.getColumn(i + 1).width = c.width; });
+    const fill = (argb) => ({ type: 'pattern', pattern: 'solid', fgColor: { argb } });
+
+    // Row 1 — title band
+    ws.mergeCells(1, 1, 1, COLS.length);
+    Object.assign(ws.getCell(1, 1), {
+      value: 'THERMIQ — KNOWLEDGE-GAP RISK EXPORT',
+      fill: fill(XLSX_THEME.NAVY_DARK),
+      font: { name: 'Calibri', size: 13, bold: true, color: { argb: XLSX_THEME.TEAL } },
+      alignment: { vertical: 'middle' },
+    });
+    ws.getRow(1).height = 28;
+
+    // Row 2 — status line (facts only: plant, timestamp, row count)
+    ws.mergeCells(2, 1, 2, COLS.length);
+    Object.assign(ws.getCell(2, 1), {
+      value: `Plant: ${client.toUpperCase()}   |   Exported: ${new Date().toLocaleString()}   |   ${gaps.length} rows   |   Snapshot — live data at ${BACKEND}/api/sheet_sync?client_name=${client}`,
+      font: { name: 'Calibri', size: 9, italic: true, color: { argb: 'FF6B7280' } },
+    });
+
+    // Row 3 — header
+    const headerRow = ws.getRow(3);
+    COLS.forEach((c, i) => {
+      Object.assign(headerRow.getCell(i + 1), {
+        value: c.label,
+        fill: fill(XLSX_THEME.NAVY),
+        font: { name: 'Calibri', size: 10, bold: true, color: { argb: XLSX_THEME.WHITE } },
+        alignment: { vertical: 'middle' },
+      });
+    });
+    headerRow.height = 22;
+
+    // Data rows with coverage-status color coding
+    gaps.forEach((g, r) => {
+      const row = ws.getRow(4 + r);
+      const status = String(g.coverage_status || '').toLowerCase();
+      const tint = status === 'gap' ? XLSX_THEME.RED_TINT
+        : status === 'partial' ? XLSX_THEME.AMBER_TINT
+        : status === 'covered' ? XLSX_THEME.GREEN_TINT : null;
+      const chip = status === 'gap' ? XLSX_THEME.RED
+        : status === 'partial' ? XLSX_THEME.AMBER
+        : status === 'covered' ? XLSX_THEME.GREEN : null;
+
+      COLS.forEach((c, i) => {
+        const cell = row.getCell(i + 1);
+        cell.value = g[c.key] ?? '';
+        cell.font = { name: 'Calibri', size: 10 };
+        if (tint) cell.fill = fill(tint);
+        if (c.key === 'criticality_score') { cell.numFmt = '0"/5"'; cell.alignment = { horizontal: 'center' }; }
+        if (c.key === 'consequence_cr') cell.numFmt = '"₹"#,##0.0" Cr"';
+        if (c.key === 'risk_score_cr') { cell.numFmt = '"₹"#,##0.0" Cr"'; cell.font = { name: 'Calibri', size: 10, bold: true }; }
+        if (c.key === 'client_score') { cell.numFmt = '0%'; cell.alignment = { horizontal: 'center' }; }
+        if (c.key === 'description') cell.alignment = { wrapText: true, vertical: 'top' };
+        if (c.key === 'coverage_status' && chip) {
+          cell.fill = fill(chip);
+          cell.font = { name: 'Calibri', size: 10, bold: true, color: { argb: XLSX_THEME.WHITE } };
+          cell.alignment = { horizontal: 'center' };
+        }
+      });
+    });
+
+    const buf = await wb.xlsx.writeBuffer();
+    const blob = new Blob([buf], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `thermiq_${client}_risk_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+    btn.textContent = original;
+  } catch (err) {
+    btn.textContent = '✗ ' + (err.message || 'Export failed');
+    setTimeout(() => { btn.textContent = original; }, 4000);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
 async function loadShellTicker() {
   if (!isSpaShell()) return;
   const client = getActiveClient();
@@ -2712,6 +2846,13 @@ async function loadShellTicker() {
   // Live Sheet CSV feed link (api/sheet_sync, read-only)
   const csvLink = document.getElementById('sheet-csv-link');
   if (csvLink) csvLink.href = `${BACKEND}/api/sheet_sync?client_name=${encodeURIComponent(client)}`;
+
+  // Excel export button — always reads the ACTIVE plant at click time
+  const xlsBtn = document.getElementById('excel-download-btn');
+  if (xlsBtn && !xlsBtn.dataset.bound) {
+    xlsBtn.dataset.bound = '1';
+    xlsBtn.addEventListener('click', () => downloadExcelReport(xlsBtn));
+  }
 
   try {
     const r = await fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(client)}`);

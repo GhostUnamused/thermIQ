@@ -913,6 +913,40 @@ Even with the `/copy` removal, other viewers (judges, teammates) still won't be 
 
 ---
 
+### [DONE] task-063 | 2026-07-12T12:00:00Z
+**From:** Cowork
+**Task:** Replace the shared Apps Script Google Sheet with an in-browser **Excel (.xlsx) export**. Background: YC flagged that every profile's "Open Synced Sheet" opened the same doc (one sheet = one client by design in apps-script/Code.gs), sync was trigger-dependent, and sharing is still Restricted. Cowork first drafted a `/copy`+IMPORTDATA template approach, but YC rejected it ("can't have manual template setup for a real product") and also declined the Google OAuth + Sheets API route for now (1–2 days of consent-screen/token work + Vercel is at the 12-function cap). **Chosen route: per-plant themed .xlsx generated client-side with ExcelJS** — no Google account, no OAuth, no sharing settings, no new serverless function. Snapshot at download time; the in-app Live Sheet view remains the live version.
+
+**Files changed by Cowork (DO NOT re-edit — just verify/commit):**
+- `docs/index.html` — `#sheet-google-link` (old hardcoded Apps Script sheet URL) replaced by `<button id="excel-download-btn">Download Excel (.xlsx)</button>` in the Live Sheet actions row.
+- `docs/app.js` — above `loadShellTicker()`: new `EXCELJS_CDN` const, `loadExcelJS_()` (lazy CDN load on first click, cdnjs exceljs 4.4.0), `XLSX_THEME` palette (mirrors the retired Code.gs theme), and `downloadExcelReport(btn)` which fetches `api/gap_analysis?client_name=<active>`, builds a themed workbook (title band, status line, navy header, coverage-status color chips, ₹ Cr / % / x-of-5 number formats, frozen header, wrapped description column) and triggers a `thermiq_<client>_risk_<date>.xlsx` blob download. Inside `loadShellTicker()`: binds the button once (`dataset.bound` guard); client is read at click time so it always exports the active plant. Errors (e.g. unscored plant) show inline on the button for 4s, no fabricated rows.
+
+**CC must do:**
+1. Syntax check on a fresh checkout — **Cowork's bash mount showed its usual stale/truncated read of docs/app.js after editing** (known issue, `feedback_cowork_sandbox_mount_staleness.md`); the real file was verified complete via direct Read (3,446 lines, all inits present at EOF), but `node --check` must be re-run by CC:
+```bash
+cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"
+node --check docs/app.js && echo OK
+```
+2. Commit + push:
+```bash
+git add docs/app.js docs/index.html BRIDGE.md
+git commit -m "feat: per-plant themed Excel export replaces shared Apps Script Google Sheet (no Google account/OAuth needed)"
+git push origin main
+```
+3. Live click-test after deploy: Live Sheet view → "Download Excel (.xlsx)" for `ntpc` → file downloads and opens in Excel/LibreOffice with title band, colored coverage chips, ₹ Cr formats; switch plant selector to `saraighat` and re-download → different data, different filename. Also test an unscored plant if one exists → button shows an inline error, no file.
+
+**Notes:**
+- `apps-script/Code.gs` and the old shared sheet (`1H0xy...`) are now deprecated but NOT deleted — leave the file for reference; YC can trash the old Drive sheet whenever.
+- ExcelJS loads from cdnjs only when the button is first clicked — zero page-load cost. If the CDN is blocked, the button shows "Excel library failed to load" and recovers.
+- Google OAuth + Sheets API ("create the sheet in the user's own account") is the documented post-hackathon production upgrade if YC wants true live Google Sheets later — it needs a Google Cloud project, consent screen, `GITHUB`-style secret handling in Vercel, and freeing a function slot.
+
+**CC summary:**
+1. `node --check docs/app.js` passed on the real file (3,446 lines, all inits present at EOF) — Cowork's stale-mount concern doesn't apply here.
+2. Committed `docs/app.js`, `docs/index.html`, `BRIDGE.md` and pushed.
+3. Live click-testing (Excel download rendering correctly per-plant in Excel/LibreOffice) still needs a human/browser pass post-deploy — not verified in this session.
+
+---
+
 ### Task format (Cowork uses this when writing new tasks)
 
 ```
