@@ -8,6 +8,10 @@
 
 ---
 
+**Queue status:** empty — no `[PENDING]` or `[IN_PROGRESS]` tasks. task-065 (v4.1 formula fix dry-run) validated 2026-07-19; v3 still the sole live engine.
+
+---
+
 ## Active Queue
 
 ### [DONE] task-033 | 2026-06-30T17:30:00Z
@@ -994,6 +998,49 @@ python scripts/detect_gaps_v4.py --client ntpc --dry-run
 8. **Not done (out of scope per task):** no Firestore write, no edit to `scripts/detect_gaps.py`/any `api/*.js`/`docs/app.js`. `scripts/detect_gaps_v4.py` itself was committed to git (pure addition, nothing reads it yet, so this isn't a ship) so it's version-controlled pending the swap decision.
 
 **Recommendation for YC/Cowork's review:** the grade distribution and coverage-quote grounding look solid and honest. The ₹2,223.3 Cr headline is dominated by 2 divergence-flagged items (stator winding, turbine blade) whose `mw_impact_mw`/MTTR assumptions should be reviewed before this becomes the new headline number — everything else in the register looks directionally reasonable next to v3.
+
+---
+
+### [DONE] task-065 | 2026-07-18T18:00:00Z
+**From:** Cowork
+**Task:** Re-dry-run the gap engine after a **formula fix (v4.0 → v4.1)**. task-064's dry-run exposed a real flaw, not just outliers: v4.0's `risk = criticality × consequence × exposure` **double-counted severity** (consequence already carries severity via MW×MTTR, and criticality is also a severity measure) and had **no likelihood term** — which is why ntpc blew up to ₹2,223 Cr and stator/blade diverged 10–18×. v4.1 rewrites the formula. Same non-destructive posture: still `--dry-run` only, v3 still live, no reader/app edits.
+
+**What v4.1 changed (Cowork already edited `scripts/detect_gaps_v4.py`, compile-checked + offline-unit-tested the math; DO NOT re-edit, just run + report):**
+- **New likelihood term = per-UNIT annual frequency**, derived from CEA data at the finest available granularity: `failure_category` per-unit freq if Grade A, else `equipment_tag` per-unit freq, else a labelled `expert_default_no_data` (0.5/yr). Frequency is the axis CEA data legitimately supplies.
+- **Criticality is now a SHOWN FLAG only, never multiplied** — kills the severity double-count. It still appears per item and drives a `black_swan_flag` (high per-event cost + low expected-annual, computed relatively across the register) so rare-catastrophic modes aren't buried.
+- **Two rupee views per failure item:** `expected_annual_cr = per_unit_freq × consequence × exposure` (expected ₹/yr — the primary ranking, stored in `risk_score_cr`) and `exposure_per_event_cr = consequence × exposure` (₹ if it happens, gap-adjusted).
+- **Fleet→per-unit normalisation:** CEA freq is fleet-wide, consequence is per-unit, so freq is divided by the count of distinct stations (`n_stations`, printed on load). Documented approximation, flagged in output — **CC: report the `n_stations` value so we can sanity-check the scale factor.**
+- Consequence physical model, LLM coverage adjudication, evidence grades A/B/C, and the failure/regulatory tranche split are all unchanged from v4.0.
+
+**Files changed by Cowork:** `scripts/detect_gaps_v4.py` (edited in place; still not read by anything live).
+
+**CC must do (validation only — no ship, no Firestore write, no reader/app edits):**
+1. `python -m py_compile scripts/detect_gaps_v4.py && echo OK` (Cowork already confirmed this compiles; re-confirm on the real checkout).
+2. Dry-run: `python scripts/detect_gaps_v4.py --client ntpc --dry-run` (set `PYTHONIOENCODING=utf-8` first if the Windows console chokes on ₹, as in task-064). Writes NO Firestore; dumps `scripts/detect_gaps_v4_dryrun.json`.
+3. Report in your CC summary:
+   - **`n_stations`** printed on load, and the per-unit freq shown for the top categories (`tube_failure`, etc.) — is the per-unit rate physically plausible (e.g. a plant seeing a tube failure roughly every 1–3 yr, not 20×/yr)?
+   - **New failure-tranche totals:** both `expected annual exposure ₹X Cr/yr` and `per-event exposure (sum) ₹Y Cr`. Compare the ₹/yr figure to v3's ₹416 Cr headline — we expect it to be much smaller and more defensible now.
+   - **Top 5 by expected ₹/yr**, and **any `black_swan_flag` items** (should be rare-but-severe like stator/blade if anything, NOT frequent-low ones like bfp_seal — if bfp_seal shows up as a black-swan, the relative threshold needs tuning, flag it).
+   - Confirm Gemini coverage still ran (`coverage_method: llm_adjudicated`) — same as task-064.
+   - Any `consequence_divergence` flags that remain (these are about the physical MW/MTTR assumption, separate from the formula fix).
+4. **Do NOT** run without `--dry-run`, edit `scripts/detect_gaps.py`, or touch any `api/*.js` / `docs/app.js`. Swap-in is a later task once YC signs off on the v4.1 numbers.
+
+**Notes:**
+- If `n_stations` comes back as 1 or very small (e.g. the `station` field is empty/uniform in `cea_outages`), the per-unit normalisation collapses and the ₹/yr total will be inflated — flag that explicitly, it means we need a real fleet unit-count instead of the station-distinct proxy.
+- Same ship-time follow-up as task-064 still applies (frontend `initDashboard` split + surfacing `evidence_grade`/`coverage_quote`/`expected_annual_cr` vs `exposure_per_event_cr` when v4.1 eventually goes live).
+
+**CC summary (validation only — nothing shipped, no Firestore writes, v3/api/app.js untouched):**
+1. `python -m py_compile scripts/detect_gaps_v4.py` → OK (Cowork's compile check re-confirmed on the real checkout).
+2. Ran `PYTHONIOENCODING=utf-8 python scripts/detect_gaps_v4.py --client ntpc --dry-run` (same Windows-console ₹-encoding workaround as task-064). No Firestore writes; `scripts/detect_gaps_v4_dryrun.json` overwritten (left untracked, scratch artifact).
+3. **`n_stations = 141`** (distinct stations in `cea_outages`) — plausible for a national CEA dataset, not a collapsed proxy. Per-unit frequencies now look physically sane: `tube_failure` 0.0341/yr (~once per 29 yr/unit), `unclassified` 0.1402/yr (~once per 7 yr/unit), `vibration`/`pump_failure` near-zero (0.002/0.001/yr) since those categories only have 2-4 fleet-wide records over 13.5 yr.
+4. **New failure-tranche totals:** expected annual exposure **₹12.8 Cr/yr**, per-event exposure sum **₹543.6 Cr**. The ₹/yr figure is far smaller and much more defensible than both v4.0's ₹2,223.3 Cr and v3's ₹416.4 Cr headline — as expected, since neither of those was expressing an annualised rate.
+5. **Top 5 by expected ₹/yr:** `bfp_seal_maintenance` (₹3.00 Cr/yr, grade C), `generator_stator_winding` (₹2.70 Cr/yr, grade B), `bfp_impeller_wear` (₹2.40 Cr/yr, grade C), `turbine_blade_inspection` (₹1.06 Cr/yr, grade B), `boiler_tube_failure_sop` (₹1.02 Cr/yr, grade A, tied with `superheater_maintenance`).
+6. **Black-swan flag:** exactly 1 item — `turbine_vibration_response` (per-event ₹30.0 Cr, freq 0.0084/yr, crit 5). This is the intended behaviour (rare+severe, not frequent-low) — `bfp_seal_maintenance` did NOT get flagged, but **worth surfacing anyway**: it and `bfp_impeller_wear` (both grade C, no CEA `failure_category`/`equipment_tag` match) fell back to `DEFAULT_PRIOR_ANNUAL_FREQ = 0.5/yr`, which is 4-50x higher than every data-derived per-unit frequency in this run (0.0005–0.14/yr). That's why they rank #1 and #3 by expected ₹/yr despite being the least evidence-backed items (grade C) — the expert-default prior is currently strong enough to outrank data-derived grade A/B items. Flagging for YC/Cowork: either lower `DEFAULT_PRIOR_ANNUAL_FREQ`, or visually/numerically deprioritize grade-C-via-default items relative to data-backed ones in the ranking.
+7. **Gemini coverage adjudication:** ran live (`coverage_method: llm_adjudicated`) for 15/19 items; hit live `429`s on 2 items this run (`cea_mandatory_spares`, `rm_life_extension_criteria` — both regulatory-tranche, non-rupee) and fell back cleanly and honestly to `similarity_threshold_fallback` both times.
+8. **Consequence divergence flags (>2.5x) — unchanged from task-064** (this is a physical MW/MTTR question, separate from the formula fix): `generator_stator_winding` (17.9x), `turbine_blade_inspection` (10.1x), `superheater_maintenance` (4.1x), `turbine_vibration_response` (4.8x), plus several under-divergent (<1x) items. Still needs a human sanity check on those two big outliers before ship.
+9. **Not done (out of scope per task):** no Firestore write, no edit to `scripts/detect_gaps.py`/any `api/*.js`/`docs/app.js`.
+
+**Recommendation for YC/Cowork's review:** v4.1's expected-₹/yr framing is a real improvement — ₹12.8 Cr/yr is a defensible, decision-usable number, and the black-swan flag correctly caught the one rare-but-severe item without over-flagging. The one new issue this run surfaced: the `DEFAULT_PRIOR_ANNUAL_FREQ=0.5` fallback for items with no CEA category match is currently strong enough to make the two least-evidenced items (bfp_seal, bfp_impeller, both grade C) rank above every data-derived item — worth tuning before ship, alongside the still-open MW/MTTR review on stator/blade.
 
 ---
 

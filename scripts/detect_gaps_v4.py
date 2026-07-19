@@ -1,30 +1,39 @@
 """
-ThermIQ Gap Detection & Risk Scoring Engine  v4.0
+ThermIQ Gap Detection & Risk Scoring Engine  v4.1
 ===================================================
 Successor to detect_gaps.py (v3). NON-DESTRUCTIVE: run this alongside v3.
 Use --dry-run to print the register WITHOUT touching Firestore, so the output
 can be validated before it replaces v3.
 
+v4.1 note: the risk formula changed from v4.0. v4.0 used
+`criticality x consequence x exposure`, which DOUBLE-COUNTED severity
+(consequence already carries severity via MW x MTTR, and criticality is also a
+severity measure) and had NO likelihood term — so long-outage modes exploded
+(a 45-day stator rewind hit ₹270 Cr and the ntpc total blew up to ₹2,223 Cr in
+the v4.0 dry-run). v4.1 fixes this: see FORMULA below.
+
 WHAT CHANGED FROM v3 (and WHY)
 ------------------------------
-v3 had three honest weaknesses. v4 fixes each without pretending to be more
+v3 had honest weaknesses. v4.1 fixes each without pretending to be more
 "dynamic" than the data can support.
 
-1. CRITICALITY was a hand-typed integer LABELLED "derived_from_CEA_outage_
-   frequency" — a claim the code did not honour.
-   → v4 keeps criticality as an EXPERT judgement (this is CORRECT: the
-     criticality of a failure MODE is domain-stable and must NOT be derived
-     from short-window outage frequency — a rare-but-catastrophic mode like a
-     stator-winding failure has to score 5 even at n=1. Frequency != severity).
-     v4 relabels it honestly AND attaches a live `outage_evidence` block (real
-     CEA frequency + mean severity for the item's failure_category) plus an
-     agreement flag, so the fixed number is now cross-checked against real data
-     and the check is visible.
+1. LIKELIHOOD was missing entirely, and CRITICALITY (a hand-typed integer) was
+   used as the number-driver while LABELLED "derived_from_CEA_outage_frequency"
+   — a claim the code did not honour, and a double-count of severity.
+   → v4.1 introduces a real LIKELIHOOD term: per-UNIT annual frequency, derived
+     from CEA data at the finest granularity available (failure_category if it
+     has enough records, else equipment_tag, else a labelled expert default).
+     Frequency IS the axis CEA data legitimately supplies. Criticality is kept
+     ONLY as a shown flag / tiebreaker and a black-swan marker — never
+     multiplied into the rupee figure — so severity is not double-counted. This
+     also resolves v3's core "it's hardcoded" complaint: the ₹ number is now
+     driven by frequency(data) x consequence(physics) x exposure(LLM), with no
+     hand-typed value in the multiplication.
 
 2. CONSEQUENCE was degenerate: every item sharing an equipment_tag got the
    SAME rupee number (the tag average), so within a class consequence added no
-   resolution — risk was really criticality x exposure in a rupee costume.
-   → v4 computes a PER-ITEM consequence from an explicit physical model:
+   resolution.
+   → v4.1 computes a PER-ITEM consequence from an explicit physical model:
         consequence_cr = mw_impact_mw x 1000 x (mttr_days x 24) x rate / 1e7
      where mw_impact_mw and mttr are stated per item with a one-line basis.
      Each derived number is CROSS-VALIDATED against the real CEA category mean
@@ -32,7 +41,7 @@ v3 had three honest weaknesses. v4 fixes each without pretending to be more
 
 3. EXPOSURE was `1 - cosine_similarity` multiplied straight into rupees —
    false precision (0.573 similarity is not "42.7% undocumented").
-   → v4 retrieves the client chunks then has the LLM (Gemini, already in stack)
+   → v4.1 retrieves the client chunks then has the LLM (Gemini, already in stack)
      ADJUDICATE coverage: covered / partial / absent, WITH a cited quote and a
      confidence score a human can verify. Maps to exposure {0.15 / 0.5 / 1.0}.
      Falls back to the threshold method (honestly labelled) if the LLM is
@@ -40,12 +49,21 @@ v3 had three honest weaknesses. v4 fixes each without pretending to be more
 
 4. MIXED CURRENCY: v3 multiplied documentation-only items (spares list, RLA
    methodology) into the same rupee total as outage items.
-   → v4 tags every item with an EVIDENCE GRADE (A data-derived / B class-derived
+   → v4.1 tags every item with an EVIDENCE GRADE (A data-derived / B class-derived
      / C expert-regulatory) and splits the register into two TRANCHES:
        - "failure"     : outage-risk items, costed in rupees.
        - "regulatory"  : documentation/compliance items, ranked by a unitless
                           compliance_priority (criticality x exposure), NOT
                           summed into the rupee total.
+
+FREQUENCY IS FLEET-WIDE; WE APPROXIMATE PER-UNIT
+------------------------------------------------
+CEA records count events across ALL monitored stations, but consequence is
+per-unit. v4.1 divides fleet frequency by the number of distinct stations to
+approximate a per-unit rate. This is a DOCUMENTED APPROXIMATION (a station has
+>1 unit; not every unit reports every day), not a precise per-unit hazard rate
+— the station count is printed on every run so the scale factor is visible and
+can be refined later with real fleet unit-counts.
 
 WHAT IS HONESTLY STILL FIXED
 ----------------------------
@@ -63,10 +81,20 @@ the total. v4 reports a PRIORITISED REGISTER (ranking + per-item traceable
 exposure), not a precise "plant risk" oracle. The value is where-to-act-first
 plus a full audit trail, and every number carries its evidence.
 
-FORMULA (failure tranche)
--------------------------
-  risk_score_cr = criticality x consequence_cr x exposure
-  regulatory tranche: compliance_priority = criticality x exposure (unitless)
+FORMULA (failure tranche) — v4.1
+--------------------------------
+  expected_annual_cr = per_unit_frequency x consequence_cr x exposure
+                       ( events/yr        x  ₹/event        x gap factor )
+                       = expected ₹/yr of outage cost this knowledge gap exposes.
+  exposure_per_event_cr = consequence_cr x exposure
+                       = ₹ at stake if the failure occurs (gap-adjusted); shown
+                         alongside so rare-but-catastrophic modes stay visible.
+  risk_score_cr = expected_annual_cr   (primary ranking / backward-compat field)
+  criticality   = SHOWN FLAG only, never multiplied (avoids severity double-count)
+  black_swan_flag = high per-event cost + low expected-annual (computed relatively)
+
+  regulatory tranche: compliance_priority = criticality x exposure (unitless);
+                      NOT rupee-costed, NOT summed into the ₹ total.
 
 Usage:
   python scripts/detect_gaps_v4.py [--client NAME] [--dry-run] [--no-llm]
@@ -103,6 +131,11 @@ DEFAULT_CONSEQUENCE_CR = 6.0    # fallback only; every item below states its own
 # Minimum CEA records for a failure_category before we claim data-derivation (Grade A).
 # Below this, evidence is too thin to annualise honestly -> item stays Grade B.
 MIN_RECORDS_FOR_GRADE_A = 12
+
+# Fallback per-UNIT annual failure frequency, used only when a failure item has
+# NO usable CEA data at either failure_category or equipment_tag level. Coarse,
+# expert, and clearly labelled so it never masquerades as data-derived.
+DEFAULT_PRIOR_ANNUAL_FREQ = 0.5
 
 # Coverage thresholds (used only in the LLM-fallback path).
 COVERAGE_THRESHOLDS = {"covered": 0.62, "partial": 0.45}
@@ -470,13 +503,24 @@ def load_outage_evidence(db):
     """Per-failure_category AND per-equipment_tag frequency + severity from CEA data.
 
     Returns dict with:
-      by_category[cat] = {n, mean_rev_cr, mean_mw, mean_hrs, annual_freq}
-      by_tag[tag]      = {n, mean_rev_cr}
+      by_category[cat] = {n, mean_rev_cr, mean_mw, mean_hrs, annual_freq, per_unit_annual_freq}
+      by_tag[tag]      = {n, mean_rev_cr, annual_freq, per_unit_annual_freq}
       span_years       = observed date span (for annualising frequency)
+      n_stations       = distinct stations in the data (fleet size proxy)
+
+    FREQUENCY NORMALISATION (why per_unit_annual_freq exists)
+    ---------------------------------------------------------
+    CEA counts are FLEET-WIDE (all monitored stations), but consequence is
+    PER-UNIT (one 500 MW unit). Multiplying a fleet frequency by a per-unit
+    consequence is a scale error. We divide fleet annual_freq by the number of
+    distinct stations to approximate a per-unit rate. This is a documented
+    APPROXIMATION (a station has >1 unit; not every unit is in every report),
+    not a precise per-unit hazard rate — flagged as such in the output.
     """
     cat = defaultdict(lambda: {"n": 0, "rev": 0.0, "mw": 0.0, "hrs": 0.0})
     tag = defaultdict(lambda: {"n": 0, "rev": 0.0})
     dates = []
+    stations = set()
     for doc in db.collection("cea_outages").stream():
         o = doc.to_dict() or {}
         c = o.get("failure_category", "unclassified")
@@ -487,6 +531,9 @@ def load_outage_evidence(db):
         cat[c]["hrs"] += o.get("outage_hours", 0) or 0
         tag[t]["n"] += 1
         tag[t]["rev"] += o.get("revenue_lost_est_cr", 0) or 0
+        st = o.get("station", "")
+        if st:
+            stations.add(str(st).strip().lower())
         d = o.get("date_out", "")
         if d:
             dates.append(d)
@@ -500,19 +547,32 @@ def load_outage_evidence(db):
         except ValueError:
             pass
 
+    n_stations = max(len(stations), 1)
+
     by_category = {}
     for c, s in cat.items():
         n = s["n"]
+        af = n / span_years if n else 0
         by_category[c] = {
             "n": n,
             "mean_rev_cr": round(s["rev"] / n, 2) if n else 0,
             "mean_mw":     round(s["mw"] / n, 1) if n else 0,
             "mean_hrs":    round(s["hrs"] / n, 1) if n else 0,
-            "annual_freq": round(n / span_years, 2) if n else 0,
+            "annual_freq": round(af, 2),
+            "per_unit_annual_freq": round(af / n_stations, 4),
         }
-    by_tag = {t: {"n": s["n"], "mean_rev_cr": round(s["rev"] / s["n"], 2) if s["n"] else 0}
-              for t, s in tag.items()}
-    return {"by_category": by_category, "by_tag": by_tag, "span_years": round(span_years, 2)}
+    by_tag = {}
+    for t, s in tag.items():
+        n = s["n"]
+        af = n / span_years if n else 0
+        by_tag[t] = {
+            "n": n,
+            "mean_rev_cr": round(s["rev"] / n, 2) if n else 0,
+            "annual_freq": round(af, 2),
+            "per_unit_annual_freq": round(af / n_stations, 4),
+        }
+    return {"by_category": by_category, "by_tag": by_tag,
+            "span_years": round(span_years, 2), "n_stations": n_stations}
 
 
 # ─── Scoring ──────────────────────────────────────────────────────────────────
@@ -561,27 +621,42 @@ def score_item(item, hits, evidence, use_llm):
     if cea_mean and consequence_derived_cr:
         divergence = round(consequence_derived_cr / cea_mean, 2)
 
-    # ── Criticality: expert, honestly labelled, + live agreement flag ────────
-    criticality = item["criticality"]
-    if cat_ev:
-        af = cat_ev["annual_freq"]
-        if criticality >= 4 and af < 2:
-            agreement = "rare_high_severity_expected"   # correct: severity-driven, not frequency
-        elif criticality >= 4 and af >= 2:
-            agreement = "data_supports_high_criticality"
-        elif criticality <= 2 and af >= 4:
-            agreement = "data_suggests_review_upward"
-        else:
-            agreement = "consistent"
+    # ── Likelihood term: per-UNIT annual frequency, data-derived where possible ─
+    # This is the axis CEA data legitimately supplies. It replaces criticality as
+    # the number-driver so severity is NOT double-counted (consequence already
+    # carries severity via MW x MTTR). Finest available granularity, labelled.
+    if evidence_grade == "A":
+        per_unit_freq = cat_ev["per_unit_annual_freq"]
+        freq_method = "cea_failure_category_per_unit"
+    elif tag_ev.get("n", 0) > 0:
+        per_unit_freq = tag_ev.get("per_unit_annual_freq", 0)
+        freq_method = "cea_equipment_tag_per_unit"
     else:
-        agreement = "no_category_data"
+        per_unit_freq = DEFAULT_PRIOR_ANNUAL_FREQ
+        freq_method = "expert_default_no_data"
 
-    # ── Risk / priority ──────────────────────────────────────────────────────
+    # ── Criticality: now a SHOWN FLAG, never a multiplier (fixes double-count) ─
+    criticality = item["criticality"]
+
+    # ── Two honest rupee views ────────────────────────────────────────────────
+    #  per_event : ₹ at stake if this failure occurs and the gap slows response.
+    #              Surfaces rare-but-catastrophic modes (stator, blade) that a
+    #              pure expected-value ranking would bury.
+    #  annual    : expected ₹/yr = per-unit frequency x consequence x gap factor.
+    #              The decision-relevant "what does this gap cost me per year".
+    exposure_per_event_cr = round(consequence_derived_cr * exposure, 2)
+    expected_annual_cr    = round(per_unit_freq * consequence_derived_cr * exposure, 2)
+
+    # Black-swan flag is computed RELATIVELY across the whole register in main()
+    # (high per-event cost + low frequency), so it adapts to the data instead of
+    # using a hand-picked cutoff. Placeholder here; set after all items scored.
+    black_swan = False
+
     if item["tranche"] == "failure":
-        risk_score_cr = round(criticality * consequence_derived_cr * exposure, 2)
+        risk_score_cr = expected_annual_cr    # primary ranking = expected ₹/yr
         compliance_priority = None
     else:
-        risk_score_cr = 0.0           # not rupee-costed on purpose
+        risk_score_cr = 0.0                   # documentation items not rupee-costed
         compliance_priority = round(criticality * exposure, 2)
 
     top_sources = [
@@ -606,22 +681,33 @@ def score_item(item, hits, evidence, use_llm):
         "exposure_score": exposure,
         "criticality_score": criticality,
         "consequence_cr": consequence_derived_cr,     # now PER-ITEM, not tag-degenerate
-        "risk_score_cr": risk_score_cr,
-        "risk_formula": (f"{criticality} x {consequence_derived_cr} x {exposure} = {risk_score_cr}"
+        "risk_score_cr": risk_score_cr,               # = expected_annual_cr (failure tranche)
+        "risk_formula": (f"freq {per_unit_freq}/yr x cons ₹{consequence_derived_cr} Cr x exposure {exposure} "
+                         f"= ₹{expected_annual_cr} Cr/yr expected"
                          if item["tranche"] == "failure"
                          else f"regulatory: criticality {criticality} x exposure {exposure} = priority {compliance_priority}"),
         "regulatory_basis": item["regulatory_basis"],
         "top_client_sources": top_sources,
         "scanned_at": datetime.utcnow().isoformat() + "Z",
 
-        # ── v4 honesty layer ─────────────────────────────────────────────────
-        "engine_version": "v4.0",
+        # ── v4.1 honesty layer ───────────────────────────────────────────────
+        "engine_version": "v4.1",
         "tranche": item["tranche"],
         "evidence_grade": evidence_grade,
-        "criticality_method": "expert_assigned_CEA_CERC_justified",
-        "criticality_note": ("Criticality of a failure MODE is domain-stable and is NOT derived "
-                             "from short-window outage frequency (which would wrongly down-rank "
-                             "rare-catastrophic modes). Cross-checked against live CEA data below."),
+        # likelihood (the number-driver; data-derived where possible)
+        "per_unit_annual_freq": per_unit_freq,
+        "frequency_method": freq_method,
+        # two rupee views
+        "exposure_per_event_cr": exposure_per_event_cr,   # ₹ if it happens, gap-adjusted
+        "expected_annual_cr": expected_annual_cr,         # expected ₹/yr (primary ranking)
+        "black_swan_flag": black_swan,                    # rare + severe: don't ignore
+        # criticality is now a FLAG, not a multiplier
+        "criticality_method": "expert_assigned_CEA_CERC_justified (flag/tiebreaker only — NOT multiplied into ₹)",
+        "criticality_note": ("Criticality is a shown flag, not a number-driver: consequence already "
+                             "carries severity (MW x MTTR), so multiplying by criticality would "
+                             "double-count it. The ₹ figure is driven by frequency(data) x "
+                             "consequence(physical) x exposure(LLM). Criticality flags rare-catastrophic "
+                             "modes the expected-value ranking would otherwise bury (see black_swan_flag)."),
         "criticality_source": item["criticality_source"],
         # consequence provenance
         "mw_impact_mw": mw,
@@ -637,9 +723,8 @@ def score_item(item, hits, evidence, use_llm):
         "coverage_quote": quote,
         "coverage_confidence": conf,
         "coverage_method": method,
-        # criticality evidence
+        # frequency evidence block (replaces v4.0's criticality-agreement framing)
         "outage_evidence": cat_ev or {"note": f"no CEA failure_category data for '{cat}'"},
-        "outage_evidence_agreement": agreement,
         "compliance_priority": compliance_priority,
     }
 
@@ -648,22 +733,27 @@ def score_item(item, hits, evidence, use_llm):
 
 def detect_gaps(client_name=None, dry_run=False, use_llm=True):
     print("=" * 74)
-    print("ThermIQ Gap Detection v4.0  —  evidence-graded, per-item, adjudicated")
+    print("ThermIQ Gap Detection v4.1  —  frequency x consequence x exposure = expected ₹/yr")
     print("=" * 74)
-    print(f"  Client         : {client_name or 'ALL client documents'}")
+    print(f"  Client          : {client_name or 'ALL client documents'}")
     print(f"  Coverage        : {'LLM-adjudicated (Gemini)' if (use_llm and GEMINI_API_KEY) else 'similarity-threshold fallback'}")
     print(f"  Unit rating     : {UNIT_RATING_MW} MW    Rate: ₹{REVENUE_RATE_PER_KWH}/kWh")
     print(f"  Grade-A min recs: {MIN_RECORDS_FOR_GRADE_A} per failure_category")
+    print(f"  Model           : risk = per-unit frequency(CEA) x consequence(physical) x exposure(LLM)")
+    print(f"                    criticality is a SHOWN FLAG, not a multiplier (no severity double-count)")
     print(f"  Mode            : {'DRY-RUN (no Firestore writes)' if dry_run else 'LIVE (writes risk_scores)'}")
     print()
 
     db = get_firestore_client()
     print("Loading CEA outage evidence…")
     evidence = load_outage_evidence(db)
-    print(f"  span {evidence['span_years']} yr | categories: "
-          + ", ".join(f"{c}={s['n']}(f{s['annual_freq']}/yr,₹{s['mean_rev_cr']})"
+    print(f"  span {evidence['span_years']} yr | distinct stations (fleet-size proxy): {evidence['n_stations']}")
+    print(f"  NOTE: per-unit freq = fleet freq / {evidence['n_stations']} stations — a documented APPROXIMATION.")
+    print(f"  categories: "
+          + ", ".join(f"{c}={s['n']}(fleet f{s['annual_freq']}/yr, per-unit {s['per_unit_annual_freq']}/yr, ₹{s['mean_rev_cr']})"
                       for c, s in sorted(evidence["by_category"].items(), key=lambda x: -x[1]['n'])))
-    print(f"  tags: " + ", ".join(f"{t}={s['n']}" for t, s in sorted(evidence["by_tag"].items())))
+    print(f"  tags: " + ", ".join(f"{t}={s['n']}(per-unit {s['per_unit_annual_freq']}/yr)"
+                                  for t, s in sorted(evidence["by_tag"].items())))
     print(f"\nScanning {len(EXPECTED_KNOWLEDGE)} checklist items…\n")
 
     results = []
@@ -677,17 +767,30 @@ def detect_gaps(client_name=None, dry_run=False, use_llm=True):
         line = (f"[{i+1:02d}/{len(EXPECTED_KNOWLEDGE)}] {r['gap_id']:<32} "
                 f"grade {r['evidence_grade']} | {r['tranche']:<10} | {icon:>2} {r['coverage_method']:<28}")
         if r["tranche"] == "failure":
-            line += f" | risk ₹{r['risk_score_cr']:>7.2f} Cr (cons ₹{r['consequence_cr']}, div {r['consequence_divergence_ratio']})"
+            line += (f" | ₹{r['expected_annual_cr']:>7.2f} Cr/yr exp (per-event ₹{r['exposure_per_event_cr']}, "
+                     f"f{r['per_unit_annual_freq']}/yr)")
         else:
             line += f" | compliance_priority {r['compliance_priority']}"
         print(line)
 
     # ── Tranches ─────────────────────────────────────────────────────────────
     failure = sorted([r for r in results if r["tranche"] == "failure"],
-                     key=lambda r: r["risk_score_cr"], reverse=True)
+                     key=lambda r: r["expected_annual_cr"], reverse=True)
     regulatory = sorted([r for r in results if r["tranche"] == "regulatory"],
                         key=lambda r: r["compliance_priority"], reverse=True)
-    failure_total = round(sum(r["risk_score_cr"] for r in failure), 1)
+
+    # Black-swan = high per-event cost (top quartile) but low expected-annual
+    # (below median) — rare + severe, would be buried by an expected-value ranking.
+    if failure:
+        pe_sorted = sorted(r["exposure_per_event_cr"] for r in failure)
+        ea_sorted = sorted(r["expected_annual_cr"] for r in failure)
+        pe_q3 = pe_sorted[int(0.75 * (len(pe_sorted) - 1))]
+        ea_med = ea_sorted[len(ea_sorted) // 2]
+        for r in failure:
+            r["black_swan_flag"] = (r["exposure_per_event_cr"] >= pe_q3
+                                    and r["expected_annual_cr"] <= ea_med)
+    annual_total = round(sum(r["expected_annual_cr"] for r in failure), 1)
+    per_event_total = round(sum(r["exposure_per_event_cr"] for r in failure), 1)
 
     print("\n" + "=" * 74)
     print("PRIORITISED REGISTER  (ranking + traceable per-item exposure — NOT an absolute plant-risk figure)")
@@ -696,11 +799,19 @@ def detect_gaps(client_name=None, dry_run=False, use_llm=True):
     for r in results:
         grades[r["evidence_grade"]] += 1
     print(f"  Evidence grades: A(data-derived)={grades['A']}  B(class-derived)={grades['B']}  C(expert/regulatory)={grades['C']}")
-    print(f"\n  FAILURE tranche — prioritised outage-risk exposure across {len(failure)} modes: ₹{failure_total} Cr")
-    print("  (relative prioritisation; the total is a sum over the assessed checklist, not a plant-wide guarantee)")
+    print(f"\n  FAILURE tranche ({len(failure)} modes), ranked by EXPECTED ₹/yr:")
+    print(f"    expected annual exposure  : ₹{annual_total} Cr/yr   (freq x consequence x gap)")
+    print(f"    per-event exposure (sum)  : ₹{per_event_total} Cr     (if each occurred once, gap-adjusted)")
+    print("    both are relative-prioritisation views, not a plant-wide guarantee")
     for i, r in enumerate(failure[:8]):
-        print(f"   {i+1}. ₹{r['risk_score_cr']:>7.2f} Cr | grade {r['evidence_grade']} | crit {r['criticality_score']} "
-              f"| {r['coverage_verdict']:<8} | {r['gap_id']}")
+        bs = " [BLACK-SWAN: rare+severe]" if r["black_swan_flag"] else ""
+        print(f"   {i+1}. ₹{r['expected_annual_cr']:>7.2f} Cr/yr | per-event ₹{r['exposure_per_event_cr']:>7.1f} "
+              f"| grade {r['evidence_grade']} | crit {r['criticality_score']} | {r['coverage_verdict']:<8} | {r['gap_id']}{bs}")
+    bswans = [r for r in failure if r["black_swan_flag"]]
+    if bswans:
+        print(f"\n  BLACK-SWAN watch (high criticality, low expected-annual — rare but catastrophic, do NOT ignore):")
+        for r in bswans:
+            print(f"     {r['gap_id']}: per-event ₹{r['exposure_per_event_cr']} Cr, freq {r['per_unit_annual_freq']}/yr, crit {r['criticality_score']}")
     print(f"\n  REGULATORY tranche — documentation/compliance gaps ({len(regulatory)}), ranked by priority, NOT rupee-costed:")
     for i, r in enumerate(regulatory):
         print(f"   {i+1}. priority {r['compliance_priority']:>4} | crit {r['criticality_score']} "
