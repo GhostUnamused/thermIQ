@@ -3367,28 +3367,30 @@ body { letter-spacing: 0.005em; }
 }
 .sidebar-hub-btn:hover { color: var(--text-primary); border-color: var(--border); background: var(--surface-hover); }
 
-.app-layout.sidebar-collapsed .sidebar {
-  width: 54px !important;
-  opacity: 1;
-  pointer-events: auto;
-  border-right: 1px solid var(--border-subtle);
+@media (min-width: 769px) {
+  .app-layout.sidebar-collapsed .sidebar {
+    width: 54px !important;
+    opacity: 1;
+    pointer-events: auto;
+    border-right: 1px solid var(--border-subtle);
+  }
+  .app-layout.sidebar-collapsed .sidebar-header {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.7rem 0.3rem 0.5rem;
+  }
+  .app-layout.sidebar-collapsed .sidebar-header h2 { display: none; }
+  .app-layout.sidebar-collapsed .chat-item {
+    justify-content: center;
+    padding: 0.55rem 0;
+  }
+  .app-layout.sidebar-collapsed .chat-item-content,
+  .app-layout.sidebar-collapsed .chat-item-delete { display: none; }
+  .app-layout.sidebar-collapsed .sidebar-foot { padding: 0.4rem 0.3rem; }
+  .app-layout.sidebar-collapsed .sidebar-hub-btn { justify-content: center; padding: 0.45rem 0; border: none; }
+  .app-layout.sidebar-collapsed .sidebar-hub-btn .back-text { display: none; }
 }
-.app-layout.sidebar-collapsed .sidebar-header {
-  flex-direction: column;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.7rem 0.3rem 0.5rem;
-}
-.app-layout.sidebar-collapsed .sidebar-header h2 { display: none; }
-.app-layout.sidebar-collapsed .chat-item {
-  justify-content: center;
-  padding: 0.55rem 0;
-}
-.app-layout.sidebar-collapsed .chat-item-content,
-.app-layout.sidebar-collapsed .chat-item-delete { display: none; }
-.app-layout.sidebar-collapsed .sidebar-foot { padding: 0.4rem 0.3rem; }
-.app-layout.sidebar-collapsed .sidebar-hub-btn { justify-content: center; padding: 0.45rem 0; border: none; }
-.app-layout.sidebar-collapsed .sidebar-hub-btn .back-text { display: none; }
 
 /* Mobile sidebar: the off-canvas drawer is now handled in the main Responsive
    section above (768px query). The old "static rail on mobile" pattern is

@@ -285,4 +285,4 @@ s.addText([
 s.addText("Yaminichandra K J  ·  IIM Amritsar (IPM)  ·  a research-preview prototype built with AI as a development partner",
   {x:0.92,y:6.74,w:11.5,h:0.35,fontFace:BODY,fontSize:11.5,italic:true,color:AMBERL});
 
-p.writeFile({fileName:"/sessions/fervent-compassionate-franklin/mnt/ET AI Hackathon/ThermIQ_Submission_Deck.pptx"}).then(f=>console.log("WROTE",f));
+p.writeFile({fileName:"/sessions/fervent-compassionate-franklin/mnt/ET AI Hackathon/ThermIQ_Deck_Final.pptx"}).then(f=>console.log("WROTE",f));
