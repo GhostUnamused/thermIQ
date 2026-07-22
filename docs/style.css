@@ -90,6 +90,7 @@ body {
   color: var(--text-primary);
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   transition: background-color 0.3s ease, color 0.3s ease;
@@ -595,6 +596,7 @@ code { font-family: Consolas, "Courier New", monospace; }
 
 body.chat-page {
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 
@@ -607,6 +609,7 @@ body.chat-page .site-header {
 
 body.chat-page .app-layout {
   height: 100vh;
+  height: 100dvh;
   padding-top: 56px;
 }
 
@@ -2623,7 +2626,8 @@ body.chat-page .app-layout {
     width: 100%;
     min-width: unset;
     max-width: 100%;
-    max-height: calc(100vh - 48px);
+    max-height: calc(100vh - 48px); /* Fallback */
+    max-height: calc(100dvh - 48px);
     border-radius: 0;
     resize: none;
   }
