@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>ThermIQ — Industrial Knowledge Intelligence</title>
   <meta name="description" content="ThermIQ — Industrial Knowledge Intelligence for thermal power plants. Quantifies knowledge gaps as ₹ crore operational risk." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -22,6 +22,13 @@
   <header class="site-header">
     <div class="header-inner">
       <div class="header-left">
+        <button id="sidebar-toggle-btn" class="sidebar-toggle" aria-label="Toggle chat history" title="Chat history">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
         <a class="wordmark" data-view-target="home" href="#/">
           <span class="mark">TQ</span>
           <span class="name">THERM<span>·</span>IQ</span>
@@ -216,6 +223,9 @@
         </button>
       </div>
     </aside>
+
+    <!-- Sidebar Overlay (mobile backdrop) -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
     <!-- Sidebar Resizer -->
     <div class="sidebar-resizer" id="sidebar-resizer"></div>

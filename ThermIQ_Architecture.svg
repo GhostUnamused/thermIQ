@@ -1,0 +1,233 @@
+<svg viewBox="0 0 1720 1060" xmlns="http://www.w3.org/2000/svg" font-family="Inter, 'Helvetica Neue', Helvetica, Arial, sans-serif">
+  <defs>
+    <filter id="card" x="-8%" y="-20%" width="116%" height="150%">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.6" flood-color="#1e293b" flood-opacity="0.12"/>
+    </filter>
+    <marker id="aBlue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3e6fa8"/></marker>
+    <marker id="aGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5e7d4f"/></marker>
+    <marker id="aGrey" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b5"/></marker>
+    <marker id="aViolet" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#6c5b93"/></marker>
+  </defs>
+
+  <rect x="0" y="0" width="1720" height="1060" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="60" y="50" font-size="29" font-weight="700" fill="#1e293b">ThermIQ — System Architecture</text>
+  <text x="61" y="76" font-size="14" fill="#64748b">Industrial Knowledge Intelligence · quantifies plant knowledge gaps as ₹ crore operational risk · ET AI Hackathon 2026 · Problem 8</text>
+
+  <!-- Legend -->
+  <rect x="1246" y="30" width="20" height="14" rx="3" fill="#ffffff" stroke="#8494ac" stroke-width="1.3"/>
+  <text x="1274" y="42" font-size="12.5" fill="#475569">Application / our code</text>
+  <rect x="1246" y="54" width="20" height="14" rx="3" fill="#fdf8ee" stroke="#d0a85a" stroke-width="1.3"/>
+  <text x="1274" y="66" font-size="12.5" fill="#475569">Managed cloud service</text>
+  <line x1="1470" y1="37" x2="1500" y2="37" stroke="#3e6fa8" stroke-width="2" marker-end="url(#aBlue)"/>
+  <text x="1508" y="41" font-size="12.5" fill="#475569">Query path</text>
+  <line x1="1470" y1="61" x2="1500" y2="61" stroke="#5e7d4f" stroke-width="2" marker-end="url(#aGreen)"/>
+  <text x="1508" y="65" font-size="12.5" fill="#475569">Ingestion path</text>
+
+  <!-- ===================== BANDS ===================== -->
+  <rect x="60" y="100" width="1600" height="72" rx="12" fill="#f6f8fb" stroke="#e4e9f0"/>
+  <rect x="60" y="192" width="1600" height="128" rx="12" fill="#f6f8fb" stroke="#e4e9f0"/>
+  <rect x="60" y="340" width="1600" height="128" rx="12" fill="#f6f8fb" stroke="#e4e9f0"/>
+  <rect x="60" y="488" width="1600" height="158" rx="12" fill="#f6f8fb" stroke="#e4e9f0"/>
+  <rect x="60" y="666" width="1600" height="122" rx="12" fill="#f6f8fb" stroke="#e4e9f0"/>
+  <rect x="60" y="808" width="1060" height="128" rx="12" fill="#f6f8fb" stroke="#e4e9f0"/>
+  <rect x="1160" y="808" width="500" height="128" rx="12" fill="#f6f8fb" stroke="#e4e9f0"/>
+  <rect x="60" y="956" width="1600" height="64" rx="12" fill="#eef4f1" stroke="#cbe0d5"/>
+
+  <!-- Band labels -->
+  <text x="78" y="124" font-size="12" font-weight="700" letter-spacing="1.2" fill="#475569">USERS</text>
+  <text x="78" y="216" font-size="12" font-weight="700" letter-spacing="1.2" fill="#2f6fb0">FRONTEND · Single-Page App (GitHub Pages + Vercel)</text>
+  <text x="78" y="364" font-size="12" font-weight="700" letter-spacing="1.2" fill="#5a6b86">BACKEND · Vercel Serverless Functions (api/*.js)</text>
+  <text x="78" y="512" font-size="12" font-weight="700" letter-spacing="1.2" fill="#b7791f">AI &amp; DATA SERVICES · managed cloud</text>
+  <text x="78" y="690" font-size="12" font-weight="700" letter-spacing="1.2" fill="#5e7d4f">INGESTION &amp; PROCESSING · Python (scripts/)</text>
+  <text x="78" y="832" font-size="12" font-weight="700" letter-spacing="1.2" fill="#8a7a5c">DATA SOURCES</text>
+  <text x="1178" y="832" font-size="12" font-weight="700" letter-spacing="1.2" fill="#6c5b93">AUTOMATION · GitHub Actions</text>
+
+  <!-- ===================== USERS ===================== -->
+  <rect x="480" y="126" width="760" height="44" rx="8" fill="#ffffff" stroke="#b8c4d4" stroke-width="1.3" filter="url(#card)"/>
+  <text x="860" y="154" font-size="15" font-weight="600" fill="#334155" text-anchor="middle">Plant Engineers &amp; O&amp;M Teams — desktop + mobile</text>
+
+  <!-- ===================== FRONTEND ===================== -->
+  <g>
+    <rect x="60" y="236" width="296" height="68" rx="8" fill="#ffffff" stroke="#6e9bc7" stroke-width="1.3" filter="url(#card)"/>
+    <text x="208" y="266" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">Query Copilot</text>
+    <text x="208" y="286" font-size="12.5" fill="#64748b" text-anchor="middle">RAG chat · cited answers</text>
+  </g>
+  <g>
+    <rect x="386" y="236" width="296" height="68" rx="8" fill="#ffffff" stroke="#6e9bc7" stroke-width="1.3" filter="url(#card)"/>
+    <text x="534" y="266" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">Risk Dashboard</text>
+    <text x="534" y="286" font-size="12.5" fill="#64748b" text-anchor="middle">gaps ranked by ₹ Cr</text>
+  </g>
+  <g>
+    <rect x="712" y="236" width="296" height="68" rx="8" fill="#ffffff" stroke="#6e9bc7" stroke-width="1.3" filter="url(#card)"/>
+    <text x="860" y="266" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">Knowledge Graph</text>
+    <text x="860" y="286" font-size="12.5" fill="#64748b" text-anchor="middle">failure modes → outages</text>
+  </g>
+  <g>
+    <rect x="1038" y="236" width="296" height="68" rx="8" fill="#ffffff" stroke="#6e9bc7" stroke-width="1.3" filter="url(#card)"/>
+    <text x="1186" y="266" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">Documents</text>
+    <text x="1186" y="286" font-size="12.5" fill="#64748b" text-anchor="middle">benchmark + client corpora</text>
+  </g>
+  <g>
+    <rect x="1364" y="236" width="296" height="68" rx="8" fill="#ffffff" stroke="#6e9bc7" stroke-width="1.3" filter="url(#card)"/>
+    <text x="1512" y="266" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">Live Sheet</text>
+    <text x="1512" y="286" font-size="12.5" fill="#64748b" text-anchor="middle">themed Excel export</text>
+  </g>
+
+  <!-- ===================== BACKEND ===================== -->
+  <g font-family="'SF Mono','Roboto Mono',Menlo,Consolas,monospace">
+    <rect x="67" y="386" width="246" height="66" rx="8" fill="#ffffff" stroke="#8494ac" stroke-width="1.3" filter="url(#card)"/>
+    <text x="190" y="414" font-size="13.5" font-weight="600" fill="#1e293b" text-anchor="middle">query.js</text>
+    <text x="190" y="433" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="Inter,Arial,sans-serif">RAG orchestrator</text>
+
+    <rect x="335" y="386" width="246" height="66" rx="8" fill="#ffffff" stroke="#8494ac" stroke-width="1.3" filter="url(#card)"/>
+    <text x="458" y="414" font-size="13.5" font-weight="600" fill="#1e293b" text-anchor="middle">gap_analysis.js</text>
+    <text x="458" y="433" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="Inter,Arial,sans-serif">risk registry reader</text>
+
+    <rect x="603" y="386" width="246" height="66" rx="8" fill="#ffffff" stroke="#8494ac" stroke-width="1.3" filter="url(#card)"/>
+    <text x="726" y="414" font-size="13.5" font-weight="600" fill="#1e293b" text-anchor="middle">graph_query.js</text>
+    <text x="726" y="433" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="Inter,Arial,sans-serif">whitelisted Cypher</text>
+
+    <rect x="871" y="386" width="246" height="66" rx="8" fill="#ffffff" stroke="#8494ac" stroke-width="1.3" filter="url(#card)"/>
+    <text x="994" y="414" font-size="13.5" font-weight="600" fill="#1e293b" text-anchor="middle">cea_outage.js</text>
+    <text x="994" y="433" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="Inter,Arial,sans-serif">outage reader</text>
+
+    <rect x="1139" y="386" width="246" height="66" rx="8" fill="#ffffff" stroke="#8494ac" stroke-width="1.3" filter="url(#card)"/>
+    <text x="1262" y="414" font-size="13" font-weight="600" fill="#1e293b" text-anchor="middle">ingest_document.js</text>
+    <text x="1262" y="433" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="Inter,Arial,sans-serif">upload → index</text>
+
+    <rect x="1407" y="386" width="246" height="66" rx="8" fill="#ffffff" stroke="#8494ac" stroke-width="1.3" filter="url(#card)"/>
+    <text x="1530" y="414" font-size="13.5" font-weight="600" fill="#1e293b" text-anchor="middle">ingest_drive.js</text>
+    <text x="1530" y="433" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="Inter,Arial,sans-serif">Drive ingest</text>
+  </g>
+
+  <!-- ===================== SERVICES ===================== -->
+  <g>
+    <rect x="60" y="536" width="296" height="100" rx="8" fill="#fdf8ee" stroke="#d0a85a" stroke-width="1.3" filter="url(#card)"/>
+    <text x="208" y="568" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">Jina AI v3</text>
+    <text x="208" y="589" font-size="12.5" fill="#6b6250" text-anchor="middle">text embeddings</text>
+    <text x="208" y="608" font-size="12.5" fill="#6b6250" text-anchor="middle">1024-dim vectors</text>
+  </g>
+  <g>
+    <rect x="386" y="536" width="296" height="100" rx="8" fill="#fdf8ee" stroke="#d0a85a" stroke-width="1.3" filter="url(#card)"/>
+    <text x="534" y="568" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">Qdrant Cloud</text>
+    <text x="534" y="589" font-size="12.5" fill="#6b6250" text-anchor="middle">vector database</text>
+    <text x="534" y="608" font-size="12.5" fill="#6b6250" text-anchor="middle">thermiq_chunks · COSINE</text>
+  </g>
+  <g>
+    <rect x="712" y="536" width="296" height="100" rx="8" fill="#fdf8ee" stroke="#d0a85a" stroke-width="1.3" filter="url(#card)"/>
+    <text x="860" y="568" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">Gemini 2.5 Flash</text>
+    <text x="860" y="589" font-size="12.5" fill="#6b6250" text-anchor="middle">answer generation</text>
+    <text x="860" y="608" font-size="12.5" fill="#6b6250" text-anchor="middle">fallback: NIM → OpenRouter</text>
+  </g>
+  <g>
+    <rect x="1038" y="536" width="296" height="100" rx="8" fill="#fdf8ee" stroke="#d0a85a" stroke-width="1.3" filter="url(#card)"/>
+    <text x="1186" y="568" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">Firebase Firestore</text>
+    <text x="1186" y="589" font-size="12.5" fill="#6b6250" text-anchor="middle">structured data</text>
+    <text x="1186" y="608" font-size="12.5" fill="#6b6250" text-anchor="middle">risk_scores · cea_outages</text>
+  </g>
+  <g>
+    <rect x="1364" y="536" width="296" height="100" rx="8" fill="#fdf8ee" stroke="#d0a85a" stroke-width="1.3" filter="url(#card)"/>
+    <text x="1512" y="568" font-size="15" font-weight="600" fill="#1e293b" text-anchor="middle">Neo4j Aura</text>
+    <text x="1512" y="589" font-size="12.5" fill="#6b6250" text-anchor="middle">knowledge graph</text>
+    <text x="1512" y="608" font-size="12.5" fill="#6b6250" text-anchor="middle">modes · outages · rules</text>
+  </g>
+
+  <!-- ===================== INGESTION ===================== -->
+  <g font-family="'SF Mono','Roboto Mono',Menlo,Consolas,monospace">
+    <rect x="190" y="710" width="280" height="70" rx="8" fill="#ffffff" stroke="#7e9b6b" stroke-width="1.3" filter="url(#card)"/>
+    <text x="330" y="738" font-size="13" font-weight="600" fill="#1e293b" text-anchor="middle">ingest_documents.py</text>
+    <text x="330" y="757" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="Inter,Arial,sans-serif">chunk + embed (OCR too)</text>
+
+    <rect x="690" y="710" width="280" height="70" rx="8" fill="#ffffff" stroke="#7e9b6b" stroke-width="1.3" filter="url(#card)"/>
+    <text x="830" y="738" font-size="13" font-weight="600" fill="#1e293b" text-anchor="middle">fetch_cea_outage.py</text>
+    <text x="830" y="757" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="Inter,Arial,sans-serif">outage records</text>
+
+    <rect x="1040" y="710" width="280" height="70" rx="8" fill="#ffffff" stroke="#7e9b6b" stroke-width="1.3" filter="url(#card)"/>
+    <text x="1180" y="738" font-size="13" font-weight="600" fill="#1e293b" text-anchor="middle">detect_gaps.py</text>
+    <text x="1180" y="757" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="Inter,Arial,sans-serif">risk engine</text>
+
+    <rect x="1350" y="710" width="280" height="70" rx="8" fill="#ffffff" stroke="#7e9b6b" stroke-width="1.3" filter="url(#card)"/>
+    <text x="1490" y="738" font-size="13" font-weight="600" fill="#1e293b" text-anchor="middle">load_graph_neo4j.py</text>
+    <text x="1490" y="757" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="Inter,Arial,sans-serif">ontology slices</text>
+  </g>
+
+  <!-- ===================== SOURCES ===================== -->
+  <g>
+    <rect x="88" y="852" width="236" height="72" rx="8" fill="#ffffff" stroke="#b0a079" stroke-width="1.3" filter="url(#card)"/>
+    <text x="206" y="882" font-size="14" font-weight="600" fill="#1e293b" text-anchor="middle">Benchmark corpus</text>
+    <text x="206" y="901" font-size="11.5" fill="#64748b" text-anchor="middle">CEA specs &amp; guidelines</text>
+  </g>
+  <g>
+    <rect x="344" y="852" width="236" height="72" rx="8" fill="#ffffff" stroke="#b0a079" stroke-width="1.3" filter="url(#card)"/>
+    <text x="462" y="882" font-size="14" font-weight="600" fill="#1e293b" text-anchor="middle">Client plant docs</text>
+    <text x="462" y="901" font-size="11.5" fill="#64748b" text-anchor="middle">SOPs · tariffs · inspections</text>
+  </g>
+  <g>
+    <rect x="600" y="852" width="236" height="72" rx="8" fill="#ffffff" stroke="#b0a079" stroke-width="1.3" filter="url(#card)"/>
+    <text x="718" y="882" font-size="14" font-weight="600" fill="#1e293b" text-anchor="middle">Google Drive</text>
+    <text x="718" y="901" font-size="11.5" fill="#64748b" text-anchor="middle">bulk folder / links</text>
+  </g>
+  <g>
+    <rect x="856" y="852" width="236" height="72" rx="8" fill="#ffffff" stroke="#b0a079" stroke-width="1.3" filter="url(#card)"/>
+    <text x="974" y="882" font-size="14" font-weight="600" fill="#1e293b" text-anchor="middle">CEA outage data</text>
+    <text x="974" y="901" font-size="11.5" fill="#64748b" text-anchor="middle">₹ consequence basis</text>
+  </g>
+
+  <!-- ===================== AUTOMATION ===================== -->
+  <g>
+    <rect x="1180" y="852" width="460" height="72" rx="8" fill="#ffffff" stroke="#8b79ae" stroke-width="1.3" filter="url(#card)"/>
+    <text x="1410" y="882" font-size="14" font-weight="600" fill="#1e293b" text-anchor="middle">GitHub Actions</text>
+    <text x="1410" y="901" font-size="11.5" fill="#64748b" text-anchor="middle">cea-ingest · gap-scan · drive-ingest · neo4j-keepalive</text>
+  </g>
+
+  <!-- ===================== FORMULA ===================== -->
+  <text x="60" y="982" font-size="12" font-weight="700" letter-spacing="1" fill="#3e7c60">CORE RISK MODEL</text>
+  <text x="860" y="996" font-size="17" fill="#2f5e49" text-anchor="middle" font-family="'SF Mono','Roboto Mono',Menlo,monospace">risk_score_cr  =  criticality (1–5)   ×   consequence (₹ Cr, from CEA outages)   ×   exposure (0–1, corpus coverage gap)</text>
+
+  <!-- ===================== CONNECTORS ===================== -->
+  <!-- Users → Frontend (blue fan) -->
+  <line x1="820" y1="170" x2="240" y2="236" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <line x1="860" y1="170" x2="860" y2="236" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <line x1="900" y1="170" x2="1180" y2="236" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <line x1="880" y1="170" x2="1470" y2="236" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+
+  <!-- Frontend → Backend -->
+  <line x1="208" y1="304" x2="196" y2="386" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <line x1="534" y1="304" x2="464" y2="386" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <line x1="860" y1="304" x2="732" y2="386" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <line x1="1186" y1="304" x2="1256" y2="386" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+
+  <!-- Backend → Services (RAG core + reads) -->
+  <line x1="190" y1="452" x2="205" y2="536" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <text x="150" y="498" font-size="11" fill="#3e6fa8">embed</text>
+  <line x1="356" y1="586" x2="384" y2="586" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <text x="360" y="578" font-size="11" fill="#3e6fa8">search</text>
+  <path d="M190,452 Q525,476 858,534" fill="none" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <text x="520" y="470" font-size="11" fill="#3e6fa8">generate</text>
+  <path d="M458,452 Q822,474 1184,534" fill="none" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <text x="820" y="470" font-size="11" fill="#3e6fa8">read gaps</text>
+  <path d="M994,452 Q1090,496 1186,534" fill="none" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <path d="M726,452 Q1119,472 1510,534" fill="none" stroke="#3e6fa8" stroke-width="1.4" marker-end="url(#aBlue)"/>
+  <text x="1120" y="468" font-size="11" fill="#3e6fa8">cypher</text>
+
+  <!-- Ingestion → Services (green, writes) -->
+  <path d="M330,710 Q432,674 532,638" fill="none" stroke="#5e7d4f" stroke-width="1.4" marker-end="url(#aGreen)"/>
+  <text x="360" y="700" font-size="11" fill="#5e7d4f">index</text>
+  <path d="M830,710 Q1008,674 1184,638" fill="none" stroke="#5e7d4f" stroke-width="1.4" marker-end="url(#aGreen)"/>
+  <path d="M1180,710 L1186,638" fill="none" stroke="#5e7d4f" stroke-width="1.4" marker-end="url(#aGreen)"/>
+  <text x="1192" y="700" font-size="11" fill="#5e7d4f">scores</text>
+  <path d="M1490,710 L1512,638" fill="none" stroke="#5e7d4f" stroke-width="1.4" marker-end="url(#aGreen)"/>
+
+  <!-- Sources → Ingestion (grey) -->
+  <path d="M206,852 Q268,816 328,782" fill="none" stroke="#94a3b5" stroke-width="1.4" marker-end="url(#aGrey)"/>
+  <path d="M462,852 Q396,816 332,782" fill="none" stroke="#94a3b5" stroke-width="1.4" marker-end="url(#aGrey)"/>
+  <path d="M718,852 Q524,812 332,782" fill="none" stroke="#94a3b5" stroke-width="1.4" marker-end="url(#aGrey)"/>
+  <path d="M974,852 Q902,816 832,782" fill="none" stroke="#94a3b5" stroke-width="1.4" marker-end="url(#aGrey)"/>
+
+  <!-- Automation → Ingestion (violet) -->
+  <path d="M1350,860 Q1265,818 1182,782" fill="none" stroke="#6c5b93" stroke-width="1.4" marker-end="url(#aViolet)"/>
+  <text x="1250" y="812" font-size="11" fill="#6c5b93">triggers</text>
+  <path d="M1470,852 Q1482,816 1492,782" fill="none" stroke="#6c5b93" stroke-width="1.4" marker-end="url(#aViolet)"/>
+</svg>

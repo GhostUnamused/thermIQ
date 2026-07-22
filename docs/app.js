@@ -500,16 +500,31 @@ function renderSidebar(store) {
 // ─── Sidebar & Mobile Toggle ──────────────────────────────────────────────────
 
 function initSidebar() {
-  const sidebar    = document.getElementById('sidebar');
-  const toggleBtn  = document.getElementById('sidebar-collapse-btn');
-  const resizer    = document.getElementById('sidebar-resizer');
-  const appLayout  = document.querySelector('.app-layout');
+  const sidebar       = document.getElementById('sidebar');
+  const toggleBtn     = document.getElementById('sidebar-collapse-btn');
+  const headerToggle  = document.getElementById('sidebar-toggle-btn');
+  const resizer       = document.getElementById('sidebar-resizer');
+  const appLayout     = document.querySelector('.app-layout');
+  const overlay       = document.getElementById('sidebar-overlay');
   if (!sidebar) return;
 
-  // The toggle lives inside the sidebar (below the title bar). Collapsed state
-  // is a 54px icon rail — expand toggle, new chat, chat glyphs — and persists.
   const COLLAPSE_KEY = 'thermiq_sidebar_collapsed';
+  const MOBILE_BP = 768;
 
+  function isMobile() { return window.innerWidth <= MOBILE_BP; }
+
+  // ── Mobile: slide-in overlay drawer ──
+  function openMobileSidebar() {
+    sidebar.classList.add('open');
+    if (overlay) overlay.classList.add('visible');
+  }
+
+  function closeMobileSidebar() {
+    sidebar.classList.remove('open');
+    if (overlay) overlay.classList.remove('visible');
+  }
+
+  // ── Desktop: collapsed icon-rail ──
   function setCollapsed(collapsed) {
     if (appLayout) appLayout.classList.toggle('sidebar-collapsed', collapsed);
     if (collapsed) sidebar.style.width = ''; // rail width comes from CSS
@@ -518,14 +533,38 @@ function initSidebar() {
 
   if (toggleBtn) {
     toggleBtn.addEventListener('click', () => {
-      const collapsed = appLayout ? appLayout.classList.contains('sidebar-collapsed') : false;
-      setCollapsed(!collapsed);
+      if (isMobile()) {
+        if (sidebar.classList.contains('open')) closeMobileSidebar();
+        else openMobileSidebar();
+      } else {
+        const collapsed = appLayout ? appLayout.classList.contains('sidebar-collapsed') : false;
+        setCollapsed(!collapsed);
+      }
     });
   }
 
-  // Restore last state; default to the rail on small screens.
+  // Header toggle only appears on mobile, so it only ever opens/closes the overlay drawer
+  if (headerToggle) {
+    headerToggle.addEventListener('click', () => {
+      if (sidebar.classList.contains('open')) closeMobileSidebar();
+      else openMobileSidebar();
+    });
+  }
+
+  // Tap overlay to close sidebar (mobile)
+  if (overlay) {
+    overlay.addEventListener('click', closeMobileSidebar);
+  }
+
+  // Restore last desktop state; default to collapsed on small screens.
   const saved = localStorage.getItem(COLLAPSE_KEY);
-  setCollapsed(saved === null ? window.innerWidth <= 768 : saved === '1');
+  if (isMobile()) {
+    // On mobile: sidebar starts closed (CSS hides it), no rail
+    closeMobileSidebar();
+    setCollapsed(true);
+  } else {
+    setCollapsed(saved === null ? false : saved === '1');
+  }
 
   if (resizer) {
     let isResizing = false;
@@ -553,13 +592,13 @@ function initSidebar() {
     });
     
     const savedWidth = localStorage.getItem('thermiq_sidebar_width');
-    if (savedWidth && window.innerWidth > 768) {
+    if (savedWidth && window.innerWidth > MOBILE_BP) {
       sidebar.style.width = savedWidth;
     }
   }
 
-  // Kept for callers that collapse after switching chats on small screens.
-  return { closeSidebar: () => { if (window.innerWidth <= 768) setCollapsed(true); } };
+  // Kept for callers that collapse/close after switching chats on small screens.
+  return { closeSidebar: () => { if (isMobile()) closeMobileSidebar(); else setCollapsed(true); } };
 }
 
 // ─── API call helper ─────────────────────────────────────────────────────────
