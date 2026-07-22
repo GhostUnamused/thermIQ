@@ -8,11 +8,45 @@
 
 ---
 
-**Queue status:** empty — no `[PENDING]` or `[IN_PROGRESS]` tasks. task-065 (v4.1 formula fix dry-run) validated 2026-07-19; v3 still the sole live engine.
+**Queue status:** 0 `[PENDING]` tasks. task-066 (repo cleanup commit) done 2026-07-22. task-065 (v4.1 formula fix dry-run) validated 2026-07-19; v3 still the sole live engine.
 
 ---
 
 ## Active Queue
+
+(none)
+
+---
+
+### [DONE] task-066 | 2026-07-22T10:05:00Z
+**From:** Cowork
+**Task:** Submission-day repo cleanup. YC asked Cowork to remove unneeded clutter from the project directory before finishing the architecture diagram/deck/video. Cowork already deleted the files/folders on disk (via the local file mount) — this task is just the git side: commit the resulting deletions and push.
+
+**Files/folders Cowork already deleted from disk:**
+- `netlify/` (entire dir — orphaned `functions/node_modules` from the dead Netlify migration; Netlify's team was deleted 2026-06-27 and this dir had zero actual source files left, just a leftover dependency tree). Was gitignored/untracked, nothing to `git rm`.
+- `.netlify/` (Netlify CLI cache, ~31MB, dead service). Gitignored/untracked.
+- `.agents/` (empty directory, no content). Untracked.
+- `scripts/detect_gaps_v4_dryrun.json` (scratch dry-run output from task-064/065, explicitly called a throwaway artifact in both task summaries). Untracked.
+- `test_plant_docs/` (3 sample PDFs used only to sanity-check the upload pipeline, not read by the live app). YC confirmed OK to delete. Was untracked in git.
+- `apps-script/` (both `Code.gs` and `appsscript.json` — the retired Google Apps Script sheet sync, superseded by task-063's client-side Excel export; YC confirmed OK to delete). **This one WAS tracked in git** — `git status` now shows it as two deleted-but-unstaged files.
+
+**CC must do:**
+1. `cd "C:\Users\yamin\Documents\Projects\ET AI Hackathon"` then `git status` to confirm the only tracked deletions are `apps-script/Code.gs` and `apps-script/appsscript.json` (plus whatever pre-existing `data/chunks/*.json` CRLF-churn noise was already there — leave that alone, do not `git add -A` blindly per prior BRIDGE precedent).
+2. `git add apps-script/Code.gs apps-script/appsscript.json` (or `git rm` if add doesn't pick up deletions) and commit just that, e.g. `git commit -m "chore: remove deprecated apps-script/ (superseded by Excel export, task-063)"`.
+3. `git push origin main`.
+4. Leave everything else (`.claude/settings.local.json`, `Competition brief.pdf`, `data/graph_slices/*_spotcheck_mcq.md`, the modified `data/graph_slices/*` files, `.gitignore` mod) untouched — those are unrelated to this cleanup and pre-date it.
+
+**Notes:**
+- No app code was touched by this cleanup — no reader/endpoint referenced any of the deleted paths (confirmed: `netlify/functions` hasn't been live since the Vercel migration task-014; `apps-script/Code.gs` was already superseded and unreferenced by `docs/app.js` since task-063).
+- Root `node_modules/`, `.venv/`, `.vercel/` were deliberately left alone — all three are actively used (npm deps for `api/*.js`/scripts, Python venv for local script runs, Vercel CLI project link).
+
+**CC summary:**
+
+1. `git status` confirmed the only tracked deletions were `apps-script/Code.gs` and `apps-script/appsscript.json`; hit a stale `.git/index.lock` (~11.5h old, no running git process) — removed it before staging.
+2. Staged and committed just those two files as `0e4ac61`.
+3. Pushed to `origin/main`. Everything else (unstaged/untracked deck assets, `Competition brief.pdf`, `data/graph_slices/*`, etc.) left untouched per task instructions.
+
+---
 
 ### [DONE] task-033 | 2026-06-30T17:30:00Z
 **From:** Cowork

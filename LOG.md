@@ -5,6 +5,10 @@
 
 ---
 
+## task-066 | 2026-07-22 | DONE
+Submission-day repo cleanup: committed the git-side deletion of the deprecated `apps-script/` dir (`Code.gs`, `appsscript.json`), superseded by task-063's client-side Excel export. Cowork had already deleted `netlify/`, `.netlify/`, `.agents/`, `scripts/detect_gaps_v4_dryrun.json`, and `test_plant_docs/` from disk (all untracked, nothing to commit there).
+Only `apps-script/` was git-tracked; staged + committed just those 2 files, left all other unstaged/untracked files (deck assets, `Competition brief.pdf`, `data/graph_slices/*`) untouched. Commit: 0e4ac61
+
 ## task-065 | 2026-07-19 | DONE (validation only, nothing shipped)
 Re-dry-ran `scripts/detect_gaps_v4.py` after Cowork's v4.0->v4.1 formula fix: replaced `criticality x consequence x exposure` (double-counted severity, no likelihood term) with `expected_annual_cr = per-unit CEA frequency x consequence x exposure`, keeping criticality as a shown flag/black-swan trigger only. Dry-run against ntpc: n_stations=141 (plausible fleet proxy), expected annual exposure dropped to a defensible ₹12.8 Cr/yr (vs v4.0's ₹2,223 Cr and v3's ₹416 Cr headline), 1 correct black-swan flag (turbine_vibration_response, rare+severe). New finding: `DEFAULT_PRIOR_ANNUAL_FREQ=0.5/yr` fallback for un-matched categories (bfp_seal, bfp_impeller, both grade C) is 4-50x higher than every data-derived per-unit frequency, letting the least-evidenced items outrank data-backed ones — flagged for tuning before ship. Consequence-divergence outliers (stator/blade) unchanged from task-064, still need a human MW/MTTR review. v3 untouched, no readers/app.js edited.
 
