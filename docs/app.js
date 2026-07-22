@@ -2698,6 +2698,12 @@ function showView(name, opts = {}) {
     const el = document.getElementById('view-' + v);
     if (el) el.classList.toggle('active', v === name);
   });
+  
+  // Sync mobile tab bar state
+  document.querySelectorAll('.mobile-tab-bar .tab-item').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-view-target') === name);
+  });
+
   document.body.setAttribute('data-view', name);
   // The chat view needs the full-height app frame (fixed header, hidden footer)
   // that style.css keys off body.chat-page — reuse it rather than duplicate it.

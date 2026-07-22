@@ -2497,6 +2497,9 @@ body.chat-page .app-layout {
    Responsive — Three-tier: 768px (tablet) · 600px (phone) · 480px (narrow)
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* ─── Mobile Tab Bar (Hidden on desktop) ────────────────────────────────── */
+.mobile-tab-bar { display: none; }
+
 /* ─── Tablet & small laptops (≤ 768px) ──────────────────────────────────── */
 
 @media (max-width: 768px) {
@@ -2591,19 +2594,57 @@ body.chat-page .app-layout {
 
 @media (max-width: 600px) {
 
+  /* --- Native Mobile App Shell --- */
+  .mobile-tab-bar {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid var(--glass-border);
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .mobile-tab-bar .tab-item {
+    background: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    cursor: pointer;
+    width: 25%;
+    height: 100%;
+    transition: color 0.2s;
+  }
+
+  .mobile-tab-bar .tab-item svg { width: 22px; height: 22px; stroke-width: 1.5; }
+  .mobile-tab-bar .tab-item.active { color: var(--accent); }
+  .mobile-tab-bar .tab-item.active svg { stroke-width: 2.5; }
+
+  /* Pad the bottom of all views so content isn't hidden by the tab bar */
+  body { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+
   /* --- 3. Header: compact --- */
-  .header-inner { height: 48px; gap: 0.4rem; }
+  .header-inner { height: 48px; gap: 0.4rem; padding: 0 0.5rem; }
 
   body.chat-page .app-layout { padding-top: 48px; }
 
   .sidebar { top: 48px; }
 
-  /* Hide the ticker strip — secondary info, available in sheet view */
+  /* Hide the ticker strip and heavy header actions entirely on mobile */
   .shell-ticker { display: none; }
-
-  /* Smaller header actions */
-  .theme-toggle { width: 32px; height: 32px; }
-  .theme-toggle svg { width: 16px; height: 16px; }
+  .header-actions { display: none; }
 
   /* --- 2. Hub tiles: stack --- */
   .row-primary { grid-template-columns: 1fr; gap: 0.7rem; }
@@ -2640,26 +2681,57 @@ body.chat-page .app-layout {
   .graph-panel { min-height: auto; }
   .graph-legend { gap: 0.5rem; font-size: 0.68rem; }
 
-  /* --- 8. Chat area: tighter --- */
+  /* --- 8. Native Chat UI --- */
   .chat-messages {
-    padding: 1rem 0.65rem 0.75rem;
-    gap: 1rem;
+    padding: 1rem 0.5rem 0.75rem;
+    gap: 0.75rem;
+    max-width: 100%;
+    width: 100%;
   }
 
-  .chat-empty { padding: 2rem 1rem; min-height: 45vh; gap: 0.6rem; }
+  .chat-bubble { max-width: 100%; }
+
+  .user-bubble {
+    border-radius: 18px;
+    border-bottom-right-radius: 4px;
+    padding: 0.55rem 0.85rem;
+    max-width: 88%;
+    font-size: 0.95rem;
+  }
+
+  .assistant-bubble {
+    padding: 0 0.5rem;
+  }
+
+  .chat-empty { padding: 1.5rem 1rem; min-height: 45vh; gap: 0.6rem; }
   .chat-empty-title { font-size: 1.15rem; }
   .chat-empty-text { font-size: 0.85rem; }
 
-  .chip-row { gap: 0.35rem; }
-  .chip { font-size: 0.75rem; padding: 0.35rem 0.75rem; }
-
-  .input-row { border-radius: 20px; padding: 0.4rem 0.4rem 0.4rem 0.85rem; }
-  #chat-input { font-size: 0.85rem; min-height: 28px; }
-  .btn-send { width: 30px; height: 30px; }
-  .btn-send svg { width: 14px; height: 14px; }
+  /* Mobile chat input: Full bleed capsule above tab bar */
+  .chat-input-area {
+    padding: 0.5rem 0.5rem 0.75rem;
+    background: var(--bg);
+  }
+  
+  .input-row {
+    border-radius: 24px;
+    padding: 0.35rem 0.35rem 0.35rem 0.75rem;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    max-width: 100%;
+    margin: 0;
+  }
+  
+  #chat-input { font-size: 0.95rem; min-height: 36px; padding: 0.4rem 0; }
+  
+  .btn-send { width: 36px; height: 36px; }
+  .btn-send svg { width: 16px; height: 16px; }
 
   /* Hide keyboard hint on touch */
   .input-hint { display: none; }
+  .chip-row { gap: 0.35rem; max-width: 100%; padding: 0 0.25rem; }
+  .chip { font-size: 0.75rem; padding: 0.35rem 0.65rem; }
+  .client-bar { max-width: 100%; padding: 0 0.5rem 0.25rem; }
 
   /* --- 9. Outage strip --- */
   .hub-outage-track { font-size: 0.72rem; }
