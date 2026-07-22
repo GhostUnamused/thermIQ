@@ -1,0 +1,13 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // All reads/writes go through Vercel API functions using the Admin SDK
+    // (see api/*.js), which always bypasses these rules. No client-side
+    // Firebase SDK is used anywhere in this app, so deny all direct
+    // client access.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
