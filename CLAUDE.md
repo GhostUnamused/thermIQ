@@ -94,12 +94,11 @@ thermIQ/
 ├── LOG.md                         ← completed task archive (human reference; CC does not read on startup)
 ├── scripts/
 │   └── watch_bridge.py            ← CC runs `python scripts/watch_bridge.py` to stay awake on BRIDGE.md
-├── docs/
-│   ├── index.html                 ← Query Copilot UI
-│   ├── dashboard.html             ← Risk Dashboard UI
-│   ├── documents.html             ← Documents manager (benchmark/client split)
+├── docs/                          ← static frontend (GitHub Pages + Vercel root)
+│   ├── index.html                 ← single-page app: #/chat, #/graph, #/guideline, #/plant, #/sheet
 │   ├── app.js                     ← all frontend logic
-│   └── style.css                  ← dark navy/orange theme
+│   └── style.css
+├── data/graph_slices/             ← boiler/turbine knowledge-graph JSON loaded by load_graph_neo4j.py
 ├── api/                            ← Vercel functions (the live backend)
 │   ├── _cors.js                   ← shared CORS helper (not an endpoint, doesn't count toward the function cap)
 │   ├── query.js                   ← Jina → Qdrant → Gemini RAG (+ NIM/OpenRouter fallback)
@@ -110,13 +109,17 @@ thermIQ/
 │   ├── delete_job.js              ← dismiss an ingest_jobs record
 │   ├── list_documents.js / delete_document.js / clear_client.js
 │   ├── graph_query.js             ← Neo4j read-only whitelisted-query endpoint
-│   ├── sheet_sync.js              ← CSV mirror of gap_analysis for the Sheets add-on
+│   ├── sheet_sync.js              ← CSV mirror of gap_analysis (linked from the #/sheet view)
 │   └── trigger_gap_scan.js        ← dispatches gap-scan.yml for unscored plants
 └── scripts/
     ├── ingest_documents.py        ← PDF → chunks → Jina → Qdrant (text PDFs)
     ├── ingest_ocr.py              ← OCR ingest for scanned/image PDFs
+    ├── ingest_from_drive.py       ← Drive ingest (run by drive-ingest.yml)
     ├── detect_gaps.py             ← CANONICAL gap engine → Firestore risk_scores (1-5 scale)
-    └── fetch_cea_outage.py        ← CEA outage data → Firestore cea_outages (daily GH Action)
+    ├── detect_gaps_v4.py          ← experimental evidence-graded engine (unreferenced; not live)
+    ├── fetch_cea_outage.py        ← CEA outage data → Firestore cea_outages (daily GH Action)
+    ├── extract_*_graph.py / graph_ontology.py / load_graph_neo4j.py / neo4j_keepalive.py ← knowledge graph
+    └── check_state.py / wipe_and_reset.py ← ops utilities (wipe_and_reset DELETES live data)
 ```
 
 > **Gap scoring has ONE source of truth: `scripts/detect_gaps.py`** (19 items,

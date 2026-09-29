@@ -2,8 +2,8 @@
  * api/graph_query.js — read-only, parameterized Cypher endpoint over the
  * ThermIQ knowledge graph (Neo4j Aura).
  *
- * This mirrors the exact traversal scripts/hero_traversal.py already proves
- * in a terminal, but as a fixed set of NAMED queries the browser can call.
+ * The graph traversal is exposed as a fixed set of NAMED queries the browser
+ * can call.
  * There is intentionally NO arbitrary Cypher passthrough — `type` is a
  * whitelisted enum and the only user-supplied value (`failure_mode_id`) is
  * always passed as a bound Cypher parameter, never string-interpolated.
@@ -82,7 +82,7 @@ const QUERY_GAPS = `
   ORDER BY criticality DESC
 `;
 
-// Step 1-4 of hero_traversal, generalized to any failure_mode_id.
+// Steps 1-4: equipment → failure mode → procedure status, for any failure_mode_id.
 const QUERY_TRAVERSAL_GAP = `
   MATCH (equip:Equipment)-[:HAS_FAILURE_MODE]->(fm:FailureMode {id: $fmId})
   OPTIONAL MATCH (fm)-[ab:ADDRESSED_BY]->(proc:Procedure)
@@ -98,10 +98,10 @@ const QUERY_TRAVERSAL_GAP = `
     ab.status        AS edge_status
 `;
 
-// Step 5, generalized: hero_traversal.py hardcodes a jump from the specific
+// Step 5: jump from the specific
 // failure mode (e.g. waterwall_tube_thinning) to the coarser failure mode
 // that OutageEvents actually attach to (e.g. boiler_tube_failure). We derive
-// that same jump from graph structure instead of a hardcoded ID: any other
+// the jump from graph structure instead of a hardcoded ID: any other
 // FailureMode that shares at least one Procedure (ADDRESSED_BY) with the
 // requested one is a "sibling" whose real outages belong to this traversal
 // too. The requested id is always included, so a failure mode with its own

@@ -5,9 +5,13 @@
 
 ---
 
+## task-068 | 2026-09-29 | DONE
+Fresh-start cleanup, round 2: removed legacy redirect pages (docs/chat|graph|documents|dashboard.html), Codex config (AGENTS.md, .codex/), demo-only scripts/hero_traversal.py, graph-slice review notes, data/raw/.gitkeep; dropped judge-facing text.
+Added fresh-clone setup steps to README and the missing NEO4J_*/GITHUB_DISPATCH_TOKEN vars to .env.example. No live code paths changed. Commit: (this branch)
+
 ## task-067 | 2026-09-29 | DONE
 Post-hackathon repo cleanup: removed pitch decks (pdf/pptx), deck_assets/, deck_prompt.md, Competition brief.pdf, STATUS.md, FEATURE_PLAN.md, LibreOffice lock files, stray *.tmp PDF copies, graph-slice MCQ spot-checks; untracked the gitignored data/chunks/ (922 regenerable ingest outputs); trimmed BRIDGE.md to an empty queue.
-Also installed the `brag` Claude Code plugin (latent-spaces/brag) and pinned it in `.claude/settings.json`. Commit: (this branch, claude/affectionate-tesla-7uthgv)
+Also installed the `brag` Claude Code plugin (latent-spaces/brag) and pinned it in `.claude/settings.json`. Commit: 814e9ff
 
 ## task-066 | 2026-07-22 | DONE
 Submission-day repo cleanup: committed the git-side deletion of the deprecated `apps-script/` dir (`Code.gs`, `appsscript.json`), superseded by task-063's client-side Excel export. Cowork had already deleted `netlify/`, `.netlify/`, `.agents/`, `scripts/detect_gaps_v4_dryrun.json`, and `test_plant_docs/` from disk (all untracked, nothing to commit there).

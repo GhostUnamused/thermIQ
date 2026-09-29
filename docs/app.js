@@ -1093,7 +1093,7 @@ function initQueryCopilot() {
   }
 }
 
-// ─── Risk Dashboard (dashboard.html) ──────────────────────────────────────────
+// ─── Risk Dashboard ───────────────────────────────────────────────────────────
 
 const COVERAGE_LABELS = {
   gap:     { text: 'Not documented',    cls: 'coverage-gap' },
@@ -1635,7 +1635,7 @@ async function initDashboard() {
   // from the Python one. Re-run detect_gaps.py and the dashboard reflects it on reload.
 }
 
-// ─── Document Upload (documents.html) ────────────────────────────────────────
+// ─── Document Upload ─────────────────────────────────────────────────────────
 
 // Set by initUpload() — lets code outside its closure (e.g. the Drive-sync
 // fallback) open the upload panel, optionally with folder-link instructions.
@@ -2934,7 +2934,7 @@ async function loadShellTicker() {
 // Hand-rolled 4-step overlay (no library): hub tiles → sample question →
 // gap row + simulate → graph traversal. First visit auto-starts it
 // (localStorage flag `thermiq_tour_done`); the header "?" button relaunches;
-// `?demo=1` in the URL forces it for judges. Steps whose target is missing
+// `?demo=1` in the URL forces it. Steps whose target is missing
 // (e.g. an empty plant profile) are skipped gracefully.
 function initDemoTour() {
   if (!isSpaShell()) return;
@@ -3260,7 +3260,7 @@ async function generateRiskReport() {
   }
 }
 
-// ─── Risk & Gap Graph view (moved from graph.html — logic unchanged) ─────────
+// ─── Risk & Gap Graph view ─────────────────────────────────────────────────────
 // vis-network rendering verified live in task-035/039. Only the mounting
 // changed (lazy in-page init instead of a standalone page's inline script).
 

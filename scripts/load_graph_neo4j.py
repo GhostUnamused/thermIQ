@@ -192,7 +192,6 @@ def main() -> None:
     print("─" * 60)
     print(f"  Graph loaded: {len(nodes)} nodes · {len(edges)} edges")
     print(f"  Database:     {NEO4J_DATABASE}")
-    print("  Run hero_traversal.py next.")
     print("─" * 60)
 
 

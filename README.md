@@ -3,34 +3,50 @@
 AI-powered knowledge platform for thermal power plants. Quantifies knowledge
 gaps as ₹ crore operational risk.
 
+Live: https://therm-iq.vercel.app (mirror: https://ghostunamused.github.io/thermIQ)
+
 ## Architecture
-- Frontend: GitHub Pages (docs/) + Vercel (serves docs/ as root)
-- Backend: Vercel Functions (api/*.js)
+- Frontend: static single-page app in `docs/` (served by Vercel and GitHub Pages)
+- Backend: Vercel Functions (`api/*.js`)
 - Vector DB: Qdrant Cloud (collection `thermiq_chunks`)
 - Embeddings: Jina AI (jina-embeddings-v3)
 - Generation: Gemini 2.5 Flash, with NVIDIA NIM and OpenRouter fallbacks
-- Structured Data: Firebase Firestore
-- Data Pipeline: GitHub Actions (daily CEA outage fetch)
+- Structured data: Firebase Firestore
+- Knowledge graph: Neo4j Aura
+- Pipelines: GitHub Actions (daily CEA outage fetch, gap scans, Drive ingest, Neo4j keep-alive)
 
-## Setup
+## Local setup (fresh clone)
 
-### Environment Variables (Vercel Dashboard / local .env)
-See `.env.example` for the full list, including optional fallback keys
-(NIM_API_KEY, OPENROUTER_API_KEY, GEMINI_API_KEY2/3).
+```bash
+git clone https://github.com/GhostUnamused/thermIQ.git
+cd thermIQ
+cp .env.example .env            # fill in keys (same values as the Vercel dashboard)
+npm install                     # deps for api/*.js
+python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -r scripts/requirements.txt
+```
 
-### Ingest Benchmark Documents (CEA standards — the yardstick)
-python scripts/ingest_documents.py <pdf_path> guideline "CEA Tech Spec 500MW" <url>
-For scanned/image PDFs use scripts/ingest_ocr.py instead.
+Preview the frontend: `python -m http.server 5173 --directory docs` (it calls the
+live Vercel backend). To run the API locally too: `npx vercel dev` (after `npx vercel link`).
 
-### Compute Knowledge Gaps (single source of truth for risk_scores)
-python scripts/detect_gaps.py
-Writes the gap risk registry to Firestore `risk_scores`, which the Risk
-Dashboard reads. Re-run after ingesting new client documents.
+Deploys are automatic: pushing to `main` redeploys Vercel (frontend + API) and GitHub Pages.
+GitHub Actions secrets must mirror the keys listed in `.env.example`.
 
-### Run CEA Outage Fetch Manually
-python scripts/fetch_cea_outage.py
+## Common tasks
 
-## Risk Formula
+Ingest benchmark documents (CEA standards — the yardstick):
+
+    python scripts/ingest_documents.py <pdf_path> guideline "CEA Tech Spec 500MW" <url>
+
+For scanned/image PDFs use `scripts/ingest_ocr.py` instead.
+
+Compute knowledge gaps (single source of truth for `risk_scores`):
+
+    python scripts/detect_gaps.py [--client NAME]
+
+Fetch CEA outages manually: `python scripts/fetch_cea_outage.py`
+
+## Risk formula
 risk_score_cr = criticality_score (1-5) × consequence_cr (₹ Cr) × exposure_score (0-1)
 - criticality: 1-5, sourced to CEA outage frequency + CERC regulations
 - consequence_cr: avg revenue impact from CEA outage records (₹5.0/kWh, LBNL/Ember 2024)

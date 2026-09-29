@@ -982,7 +982,7 @@ body.chat-page .app-layout {
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Dashboard (dashboard.html) — Section-based, no cards
+   Dashboard — Section-based, no cards
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .page-title {
@@ -1418,7 +1418,7 @@ body.chat-page .app-layout {
 .consequence-label--assumed { color: var(--accent); opacity: 0.8; }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Documents Page (documents.html)
+   Documents Page
    ═══════════════════════════════════════════════════════════════════════════ */
 
 /* ─── Document Upload ───────────────────────────────────────────────────── */
@@ -3042,7 +3042,7 @@ body.chat-page .app-layout {
 .tile.live .instrument b { color: var(--green); }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   Risk & Gap Graph (docs/graph.html) — Phase A
+   Risk & Gap Graph
    ═══════════════════════════════════════════════════════════════════════════ */
 
 .graph-legend {
