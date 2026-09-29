@@ -3599,7 +3599,13 @@ function initGraphView() {
         setTimeout(() => _graphFocusNode(pending), 700);
       }
     } catch (e) {
-      statusEl.textContent = `Failed to load graph: ${e.message}`;
+      // Neo4j Aura Free pauses itself after ~3 idle days; the driver then
+      // reports a routing/discovery failure. Say that plainly.
+      const paused = /routing|discovery|ServiceUnavailable|connect/i.test(e.message || '');
+      statusEl.textContent = paused
+        ? 'The knowledge graph database is paused or unreachable. Resume the Neo4j Aura instance, then reload this page.'
+        : `The knowledge graph didn't load: ${e.message}`;
+      console.error('Knowledge graph load failed:', e);
     }
   }
 
