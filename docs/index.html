@@ -11,6 +11,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap" rel="stylesheet" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="stylesheet" href="style.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
@@ -19,10 +21,25 @@
 <body data-view="home">
   <a class="skip-link" href="#main">Skip to content</a>
 
+  <!-- Brand mark (same drawing as favicon.svg): a pyrometer gauge on the heat ramp, needle in the red. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="tq-heat" x1="5" y1="0" x2="27" y2="0" gradientUnits="userSpaceOnUse">
+        <stop offset="0" stop-color="#EEAD45"/><stop offset=".5" stop-color="#EE7B3B"/><stop offset="1" stop-color="#E4553D"/>
+      </linearGradient>
+      <symbol id="tq-mark" viewBox="0 0 32 32">
+        <rect width="32" height="32" rx="7" fill="#182028" stroke="none"/>
+        <path d="M6.2 21.5a9.8 9.8 0 0 1 19.6 0" fill="none" stroke="url(#tq-heat)" stroke-width="4.6" stroke-linecap="round"/>
+        <path d="M16 21.5l5.6-6.6" fill="none" stroke="#EDF0F2" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="16" cy="21.5" r="2.9" fill="#EDF0F2" stroke="none"/>
+      </symbol>
+    </defs>
+  </svg>
+
   <!-- ═══ NAV RAIL (desktop / tablet) ═══ -->
   <nav class="rail" aria-label="Main">
     <a class="brand" data-view-target="home" href="#/" aria-label="ThermIQ overview">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 22.5h14M11 22.5V13m5 9.5V9m5 13.5v-6" stroke="var(--paper)" stroke-width="2.6" stroke-linecap="round"/></svg>
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#tq-mark"/></svg>
       <span class="brand-name">ThermIQ</span>
     </a>
     <ul class="rail-list">
@@ -51,7 +68,7 @@
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
     </button>
     <a class="brand brand--compact" data-view-target="home" href="#/" aria-label="ThermIQ overview">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M9 22.5h14M11 22.5V13m5 9.5V9m5 13.5v-6" stroke="var(--paper)" stroke-width="2.6" stroke-linecap="round"/></svg>
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><use href="#tq-mark"/></svg>
     </a>
     <label class="plant-picker">
       <span class="plant-picker-label">Plant</span>
