@@ -5,6 +5,10 @@ gaps as ₹ crore operational risk.
 
 Live: https://therm-iq.vercel.app (mirror: https://ghostunamused.github.io/thermIQ)
 
+[![ThermIQ intro video](media/thermiq-intro.jpg)](media/thermiq-intro.mp4)
+
+21-second intro ([media/thermiq-intro.mp4](media/thermiq-intro.mp4)), made with the `/brag` Claude Code plugin.
+
 ## Architecture
 - Frontend: static single-page app in `docs/` (served by Vercel and GitHub Pages)
 - Backend: Vercel Functions (`api/*.js`)

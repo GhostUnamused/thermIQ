@@ -5,6 +5,10 @@
 
 ---
 
+## task-070 | 2026-09-29 | DONE
+Made a 21.4 s 1080p intro video with /brag (brag-slim path): real app UI driven in headless Chromium, original synthesised score + SFX, poster baked as frame 0. Saved to media/thermiq-intro.mp4 (+ .jpg), linked from README.
+On-screen figures limited to documented ones (₹416.4 Cr / 19 topics NTPC v3, 58-node graph, 18 real boiler outages, CEA spec §9.1 text). Commit: (this branch)
+
 ## task-069 | 2026-09-29 | DONE
 UI/UX redesign of docs/ (index.html + style.css rewritten, app.js wired): nav rail + phone tab bar, Overview with ₹ heat strip + closure priorities + ask box, phone card layouts for the register, dark mode, a11y. Fixed dead phone "Docs" tab and header-vs-register risk mismatch.
 Pinned brag + frontend-design plugins in .claude/settings.json with local installer scripts. Verified offline with fixture API at 390/900/1440px: no JS errors, no overflow, chat→graph, Excel + report exports. Commit: (this branch)
