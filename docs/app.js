@@ -298,7 +298,7 @@ function sourcesHtml(sources) {
     </details>`;
 }
 
-// Empty-state helper (FEATURE_PLAN #5): if the active plant has no documents
+// Empty-state helper: if the active plant has no documents
 // of its own yet, say so honestly on the chat's empty screen — answers will be
 // benchmark-only — and offer the upload panel. Doc-count check is cached per
 // plant so this costs at most one list_documents fetch per plant switch.
@@ -2523,7 +2523,7 @@ let _graphViewStarted = false;
 let _graphNetwork = null;
 let _graphDatasets = null; // { nodes, edges } vis.DataSet refs for theme restyling
 
-// ─── Chat ↔ Graph linking (FEATURE_PLAN #2) ──────────────────────────────────
+// ─── Chat ↔ Graph linking ──────────────────────────────────────────────────
 // _graphFocusNode is set by initGraphView() once the network exists — it
 // selects + zooms to a node and opens its side panel. If a chip is clicked
 // before the graph has ever been mounted, the target id parks in
@@ -2930,7 +2930,7 @@ async function loadShellTicker() {
   } catch (_) { /* tiles keep their placeholders */ }
 }
 
-// ─── Demo / onboarding tour (FEATURE_PLAN #3) ────────────────────────────────
+// ─── Demo / onboarding tour ────────────────────────────────────────────────
 // Hand-rolled 4-step overlay (no library): hub tiles → sample question →
 // gap row + simulate → graph traversal. First visit auto-starts it
 // (localStorage flag `thermiq_tour_done`); the header "?" button relaunches;

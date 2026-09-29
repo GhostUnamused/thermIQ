@@ -1,12 +1,11 @@
 # ThermIQ — Project Instructions for Codex & Cowork
 
 ## What is ThermIQ
-ET AI Hackathon 2026, Problem #8 — Industrial Knowledge Intelligence for thermal power plants.
+Industrial Knowledge Intelligence for thermal power plants. Started as an ET AI Hackathon 2026 entry (Problem #8); now an ongoing project.
 Quantifies knowledge gaps as ₹ crore operational risk.
 Formula: `risk_score_cr = criticality_score × consequence_cr × exposure_score`
 
 **Builder:** YC (IIM Amritsar IPM student, no coding background — Codex is the dev partner)
-**Deadline:** ~July 1, 2026
 
 **Live URLs:**
 - Frontend (GitHub Pages mirror): https://ghostunamused.github.io/thermIQ
@@ -75,7 +74,7 @@ Codex handles all of those. They communicate through **`BRIDGE.md`** in this fol
 ## Key file locations
 
 ```
-ET AI Hackathon/
+thermIQ/
 ├── AGENTS.md                      ← you are here
 ├── BRIDGE.md                      ← Cowork ↔ CC communication log
 ├── scripts/

@@ -5,6 +5,10 @@
 
 ---
 
+## task-067 | 2026-09-29 | DONE
+Post-hackathon repo cleanup: removed pitch decks (pdf/pptx), deck_assets/, deck_prompt.md, Competition brief.pdf, STATUS.md, FEATURE_PLAN.md, LibreOffice lock files, stray *.tmp PDF copies, graph-slice MCQ spot-checks; untracked the gitignored data/chunks/ (922 regenerable ingest outputs); trimmed BRIDGE.md to an empty queue.
+Also installed the `brag` Claude Code plugin (latent-spaces/brag) and pinned it in `.claude/settings.json`. Commit: (this branch, claude/affectionate-tesla-7uthgv)
+
 ## task-066 | 2026-07-22 | DONE
 Submission-day repo cleanup: committed the git-side deletion of the deprecated `apps-script/` dir (`Code.gs`, `appsscript.json`), superseded by task-063's client-side Excel export. Cowork had already deleted `netlify/`, `.netlify/`, `.agents/`, `scripts/detect_gaps_v4_dryrun.json`, and `test_plant_docs/` from disk (all untracked, nothing to commit there).
 Only `apps-script/` was git-tracked; staged + committed just those 2 files, left all other unstaged/untracked files (deck assets, `Competition brief.pdf`, `data/graph_slices/*`) untouched. Commit: 0e4ac61
@@ -122,6 +126,10 @@ Hit a stale `.git/index.lock` (2 days old, no live process) — removed before c
 Commit: 32f89c3
 
 ---
+
+## task-033 | 2026-06-30 | DONE
+Fixed serverless PDF parse (`pdfjs-dist` fake-worker failure on Vercel → `unpdf`), added multi-file sequential upload and persistent Document Type (`thermiq_last_doc_type`).
+3 test PDFs ingested cleanly to `saraighat` with no worker error; `package-lock.json` created. Commit: abe17ab
 
 ## task-032 | 2026-06-29 | DONE
 Phase 2 Turbine graph extraction + additive Neo4j load (mirrors Phase 1 boiler pipeline).

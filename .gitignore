@@ -19,3 +19,10 @@ venv/
 data/*.pdf
 
 .vercel
+
+# Editor / office temp files
+.~lock.*#
+*.tmp
+
+# /brag plugin output
+brag-output/

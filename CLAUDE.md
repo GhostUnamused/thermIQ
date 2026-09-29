@@ -1,12 +1,11 @@
 # ThermIQ — Project Instructions for Claude Code & Cowork
 
 ## What is ThermIQ
-ET AI Hackathon 2026, Problem #8 — Industrial Knowledge Intelligence for thermal power plants.
+Industrial Knowledge Intelligence for thermal power plants. Started as an ET AI Hackathon 2026 entry (Problem #8); now an ongoing project.
 Quantifies knowledge gaps as ₹ crore operational risk.
 Formula: `risk_score_cr = criticality_score × consequence_cr × exposure_score`
 
 **Builder:** YC (IIM Amritsar IPM student, no coding background — Claude is the dev partner)
-**Deadline:** ~July 20, 2026
 
 **Live URLs:**
 - Frontend (GitHub Pages mirror): https://ghostunamused.github.io/thermIQ
@@ -89,7 +88,7 @@ Key outcome (metrics, errors fixed, etc). Commit: <hash>
 ## Key file locations
 
 ```
-ET AI Hackathon/
+thermIQ/
 ├── CLAUDE.md                      ← you are here
 ├── BRIDGE.md                      ← active task queue (read this on startup; keep it lean)
 ├── LOG.md                         ← completed task archive (human reference; CC does not read on startup)
@@ -139,6 +138,9 @@ git add -A
 git commit -m "description of change"
 git push origin main
 ```
+
+## Claude Code plugins
+`.claude/settings.json` registers the [`brag`](https://github.com/latent-spaces/brag) plugin (`brag@brag`), so Claude Code offers to install it when it opens this repo. Run `/brag` to turn the project into a short launch video (output goes to the gitignored `brag-output/`). Needs Node 22+ and FFmpeg; the classic `/brag --full` mode also needs the Hyperframes CLI (`npx hyperframes doctor`).
 
 ## Environment variables
 All secrets live in the Vercel dashboard and local `.env`. Never commit `.env`. A `VERCEL_TOKEN` is persisted in the gitignored `.env` for CLI auth — check there before asking the user for one.
