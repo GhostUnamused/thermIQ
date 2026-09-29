@@ -143,7 +143,14 @@ git push origin main
 ```
 
 ## Claude Code plugins
-`.claude/settings.json` registers the [`brag`](https://github.com/latent-spaces/brag) plugin (`brag@brag`), so Claude Code offers to install it when it opens this repo. Run `/brag` to turn the project into a short launch video (output goes to the gitignored `brag-output/`). Needs Node 22+ and FFmpeg; the classic `/brag --full` mode also needs the Hyperframes CLI (`npx hyperframes doctor`).
+`.claude/settings.json` registers two plugins, so Claude Code offers to install them when it opens this repo (after you trust the folder):
+- [`brag`](https://github.com/latent-spaces/brag) (`brag@brag`) — `/brag` turns the project into a short launch video (output in the gitignored `brag-output/`). Needs Node 22+ and FFmpeg; `/brag --full` also needs the Hyperframes CLI.
+- `frontend-design@claude-plugins-official` — Anthropic's design-direction skill, used for the UI.
+
+To install both for every project on a machine (user scope), run `scripts/install_claude_plugins.ps1` (Windows) or `scripts/install_claude_plugins.sh` (macOS/Linux).
+
+## UI design system
+`docs/style.css` opens with the tokens. Heat colours (`--heat-1..3`) are reserved for risk magnitude; feedwater blue (`--water`) marks anything actionable. One typeface (Archivo) — condensed width (`font-variation-settings: 'wdth' 68–75`) for figures. Layout: nav rail ≥768px (icon-only below 1024px), bottom tab bar on phones. Every element id app.js reads is kept in `docs/index.html`; check both files together when renaming anything.
 
 ## Environment variables
 All secrets live in the Vercel dashboard and local `.env`. Never commit `.env`. A `VERCEL_TOKEN` is persisted in the gitignored `.env` for CLI auth — check there before asking the user for one.

@@ -5,6 +5,10 @@
 
 ---
 
+## task-069 | 2026-09-29 | DONE
+UI/UX redesign of docs/ (index.html + style.css rewritten, app.js wired): nav rail + phone tab bar, Overview with ₹ heat strip + closure priorities + ask box, phone card layouts for the register, dark mode, a11y. Fixed dead phone "Docs" tab and header-vs-register risk mismatch.
+Pinned brag + frontend-design plugins in .claude/settings.json with local installer scripts. Verified offline with fixture API at 390/900/1440px: no JS errors, no overflow, chat→graph, Excel + report exports. Commit: (this branch)
+
 ## task-068 | 2026-09-29 | DONE
 Fresh-start cleanup, round 2: removed legacy redirect pages (docs/chat|graph|documents|dashboard.html), Codex config (AGENTS.md, .codex/), demo-only scripts/hero_traversal.py, graph-slice review notes, data/raw/.gitkeep; dropped judge-facing text.
 Added fresh-clone setup steps to README and the missing NEO4J_*/GITHUB_DISPATCH_TOKEN vars to .env.example. No live code paths changed. Commit: (this branch)

@@ -23,7 +23,9 @@ function setActiveClient(name) {
 }
 // Display form of a stored plant id: "ntpc_lara" → "Ntpc Lara"
 function plantDisplayName(n) {
-  return String(n || '').replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+  return String(n || '').split(/_+/).filter(Boolean)
+    .map((w) => (/^[^aeiou]+$/i.test(w) ? w.toUpperCase() : w.charAt(0).toUpperCase() + w.slice(1)))
+    .join(' ');
 }
 
 async function initPlantSelector() {
@@ -136,9 +138,9 @@ function toggleTheme() {
 function graphThemeColors() {
   const light = document.documentElement.getAttribute('data-theme') === 'light';
   return {
-    font:      light ? '#1e293b' : '#e7eaee',
-    edge:      light ? 'rgba(15, 23, 42, 0.30)' : 'rgba(255, 255, 255, 0.18)',
-    edgeLabel: light ? '#64748b' : '#8b94a3',
+    font:      light ? '#182028' : '#E3E8EB',
+    edge:      light ? 'rgba(24, 32, 40, 0.28)' : 'rgba(227, 232, 235, 0.20)',
+    edgeLabel: light ? '#64717C' : '#8C99A4',
   };
 }
 
@@ -324,8 +326,8 @@ async function decorateChatEmptyState() {
     if (!target || target.querySelector('.chat-empty-nodocs')) return;
     const note = document.createElement('div');
     note.className = 'chat-empty-nodocs';
-    note.innerHTML = `No documents uploaded for <b>${escapeHtml(client)}</b> yet — answers will draw on the CEA/IBR guideline corpus only. `
-      + `<button class="btn-add-docs" type="button" data-upload-dest="plant">+ Upload plant documents</button>`;
+    note.innerHTML = `No documents uploaded for <b>${escapeHtml(plantDisplayName(client))}</b> yet, so answers will use the CEA/IBR guideline corpus only. `
+      + `<button class="btn-add-docs" type="button" data-upload-dest="plant">Upload plant documents</button>`;
     target.appendChild(note);
   } catch (_) { /* cosmetic only — never block the chat on this */ }
 }
@@ -338,9 +340,8 @@ function renderMessages(messages, editIdx = null) {
   if (!messages || messages.length === 0) {
     messagesEl.innerHTML = `
       <div class="chat-empty">
-        <div class="chat-empty-icon">THERMIQ</div>
-        <h2 class="chat-empty-title">Operations Knowledge Search</h2>
-        <p class="chat-empty-text">Search procedures, equipment specifications, CEA compliance, outage context, and maintenance records.</p>
+        <h2 class="chat-empty-title">Ask about any procedure, spec or failure</h2>
+        <p class="chat-empty-text">Answers come from the CEA guideline corpus and this plant's own documents, with sources. If the plant has nothing on file for a topic, ThermIQ says so and shows what that gap costs.</p>
       </div>`;
     if (chipsEl) chipsEl.style.display = 'flex';
     decorateChatEmptyState(); // async — adds a "no plant docs yet" note + upload CTA if applicable
@@ -437,7 +438,7 @@ function addTypingIndicator() {
   div.className = 'chat-bubble assistant-bubble typing-bubble';
   div.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span>'
     + '<span class="typing-status">Searching knowledge base…</span>'
-    + '<button class="btn-stop-gen" type="button" title="Stop generating">■ Stop</button>';
+    + '<button class="btn-stop-gen" type="button" title="Stop generating">Stop</button>';
   messagesEl.appendChild(div);
   messagesEl.scrollTop = messagesEl.scrollHeight;
 
@@ -471,8 +472,7 @@ function renderSidebar(store) {
   if (chatIds.length === 0) {
     listEl.innerHTML = `
       <div class="chat-list-empty">
-        <div class="chat-list-empty-icon">CHAT</div>
-        <div>No chats yet.<br>Start a conversation.</div>
+        <div>No chats yet. Ask your first question.</div>
       </div>`;
     return;
   }
@@ -511,7 +511,7 @@ function initSidebar() {
   const COLLAPSE_KEY = 'thermiq_sidebar_collapsed';
   const MOBILE_BP = 768;
 
-  function isMobile() { return window.innerWidth <= MOBILE_BP; }
+  function isMobile() { return window.innerWidth < MOBILE_BP; }
 
   // ── Mobile: slide-in overlay drawer ──
   function openMobileSidebar() {
@@ -592,7 +592,7 @@ function initSidebar() {
     });
     
     const savedWidth = localStorage.getItem('thermiq_sidebar_width');
-    if (savedWidth && window.innerWidth > MOBILE_BP) {
+    if (savedWidth && window.innerWidth >= MOBILE_BP) {
       sidebar.style.width = savedWidth;
     }
   }
@@ -775,7 +775,7 @@ function initQueryCopilot() {
     if (isPureGraphNavRequest(query)) {
       chat.messages.push({
         role: 'assistant',
-        content: 'Here you go — the Risk & Gap Graph traces every equipment failure mode to its real ₹ outage history and the regulation that mandates fixing it.',
+        content: 'The knowledge graph traces every equipment failure mode to its real ₹ outage history and the regulation that requires a fix. Use the button below to open it.',
         sources: [],
         model_used: null,
         ts: Date.now(),
@@ -815,7 +815,7 @@ function initQueryCopilot() {
       while (attempt <= maxAttempts && !success) {
         try {
           if (attempt > 1 && typing) {
-            typing.innerHTML = `<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span> <em style="margin-left:8px;font-size:0.75rem;color:var(--text-muted)">Synthesizing... (Attempt ${attempt}/${maxAttempts})</em>`;
+            typing.innerHTML = `<span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="typing-status">Retrying, attempt ${attempt} of ${maxAttempts}…</span><button class="btn-stop-gen" type="button" title="Stop generating">Stop</button>`;
           }
           answerData = await callAPI(query, history, client, currentAbort && currentAbort.signal);
           success = true;
@@ -1191,28 +1191,26 @@ async function loadCeaOutages(outagesBody) {
     const msg = err.name === 'AbortError' ? 'Timed out loading outages.' : `Failed to load outages: ${escapeHtml(err.message)}`;
     outagesBody.innerHTML = `<tr><td colspan="7" class="skeleton-row">${msg}</td></tr>`;
     const track = document.getElementById('hub-outage-track');
-    if (track) track.innerHTML = `<span class="tick-item">Outage feed unavailable</span>`;
+    if (track) track.innerHTML = `<li class="tick-item">The CEA outage feed didn't load. Reload the page to try again.</li>`;
   }
 }
 
-// Hub strip: latest events as one seamlessly-looping marquee row.
+// Overview: the five most recent events as a short list.
 function renderOutageMarquee_(outages) {
   const track = document.getElementById('hub-outage-track');
   if (!track) return;
   const latest = outages.slice(0, 12);
   if (!latest.length) {
-    track.innerHTML = `<span class="tick-item">No recent CEA forced outages on record</span>`;
+    track.innerHTML = `<li class="tick-item">No recent CEA forced outages on record.</li>`;
     return;
   }
-  const items = latest.map(o => `
-    <span class="tick-item">
-      <b>${escapeHtml(o.station)}</b> U${escapeHtml(o.unit)}
-      · ${escapeHtml(o.equipment_tag)}
-      · <span class="tick-loss">₹${escapeHtml(o.revenue_lost_est_cr)} Cr</span>
-      · ${escapeHtml(o.date_out)}
-    </span>`).join('<span class="tick-sep">◆</span>');
-  // Duplicate content so the CSS translateX(-50%) loop is seamless.
-  track.innerHTML = items + '<span class="tick-sep">◆</span>' + items + '<span class="tick-sep">◆</span>';
+  track.innerHTML = latest.slice(0, 5).map(o => `
+    <li class="tick-item">
+      <span class="tick-station">${escapeHtml(o.station)}, unit ${escapeHtml(o.unit)}</span>
+      <span class="tick-equip">${escapeHtml(o.failure_reason_raw || o.equipment_tag)}</span>
+      <span class="tick-loss">₹${escapeHtml(o.revenue_lost_est_cr)} Cr</span>
+      <span class="tick-date">${escapeHtml(o.date_out)}</span>
+    </li>`).join('');
 }
 
 // Expand/collapse the full-history panel under the hub strip.
@@ -1225,6 +1223,7 @@ function initHubOutagesToggle() {
     if (open) panel.removeAttribute('hidden'); else panel.setAttribute('hidden', '');
     toggle.setAttribute('aria-expanded', String(open));
     toggle.classList.toggle('open', open);
+    toggle.textContent = open ? 'Hide full history' : 'Show full history';
     if (open) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 }
@@ -1261,7 +1260,7 @@ async function triggerGapScanAndPoll(clientName) {
       const data = await res.json();
       if ((data.gaps || []).length > 0) {
         _gapScanPolling.delete(clientName);
-        if (getActiveClient() === clientName) initDashboard(); // re-render everything with real data now in place
+        if (getActiveClient() === clientName) { initDashboard(); loadShellTicker(); } // re-render everything with real data now in place
         return;
       }
     } catch (_) { /* transient fetch error — keep polling */ }
@@ -1307,7 +1306,7 @@ function renderDocsNeededSection(needsDocs) {
             <span class="cov-label">${covInfo.text}</span>
           </div>
         </td>
-        <td><button class="btn-sheet-csv btn-sheet-csv--secondary" type="button" data-upload-dest="plant" style="white-space:nowrap">Upload document ↗</button></td>
+        <td><button class="btn-sheet-csv btn-sheet-csv--secondary" type="button" data-upload-dest="plant" style="white-space:nowrap">Upload document</button></td>
       </tr>`;
   }).join('');
 }
@@ -1351,6 +1350,32 @@ let _simReal = { totalRisk: 0, over100Count: 0 };  // real headline numbers to r
 
 function simTopicKey(g) { return String(g.topic || g.gap_id || g.description || ''); }
 
+// Readable name for a gap from its topic id: "bfp_seal_sop" → "BFP seal SOP".
+const GAP_ACRONYMS = new Set(['sop', 'bfp', 'esp', 'chp', 'ht', 'lt', 'hp', 'ip', 'lp', 'gv', 'cv', 'apc', 'mft', 'ndt', 'dcs']);
+function shortGapName(g) {
+  const raw = String(g.topic || g.gap_id || '').trim();
+  if (!raw) return (g.description || 'Gap').split(/[:(,]/)[0].slice(0, 48);
+  const words = raw.split(/_+/).map((w) => (GAP_ACRONYMS.has(w.toLowerCase()) ? w.toUpperCase() : w.toLowerCase()));
+  const txt = words.join(' ');
+  return txt.charAt(0).toUpperCase() + txt.slice(1);
+}
+
+// Headline figures, computed the same way everywhere (register, header, overview):
+// only topics backed by real CEA outage history are priced (see initDashboard).
+function summarizeGaps(gaps) {
+  const quantified = gaps.filter((g) => (g.linked_outages || 0) > 0);
+  return {
+    quantified,
+    totalRisk: quantified.reduce((sum, g) => sum + (g.risk_score_cr || 0), 0),
+    gapCount: gaps.filter((g) => g.coverage_status === 'gap').length,
+    coveredCount: gaps.filter((g) => g.coverage_status === 'covered').length,
+  };
+}
+function formatCr(v) {
+  const n = Number(v) || 0;
+  return `₹${n >= 100 ? Math.round(n).toLocaleString('en-IN') : n.toFixed(1)} Cr`;
+}
+
 function toggleSimFix(key) {
   if (_simFixed.has(key)) _simFixed.delete(key);
   else _simFixed.add(key);
@@ -1371,7 +1396,7 @@ function applySimulation() {
     tr.classList.toggle('gap-row--simfixed', fixed);
     const btn = tr.querySelector('.sim-fix-btn');
     if (btn) {
-      btn.textContent = fixed ? '✓ In closure plan' : '+ Add to closure plan';
+      btn.textContent = fixed ? 'In closure plan ✓' : 'Add to closure plan';
       btn.classList.toggle('sim-fix-btn--active', fixed);
     }
   });
@@ -1388,12 +1413,12 @@ function applySimulation() {
   const criticalEl  = document.getElementById('critical-gaps-count');
   if (totalRiskEl) {
     totalRiskEl.innerHTML = active
-      ? `₹${Math.round(simTotal)} Cr<span class="sim-card-note">PLAN PREVIEW · real: ₹${Math.round(_simReal.totalRisk)} Cr</span>`
+      ? `₹${Math.round(simTotal)} Cr<span class="sim-card-note">Plan preview · actual ₹${Math.round(_simReal.totalRisk)} Cr</span>`
       : `₹${Math.round(_simReal.totalRisk)} Cr`;
   }
   if (criticalEl) {
     criticalEl.innerHTML = active
-      ? `${simOver100}<span class="sim-card-note">PLAN PREVIEW · real: ${_simReal.over100Count}</span>`
+      ? `${simOver100}<span class="sim-card-note">Plan preview · actual ${_simReal.over100Count}</span>`
       : `${_simReal.over100Count}`;
   }
 
@@ -1415,8 +1440,8 @@ function renderSimStrip() {
   const topNPct = _simReal.totalRisk > 0 ? Math.round((topNRisk / _simReal.totalRisk) * 100) : 0;
   const recEl = document.getElementById('sim-recommended-text');
   if (recEl) {
-    const names = topN.map((g) => `#${g._priorityRank} ${g.equipment_tag || (g.description || 'gap').slice(0, 40)}`).join('  →  ');
-    recEl.innerHTML = `<b>Recommended closure order:</b> ${escapeHtml(names)} — clears ₹${topNRisk.toFixed(1)} Cr (${topNPct}%) of quantified exposure.`;
+    const names = topN.map((g) => shortGapName(g)).join(', then ');
+    recEl.innerHTML = `<b>Close first:</b> ${escapeHtml(names)}. Together they clear ₹${topNRisk.toFixed(1)} Cr (${topNPct}%) of quantified exposure.`;
   }
 
   const active = _simFixed.size > 0;
@@ -1446,7 +1471,7 @@ function renderSimStrip() {
 
       text.textContent = `${n} gap${n > 1 ? 's' : ''} marked to close — ₹${removedRisk.toFixed(1)} Cr (${removedPct}%) would clear, leaving ₹${Math.round(simTotal)} Cr.${efficiencyNote} Display only; no data changed.`;
     } else {
-      text.textContent = 'Rows are ranked "Priority #" by ₹ size, severity, evidence strength, and closeness to done — not ₹ alone. Click "+ Add to closure plan" on any row to preview its ₹ impact and test a combination.';
+      text.textContent = 'Priority blends ₹ size, severity, strength of evidence and how close the plant already is to covering the topic. Add rows to a closure plan to preview the effect; nothing is saved.';
     }
   }
   if (reset) {
@@ -1486,7 +1511,7 @@ async function initDashboard() {
         gapsBody.innerHTML = `<tr><td colspan="6" class="skeleton-row">
           Computing gap analysis for this plant for the first time — this can take about a minute, this page will update automatically…<br>
           <span class="skeleton-cta">Meanwhile, the more of this plant's own documents are in, the truer the score:
-          <button class="btn-add-docs" type="button" data-upload-dest="plant">+ Add documents</button></span>
+          <button class="btn-add-docs" type="button" data-upload-dest="plant">Add documents</button></span>
         </td></tr>`;
         _simFixed.clear();
         _simQuantified = [];
@@ -1505,10 +1530,9 @@ async function initDashboard() {
         // the ranked table; everything else is a documentation gap with an unknown
         // (not assumed-zero, not assumed-nonzero) cost, listed separately below
         // with an upload prompt instead of a fabricated ₹ figure.
-        const quantified  = gaps.filter(g => (g.linked_outages || 0) > 0);
+        const { quantified, totalRisk } = summarizeGaps(gaps);
         const needsDocs   = gaps.filter(g => (g.linked_outages || 0) === 0 && g.coverage_status !== 'covered');
 
-        const totalRisk = quantified.reduce((sum, g) => sum + (g.risk_score_cr || 0), 0);
         // Card label is "Critical Gaps (> ₹100 Cr)" — count by ₹ risk, not status,
         // and only among quantified rows (consistent with the total above).
         const over100Count = quantified.filter(g => (g.risk_score_cr || 0) > 100).length;
@@ -1612,7 +1636,7 @@ async function initDashboard() {
                   <span class="priority-chip ${g._priorityRank <= 3 ? 'priority-chip--top' : ''}">Priority #${g._priorityRank}</span>${infoIcon(GAP_TIPS.priority)}
                 </div>
                 <div class="sim-fix-wrap">
-                  <button class="sim-fix-btn" type="button" onclick="toggleSimFix('${escapeHtml(simTopicKey(g))}')">+ Add to closure plan</button>
+                  <button class="sim-fix-btn" type="button" onclick="toggleSimFix('${escapeHtml(simTopicKey(g))}')">Add to closure plan</button>
                   <span class="sim-delta">−₹${(g.risk_score_cr || 0).toFixed(1)} Cr if closed</span>
                 </div>
               </td>
@@ -1695,13 +1719,13 @@ function initUpload() {
     dest = d === 'guideline' ? 'guideline' : 'plant';
     Object.entries(destBtns).forEach(([k, b]) => { if (b) b.classList.toggle('selected', k === dest); });
     if (destHint) {
-      destHint.innerHTML = (dest === 'plant' ? 'Into: Plant Documents · ' : 'Into: Guideline Documents · ')
-        + `<b>${escapeHtml(getActiveClient())}</b>`;
+      destHint.innerHTML = (dest === 'plant' ? 'Into plant documents for ' : 'Into guidelines for ')
+        + `<b>${escapeHtml(plantDisplayName(getActiveClient()))}</b>`;
     }
     if (destNote) {
       destNote.textContent = dest === 'plant'
-        ? "Adds the active plant's own records (SOPs, manuals, inspection records) to the corpus being assessed."
-        : 'Adds guidelines for this plant only. The seeded CEA corpus stays fixed for every plant; guidelines you add here are deletable.';
+        ? "Adds the active plant's own records (SOPs, manuals, inspection records) to the documents being scored."
+        : 'Adds guidelines for this plant only. The shared CEA set stays fixed for every plant; guidelines you add here can be removed.';
     }
     if (docTypeField) docTypeField.style.display = dest === 'guideline' ? 'none' : '';
   }
@@ -1735,7 +1759,7 @@ function initUpload() {
         driveNote.innerHTML = '<b>No Drive folder is linked to this plant yet.</b> '
           + 'Put all of this plant’s documents into one Google Drive folder, set its sharing to '
           + '“Anyone with the link — Viewer”, and paste the folder link above. '
-          + 'Every supported file inside will be ingested, and future “⟳ Sync Drive folder” clicks '
+          + 'Every supported file inside will be ingested, and future “Sync Drive folder” clicks '
           + 're-scan the same folder — new files added, removed files deleted.';
       }
       if (driveUrlInput) {
@@ -1827,8 +1851,8 @@ function initUpload() {
     if (btnText && !submitBtn.disabled) {
       const n = selectedFiles.length + links.length;
       btnText.textContent = links.length && !selectedFiles.length
-        ? (links.some(l => l.kind === 'folder') ? 'Queue Drive Ingest + Sync' : 'Queue Drive Ingest')
-        : (n > 1 ? `Upload ${n} Documents` : 'Start Upload');
+        ? (links.some(l => l.kind === 'folder') ? 'Import and sync folder' : 'Import from Drive')
+        : (n > 1 ? `Upload ${n} documents` : 'Start upload');
     }
   }
 
@@ -1870,7 +1894,7 @@ function initUpload() {
     if (skipRelevanceEl) skipRelevanceEl.checked = false;
     fileLabel.textContent = 'No files selected · PDF, Word, Excel, CSV or TXT · max ~3 MB each · larger files via Drive below';
     dropZone.classList.remove('has-file');
-    if (btnText) btnText.textContent = 'Start Upload';
+    if (btnText) btnText.textContent = 'Start upload';
     submitBtn.disabled = true;
     clearStatus();
   }
@@ -2234,11 +2258,11 @@ async function loadDocuments() {
         ? cards.join('')
         : `<div class="docs-empty">
             <div class="docs-empty-icon">⬆</div>
-            <h3>No plant documents yet for “${escapeHtml(active)}”</h3>
-            <p>ThermIQ measures this plant against the CEA benchmark using its own SOPs, manuals and inspection records — nothing is assessed until they're added.</p>
+            <h3>No documents for ${escapeHtml(plantDisplayName(active))} yet</h3>
+            <p>ThermIQ scores a plant against the CEA baseline using its own SOPs, manuals and inspection records. Add them to get a real risk figure.</p>
             <div class="docs-empty-btns">
-              <button class="btn-add-docs" type="button" data-upload-dest="plant">+ Add documents</button>
-              <button class="btn-sync-drive" type="button" data-drive-folder-hint>Link a Drive folder with all the files</button>
+              <button class="btn-add-docs" type="button" data-upload-dest="plant">Add documents</button>
+              <button class="btn-sync-drive" type="button" data-drive-folder-hint>Link a Google Drive folder</button>
             </div>
           </div>`;
     }
@@ -2378,7 +2402,7 @@ async function syncDriveFolder() {
   } catch (err) {
     alert(`Sync failed: ${err.message}`);
   } finally {
-    if (btn) { btn.disabled = false; btn.textContent = '⟳ Sync Drive folder'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Sync Drive folder'; }
   }
 }
 
@@ -2519,6 +2543,7 @@ function initDocumentsPage() {
 // approved thermiq_mockup.html interaction pattern (its showScreen()).
 
 const SPA_VIEWS = ['home', 'chat', 'graph', 'guideline', 'plant', 'sheet'];
+const VIEW_TITLES = { home: 'Overview', chat: 'Copilot', graph: 'Knowledge graph', guideline: 'Guidelines', plant: 'Plant documents', sheet: 'Risk register' };
 let _graphViewStarted = false;
 let _graphNetwork = null;
 let _graphDatasets = null; // { nodes, edges } vis.DataSet refs for theme restyling
@@ -2632,7 +2657,7 @@ async function injectGraphLinkChips() {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'chip chip-followup chip-graph-link';
-    btn.textContent = `View "${g.failure_mode || g.failure_mode_id}" in graph ↗`;
+    btn.textContent = `Show “${g.failure_mode || g.failure_mode_id}” in the graph`;
     btn.addEventListener('click', () => openGraphFocused(g.failure_mode_id));
     chips.push(btn);
   });
@@ -2640,7 +2665,7 @@ async function injectGraphLinkChips() {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'chip chip-followup chip-graph-link';
-    btn.textContent = 'Open the Risk & Gap Graph ↗';
+    btn.textContent = 'Open the knowledge graph';
     btn.addEventListener('click', () => showView('graph'));
     chips.push(btn);
   }
@@ -2674,13 +2699,13 @@ function refreshGraphTheme() {
   if (!_graphDatasets) return;
   const c = graphThemeColors();
   _graphDatasets.nodes.update(
-    _graphDatasets.nodes.getIds().map((id) => ({ id, font: { color: c.font, face: 'Inter', size: 11 } }))
+    _graphDatasets.nodes.getIds().map((id) => ({ id, font: { color: c.font, face: 'Archivo', size: 12 } }))
   );
   _graphDatasets.edges.update(
     _graphDatasets.edges.getIds().map((id) => ({
       id,
       font: { size: 8, color: c.edgeLabel, strokeWidth: 0, align: 'middle' },
-      color: { color: c.edge, highlight: '#f59e0b' },
+      color: { color: c.edge, highlight: '#D5642A' },
     }))
   );
   if (_graphNetwork) _graphNetwork.redraw();
@@ -2692,6 +2717,7 @@ function isSpaShell() {
 
 function showView(name, opts = {}) {
   if (!isSpaShell()) return;
+  if (name === 'docs') name = 'plant';
   if (!SPA_VIEWS.includes(name)) name = 'home';
 
   SPA_VIEWS.forEach((v) => {
@@ -2699,10 +2725,14 @@ function showView(name, opts = {}) {
     if (el) el.classList.toggle('active', v === name);
   });
   
-  // Sync mobile tab bar state
-  document.querySelectorAll('.mobile-tab-bar .tab-item').forEach(btn => {
-    btn.classList.toggle('active', btn.getAttribute('data-view-target') === name);
+  // Rail + phone tab bar: both document views live under "Documents".
+  const navKey = (name === 'plant' || name === 'guideline') ? 'docs' : name;
+  document.querySelectorAll('.nav-item[data-nav]').forEach((a) => {
+    const on = a.dataset.nav === navKey;
+    a.classList.toggle('active', on);
+    if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
+  document.title = `${VIEW_TITLES[name] || 'Overview'} · ThermIQ`;
 
   document.body.setAttribute('data-view', name);
   // The chat view needs the full-height app frame (fixed header, hidden footer)
@@ -2710,7 +2740,8 @@ function showView(name, opts = {}) {
   document.body.classList.toggle('chat-page', name === 'chat');
 
   const hash = name === 'home' ? '#/' : '#/' + name;
-  if (location.hash !== hash) history.replaceState(null, '', hash);
+  // Keep a deep-link query (e.g. #/graph?focus=…) when routing to its own view.
+  if (location.hash.split('?')[0] !== hash) history.replaceState(null, '', hash);
   window.scrollTo(0, 0);
 
   if (name === 'chat') {
@@ -2770,10 +2801,10 @@ function loadExcelJS_() {
   });
 }
 
-// Palette mirrors the retired apps-script/Code.gs THEME (instrument-panel look).
+// Palette mirrors the app's tokens in style.css (ink, feedwater blue, heat ramp).
 const XLSX_THEME = {
-  NAVY_DARK: 'FF0D1321', NAVY: 'FF141B2E', TEAL: 'FF14B8A6',
-  RED: 'FFEF4444', AMBER: 'FFF59E0B', GREEN: 'FF22C55E',
+  NAVY_DARK: 'FF182028', NAVY: 'FF1D5C87', TEAL: 'FFD5642A',
+  RED: 'FFB3311E', AMBER: 'FFD98E1F', GREEN: 'FF2B7A57',
   RED_TINT: 'FFFDECEC', AMBER_TINT: 'FFFEF5E7', GREEN_TINT: 'FFEAFAF0',
   WHITE: 'FFFFFFFF',
 };
@@ -2899,14 +2930,21 @@ async function loadShellTicker() {
     xlsBtn.addEventListener('click', () => downloadExcelReport(xlsBtn));
   }
 
+  set('home-plant', plantDisplayName(client));
+
   try {
     const r = await fetch(`${BACKEND}/api/gap_analysis?client_name=${encodeURIComponent(client)}`);
     const d = await r.json();
-    set('ticker-risk', `₹${(d.total_risk_cr ?? 0)} Cr`);
-    set('ticker-gaps', String(d.gap_count ?? '—'));
-    set('tile-risk-2', `₹${(d.total_risk_cr ?? 0)} Cr at risk`);
-    set('tile-sheet-count', `${(d.gaps || []).length} rows`);
-  } catch (_) { /* ticker keeps the em-dash placeholders */ }
+    const gaps = d.gaps || [];
+    const sum = summarizeGaps(gaps);
+    set('ticker-risk', gaps.length ? formatCr(sum.totalRisk) : '—');
+    set('ticker-gaps', gaps.length ? String(sum.gapCount) : '—');
+    set('tile-sheet-count', String(gaps.length));
+    set('home-covered', gaps.length ? `${sum.coveredCount} of ${gaps.length}` : '—');
+    renderHomeOverview(gaps, sum);
+  } catch (_) {
+    renderHomeOverview(null);
+  }
 
   try {
     const r = await fetch(`${BACKEND}/api/list_documents`);
@@ -2921,13 +2959,89 @@ async function loadShellTicker() {
     const totalChunks = docs
       .filter((doc) => doc.source_type === 'benchmark' || ((doc.client_name || doc.client || '').toLowerCase() === client))
       .reduce((s, doc) => s + (Number(doc.chunks_indexed) || 0), 0);
-    set('tile-guideline-count', `${guidelineCount} DOCS`);
-    set('tile-plant-count', `${plantCount} DOCS`);
+    set('tile-guideline-count', String(guidelineCount));
+    set('tile-plant-count', String(plantCount));
     if (totalChunks > 0) {
       set('ticker-chunks', totalChunks.toLocaleString('en-IN'));
-      set('tile-chunks', `${totalChunks.toLocaleString('en-IN')} CHUNKS INDEXED`);
+      set('tile-chunks', `Answers are retrieved from ${totalChunks.toLocaleString('en-IN')} indexed passages across these documents.`);
     }
   } catch (_) { /* tiles keep their placeholders */ }
+}
+
+// ─── Overview (home) ─────────────────────────────────────────────────────────
+// The heat strip: every priced gap as one segment, width ∝ ₹ exposure, colour
+// by criticality. The priority list reuses the register's closure-priority
+// blend (computePriority) so both views recommend the same order.
+function renderHomeOverview(gaps, sum) {
+  const strip = document.getElementById('home-heatstrip');
+  const list = document.getElementById('home-top-gaps');
+  const fig = document.getElementById('tile-risk-2');
+  const cap = document.getElementById('home-exposure-caption');
+  if (!strip || !list) return;
+
+  if (!gaps) {
+    strip.innerHTML = '<span class="heatstrip-empty">Gap scores didn\'t load. Reload the page to try again.</span>';
+    list.innerHTML = '<li class="priority-empty">Gap scores didn\'t load.</li>';
+    return;
+  }
+  const section = strip.closest('.exposure');
+  if (section) section.classList.toggle('exposure--pending', !gaps.length);
+  if (!gaps.length) {
+    if (fig) fig.textContent = 'Scoring…';
+    if (cap) cap.textContent = 'This plant has no gap scores yet. Scoring has started and takes about a minute; this page updates when it finishes.';
+    strip.innerHTML = '<span class="heatstrip-empty">No scored gaps yet</span>';
+    list.innerHTML = '<li class="priority-empty">The more of this plant\'s procedures and manuals are uploaded, the truer the score. <button class="text-link" type="button" data-upload-dest="plant">Upload documents</button></li>';
+    return;
+  }
+
+  const q = [...sum.quantified].sort((a, b) => (b.risk_score_cr || 0) - (a.risk_score_cr || 0));
+  if (fig) fig.textContent = formatCr(sum.totalRisk);
+  const open = q.filter((g) => g.coverage_status !== 'covered').length;
+  if (cap) {
+    cap.textContent = open
+      ? `of operating risk is tied to ${open} procedure${open === 1 ? '' : 's'} this plant hasn't fully documented.`
+      : 'No topic with CEA outage history is undocumented at this plant.';
+  }
+
+  strip.innerHTML = q.length ? q.map((g) => `
+    <button class="heat-seg" type="button" role="listitem" data-crit="${Math.max(1, Math.min(5, Number(g.criticality_score) || 3))}"
+      style="flex-grow:${Math.max(0.1, g.risk_score_cr || 0).toFixed(2)}" data-view-target="sheet"
+      aria-label="${escapeHtml(shortGapName(g))}: ${escapeHtml(formatCr(g.risk_score_cr))}, criticality ${escapeHtml(g.criticality_score)} of 5">
+      <span class="seg-tip"><b>${escapeHtml(shortGapName(g))}</b><br>${escapeHtml(formatCr(g.risk_score_cr))} · ${escapeHtml(g.equipment_tag || '')} · criticality ${escapeHtml(g.criticality_score)}/5</span>
+    </button>`).join('') : '<span class="heatstrip-empty">Nothing priced</span>';
+
+  const maxRisk = q.reduce((m, g) => Math.max(m, g.risk_score_cr || 0), 0);
+  const ranked = q.map((g) => ({ g, p: computePriority(g, maxRisk).score }))
+    .sort((a, b) => b.p - a.p).slice(0, 5);
+  list.innerHTML = ranked.length ? ranked.map(({ g }, i) => {
+    const cov = (COVERAGE_LABELS[g.coverage_status] || COVERAGE_LABELS.gap).text.toLowerCase();
+    return `<li><button class="priority-item" type="button" data-view-target="sheet">
+      <span class="priority-rank">${i + 1}</span>
+      <span class="priority-name">${escapeHtml(shortGapName(g))}</span>
+      <span class="priority-risk">${escapeHtml(formatCr(g.risk_score_cr))}</span>
+      <span class="priority-meta">${escapeHtml(g.equipment_tag || '—')} · ${escapeHtml(cov)} · ${g.linked_outages || 0} CEA outages</span>
+    </button></li>`;
+  }).join('') : '<li class="priority-empty">Nothing to close: every priced topic is documented.</li>';
+}
+
+// Overview ask box: jump into the Copilot and send the question straight away.
+function initHomeAsk() {
+  const form = document.getElementById('home-ask-form');
+  const input = document.getElementById('home-ask-input');
+  const send = (q) => {
+    const text = String(q || '').trim();
+    if (!text) { if (input) input.focus(); return; }
+    showView('chat');
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    if (!chatInput || !sendBtn) return;
+    chatInput.value = text;
+    chatInput.dispatchEvent(new Event('input', { bubbles: true }));
+    sendBtn.click();
+    if (input) input.value = '';
+  };
+  if (form) form.addEventListener('submit', (e) => { e.preventDefault(); send(input && input.value); });
+  document.querySelectorAll('[data-home-ask]').forEach((b) => b.addEventListener('click', () => send(b.dataset.homeAsk)));
 }
 
 // ─── Demo / onboarding tour ────────────────────────────────────────────────
@@ -2942,24 +3056,24 @@ function initDemoTour() {
   const TOUR_KEY = 'thermiq_tour_done';
   const STEPS = [
     {
-      view: 'home', target: '.row-primary',
-      title: 'Welcome to ThermIQ',
-      body: 'Every knowledge gap at this plant is priced as ₹ crore of operational risk. These two tiles are the hero tools — the Expert Copilot and the Risk & Gap Graph. The ticker above shows the live ₹ exposure for the selected plant.',
+      view: 'home', target: '.exposure',
+      title: 'What undocumented work costs',
+      body: 'ThermIQ prices every procedure this plant hasn\'t documented as ₹ crore of operating risk. Each segment of the strip is one gap, sized by its ₹ exposure. Switch plants from the selector at the top.',
     },
     {
       view: 'chat', target: '#suggestion-chips', fallback: '#chat-input',
-      title: 'Ask the Expert Copilot',
-      body: 'Click any sample question — it sends immediately and is answered from CEA/IBR guidelines plus this plant\'s own documents, with sources. When an answer mentions a failure mode, a "View in graph →" chip appears under it.',
+      title: 'Ask the plant\'s documents',
+      body: 'Pick a sample question or type your own. Answers cite CEA/IBR guidelines and the plant\'s own records, and link to the knowledge graph when they mention a known failure mode.',
     },
     {
       view: 'sheet', target: '#sim-strip', fallback: '#gaps-table', delay: 400,
-      title: 'Gaps, priced — and ranked by what to fix first',
-      body: 'Each gap row is priced from real CEA forced-outage records (never assumed defaults) and tagged "Priority #" — a rank that blends ₹ size, failure severity, evidence strength, and how close your plant already is to full coverage, not ₹ alone. Click "+ Add to closure plan" on any row to watch the headline ₹ exposure drop live — clearly labeled preview, nothing is written.',
+      title: 'Decide what to close first',
+      body: 'Every row is priced from real CEA forced-outage records and ranked by ₹ size, severity, strength of evidence and how close the plant is to covering it. Add rows to a closure plan to preview the effect; nothing is saved.',
     },
     {
       view: 'graph', target: '#graph-canvas', delay: 700,
-      title: 'Trace any risk end-to-end',
-      body: 'The knowledge graph ties equipment → failure modes → procedures → real ₹ outages → the regulation that mandates the fix. Click a red-dashed node for the full traversal, then "Ask ThermIQ about this →" to jump back into chat.',
+      title: 'Follow any risk to its source',
+      body: 'The graph links equipment, failure modes, procedures, real outages and the regulations that require a fix. Select a red-outlined node to see the whole chain, then ask ThermIQ about it.',
     },
   ];
 
@@ -3043,14 +3157,14 @@ function initDemoTour() {
       const back = document.createElement('button');
       back.type = 'button';
       back.className = 'tour-btn';
-      back.textContent = '← Back';
+      back.textContent = 'Back';
       back.addEventListener('click', () => showStep(i - 1, -1));
       row.appendChild(back);
     }
     const next = document.createElement('button');
     next.type = 'button';
     next.className = 'tour-btn tour-btn-next';
-    next.textContent = i === STEPS.length - 1 ? 'Finish ✓' : 'Next →';
+    next.textContent = i === STEPS.length - 1 ? 'Done' : 'Next';
     next.addEventListener('click', () => (i === STEPS.length - 1 ? finishTour() : showStep(i + 1, 1)));
     row.appendChild(next);
     card.appendChild(badge);
@@ -3112,6 +3226,7 @@ function initShell() {
   const reportBtn = document.getElementById('risk-report-btn');
   if (reportBtn) reportBtn.addEventListener('click', generateRiskReport);
 
+  initHomeAsk();
   loadShellTicker();
   routeFromHash();
   initDemoTour();
@@ -3151,14 +3266,14 @@ async function generateRiskReport() {
 
     const esc = escapeHtml;
     const covLabel = { covered: 'Covered', partial: 'Partial', gap: 'Gap' };
-    const covColor = { covered: '#22c55e', partial: '#f59e0b', gap: '#ef4444' };
+    const covColor = { covered: '#2B7A57', partial: '#D98E1F', gap: '#B3311E' };
 
     const gapRows = quantified.map((g, i) => `
       <tr>
         <td>${i + 1}</td>
         <td>${esc(g.equipment_tag || '—')}</td>
         <td>${esc(g.description || g.topic || '—')}<div class="src">${esc(g.criticality_source || '')}</div></td>
-        <td><span class="cov" style="background:${covColor[g.coverage_status] || '#ef4444'}">${covLabel[g.coverage_status] || 'Gap'}</span><div class="src">${Math.round((g.best_match_score || 0) * 100)}% doc match</div></td>
+        <td><span class="cov" style="background:${covColor[g.coverage_status] || '#B3311E'}">${covLabel[g.coverage_status] || 'Gap'}</span><div class="src">${Math.round((g.best_match_score || 0) * 100)}% doc match</div></td>
         <td>${g.criticality_score || '—'}/5</td>
         <td>${g.linked_outages || 0}</td>
         <td class="num">₹${(g.risk_score_cr || 0).toFixed(1)} Cr</td>
@@ -3168,7 +3283,7 @@ async function generateRiskReport() {
       <tr>
         <td>${esc(g.equipment_tag || '—')}</td>
         <td>${esc(g.description || g.topic || '—')}</td>
-        <td><span class="cov" style="background:${covColor[g.coverage_status] || '#ef4444'}">${covLabel[g.coverage_status] || 'Gap'}</span></td>
+        <td><span class="cov" style="background:${covColor[g.coverage_status] || '#B3311E'}">${covLabel[g.coverage_status] || 'Gap'}</span></td>
       </tr>`).join('');
 
     const outageRows = outages.map(o => `
@@ -3186,25 +3301,25 @@ async function generateRiskReport() {
 <style>
   @page { margin: 18mm 14mm; }
   * { box-sizing: border-box; }
-  body { font-family: 'Segoe UI', Inter, Arial, sans-serif; color: #1a2233; margin: 0; font-size: 11.5px; line-height: 1.45; }
-  .band { background: #0d1321; color: #fff; padding: 22px 26px; }
+  body { font-family: Archivo, 'Segoe UI', Arial, sans-serif; color: #182028; margin: 0; font-size: 11.5px; line-height: 1.45; }
+  .band { background: #182028; color: #fff; padding: 22px 26px; }
   .band h1 { margin: 0; font-size: 20px; letter-spacing: 0.04em; }
-  .band h1 b { color: #14b8a6; }
+  .band h1 b { color: #EE7B3B; }
   .band .meta { color: #9aa4b8; margin-top: 6px; font-size: 11px; }
   .wrap { padding: 20px 26px; }
   .stats { display: flex; gap: 12px; margin: 14px 0 22px; }
   .stat { flex: 1; border: 1px solid #d7dbe3; border-radius: 8px; padding: 12px 14px; }
   .stat .v { font-size: 20px; font-weight: 700; }
   .stat .l { color: #6b7280; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
-  .orange { color: #f59e0b; } .red { color: #ef4444; } .green { color: #22c55e; }
-  h2 { font-size: 14px; border-bottom: 2px solid #0d1321; padding-bottom: 5px; margin: 26px 0 10px; }
+  .orange { color: #D5642A; } .red { color: #B3311E; } .green { color: #2B7A57; }
+  h2 { font-size: 14px; border-bottom: 2px solid #182028; padding-bottom: 5px; margin: 26px 0 10px; }
   table { width: 100%; border-collapse: collapse; }
-  th { background: #141b2e; color: #fff; text-align: left; padding: 6px 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+  th { background: #1D5C87; color: #fff; text-align: left; padding: 6px 8px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
   td { padding: 6px 8px; border-bottom: 1px solid #e5e8ef; vertical-align: top; }
   td.num { text-align: right; font-weight: 700; white-space: nowrap; }
   .cov { color: #fff; font-weight: 700; font-size: 9.5px; padding: 2px 7px; border-radius: 9px; text-transform: uppercase; }
   .src { color: #6b7280; font-size: 9.5px; margin-top: 2px; }
-  .note { background: #f4f6fa; border-left: 3px solid #14b8a6; padding: 10px 12px; font-size: 10.5px; color: #3c4557; margin: 14px 0; }
+  .note { background: #EDF0F2; border-left: 3px solid #1D5C87; padding: 10px 12px; font-size: 10.5px; color: #3c4557; margin: 14px 0; }
   .foot { color: #6b7280; font-size: 9.5px; margin-top: 26px; border-top: 1px solid #d7dbe3; padding-top: 8px; }
   tr { page-break-inside: avoid; }
 </style></head><body>
@@ -3256,7 +3371,7 @@ async function generateRiskReport() {
   } catch (err) {
     alert('Could not build the risk report: ' + err.message);
   } finally {
-    if (btn) { btn.disabled = false; btn.textContent = 'Generate Risk Report (PDF)'; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Risk report (PDF)'; }
   }
 }
 
@@ -3271,14 +3386,14 @@ function initGraphView() {
   if (!statusEl || !contentEl) return;
 
   const NODE_COLORS = {
-    Equipment:   { border: '#60a5fa', background: 'rgba(96,165,250,0.14)' },
-    FailureMode: { border: '#a1a1aa', background: 'rgba(161,161,170,0.12)' },
-    Procedure:   { border: '#4ade80', background: 'rgba(74,222,128,0.12)' },
-    Regulation:  { border: '#f59e0b', background: 'rgba(245,158,11,0.12)' },
-    OutageEvent: { border: '#fbbf24', background: 'rgba(251,191,36,0.14)' },
-    Role:        { border: '#a1a1aa', background: 'rgba(161,161,170,0.10)' },
+    Equipment:   { border: '#3B82C4', background: 'rgba(59,130,196,0.15)' },
+    FailureMode: { border: '#8A96A0', background: 'rgba(138,150,160,0.14)' },
+    Procedure:   { border: '#2B8A5E', background: 'rgba(43,138,94,0.14)' },
+    Regulation:  { border: '#7A5BB5', background: 'rgba(122,91,181,0.14)' },
+    OutageEvent: { border: '#D98E1F', background: 'rgba(217,142,31,0.30)' },
+    Role:        { border: '#8A96A0', background: 'rgba(138,150,160,0.10)' },
   };
-  const GAP_COLOR = { border: '#f87171', background: 'rgba(248,113,113,0.16)' };
+  const GAP_COLOR = { border: '#C23B22', background: 'rgba(194,59,34,0.14)' };
 
   function shortLabel(str, len = 22) {
     if (!str) return '';
@@ -3302,7 +3417,7 @@ function initGraphView() {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'btn-ask-thermiq';
-    btn.textContent = 'Ask ThermIQ about this →';
+    btn.textContent = 'Ask ThermIQ about this';
     const q = nodeType === 'FailureMode'
       ? `For the failure mode "${label}"${equipment ? ` on ${equipment}` : ''}: what do our documents say about prevention and response, and what is the quantified ₹ crore risk exposure?`
       : `What do our documents and risk registry say about "${label}"?`;
@@ -3310,7 +3425,16 @@ function initGraphView() {
     el.appendChild(btn);
   }
 
+  // On narrow screens the panel sits below the canvas — bring it into view.
+  function revealPanel() {
+    if (window.innerWidth < 1024) {
+      const panel = document.getElementById('graph-panel');
+      if (panel) setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+    }
+  }
+
   function renderPanelNode(node) {
+    revealPanel();
     emptyEl.style.display = 'none';
     contentEl.style.display = 'block';
     const rows = Object.entries(node)
@@ -3326,6 +3450,7 @@ function initGraphView() {
   }
 
   async function renderPanelTraversal(fmId) {
+    revealPanel();
     emptyEl.style.display = 'none';
     contentEl.style.display = 'block';
     contentEl.innerHTML = `<div class="panel-badge gap">Loading traversal…</div>`;
@@ -3393,7 +3518,7 @@ function initGraphView() {
           shape: n.node_type === 'OutageEvent' ? 'dot' : 'box',
           color: { border: color.border, background: color.background, highlight: color },
           borderWidth: isGapNode ? 3 : 1.5,
-          font: { color: themeColors.font, face: 'Inter', size: 11 },
+          font: { color: themeColors.font, face: 'Archivo', size: 12 },
           _raw: n,
           _isGap: isGapNode,
         };
@@ -3408,7 +3533,7 @@ function initGraphView() {
         arrows: 'to',
         label: e.rel_type.replace(/_/g, ' '),
         font: { size: 8, color: themeColors.edgeLabel, strokeWidth: 0, align: 'middle' },
-        color: { color: themeColors.edge, highlight: '#f59e0b' },
+        color: { color: themeColors.edge, highlight: '#D5642A' },
         smooth: { type: 'continuous' },
       }));
 

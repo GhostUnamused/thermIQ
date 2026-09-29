@@ -32,6 +32,12 @@ live Vercel backend). To run the API locally too: `npx vercel dev` (after `npx v
 Deploys are automatic: pushing to `main` redeploys Vercel (frontend + API) and GitHub Pages.
 GitHub Actions secrets must mirror the keys listed in `.env.example`.
 
+## Claude Code plugins
+
+The repo pins the `brag` and `frontend-design` plugins in `.claude/settings.json`. To install them for your
+user account on a new machine: `powershell -ExecutionPolicy Bypass -File scripts\install_claude_plugins.ps1`
+(Windows) or `sh scripts/install_claude_plugins.sh` (macOS/Linux).
+
 ## Common tasks
 
 Ingest benchmark documents (CEA standards — the yardstick):
